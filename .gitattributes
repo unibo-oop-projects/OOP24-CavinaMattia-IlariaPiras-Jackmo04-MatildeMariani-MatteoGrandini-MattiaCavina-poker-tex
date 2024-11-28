@@ -1,0 +1,11 @@
+# All files types not specified below
+* 				text=auto eol=lf
+
+# Windows script files
+*.[cC][mM][dD] 	text eol=crlf
+*.[bB][aA][tT] 	text eol=crlf
+*.[pP][sS]1 	text eol=crlf
+
+# Image files
+*.[jJ][pP][gG]  -text
+*.[pP][nN][gG]   -text
