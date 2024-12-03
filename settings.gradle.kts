@@ -1,1 +1,1 @@
-rootProject.name = "sample-gradle-project"
+rootProject.name = "oop24-poker-texas"
