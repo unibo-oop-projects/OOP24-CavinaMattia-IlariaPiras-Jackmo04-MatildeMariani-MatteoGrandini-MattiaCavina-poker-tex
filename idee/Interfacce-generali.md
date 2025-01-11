@@ -1,6 +1,6 @@
-| \<\<Interface\>\> <br>Player                                                                                                                                                                                                                                                                 |
-| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| + getBet() : Optional\<Integer\> <br>+ getAction(State currentState) : Action<br>+ getCards() : Set\<Card\><br>+ getCombination() : Combination<br>+ giveCards(Set\<Card\> cards) : void<br>+ setRole(Role role) : void<br>+ getRole() : Role<br>+ isAlive() : boolean<br>+ isAI() : boolean |
+| \<\<Interface\>\> <br>Player                                                                                                                                                                                                                                                                                                                     |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| + setCards(Set\<Card\> cards) : void<br>+ setRole(Role role) : void<br>+ getBet() : Optional\<Integer\> <br>+ getAction(State currentState) : Action<br>+ getCards() : Set\<Card\><br>+ getCombination() : Combination<br>+ getRole() : Role<br>+ isAlive() : boolean<br>+ isAI() : boolean<br><br>+ win(int winnings) : void<br>+ lose() : void |
 ```java
 enum Action {
 	FOLD, BET, PASS;
