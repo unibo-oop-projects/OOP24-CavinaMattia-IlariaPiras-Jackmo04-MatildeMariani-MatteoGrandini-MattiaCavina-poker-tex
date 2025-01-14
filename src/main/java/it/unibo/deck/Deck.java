@@ -1,23 +1,25 @@
-package it.unibo.deck;
+package it.unibo.deck;  // NOPMD suppressed as it is a false positive
 
 import java.util.List;
 
 /**
  * Inteface to deck.
+ * @param <X>
+ * 
  */
 public interface Deck<X> {
 
     /**
      * abstract method to generate deck.
      */
-    void generateDeck();
+    void shuffled();
 
     /**
      * 
      * @param numberOfCard
      * @return List of card to assign.
      */
-    List<X> getCards(int numberOfCard);
+    List<X> getSomeCards(int numberOfCard);
 
 
 }

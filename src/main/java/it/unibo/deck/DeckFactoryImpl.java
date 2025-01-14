@@ -2,22 +2,24 @@ package it.unibo.deck;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import it.unibo.deck.TexasCard.SeedCard;
 import it.unibo.deck.TexasCard.SimpleCard;
 
 /**
  * Implementation of deck.
+ * 
  */
-public class DeckFactoryImpl<X> implements DeckFactory {
+public class DeckFactoryImpl implements DeckFactory {
 
+    /**
+     * @return simplet poker deck.
+     */
     @Override
     public Deck<Card> simplePokerDeck() {
-
-        return new DeckGeneric<>() {
+        Deck<Card> deck = new DeckGeneric<>() {
 
             @Override
-            public void generateDeck() {
+            public void shuffled() {
                 final List<Card> deckNew = new LinkedList<>();
                 for (final var elemSimple : SimpleCard.values()) {
                     for (final var elemSeed : SeedCard.values()) {
@@ -27,6 +29,8 @@ public class DeckFactoryImpl<X> implements DeckFactory {
                 setDeck(deckNew);
             }
         };
+        deck.shuffled();
+        return deck;
     }
 
 }
