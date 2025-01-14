@@ -3,6 +3,10 @@ package player.api;
 import java.util.Optional;
 import java.util.Set;
 
+import other.api.Card;
+import other.api.Combination;
+import other.api.State;
+
 /**
  * Interface that models a generic player in the game.
  * A player can be either a human or an AI.
@@ -61,10 +65,10 @@ public interface Player {
     Role getRole();
 
     /**
-     * Checks weather the player has any money left.
-     * @return true if the player has money left, false otherwise.
+     * Checks weather the player has any chips left.
+     * @return true if the player has chips left, false otherwise.
      */
-    boolean hasMoneyLeft();
+    boolean hasChipsLeft();
 
     /**
      * Returns true if the player is an AI, false otherwise.
@@ -74,7 +78,7 @@ public interface Player {
 
     /**
      * Informs the player that they have won the current hand.
-     * @param winnings The amount of money the player has won.
+     * @param winnings The amount of chips the player has won.
      */
     void handWon(int winnings);
 
