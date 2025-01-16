@@ -1,6 +1,5 @@
 package it.unibo.deck;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -10,15 +9,19 @@ import java.util.stream.Stream;
  * 
  * @param <X>
  */
-public abstract class DeckGeneric<X> implements Deck<X> {
+public abstract class DeckImpl<X> implements Deck<X> {
 
     private List<X> deck;
+    private final PokerCard<X> standardDeck;
 
     /**
      * create and shuffle new deck.
+     * 
+     * @param standardDeck
      */
-    public DeckGeneric() {
-        deck = new LinkedList<>();
+    public DeckImpl(final PokerCard<X> standardDeck) {
+        this.standardDeck = standardDeck;
+        deck = standardDeck.buildDeck();
     }
 
     /**
@@ -41,7 +44,9 @@ public abstract class DeckGeneric<X> implements Deck<X> {
      * Generate deck.Can be use to shuffle a deck.
      */
     @Override
-    public abstract void shuffled();
+    public void shuffled() {
+        this.deck = standardDeck.buildDeck();
+    }
 
     /**
      * {@inheritDoc}
@@ -58,4 +63,5 @@ public abstract class DeckGeneric<X> implements Deck<X> {
         }
 
     }
+
 }
