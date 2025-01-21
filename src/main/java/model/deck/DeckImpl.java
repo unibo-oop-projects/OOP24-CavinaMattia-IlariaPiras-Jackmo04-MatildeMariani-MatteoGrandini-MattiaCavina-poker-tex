@@ -4,61 +4,49 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import model.deck.api.Deck;
+import model.deck.api.DeckBuild;
+
 /**
- * Abstract methd to manage Deck.
+ * Generic class to manage deck , like create a deck ora shuffled or more to
+ * keep card.
  * 
  * @param <X>
  */
-public abstract class DeckImpl<X> implements Deck<X> {
+public class DeckImpl<X> implements Deck<X> {
 
+    private final DeckBuild<X> deckBuilder;
     private List<X> deck;
-    private final PokerCard<X> standardDeck;
 
     /**
      * create and shuffle new deck.
      * 
-     * @param standardDeck
+     * @param deckBuilder
      */
-    public DeckImpl(final PokerCard<X> standardDeck) {
-        this.standardDeck = standardDeck;
-        deck = standardDeck.buildDeck();
+    public DeckImpl(final DeckBuild<X> deckBuilder) {
+        this.deckBuilder = deckBuilder;
+        this.deck = deckBuilder.buildDeck();
     }
 
     /**
-     * 
-     * @param deck
-     */
-    protected void setDeck(final List<X> deck) {
-        this.deck = deck;
-    }
-
-    /**
-     * 
-     * @return my list of deck.
-     */
-    protected List<X> getDeck() {
-        return this.deck;
-    }
-
-    /**
-     * Generate deck.Can be use to shuffle a deck.
+     * Can be use to shuffle a deck.
      */
     @Override
     public void shuffled() {
-        this.deck = standardDeck.buildDeck();
+        this.deck = deckBuilder.buildDeck();
     }
 
     /**
-     * {@inheritDoc}
+     * Method to keep some card from deck.
      */
     @Override
     public List<X> getSomeCards(final int numberOfCard) {
-        if (getDeck().isEmpty()) {
-            throw new IllegalAccessError();
+        if (this.deck.isEmpty()) {
+            throw new IllegalAccessError("Keep more Cards than remaing in Deck");
         } else {
             return Stream.iterate(0, t -> t + 1)
                     .limit(numberOfCard)
-                    .map(t -> getDeck().remove(0))
+                    .map(t -> this.deck.remove(0))
                     .collect(Collectors.toList());
         }
 

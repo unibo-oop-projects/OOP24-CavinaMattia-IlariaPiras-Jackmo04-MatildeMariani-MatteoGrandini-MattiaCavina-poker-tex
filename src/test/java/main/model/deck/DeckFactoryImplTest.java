@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import model.deck.Card;
-import model.deck.Deck;
 import model.deck.DeckFactoryImpl;
+import model.deck.api.Card;
+import model.deck.api.Deck;
 
 /**
  * Test della factory.

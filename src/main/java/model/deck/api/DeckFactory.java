@@ -1,4 +1,4 @@
-package model.deck;
+package model.deck.api;
 
 /**
  * DeckFactory to generate varius deck.

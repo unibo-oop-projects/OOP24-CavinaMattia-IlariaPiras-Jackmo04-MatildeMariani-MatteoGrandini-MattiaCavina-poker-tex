@@ -2,7 +2,8 @@ package model.player.api;
 
 import java.util.Optional;
 import java.util.Set;
-import model.deck.Card;
+
+import model.deck.api.Card;
 import model.temp.Combination;
 import model.temp.State;
 
