@@ -1,12 +1,12 @@
-package main.deck;
+package main.model.deck;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import deck.Card;
-import deck.Deck;
-import deck.DeckFactoryImpl;
+import model.deck.Card;
+import model.deck.Deck;
+import model.deck.DeckFactoryImpl;
 
 /**
  * Test della factory.

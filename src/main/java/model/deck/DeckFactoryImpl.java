@@ -1,4 +1,4 @@
-package deck;
+package model.deck;
 
 /**
  * Implementation of deck.

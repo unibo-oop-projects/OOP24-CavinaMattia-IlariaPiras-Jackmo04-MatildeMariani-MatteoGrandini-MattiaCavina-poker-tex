@@ -1,4 +1,4 @@
-package deck;  // NOPMD suppressed as it is a false positive
+package model.deck;  // NOPMD suppressed as it is a false positive
 
 import java.util.List;
 

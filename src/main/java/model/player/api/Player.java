@@ -1,10 +1,10 @@
-package player.api;
+package model.player.api;
 
 import java.util.Optional;
 import java.util.Set;
-import deck.Card;
-import temp.Combination;
-import temp.State;
+import model.deck.Card;
+import model.temp.Combination;
+import model.temp.State;
 
 /**
  * Interface that models a generic player in the game.

@@ -1,4 +1,4 @@
-package player.api;
+package model.player.api;
 
 /**
  * Enum representing the possible actions a player can take in a game of poker.

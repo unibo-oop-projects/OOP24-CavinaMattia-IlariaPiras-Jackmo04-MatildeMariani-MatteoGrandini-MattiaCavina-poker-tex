@@ -1,4 +1,4 @@
-package temp;
+package model.temp;
 
 /**
  * Enum representing the two possible blinds in a poker game.

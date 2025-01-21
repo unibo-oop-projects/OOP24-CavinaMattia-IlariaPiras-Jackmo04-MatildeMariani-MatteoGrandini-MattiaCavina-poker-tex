@@ -1,4 +1,4 @@
-package deck;
+package model.deck;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package deck;
+package model.deck;
 
 /**
  * DeckFactory to generate varius deck.
