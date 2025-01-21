@@ -1,4 +1,4 @@
-package other.api;
+package temp;
 
 /**
  * Enum representing the two possible blinds in a poker game.

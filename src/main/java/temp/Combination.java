@@ -1,5 +1,5 @@
-package other.api;
+package temp;
 
 // TODO Dummy class to be replaced by actual implementation by Mattia
-public enum Card {
+public class Combination {
 }

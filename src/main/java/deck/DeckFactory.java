@@ -1,4 +1,4 @@
-package it.unibo.deck;
+package deck;
 
 /**
  * DeckFactory to generate varius deck.

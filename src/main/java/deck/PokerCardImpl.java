@@ -1,4 +1,4 @@
-package it.unibo.deck;
+package deck;
 
 import java.util.LinkedList;
 import java.util.List;

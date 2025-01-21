@@ -1,4 +1,4 @@
-package it.unibo.deck;
+package deck;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package it.unibo.deck;
+package deck;
 
 /**
  * Record to generate Sigle card.

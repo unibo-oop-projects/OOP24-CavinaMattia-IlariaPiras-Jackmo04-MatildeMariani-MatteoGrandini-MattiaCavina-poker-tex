@@ -1,4 +1,4 @@
-package it.unibo.deck;  // NOPMD suppressed as it is a false positive
+package deck;  // NOPMD suppressed as it is a false positive
 
 import java.util.List;
 

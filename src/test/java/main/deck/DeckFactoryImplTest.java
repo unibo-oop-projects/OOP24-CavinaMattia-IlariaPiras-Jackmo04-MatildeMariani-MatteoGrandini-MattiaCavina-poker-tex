@@ -1,8 +1,12 @@
-package it.unibo.deck;
+package main.deck;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
+
+import deck.Card;
+import deck.Deck;
+import deck.DeckFactoryImpl;
 
 /**
  * Test della factory.
