@@ -1,7 +1,6 @@
 package model.player;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 import model.deck.api.Card;
@@ -9,6 +8,7 @@ import model.player.api.Action;
 import model.player.api.Player;
 import model.player.api.Role;
 import model.temp.Combination;
+import model.temp.Combinations;
 import model.temp.State;
 
 public abstract class AbstractPlayer implements Player {
@@ -17,6 +17,7 @@ public abstract class AbstractPlayer implements Player {
     private Role role;
     private Combination bestCombination;
     private int chips;
+    private int totalBet;
 
     public AbstractPlayer(int initialChips, Role initialRole) {
         this.cards = Set.of();
@@ -32,6 +33,7 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public void giveCards(Set<Card> cards) {
         this.cards = Objects.requireNonNull(Set.copyOf(cards));
+        this.bestCombination = Combinations.getBestCombination(cards);
     }
 
     @Override
@@ -56,7 +58,9 @@ public abstract class AbstractPlayer implements Player {
     }
 
     @Override
-    public abstract Optional<Integer> getBet();
+    public int getTotalBet() {
+        return this.totalBet;
+    }
 
     @Override
     public abstract Action getAction(State currentState);
@@ -74,8 +78,16 @@ public abstract class AbstractPlayer implements Player {
         this.bestCombination = combination;
     }
 
+    protected int getChips() {
+        return this.chips;
+    }
+
     protected void setChips(int chips) {
         this.chips = chips;
+    }
+
+    protected void setBet(int totalBet) {
+        this.totalBet = totalBet;
     }
 
 }

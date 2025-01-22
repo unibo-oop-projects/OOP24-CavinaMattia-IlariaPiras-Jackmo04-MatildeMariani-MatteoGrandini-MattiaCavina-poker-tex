@@ -1,6 +1,5 @@
 package model.player.api;
 
-import java.util.Optional;
 import java.util.Set;
 
 import model.deck.api.Card;
@@ -27,16 +26,9 @@ public interface Player {
     void setRole(Role role);
 
     /**
-     * Returns an optional integer representing the bet made by the player.
-     * <ul>
-     * <li>If the player's {@link Action} is {@link Action#BET} or {@link Action#RAISE}, 
-     * the optional will contain the bet made by the player.</li>
-     * <li>If the player's {@link Action} is {@link Action#FOLD} or {@link Action#CHECK},
-     * the optional will be empty.</li>
-     * </ul>
-     * @return an optional integer representing the bet made by the player.
+     * Returns the amount of chips the player has betted since the beginning of the hand.
      */
-    Optional<Integer> getBet();
+    int getTotalBet();
 
     /**
      * Informs the player that it's their turn.

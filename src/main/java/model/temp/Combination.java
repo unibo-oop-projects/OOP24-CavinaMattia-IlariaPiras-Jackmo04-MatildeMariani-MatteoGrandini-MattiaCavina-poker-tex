@@ -1,5 +1,9 @@
 package model.temp;
 
+import java.util.Set;
+
+import model.deck.api.Card;
+
 // TODO Dummy class to be replaced by actual implementation by Mattia
-public class Combination {
-}
+public record Combination(CombinationType type, Set<Card> cards, int tieBreaker) {
+} 
