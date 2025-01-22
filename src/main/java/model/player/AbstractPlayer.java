@@ -58,7 +58,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     @Override
-    public int getTotalBet() {
+    public int getTotalFaseBet() {
         return this.totalBet;
     }
 

@@ -17,20 +17,17 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         this.raisingFactor = raisingFactor;
     }
 
-    // TODO Da finire
     @Override
     public Action getAction(State currentState) {
         if (shouldRaise(currentState)) {
-            var currentBet = maxBetToReach((int) (requiredBet(currentState) * raisingFactor)) - this.getTotalBet();
-            this.setBet(this.getTotalBet() + currentBet);
-            this.setChips(getChips() - currentBet);
+            var currentBet = maxBetToReach((int) (requiredBet(currentState) * raisingFactor)) - this.getTotalFaseBet();
+            this.makeBet(currentBet);
             return Action.RAISE;
-        } else if (requiredBet(currentState) == getTotalBet()) {
+        } else if (canCheck(currentState)) {
             return Action.CHECK;
         } else if (shouldCall(currentState)) {
-            var currentBet = maxBetToReach(requiredBet(currentState)) - this.getTotalBet();
-            this.setBet(this.getTotalBet() + currentBet);
-            this.setChips(getChips() - currentBet);
+            var currentBet = maxBetToReach(requiredBet(currentState)) - this.getTotalFaseBet();
+            this.makeBet(currentBet);
             return Action.CALL;
         } else {
             return Action.FOLD;
@@ -44,20 +41,22 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
 
     @Override
     public void handWon(int winnings) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handWon'");
+        this.setChips(this.getChips() + winnings);
     }
 
     @Override
     public void handLost() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handLost'");
     }
 
     protected abstract boolean shouldCall(State currentState);
     
     protected abstract boolean shouldRaise(State currentState);
 
+    /**
+     * Returns the amount of chips required to call or raise in the current state.
+     * @param currentState
+     * @return
+     */
     private int requiredBet(State currentState) {
         if (currentState.handFase() == HandFase.PREFLOP) {
             return (int) (currentState.currentBet() * switch (getRole()) {
@@ -72,6 +71,15 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
 
     private int maxBetToReach(int amount) {
         return (int) Math.min(getChips(), amount);
+    }
+
+    private boolean canCheck(State currentState) {
+        return requiredBet(currentState) == getTotalFaseBet();
+    }
+
+    private void makeBet(int amount) {
+        this.setBet(this.getTotalFaseBet() + amount);
+        this.setChips(getChips() - amount);
     }
 
 }
