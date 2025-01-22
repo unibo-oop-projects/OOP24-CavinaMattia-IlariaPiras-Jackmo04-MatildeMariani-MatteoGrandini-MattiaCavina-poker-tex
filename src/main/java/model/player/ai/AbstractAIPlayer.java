@@ -10,23 +10,20 @@ import model.player.api.Role;
 import model.temp.Combination;
 import model.temp.State;
 
-public class AIPlayerImpl extends AbstractPlayer implements AIPlayer {
+public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
-    private final Function<Combination, Double> chanceFromCombination;
-    private final Function<Double, Double> chanceAfterRaise;
     private final double bluffingChance;
+    private final Function<Double, Double> afterRaiseModifier;
 
-    AIPlayerImpl(
+    AbstractAIPlayer(
         int initialChips, 
-        Role initialRole, 
-        Function<Combination, Double> chanceFromCombination, 
-        Function<Double, Double> chanceAfterRaise, 
-        double bluffingChance
+        Role initialRole,
+        double bluffingChance,
+        Function<Double, Double> afterRaiseModifier
     ) {
         super(initialChips, initialRole);
-        this.chanceFromCombination = chanceFromCombination;
-        this.chanceAfterRaise = chanceAfterRaise;
         this.bluffingChance = bluffingChance;
+        this.afterRaiseModifier = afterRaiseModifier;
     }
 
     @Override
@@ -57,5 +54,7 @@ public class AIPlayerImpl extends AbstractPlayer implements AIPlayer {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'handLost'");
     }
+
+    protected abstract double getChanceFromCombination(Combination combination);
 
 }
