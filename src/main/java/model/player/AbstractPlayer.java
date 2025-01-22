@@ -1,4 +1,4 @@
-package model.player.abs;
+package model.player;
 
 import java.util.Objects;
 import java.util.Optional;

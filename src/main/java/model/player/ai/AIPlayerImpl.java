@@ -1,31 +1,32 @@
-package model.player.abs;
+package model.player.ai;
 
 import java.util.Optional;
+import java.util.function.Function;
 
+import model.player.AbstractPlayer;
+import model.player.ai.api.AIPlayer;
 import model.player.api.Action;
 import model.player.api.Role;
+import model.temp.Combination;
 import model.temp.State;
 
-public abstract class AbstractAIPlayer extends AbstractPlayer {
+public class AIPlayerImpl extends AbstractPlayer implements AIPlayer {
 
-    private double audacity; // Propensione a restare in gioco
-    private double bluffing; // Propensione a bluffare
-    private final double upScaler;    // Fattore di crescita di audacity
-    private final double downScaler;  // fattore di decrescita di audacity
+    private final Function<Combination, Double> chanceFromCombination;
+    private final Function<Double, Double> chanceAfterRaise;
+    private final double bluffingChance;
 
-    public AbstractAIPlayer(
+    AIPlayerImpl(
         int initialChips, 
         Role initialRole, 
-        double audacity, 
-        double bluffing,
-        double upScaler,
-        double downScaler
+        Function<Combination, Double> chanceFromCombination, 
+        Function<Double, Double> chanceAfterRaise, 
+        double bluffingChance
     ) {
         super(initialChips, initialRole);
-        this.audacity = audacity;
-        this.bluffing = bluffing;
-        this.upScaler = upScaler;
-        this.downScaler = downScaler;
+        this.chanceFromCombination = chanceFromCombination;
+        this.chanceAfterRaise = chanceAfterRaise;
+        this.bluffingChance = bluffingChance;
     }
 
     @Override
