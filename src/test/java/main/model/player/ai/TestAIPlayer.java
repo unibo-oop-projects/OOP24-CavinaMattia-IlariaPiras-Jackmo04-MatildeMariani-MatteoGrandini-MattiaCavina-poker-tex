@@ -55,7 +55,7 @@ public class TestAIPlayer {
 
     @Test
     public void testBettingRegular() {
-        var player = factory.medium(STARTING_CHIPS, Role.REGULAR);
+        var player = factory.easy(STARTING_CHIPS, Role.REGULAR);
         assertEquals(0, player.getTotalFaseBet());
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         var action = player.getAction(new State(0, BET_1000, NUM_OF_PLAYERS, Set.of(), HandFase.PREFLOP));
@@ -81,8 +81,8 @@ public class TestAIPlayer {
     }
 
     @Test
-    public void testBettingSmallBlind() {
-        var player = factory.medium(STARTING_CHIPS, Role.SMALL_BLIND);
+    public void testBettingWithBlind() {
+        var player = factory.easy(STARTING_CHIPS, Role.SMALL_BLIND);
         assertEquals(0, player.getTotalFaseBet());
         var deck = new DeckFactoryImpl().simplePokerDeck();
         player.setCards(new HashSet<>(deck.getSomeCards(2)));

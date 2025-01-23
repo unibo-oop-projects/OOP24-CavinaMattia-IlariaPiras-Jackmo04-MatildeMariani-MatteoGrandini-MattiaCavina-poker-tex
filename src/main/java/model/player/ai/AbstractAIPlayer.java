@@ -21,7 +21,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
 
     private static final int BASIC_BET = 1000;
     private final double raisingFactor;
-    private boolean paidBlind = true;
+    private boolean paidBlind;
 
     /**
      * Creates a new AI player with the given initial amount of chips, role and raising factor.
@@ -32,6 +32,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     AbstractAIPlayer(final int initialChips, final Role initialRole, final double raisingFactor) {
         super(initialChips, initialRole);
         this.raisingFactor = raisingFactor;
+        this.paidBlind = initialRole == Role.REGULAR || initialRole == Role.DEALER;
     }
 
     /**
