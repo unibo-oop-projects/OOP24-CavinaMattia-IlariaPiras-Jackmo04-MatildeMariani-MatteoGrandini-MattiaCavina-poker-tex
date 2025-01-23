@@ -18,7 +18,7 @@ public interface Player {
      * Sets the player's cards for the current hand.
      * @param cards the cards to be given to the player.
      */
-    void giveCards(Set<Card> cards);
+    void setCards(Set<Card> cards);
 
     /** 
      * Sets the player's role for the current hand.
@@ -61,6 +61,12 @@ public interface Player {
      * @return the {@link Role} of the player in the current hand.
      */
     Role getRole();
+
+    /**
+     * Returns the amount of chips the player has left.
+     * @return the amount of chips the player has left.
+     */
+    int getChips();
 
     /**
      * Checks weather the player has any chips left.

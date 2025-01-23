@@ -1,10 +1,15 @@
 package model.player.ai;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import model.player.AbstractPlayer;
 import model.player.ai.api.AIPlayer;
 import model.player.api.Action;
 import model.player.api.Role;
 import model.temp.Blind;
+import model.temp.Combinations;
 import model.temp.HandFase;
 import model.temp.State;
 
@@ -19,6 +24,10 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
 
     @Override
     public Action getAction(State currentState) {
+        if (this.getCards().size() != 2) {
+            throw new IllegalStateException("Player must have 2 cards to play");
+        }
+        this.updateCombination(currentState);
         if (shouldRaise(currentState)) {
             var currentBet = maxBetToReach((int) (requiredBet(currentState) * raisingFactor)) - this.getTotalFaseBet();
             this.makeBet(currentBet);
@@ -31,7 +40,10 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
             var currentBet = maxBetToReach(requiredBet(currentState)) - this.getTotalFaseBet();
             this.makeBet(currentBet);
             return Action.CALL;
-        } 
+        }
+        if (currentState.handFase() == HandFase.PREFLOP) {
+            this.makeBet(requiredBet(currentState));            
+        }
         return Action.FOLD;
     }
 
@@ -86,8 +98,15 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     }
 
     private void endhand() {
+        this.setCards(Set.of());
         // TODO Ancora decidere come gestire i ruoli, per ora si assume che ci siano sempre 4 giocatori
         this.setRole(getRole().next()); 
+    }
+
+    private void updateCombination(State currentState) {
+        var usableCards = Stream.concat(currentState.communityCards().stream(), this.getCards().stream())
+            .collect(Collectors.toSet());
+        this.setCombination(Combinations.getBestCombination(usableCards));
     }
 
 }

@@ -17,7 +17,7 @@ public abstract class AbstractPlayer implements Player {
     private Role role;
     private Combination bestCombination;
     private int chips;
-    private int totalBet;
+    private int currentHandBet;
 
     public AbstractPlayer(int initialChips, Role initialRole) {
         this.cards = Set.of();
@@ -31,7 +31,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     @Override
-    public void giveCards(Set<Card> cards) {
+    public void setCards(Set<Card> cards) {
         this.cards = Objects.requireNonNull(Set.copyOf(cards));
         this.bestCombination = Combinations.getBestCombination(cards);
     }
@@ -58,7 +58,12 @@ public abstract class AbstractPlayer implements Player {
 
     @Override
     public int getTotalFaseBet() {
-        return this.totalBet;
+        return this.currentHandBet;
+    }
+
+    @Override
+    public int getChips() {
+        return this.chips;
     }
 
     @Override
@@ -77,16 +82,12 @@ public abstract class AbstractPlayer implements Player {
         this.bestCombination = combination;
     }
 
-    protected int getChips() {
-        return this.chips;
-    }
-
     protected void setChips(int chips) {
         this.chips = chips;
     }
 
     protected void setBet(int totalBet) {
-        this.totalBet = totalBet;
+        this.currentHandBet = totalBet;
     }
 
 }

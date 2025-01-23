@@ -57,7 +57,7 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                     case TURN -> 0.60;
                     case RIVER -> 0.45;
                 };
-                if (requiredBet(currentState) > this.getTotalFaseBet() * 1.5) {
+                if (this.getTotalFaseBet() != 0 && requiredBet(currentState) > this.getTotalFaseBet() * 1.5) {
                     callChance = callChance * 0.75;
                 }
                 return random.nextDouble() < callChance;
