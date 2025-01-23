@@ -29,16 +29,16 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         }
         this.updateCombination(currentState);
         if (shouldRaise(currentState)) {
-            var currentBet = maxBetToReach((int) (requiredBet(currentState) * raisingFactor)) - this.getTotalFaseBet();
-            this.makeBet(currentBet);
+            var bet = maxBetToReach((int) (currentState.currentBet() + 1000 * raisingFactor)) - this.getTotalFaseBet();
+            this.makeBet(bet);
             return Action.RAISE;
         }
         if (canCheck(currentState)) {
             return Action.CHECK;
         }
         if (shouldCall(currentState)) {
-            var currentBet = maxBetToReach(requiredBet(currentState)) - this.getTotalFaseBet();
-            this.makeBet(currentBet);
+            var bet = maxBetToReach(currentState.currentBet()) - this.getTotalFaseBet();
+            this.makeBet(bet);
             return Action.CALL;
         }
         if (currentState.handFase() == HandFase.PREFLOP) {

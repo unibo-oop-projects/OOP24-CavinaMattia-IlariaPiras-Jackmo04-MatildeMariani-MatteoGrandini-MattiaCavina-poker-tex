@@ -10,13 +10,13 @@ import model.temp.State;
 // TODO Le percentuali saranno sicuramente da rivedere
 public class AIPlayerFactoryImpl implements AIPlayerFactory {
 
-    private static final double EASY_DIFFICULTY_MODIFIER = 0.75;
+    private static final double EASY_DIFFICULTY_MODIFIER = 0.70;
     private static final double MEDIUM_DIFFICULTY_MODIFIER = 1.00;
     private static final double HARD_DIFFICULTY_MODIFIER = 1.25;
     
-    private static final double EASY_RAISING_FACTOR = 1.25;
-    private static final double MEDIUM_RAISING_FACTOR = 1.50;
-    private static final double HARD_RAISING_FACTOR = 1.75;
+    private static final double EASY_RAISING_FACTOR = 0.50;
+    private static final double MEDIUM_RAISING_FACTOR = 1.00;
+    private static final double HARD_RAISING_FACTOR = 2.00;
 
     @Override
     public AIPlayer easy(int initialChips, Role initialRole) {
@@ -76,8 +76,8 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                     case FOUR_OF_A_KIND -> 0.60;
                     case STRAIGHT_FLUSH -> 0.80;
                 };
-                if (requiredBet(currentState) == this.getTotalFaseBet()) {
-                    raiseChance = raiseChance * 1.25;
+                if (requiredBet(currentState) == 0) {
+                    raiseChance = raiseChance + 0.80;
                 }
                 return random.nextDouble() < raiseChance;
             }
