@@ -59,7 +59,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
      * @param currentState
      * @return the amount of chips required to call or raise in the current state.
      */
-    private int requiredBet(State currentState) {
+    protected int requiredBet(State currentState) {
         if (currentState.handFase() == HandFase.PREFLOP) {
             return (int) (currentState.currentBet() * switch (getRole()) {
                 case SMALL_BLIND -> Blind.SMALL.getMultiplier();
