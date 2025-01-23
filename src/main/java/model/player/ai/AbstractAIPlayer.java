@@ -42,10 +42,12 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     @Override
     public void handWon(int winnings) {
         this.setChips(this.getChips() + winnings);
+        this.endhand();
     }
 
     @Override
     public void handLost() {
+        this.endhand();
     }
 
     protected abstract boolean shouldCall(State currentState);
@@ -55,7 +57,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     /**
      * Returns the amount of chips required to call or raise in the current state.
      * @param currentState
-     * @return
+     * @return the amount of chips required to call or raise in the current state.
      */
     private int requiredBet(State currentState) {
         if (currentState.handFase() == HandFase.PREFLOP) {
@@ -80,6 +82,10 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     private void makeBet(int amount) {
         this.setBet(this.getTotalFaseBet() + amount);
         this.setChips(getChips() - amount);
+    }
+
+    private void endhand() {
+        // this.setRole(getRole().next()); // TODO Ancora decidere come gestire i ruoli
     }
 
 }

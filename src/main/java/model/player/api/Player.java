@@ -21,9 +21,9 @@ public interface Player {
     void giveCards(Set<Card> cards);
 
     /** 
-     * @deprecated Use constructor instead to set an initial role.
+     * Sets the player's role for the current hand.
+     * @param role the role to be given to the player.
      */
-    @Deprecated
     void setRole(Role role);
 
     /**
