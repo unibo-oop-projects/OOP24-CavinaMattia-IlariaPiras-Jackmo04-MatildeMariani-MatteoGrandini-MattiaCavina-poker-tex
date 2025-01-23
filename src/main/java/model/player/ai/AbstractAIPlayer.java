@@ -23,15 +23,16 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
             var currentBet = maxBetToReach((int) (requiredBet(currentState) * raisingFactor)) - this.getTotalFaseBet();
             this.makeBet(currentBet);
             return Action.RAISE;
-        } else if (canCheck(currentState)) {
+        }
+        if (canCheck(currentState)) {
             return Action.CHECK;
-        } else if (shouldCall(currentState)) {
+        }
+        if (shouldCall(currentState)) {
             var currentBet = maxBetToReach(requiredBet(currentState)) - this.getTotalFaseBet();
             this.makeBet(currentBet);
             return Action.CALL;
-        } else {
-            return Action.FOLD;
-        }
+        } 
+        return Action.FOLD;
     }
 
     @Override
@@ -85,7 +86,8 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     }
 
     private void endhand() {
-        // this.setRole(getRole().next()); // TODO Ancora decidere come gestire i ruoli
+        // TODO Ancora decidere come gestire i ruoli, per ora si assume che ci siano sempre 4 giocatori
+        this.setRole(getRole().next()); 
     }
 
 }

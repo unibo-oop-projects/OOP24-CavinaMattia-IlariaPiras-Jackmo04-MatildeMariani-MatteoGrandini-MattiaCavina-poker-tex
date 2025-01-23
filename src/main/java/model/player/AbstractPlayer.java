@@ -42,7 +42,6 @@ public abstract class AbstractPlayer implements Player {
     }
 
     @Override
-    @Deprecated
     public void setRole(Role role) {
         this.role = role;
     }
