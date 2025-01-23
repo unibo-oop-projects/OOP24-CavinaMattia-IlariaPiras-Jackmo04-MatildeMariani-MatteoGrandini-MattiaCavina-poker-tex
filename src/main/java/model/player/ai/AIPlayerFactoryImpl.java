@@ -10,17 +10,37 @@ import model.temp.State;
 // TODO Le percentuali saranno sicuramente da rivedere
 public class AIPlayerFactoryImpl implements AIPlayerFactory {
 
+    private static final double EASY_DIFFICULTY_MODIFIER = 0.75;
+    private static final double MEDIUM_DIFFICULTY_MODIFIER = 1.00;
+    private static final double HARD_DIFFICULTY_MODIFIER = 1.25;
+    
     private static final double EASY_RAISING_FACTOR = 1.25;
+    private static final double MEDIUM_RAISING_FACTOR = 1.50;
+    private static final double HARD_RAISING_FACTOR = 1.75;
 
     @Override
     public AIPlayer easy(int initialChips, Role initialRole) {
-        return new AbstractAIPlayer(initialChips, initialRole, EASY_RAISING_FACTOR) {
+        return standard(initialChips, initialRole, EASY_RAISING_FACTOR, EASY_DIFFICULTY_MODIFIER);
+    }
+
+    @Override
+    public AIPlayer medium(int initialChips, Role initialRole) {
+        return standard(initialChips, initialRole, MEDIUM_RAISING_FACTOR, MEDIUM_DIFFICULTY_MODIFIER);
+    }
+
+    @Override
+    public AIPlayer hard(int initialChips, Role initialRole) {
+        return standard(initialChips, initialRole, HARD_RAISING_FACTOR, HARD_DIFFICULTY_MODIFIER);
+    }
+
+    private AIPlayer standard(int initialChips, Role initialRole, double raisingFactor, double difficultyModifier) {
+        return new AbstractAIPlayer(initialChips, initialRole, raisingFactor) {
 
             private final Random random = new Random();
 
             @Override
             protected boolean shouldCall(State currentState) {
-                var baseChance = switch (this.getCombination().type()) {
+                var callChance = difficultyModifier * switch (this.getCombination().type()) {
                     case HIGH_CARD -> 0.80;
                     case PAIR -> 0.90;
                     case TWO_PAIRS -> 1.10;
@@ -31,21 +51,21 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                     case FOUR_OF_A_KIND -> 1.95;
                     case STRAIGHT_FLUSH -> 2.00;
                 };
-                baseChance = baseChance * switch (currentState.handFase()) {
+                callChance = callChance * switch (currentState.handFase()) {
                     case PREFLOP -> 1.00;
                     case FLOP -> 0.75;
                     case TURN -> 0.60;
                     case RIVER -> 0.45;
                 };
                 if (requiredBet(currentState) > this.getTotalFaseBet() * 1.5) {
-                    baseChance = baseChance * 0.75;
+                    callChance = callChance * 0.75;
                 }
-                return random.nextDouble() < baseChance;
+                return random.nextDouble() < callChance;
             }
 
             @Override
             protected boolean shouldRaise(State currentState) {
-                var baseChance = switch (this.getCombination().type()) {
+                var raiseChance = difficultyModifier * switch (this.getCombination().type()) {
                     case HIGH_CARD -> 0.01;
                     case PAIR -> 0.05;
                     case TWO_PAIRS -> 0.10;
@@ -57,24 +77,11 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                     case STRAIGHT_FLUSH -> 0.80;
                 };
                 if (requiredBet(currentState) == this.getTotalFaseBet()) {
-                    baseChance = baseChance * 1.25;
+                    raiseChance = raiseChance * 1.25;
                 }
-                return random.nextDouble() < baseChance;
+                return random.nextDouble() < raiseChance;
             }
-
         };
-    }
-
-    @Override
-    public AIPlayer medium(int initialChips, Role initialRole) {
-        // TODO
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
-
-    @Override
-    public AIPlayer hard(int initialChips, Role initialRole) {
-        // TODO
-        throw new UnsupportedOperationException("Not implemented yet");
     }
 
 }
