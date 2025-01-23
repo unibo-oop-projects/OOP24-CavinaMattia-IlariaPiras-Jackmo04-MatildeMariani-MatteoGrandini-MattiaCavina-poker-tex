@@ -87,7 +87,7 @@ public interface Player {
     void handWon(int winnings);
 
     /**
-     * Informs the player that they have lost the current hand;
+     * Informs the player that they have lost the current hand.
      */
     void handLost();
 }

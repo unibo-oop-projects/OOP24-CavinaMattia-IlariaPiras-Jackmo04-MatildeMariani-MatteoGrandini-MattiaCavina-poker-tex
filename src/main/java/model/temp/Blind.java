@@ -8,14 +8,20 @@ package model.temp;
  * and the big blind would be 10 chips.
  */
 public enum Blind {
+    // CHECKSTYLE: JavadocVariable OFF
     SMALL(0.5),
     BIG(1.0);
+    // CHECKSTYLE: JavadocVariable ON
 
     private final double multiplier;
-    private Blind(final double multiplier) {
+    Blind(final double multiplier) {
         this.multiplier = multiplier;
     }
 
+    /**
+     * Returns the multiplier of the blind.
+     * @return the multiplier of the blind.
+     */
     public double getMultiplier() {
         return multiplier;
     }
