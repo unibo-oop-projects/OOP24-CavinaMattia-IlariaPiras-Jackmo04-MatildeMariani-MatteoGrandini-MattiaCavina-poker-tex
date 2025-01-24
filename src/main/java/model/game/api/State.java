@@ -11,7 +11,20 @@ import model.deck.api.Card;
 public interface State {
     
     /**
-    * It resets all its component to 0 (or an empty set) and increases the number of the hand.   
+     * @param playerBet the amount of money a player betted.
+     * It adds a bet to the pot.   
     */
-    public void restart();
+    public void addToPot(int playerBet);
+    
+    /**
+     * @param initialBet
+     * @param remainingPlayers
+     * Informs the State that a new hand is starting. It resets all its component accordingly.   
+    */
+    public void newHand(int initialBet, int remainingPlayers);
+
+    /**
+     * Informs the State a new phase is starting. It sets the current phase accordingly.   
+    */
+    public void nextHandPhase();
 }
