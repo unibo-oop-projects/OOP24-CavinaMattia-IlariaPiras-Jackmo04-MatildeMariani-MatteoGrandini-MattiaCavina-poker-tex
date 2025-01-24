@@ -14,22 +14,22 @@ import model.player.api.Player;
 public interface Game {
 
     /**
-    * @return true if the user Player is the only one still in the game or if he lost, 
-    * false otherwise. 
+     * @return true if the user Player is the only one still in the game or if he lost, 
+     * false otherwise. 
     */
     public boolean isOver();
 
     /**
-    * @return whether the UserPlayer won. 
+     * @return whether the UserPlayer won. 
     */
     public boolean isWon();
 
     /**
-    * @param players the players still in the game.
-    * @return the player who won the hand (the one with the best combination if there  
-    * is more than one still in the game or the only one left otherwise).  
+     * @param players the players still in the game.
+     * Checks who won the hand (the one with the best combination if there is more than one player still
+     * in the game or the only one left otherwise) and tells players whether they lost or won accordingly.  
     */
-    public Player getWinnerOfTheHand(List<Player> players);
+    public void determinateWinnerOfTheHand(List<Player> players);
 
     /**
     * Starts a new hand until isOver returns true, checking which player are still in the
