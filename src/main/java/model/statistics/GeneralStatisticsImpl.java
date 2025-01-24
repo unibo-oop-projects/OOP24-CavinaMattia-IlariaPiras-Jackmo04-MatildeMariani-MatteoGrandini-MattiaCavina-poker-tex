@@ -1,5 +1,7 @@
 package model.statistics;
 
+import java.io.Serializable;
+import java.util.Objects;
 import java.util.Optional;
 
 import model.statistics.api.GeneralStatistics;
@@ -16,13 +18,13 @@ import model.temp.CombinationType;
  * </ul>
  * Provides methods to update the aforementioned statistics.
  */
-public class GeneralStatisticsImpl implements GeneralStatistics {
+public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
 
     private int numOfHandsPlayed;
     private int numOfHandsWon;
     private int numOfGamesPlayed;
     private int numOfGamesWon;
-    private Optional<CombinationType> bestCombination;
+    private CombinationType bestCombination;
 
     /**
      * The statistics kept by this implementation are:
@@ -33,10 +35,10 @@ public class GeneralStatisticsImpl implements GeneralStatistics {
      * <li> Number of games won
      * <li> Best combination achieved
      * </ul>
-     * Initialized to 0 for numbers and to {@link Optional#empty()} for non-numbers.
+     * Initialized to 0 for numbers and to <i>null</i> for non-numbers.
      */
     public GeneralStatisticsImpl() {
-        this(0, 0, 0, 0, Optional.empty());
+        this(0, 0, 0, 0, null);
     }
 
     /**
@@ -52,14 +54,14 @@ public class GeneralStatisticsImpl implements GeneralStatistics {
      * @param numOfHandsWon Initial value for number of hands won
      * @param numOfGamesPlayed Initial value for number of games played
      * @param numOfGamesWon Initial value for number of games won
-     * @param bestCombination Initial value for best combination achieved
+     * @param bestCombination Initial value for best combination achieved or <i>null</i> if none
      */
     public GeneralStatisticsImpl(
         int numOfHandsPlayed, 
         int numOfHandsWon, 
         int numOfGamesPlayed, 
         int numOfGamesWon,
-        Optional<CombinationType> bestCombination
+        CombinationType bestCombination
     ) {
         this.numOfHandsPlayed = numOfHandsPlayed;
         this.numOfHandsWon = numOfHandsWon;
@@ -100,8 +102,9 @@ public class GeneralStatisticsImpl implements GeneralStatistics {
      * {@inheritDoc}
      */
     public void setBestCombinationIfSo(CombinationType combination) {
-        if (this.bestCombination.isEmpty() || combination.compareTo(this.bestCombination.get()) > 0) {
-            this.bestCombination = Optional.of(combination);
+        Objects.requireNonNull(combination);
+        if (this.bestCombination == null || combination.compareTo(this.bestCombination) > 0) {
+            this.bestCombination = combination;
         }
     }
 
@@ -137,6 +140,6 @@ public class GeneralStatisticsImpl implements GeneralStatistics {
      * {@inheritDoc}
      */
     public Optional<CombinationType> getBestCombination() {
-        return bestCombination;
+        return Optional.ofNullable(this.bestCombination);
     }
 }

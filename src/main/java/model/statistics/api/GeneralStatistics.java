@@ -20,57 +20,58 @@ public interface GeneralStatistics extends Statistics {
     /**
      * Increment the number of hands played by 1.
      */
-    public void incrementHandsPlayed();
+    void incrementHandsPlayed();
 
     /**
      * Increment the number of hands won by 1.
      */
-    public void incrementHandsWon();
+    void incrementHandsWon();
 
     /**
      * Increment the number of games played by 1.
      */
-    public void incrementGamesPlayed();
+    void incrementGamesPlayed();
 
     /**
      * Increment the number of games won by 1.
      */
-    public void incrementGamesWon();
+    void incrementGamesWon();
 
     /**
      * If the given combination is better than the current best combination, 
      * set the given combination as the best combination. Otherwise, do nothing.
      * @param combination The candidate combination to be set as the best combination
      */
-    public void setBestCombinationIfSo(CombinationType combination);
+    void setBestCombinationIfSo(CombinationType combination);
 
     /**
      * Returns the number of hands played.
      * @return The number of hands played
      */
-    public int getNumOfHandsPlayed();
+    int getNumOfHandsPlayed();
 
     /**
      * Returns the number of hands won.
      * @return The number of hands won
      */
-    public int getNumOfHandsWon();
+    int getNumOfHandsWon();
 
     /**
      * Returns the number of games played.
      * @return The number of games played
      */
-    public int getNumOfGamesPlayed();
+    int getNumOfGamesPlayed();
 
     /**
      * Returns the number of games won.
      * @return The number of games won
      */
-    public int getNumOfGamesWon();
+    int getNumOfGamesWon();
 
     /**
-     * Returns an {@link Optional} describing the best combination achieved.
-     * @return An {@link Optional} describing the best combination achieved
+     * Returns an optional containing the best combination ever achieved, 
+     * or an empty optional if no combination has been achieved yet
+     * @return an optional containing the best combination ever achieved
      */
-    public Optional<CombinationType> getBestCombination();
+    Optional<CombinationType> getBestCombination();
 }

@@ -25,6 +25,7 @@ public interface StatisticsManager<S extends Statistics> {
 
     /**
      * Saves the total statistics to the specified file.
+     * <p><b>Note:</b> The {@link Statistics} class used must implement the {@link java.io.Serializable} interface.
      * @param fileName The name of the file to save the statistics to.
      * @throws IOException If an I/O error occurs while saving the statistics.
      */
@@ -32,6 +33,7 @@ public interface StatisticsManager<S extends Statistics> {
 
     /**
      * Loads the total statistics from the specified file.
+     * <p><b>Note:</b> The {@link Statistics} class used must implement the {@link java.io.Serializable} interface.
      * @param fileName The name of the file to load the statistics from.
      * @throws IOException If an I/O error occurs while loading the statistics.
      */
