@@ -2,7 +2,7 @@ package model.statistics;
 
 import java.util.Optional;
 
-import model.statistics.api.GeneralStatistics;
+import model.statistics.api.Statistics;
 import model.temp.CombinationType;
 
 /**
@@ -16,7 +16,7 @@ import model.temp.CombinationType;
  * </ul>
  * Provides methods to update the aforementioned statistics.
  */
-public class GeneralStatisticsImpl implements GeneralStatistics {
+public class StatisticsImpl implements Statistics {
 
     private int numOfHandsPlayed;
     private int numOfHandsWon;
@@ -35,7 +35,7 @@ public class GeneralStatisticsImpl implements GeneralStatistics {
      * </ul>
      * Initialized to 0 for numbers and to {@link Optional#empty()} for non-numbers.
      */
-    public GeneralStatisticsImpl() {
+    public StatisticsImpl() {
         this(0, 0, 0, 0, Optional.empty());
     }
 
@@ -54,7 +54,7 @@ public class GeneralStatisticsImpl implements GeneralStatistics {
      * @param numOfGamesWon Initial value for number of games won
      * @param bestCombination Initial value for best combination achieved
      */
-    public GeneralStatisticsImpl(
+    public StatisticsImpl(
         int numOfHandsPlayed, 
         int numOfHandsWon, 
         int numOfGamesPlayed, 
