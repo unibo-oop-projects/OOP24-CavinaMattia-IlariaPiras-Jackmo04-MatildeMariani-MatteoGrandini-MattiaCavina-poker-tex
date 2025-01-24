@@ -1,5 +1,6 @@
 package model.statistics;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,6 +28,19 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
     }
 
     /**
+     * Constructs a new instance of this class.
+     * Will load the statistics from the specified file if they were saved previously
+     * using the {@link #saveStatistics(String)} method.
+     * @param fileName The name of the file to load the statistics from.
+     * @param statistics The object representing the statistics to manage.
+     * @throws IOException If an I/O error occurs while loading the statistics.
+     */
+    public StatisticsManagerImpl(String fileName, S statistics) throws IOException {
+        this(statistics);
+        this.loadStatistics(fileName);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -40,6 +54,18 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
     @Override
     public void updateTotalStatistics() {
         contributors.forEach(contributor -> contributor.updateStatistics(globalStatistics));
+    }
+
+    @Override
+    public void saveStatistics(String fileName) throws IOException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'saveStatistics'");
+    }
+
+    @Override
+    public void loadStatistics(String fileName) throws IOException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'loadStatistics'");
     }
 
 }
