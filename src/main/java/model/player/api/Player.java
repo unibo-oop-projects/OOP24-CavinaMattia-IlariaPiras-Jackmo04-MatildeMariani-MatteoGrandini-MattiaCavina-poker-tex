@@ -1,6 +1,5 @@
 package model.player.api;
 
-import java.util.Optional;
 import java.util.Set;
 
 import model.deck.api.Card;
@@ -19,24 +18,23 @@ public interface Player {
      * Sets the player's cards for the current hand.
      * @param cards the cards to be given to the player.
      */
-    void giveCards(Set<Card> cards);
+    void setCards(Set<Card> cards);
 
     /** 
-     * @deprecated Use constructor instead to set an initial role.
+     * Sets the player's role for the current hand.
+     * @param role the role to be given to the player.
      */
     void setRole(Role role);
 
     /**
-     * Returns an optional integer representing the bet made by the player.
-     * <ul>
-     * <li>If the player's {@link Action} is {@link Action#BET} or {@link Action#RAISE}, 
-     * the optional will contain the bet made by the player.</li>
-     * <li>If the player's {@link Action} is {@link Action#FOLD} or {@link Action#CHECK},
-     * the optional will be empty.</li>
-     * </ul>
-     * @return an optional integer representing the bet made by the player.
+     * Returns the amount of chips the player has betted since the beginning of the fase.
+     * For example, let's assume that the {@link HandFase} is {@link HandFase#PRE_FLOP}.
+     * If this player has betted 10 chips and another player raises to 25 chips,
+     * if this player calls the raise, the returned value will be 25.
+     * But when the {@link HandFase} changes to {@link HandFase#FLOP}, the returned value will be reset to 0.
+     * @return the amount of chips the player has betted since the beginning of the fase.
      */
-    Optional<Integer> getBet();
+    int getTotalFaseBet();
 
     /**
      * Informs the player that it's their turn.
@@ -65,6 +63,12 @@ public interface Player {
     Role getRole();
 
     /**
+     * Returns the amount of chips the player has left.
+     * @return the amount of chips the player has left.
+     */
+    int getChips();
+
+    /**
      * Checks weather the player has any chips left.
      * @return true if the player has chips left, false otherwise.
      */
@@ -83,7 +87,7 @@ public interface Player {
     void handWon(int winnings);
 
     /**
-     * Informs the player that they have lost the current hand;
+     * Informs the player that they have lost the current hand.
      */
     void handLost();
 }
