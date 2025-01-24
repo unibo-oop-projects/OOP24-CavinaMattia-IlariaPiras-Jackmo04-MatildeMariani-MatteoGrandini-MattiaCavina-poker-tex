@@ -2,7 +2,7 @@ package model.statistics;
 
 import java.util.Optional;
 
-import model.statistics.api.Statistics;
+import model.statistics.api.GeneralStatistics;
 import model.temp.CombinationType;
 
 /**
@@ -16,7 +16,7 @@ import model.temp.CombinationType;
  * </ul>
  * Provides methods to update the aforementioned statistics.
  */
-public class StatisticsImpl implements Statistics {
+public class GeneralStatisticsImpl implements GeneralStatistics {
 
     private int numOfHandsPlayed;
     private int numOfHandsWon;
@@ -35,7 +35,7 @@ public class StatisticsImpl implements Statistics {
      * </ul>
      * Initialized to 0 for numbers and to {@link Optional#empty()} for non-numbers.
      */
-    public StatisticsImpl() {
+    public GeneralStatisticsImpl() {
         this(0, 0, 0, 0, Optional.empty());
     }
 
@@ -54,7 +54,7 @@ public class StatisticsImpl implements Statistics {
      * @param numOfGamesWon Initial value for number of games won
      * @param bestCombination Initial value for best combination achieved
      */
-    public StatisticsImpl(
+    public GeneralStatisticsImpl(
         int numOfHandsPlayed, 
         int numOfHandsWon, 
         int numOfGamesPlayed, 
@@ -69,37 +69,35 @@ public class StatisticsImpl implements Statistics {
     }
 
     /**
-     * Increment the number of hands played by 1.
+     * {@inheritDoc}
      */
     public void incrementHandsPlayed() {
         this.numOfHandsPlayed++;
     }
 
     /**
-     * Increment the number of hands won by 1.
+     * {@inheritDoc}
      */
     public void incrementHandsWon() {
         this.numOfHandsWon++;
     }
 
     /**
-     * Increment the number of games played by 1.
+     * {@inheritDoc}
      */
     public void incrementGamesPlayed() {
         this.numOfGamesPlayed++;
     }
 
     /**
-     * Increment the number of games won by 1.
+     * {@inheritDoc}
      */
     public void incrementGamesWon() {
         this.numOfGamesWon++;
     }
 
     /**
-     * If the given combination is better than the current best combination, 
-     * set the given combination as the best combination. Otherwise, do nothing.
-     * @param combination The candidate combination to be set as the best combination
+     * {@inheritDoc}
      */
     public void setBestCombinationIfSo(CombinationType combination) {
         if (this.bestCombination.isEmpty() || combination.compareTo(this.bestCombination.get()) > 0) {
@@ -108,40 +106,35 @@ public class StatisticsImpl implements Statistics {
     }
 
     /**
-     * Returns the number of hands played.
-     * @return The number of hands played
+     * {@inheritDoc}
      */
     public int getNumOfHandsPlayed() {
         return numOfHandsPlayed;
     }
 
     /**
-     * Returns the number of hands won.
-     * @return The number of hands won
+     * {@inheritDoc}
      */
     public int getNumOfHandsWon() {
         return numOfHandsWon;
     }
 
     /**
-     * Returns the number of games played.
-     * @return The number of games played
+     * {@inheritDoc}
      */
     public int getNumOfGamesPlayed() {
         return numOfGamesPlayed;
     }
 
     /**
-     * Returns the number of games won.
-     * @return The number of games won
+     * {@inheritDoc}
      */
     public int getNumOfGamesWon() {
         return numOfGamesWon;
     }
 
     /**
-     * Returns an {@link Optional} describing the best combination achieved.
-     * @return An {@link Optional} describing the best combination achieved
+     * {@inheritDoc}
      */
     public Optional<CombinationType> getBestCombination() {
         return bestCombination;
