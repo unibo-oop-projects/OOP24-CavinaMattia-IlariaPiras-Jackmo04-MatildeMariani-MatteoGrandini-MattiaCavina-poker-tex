@@ -58,13 +58,13 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
 
     @Override
     public void saveStatistics(String fileName) throws IOException {
-        // TODO Auto-generated method stub
+        // TODO Implementare saveStatistics
         throw new UnsupportedOperationException("Unimplemented method 'saveStatistics'");
     }
 
     @Override
     public void loadStatistics(String fileName) throws IOException {
-        // TODO Auto-generated method stub
+        // TODO Implementare loadStatistics
         throw new UnsupportedOperationException("Unimplemented method 'loadStatistics'");
     }
 
