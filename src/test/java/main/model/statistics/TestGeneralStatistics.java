@@ -33,14 +33,23 @@ public class TestGeneralStatistics {
     @Test
     public void testUpdating() {
         // Test that the statistics are updated correctly
-        stats.incrementHandsPlayed();
+        stats.setHandsPlayed(1);
+        stats.setHandsWon(2);
+        stats.setGamesPlayed(3);
+        stats.setGamesWon(4);
         assertEquals(1, stats.getNumOfHandsPlayed());
-        stats.incrementHandsWon();
-        assertEquals(1, stats.getNumOfHandsWon());
-        stats.incrementGamesPlayed();
-        assertEquals(1, stats.getNumOfGamesPlayed());
-        stats.incrementGamesWon();
-        assertEquals(1, stats.getNumOfGamesWon());
+        assertEquals(2, stats.getNumOfHandsWon());
+        assertEquals(3, stats.getNumOfGamesPlayed());
+        assertEquals(4, stats.getNumOfGamesWon());
+        stats.incrementHandsPlayed(1);
+        stats.incrementHandsWon(2);
+        stats.incrementGamesPlayed(3);
+        stats.incrementGamesWon(4);
+        assertEquals(1 + 1, stats.getNumOfHandsPlayed());
+        assertEquals(2 + 2, stats.getNumOfHandsWon());
+        assertEquals(3 + 3, stats.getNumOfGamesPlayed());
+        assertEquals(4 + 4, stats.getNumOfGamesWon());
+        
         // first combination -> should be set as the best
         stats.setBestCombinationIfSo(CombinationType.TWO_PAIRS);
         assertEquals(Optional.of(CombinationType.TWO_PAIRS), stats.getBestCombination());
