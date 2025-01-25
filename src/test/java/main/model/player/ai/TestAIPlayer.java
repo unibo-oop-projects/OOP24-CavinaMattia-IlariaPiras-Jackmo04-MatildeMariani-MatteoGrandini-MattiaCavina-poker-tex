@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import model.deck.DeckFactoryImpl;
@@ -52,7 +53,7 @@ public class TestAIPlayer {
         assertTrue(player.isAI());
     }
 
-    @Test
+    @RepeatedTest(15)
     public void testBettingRegular() {
         var player = factory.easy(STARTING_CHIPS, Role.REGULAR);
         assertEquals(0, player.getTotalFaseBet());
@@ -79,7 +80,7 @@ public class TestAIPlayer {
         assertEquals(STARTING_CHIPS - player.getTotalFaseBet(), player.getChips());
     }
 
-    @Test
+    @RepeatedTest(15)
     public void testBettingWithBlind() {
         var player = factory.easy(STARTING_CHIPS, Role.SMALL_BLIND);
         assertEquals(0, player.getTotalFaseBet());
@@ -107,7 +108,7 @@ public class TestAIPlayer {
         assertEquals(STARTING_CHIPS - player.getTotalFaseBet(), player.getChips());
     }
 
-    @Test
+    @RepeatedTest(15)
     public void testChecking() {
         var player = factory.hard(STARTING_CHIPS, Role.REGULAR);
         assertEquals(0, player.getTotalFaseBet());
