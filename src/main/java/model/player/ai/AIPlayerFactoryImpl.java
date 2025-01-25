@@ -5,7 +5,7 @@ import java.util.Random;
 import model.player.ai.api.AIPlayer;
 import model.player.ai.api.AIPlayerFactory;
 import model.player.api.Role;
-import model.temp.State;
+import model.game.api.State;
 
 // TODO Le percentuali saranno sicuramente da rivedere
 /**
@@ -71,7 +71,7 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                     case FOUR_OF_A_KIND -> 1.95;
                     case STRAIGHT_FLUSH -> 2.00;
                 };
-                callChance = callChance * switch (currentState.handFase()) {
+                callChance = callChance * switch (currentState.getHandPhase()) {
                     case PREFLOP -> 1.00;
                     case FLOP -> 0.75;
                     case TURN -> 0.60;

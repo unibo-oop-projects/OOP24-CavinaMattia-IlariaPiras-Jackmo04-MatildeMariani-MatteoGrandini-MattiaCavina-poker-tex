@@ -3,8 +3,8 @@ package model.player.api;
 import java.util.Set;
 
 import model.deck.api.Card;
+import model.game.api.State;
 import model.temp.Combination;
-import model.temp.State;
 
 /**
  * Interface that models a generic player in the game.
@@ -28,10 +28,10 @@ public interface Player {
 
     /**
      * Returns the amount of chips the player has betted since the beginning of the fase.
-     * For example, let's assume that the {@link HandFase} is {@link HandFase#PRE_FLOP}.
+     * For example, let's assume that the {@link HandPhase} is {@link HandPhase#PRE_FLOP}.
      * If this player has betted 10 chips and another player raises to 25 chips,
      * if this player calls the raise, the returned value will be 25.
-     * But when the {@link HandFase} changes to {@link HandFase#FLOP}, the returned value will be reset to 0.
+     * But when the {@link HandPhase} changes to {@link HandPhase#FLOP}, the returned value will be reset to 0.
      * @return the amount of chips the player has betted since the beginning of the fase.
      */
     int getTotalFaseBet();
