@@ -7,7 +7,6 @@ import model.dealer.api.Dealer;
 import model.deck.DeckFactoryImpl;
 import model.deck.api.Card;
 import model.deck.api.Deck;
-import model.game.api.Phase;
 
 public class DealerImpl implements Dealer{
 
@@ -26,8 +25,8 @@ public class DealerImpl implements Dealer{
     }
 
     @Override
-    public Set<Card> giveCardsToTheGame(Phase phase) {
-        return this.deck.getSomeCards(phase.getNumCards())
+    public Set<Card> giveCardsToTheGame(final int numCardPhase) {
+        return this.deck.getSomeCards(numCardPhase)
                    .stream()
                    .collect(Collectors.toSet());
     }
