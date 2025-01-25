@@ -10,6 +10,12 @@ import java.util.Set;
 public interface StatisticsManager<S extends Statistics> {
 
     /**
+     * Returns the total statistics managed by the manager.
+     * @return The total statistics.
+     */
+    S getTotalStatistics();
+
+    /**
      * Adds a contributor to the manager.
      * The contributor must be contributing to the same type of statistics as the manager.
      * @param contributor The contributor to add.

@@ -1,7 +1,9 @@
 package main.model.statistics;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.File;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import model.statistics.api.StatisticsContributor;
 
 public class TestStatisticsManager {
 
+    private static final int GAMES_PLAYED = 1;
     private static final int HANDS_PLAYED = 20;
 
     /**
@@ -89,6 +92,34 @@ public class TestStatisticsManager {
         // After playing a hand and a game
         assertEquals(HANDS_PLAYED, stats.getNumOfHandsPlayed());
         assertEquals(1, stats.getNumOfGamesPlayed());
+    }
+
+    @Test
+    public void testSaveAndLoad() {
+        var stats = new GeneralStatisticsImpl();
+        var statsManager = new StatisticsManagerImpl<GeneralStatisticsImpl>(stats);
+        statsManager.addContributor(s -> s.setHandsPlayed(HANDS_PLAYED));
+        statsManager.addContributor(s -> s.setGamesPlayed(GAMES_PLAYED));
+        statsManager.updateTotalStatistics();
+        var file_path = System.getProperty("user.home") + File.separator + "poker_stats_test.bin";
+        // Save the statistics
+        try {
+            statsManager.saveStatistics(file_path);
+        } catch (Exception e) {
+            fail(e);
+        }
+        // Reset the statistics
+        statsManager.getTotalStatistics().setHandsPlayed(0);
+        statsManager.getTotalStatistics().setGamesPlayed(0);
+        // Load the statistics
+        try {
+            statsManager.loadStatistics(file_path);
+        } catch (Exception e) {
+            fail(e);
+        }
+        // After loading the statistics
+        assertEquals(HANDS_PLAYED, statsManager.getTotalStatistics().getNumOfHandsPlayed());
+        assertEquals(GAMES_PLAYED, statsManager.getTotalStatistics().getNumOfGamesPlayed());
     }
 
 }

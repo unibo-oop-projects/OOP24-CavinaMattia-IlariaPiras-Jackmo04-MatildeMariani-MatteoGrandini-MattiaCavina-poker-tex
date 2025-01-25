@@ -53,6 +53,14 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      * {@inheritDoc}
      */
     @Override
+    public S getTotalStatistics() {
+        return this.globalStatistics;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void addContributor(StatisticsContributor<S> contributor) {
         contributors.add(Objects.requireNonNull(contributor));
     }
