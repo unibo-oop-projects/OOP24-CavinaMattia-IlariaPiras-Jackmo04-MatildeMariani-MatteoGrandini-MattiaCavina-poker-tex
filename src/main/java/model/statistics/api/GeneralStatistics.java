@@ -18,48 +18,52 @@ import model.temp.CombinationType;
 public interface GeneralStatistics extends Statistics {
 
     /**
-     * Increment the number of hands played by 1.
-     */
-    void incrementHandsPlayed();
-
-    /**
-     * Increment the number of hands won by 1.
-     */
-    void incrementHandsWon();
-
-    /**
-     * Increment the number of games played by 1.
-     */
-    void incrementGamesPlayed();
-
-    /**
-     * Increment the number of games won by 1.
-     */
-    void incrementGamesWon();
-
-    /**
-     * Increment the number of hands played by the given amount.
+     * Increment the number of hands played.
      * @param increment The amount by which the number of hands played should be incremented
      */
-    void addHandsPlayed(int increment);
+    void incrementHandsPlayed(int increment);
 
     /**
-     * Increment the number of hands won by the given amount.
+     * Increment the number of hands won.
      * @param increment The amount by which the number of hands won should be incremented
      */
-    void addHandsWon(int increment);
+    void incrementHandsWon(int increment);
 
     /**
-     * Increment the number of games played by the given amount.
+     * Increment the number of games played.
      * @param increment The amount by which the number of games played should be incremented
      */
-    void addGamesPlayed(int increment);
+    void incrementGamesPlayed(int increment);
 
     /**
-     * Increment the number of games won by the given amount.
+     * Increment the number of games won.
      * @param increment The amount by which the number of games won should be incremented
      */
-    void addGamesWon(int increment);
+    void incrementGamesWon(int increment);
+
+    /**
+     * Set the number of hands played to the given value.
+     * @param value The new value for the number of hands played
+     */
+    void setHandsPlayed(int value);
+
+    /**
+     * Set the number of hands won to the given value.
+     * @param value The new value for the number of hands won
+     */
+    void setHandsWon(int value);
+
+    /**
+     * Set the number of games played to the given value.
+     * @param value The new value for the number of games played
+     */
+    void setGamesPlayed(int value);
+
+    /**
+     * Set the number of games won to the given value.
+     * @param value The new value for the number of games won
+     */
+    void setGamesWon(int value);
 
     /**
      * If the given combination is better than the current best combination, 

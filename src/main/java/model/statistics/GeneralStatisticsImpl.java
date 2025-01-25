@@ -74,39 +74,7 @@ public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void incrementHandsPlayed() {
-        this.addHandsPlayed(1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void incrementHandsWon() {
-        this.addHandsWon(1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void incrementGamesPlayed() {
-        this.addGamesPlayed(1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void incrementGamesWon() {
-        this.addGamesWon(1);
-    }
-
-    /*
-     * {@inheritDoc}
-     */
-    @Override
-    public void addHandsPlayed(int increment) {
+    public void incrementHandsPlayed(int increment) {
         this.numOfHandsPlayed += increment;
     }
 
@@ -114,7 +82,7 @@ public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void addHandsWon(int increment) {
+    public void incrementHandsWon(int increment) {
         this.numOfHandsWon += increment;
     }
 
@@ -122,7 +90,7 @@ public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void addGamesPlayed(int increment) {
+    public void incrementGamesPlayed(int increment) {
         this.numOfGamesPlayed += increment;
     }
 
@@ -130,8 +98,40 @@ public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void addGamesWon(int increment) {
+    public void incrementGamesWon(int increment) {
         this.numOfGamesWon += increment;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setHandsPlayed(int value) {
+        this.numOfHandsPlayed = value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setHandsWon(int value) {
+        this.numOfHandsWon = value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setGamesPlayed(int value) {
+        this.numOfGamesPlayed = value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setGamesWon(int value) {
+        this.numOfGamesWon = value;
     }
 
     /**
