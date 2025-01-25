@@ -3,7 +3,6 @@ package main.model.statistics;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.File;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -57,9 +56,9 @@ public class TestStatisticsManager {
 
     @Test
     public void testSingleContributor() {
-        var stats = new GeneralStatisticsImpl();
-        var statsManager = new StatisticsManagerImpl<GeneralStatisticsImpl>(stats);
-        var handManager = new HandManager();
+        final var stats = new GeneralStatisticsImpl();
+        final var statsManager = new StatisticsManagerImpl<GeneralStatisticsImpl>(stats);
+        final var handManager = new HandManager();
         statsManager.addContributor(handManager);
         // Before playing any hand
         assertEquals(0, stats.getNumOfHandsPlayed());
@@ -73,10 +72,10 @@ public class TestStatisticsManager {
 
     @Test
     public void testMultipleContributors() {
-        var stats = new GeneralStatisticsImpl();
-        var statsManager = new StatisticsManagerImpl<GeneralStatisticsImpl>(stats);
-        var handManager = new HandManager();
-        var gameManager = new GameManager();
+        final var stats = new GeneralStatisticsImpl();
+        final var statsManager = new StatisticsManagerImpl<GeneralStatisticsImpl>(stats);
+        final var handManager = new HandManager();
+        final var gameManager = new GameManager();
         statsManager.addAllContributors(Set.of(handManager, gameManager));
         // Before playing any hand or game
         assertEquals(0, stats.getNumOfHandsPlayed());
@@ -96,16 +95,15 @@ public class TestStatisticsManager {
 
     @Test
     public void testSaveAndLoad() {
-        var stats = new GeneralStatisticsImpl();
-        var statsManager = new StatisticsManagerImpl<GeneralStatisticsImpl>(stats);
+        final var stats = new GeneralStatisticsImpl();
+        final var statsManager = new StatisticsManagerImpl<GeneralStatisticsImpl>(stats);
         statsManager.addContributor(s -> s.setHandsPlayed(HANDS_PLAYED));
         statsManager.addContributor(s -> s.setGamesPlayed(GAMES_PLAYED));
         statsManager.updateTotalStatistics();
-        final var SEP = File.separator;
-        var file_path = System.getProperty("user.home") + SEP + "poker_stats_test.bin";
+        final var FILE_NAME = "stats.bin";
         // Save the statistics
         try {
-            statsManager.saveStatistics(file_path);
+            statsManager.saveStatistics(FILE_NAME);
         } catch (Exception e) {
             fail(e);
         }
@@ -113,7 +111,7 @@ public class TestStatisticsManager {
         statsManager.getTotalStatistics().reset();
         // Load the statistics
         try {
-            statsManager.loadStatistics(file_path);
+            statsManager.loadStatistics(FILE_NAME);
         } catch (Exception e) {
             fail(e);
         }

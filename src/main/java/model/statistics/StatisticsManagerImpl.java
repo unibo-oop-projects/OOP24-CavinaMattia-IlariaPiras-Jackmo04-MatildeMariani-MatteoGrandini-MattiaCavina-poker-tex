@@ -1,5 +1,6 @@
 package model.statistics;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,6 +21,8 @@ import model.statistics.api.StatisticsManager;
  * @param <S> the type of statistics to manage
  */
 public class StatisticsManagerImpl<S extends Statistics> implements StatisticsManager<S> {
+
+    private static final String PROJECT_DIR_NAME = "poker_tex";
 
     private S globalStatistics;
     private List<StatisticsContributor<S>> contributors;
@@ -81,19 +84,40 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
         contributors.forEach(contributor -> contributor.updateStatistics(globalStatistics));
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>The file will be saved in the user's home directory under the
+     * <i>poker_tex</i> directory.
+     */
     @Override
     public void saveStatistics(String fileName) throws Exception {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
+        File file = getFileInProjectDir(fileName);
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
         oos.writeObject(globalStatistics);
         oos.close();
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>The file will be loaded from the user's home directory under the
+     * <i>poker_tex</i> directory.
+     */
     @SuppressWarnings("unchecked")
     @Override
     public void loadStatistics(String fileName) throws Exception {
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName));
+        File file = getFileInProjectDir(fileName);
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
         this.globalStatistics = (S) ois.readObject();
         ois.close();
+    }
+
+    private File getFileInProjectDir(String fileName) {
+        String userHome = System.getProperty("user.home");
+        File pokerDir = new File(userHome, PROJECT_DIR_NAME);
+        if (!pokerDir.exists()) {
+            pokerDir.mkdirs();
+        }
+        return new File(pokerDir, fileName);
     }
 
 }
