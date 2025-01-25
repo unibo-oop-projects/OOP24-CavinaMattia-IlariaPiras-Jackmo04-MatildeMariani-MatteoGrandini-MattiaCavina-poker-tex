@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
-import model.statistics.GeneralStatisticsImpl;
+import model.statistics.BasicStatisticsImpl;
 import model.statistics.StatisticsManagerImpl;
 import model.statistics.api.StatisticsContributor;
 
@@ -19,7 +19,7 @@ public class TestStatisticsManager {
     /**
      * Class to simulate a StatisticsContributor that manages hands
      */
-    private class HandManager implements StatisticsContributor<GeneralStatisticsImpl> {
+    private class HandManager implements StatisticsContributor<BasicStatisticsImpl> {
 
         private int handsPlayed = 0;
 
@@ -29,7 +29,7 @@ public class TestStatisticsManager {
         }
 
         @Override
-        public void updateStatistics(GeneralStatisticsImpl stats) {
+        public void updateStatistics(BasicStatisticsImpl stats) {
             stats.setHandsPlayed(handsPlayed);
         }
     
@@ -38,7 +38,7 @@ public class TestStatisticsManager {
     /**
      * Class to simulate a StatisticsContributor that manages games
      */
-    private class GameManager implements StatisticsContributor<GeneralStatisticsImpl> {
+    private class GameManager implements StatisticsContributor<BasicStatisticsImpl> {
 
         private int gamesPlayed = 0;
 
@@ -48,7 +48,7 @@ public class TestStatisticsManager {
         }
 
         @Override
-        public void updateStatistics(GeneralStatisticsImpl stats) {
+        public void updateStatistics(BasicStatisticsImpl stats) {
             stats.setGamesPlayed(gamesPlayed);
         }
     
@@ -56,8 +56,8 @@ public class TestStatisticsManager {
 
     @Test
     public void testSingleContributor() {
-        final var stats = new GeneralStatisticsImpl();
-        final var statsManager = new StatisticsManagerImpl<GeneralStatisticsImpl>(stats);
+        final var stats = new BasicStatisticsImpl();
+        final var statsManager = new StatisticsManagerImpl<BasicStatisticsImpl>(stats);
         final var handManager = new HandManager();
         statsManager.addContributor(handManager);
         // Before playing any hand
@@ -72,8 +72,8 @@ public class TestStatisticsManager {
 
     @Test
     public void testMultipleContributors() {
-        final var stats = new GeneralStatisticsImpl();
-        final var statsManager = new StatisticsManagerImpl<GeneralStatisticsImpl>(stats);
+        final var stats = new BasicStatisticsImpl();
+        final var statsManager = new StatisticsManagerImpl<BasicStatisticsImpl>(stats);
         final var handManager = new HandManager();
         final var gameManager = new GameManager();
         statsManager.addAllContributors(Set.of(handManager, gameManager));
@@ -95,8 +95,8 @@ public class TestStatisticsManager {
 
     @Test
     public void testSaveAndLoad() {
-        final var stats = new GeneralStatisticsImpl();
-        final var statsManager = new StatisticsManagerImpl<GeneralStatisticsImpl>(stats);
+        final var stats = new BasicStatisticsImpl();
+        final var statsManager = new StatisticsManagerImpl<BasicStatisticsImpl>(stats);
         statsManager.addContributor(s -> s.setHandsPlayed(HANDS_PLAYED));
         statsManager.addContributor(s -> s.setGamesPlayed(GAMES_PLAYED));
         statsManager.updateTotalStatistics();

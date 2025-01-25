@@ -15,7 +15,7 @@ import model.temp.CombinationType;
  * <li> Best combination achieved
  * </ul>
  */
-public interface GeneralStatistics extends Statistics {
+public interface BasicStatistics extends Statistics {
 
     /**
      * Increment the number of hands played.

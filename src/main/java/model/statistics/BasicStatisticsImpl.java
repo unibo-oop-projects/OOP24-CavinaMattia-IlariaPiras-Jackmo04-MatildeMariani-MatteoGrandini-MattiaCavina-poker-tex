@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
-import model.statistics.api.GeneralStatistics;
+import model.statistics.api.BasicStatistics;
 import model.temp.CombinationType;
 
 /**
@@ -18,7 +18,7 @@ import model.temp.CombinationType;
  * </ul>
  * Provides methods to update the aforementioned statistics.
  */
-public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
+public class BasicStatisticsImpl implements BasicStatistics, Serializable {
 
     private int numOfHandsPlayed;
     private int numOfHandsWon;
@@ -37,7 +37,7 @@ public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
      * </ul>
      * Initialized to 0 for numbers and to <i>null</i> for non-numbers.
      */
-    public GeneralStatisticsImpl() {
+    public BasicStatisticsImpl() {
         this(0, 0, 0, 0, null);
     }
 
@@ -56,7 +56,7 @@ public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
      * @param numOfGamesWon Initial value for number of games won
      * @param bestCombination Initial value for best combination achieved or <i>null</i> if none
      */
-    public GeneralStatisticsImpl(
+    public BasicStatisticsImpl(
         int numOfHandsPlayed, 
         int numOfHandsWon, 
         int numOfGamesPlayed, 

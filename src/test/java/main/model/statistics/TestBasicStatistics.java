@@ -7,17 +7,17 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import model.statistics.GeneralStatisticsImpl;
-import model.statistics.api.GeneralStatistics;
+import model.statistics.BasicStatisticsImpl;
+import model.statistics.api.BasicStatistics;
 import model.temp.CombinationType;
 
-public class TestGeneralStatistics {
+public class TestBasicStatistics {
 
-    private GeneralStatistics stats;
+    private BasicStatistics stats;
 
     @BeforeEach
     public void setUp() {
-        this.stats = new GeneralStatisticsImpl();
+        this.stats = new BasicStatisticsImpl();
     }
 
     @Test
