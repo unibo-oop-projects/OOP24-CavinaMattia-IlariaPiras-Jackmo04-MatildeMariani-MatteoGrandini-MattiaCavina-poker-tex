@@ -2,6 +2,8 @@ package main.model.statistics;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 
 import model.statistics.GeneralStatisticsImpl;
@@ -72,8 +74,7 @@ public class TestStatisticsManager {
         var statsManager = new StatisticsManagerImpl<GeneralStatisticsImpl>(stats);
         var handManager = new HandManager();
         var gameManager = new GameManager();
-        statsManager.addContributor(handManager);
-        statsManager.addContributor(gameManager);
+        statsManager.addAllContributors(Set.of(handManager, gameManager));
         // Before playing any hand or game
         assertEquals(0, stats.getNumOfHandsPlayed());
         assertEquals(0, stats.getNumOfGamesPlayed());
