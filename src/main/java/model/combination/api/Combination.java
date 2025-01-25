@@ -18,6 +18,6 @@ import java.util.List;
  *                   the sum value of players's cards.
  * 
  */
-record Combination<X>(List<X> tableCards, List<X> playerCard, CombinationType type, int tieBreaker) {
+public record Combination<X>(List<X> tableCards, List<X> playerCard, CombinationType type, int tieBreaker) {
 
 };

@@ -1,12 +1,11 @@
 package model.combination.api;
 
-public interface CheckFactoryOfCombination {
+import java.util.List;
+import java.util.function.BiFunction;
 
-    /**
-     * Check if the combination is a high card.
-     * @return true if the combination is a high card.
-     */
-    Boolean highCard();
+import model.deck.api.Card;
+
+public interface CheckFactoryOfCombination<X> {
 
     /*
      * Check if the combination is a pair.
