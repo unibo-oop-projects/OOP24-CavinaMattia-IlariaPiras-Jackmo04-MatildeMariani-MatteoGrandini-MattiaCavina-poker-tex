@@ -73,34 +73,71 @@ public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void incrementHandsPlayed() {
-        this.numOfHandsPlayed++;
+        this.addHandsPlayed(1);
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void incrementHandsWon() {
-        this.numOfHandsWon++;
+        this.addHandsWon(1);
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void incrementGamesPlayed() {
-        this.numOfGamesPlayed++;
+        this.addGamesPlayed(1);
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void incrementGamesWon() {
-        this.numOfGamesWon++;
+        this.addGamesWon(1);
+    }
+
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public void addHandsPlayed(int increment) {
+        this.numOfHandsPlayed += increment;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
+    public void addHandsWon(int increment) {
+        this.numOfHandsWon += increment;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addGamesPlayed(int increment) {
+        this.numOfGamesPlayed += increment;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addGamesWon(int increment) {
+        this.numOfGamesWon += increment;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setBestCombinationIfSo(CombinationType combination) {
         Objects.requireNonNull(combination);
         if (this.bestCombination == null || combination.compareTo(this.bestCombination) > 0) {
@@ -111,6 +148,7 @@ public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getNumOfHandsPlayed() {
         return numOfHandsPlayed;
     }
@@ -118,6 +156,7 @@ public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getNumOfHandsWon() {
         return numOfHandsWon;
     }
@@ -125,6 +164,7 @@ public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getNumOfGamesPlayed() {
         return numOfGamesPlayed;
     }
@@ -132,6 +172,7 @@ public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getNumOfGamesWon() {
         return numOfGamesWon;
     }
@@ -139,7 +180,9 @@ public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Optional<CombinationType> getBestCombination() {
         return Optional.ofNullable(this.bestCombination);
     }
+
 }

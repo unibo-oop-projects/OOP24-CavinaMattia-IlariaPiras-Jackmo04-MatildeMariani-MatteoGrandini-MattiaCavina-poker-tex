@@ -38,6 +38,30 @@ public interface GeneralStatistics extends Statistics {
     void incrementGamesWon();
 
     /**
+     * Increment the number of hands played by the given amount.
+     * @param increment The amount by which the number of hands played should be incremented
+     */
+    void addHandsPlayed(int increment);
+
+    /**
+     * Increment the number of hands won by the given amount.
+     * @param increment The amount by which the number of hands won should be incremented
+     */
+    void addHandsWon(int increment);
+
+    /**
+     * Increment the number of games played by the given amount.
+     * @param increment The amount by which the number of games played should be incremented
+     */
+    void addGamesPlayed(int increment);
+
+    /**
+     * Increment the number of games won by the given amount.
+     * @param increment The amount by which the number of games won should be incremented
+     */
+    void addGamesWon(int increment);
+
+    /**
      * If the given combination is better than the current best combination, 
      * set the given combination as the best combination. Otherwise, do nothing.
      * @param combination The candidate combination to be set as the best combination
