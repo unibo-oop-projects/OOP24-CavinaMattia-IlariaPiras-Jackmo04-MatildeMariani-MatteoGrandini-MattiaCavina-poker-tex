@@ -19,7 +19,7 @@ public class DeckImpl<X> implements Deck<X> {
     private List<X> deck;
 
     /**
-     * create and shuffle new deck.
+     * Create and shuffle new deck.
      * 
      * @param deckBuilder
      */
@@ -28,9 +28,9 @@ public class DeckImpl<X> implements Deck<X> {
         this.deck = deckBuilder.buildDeck();
     }
 
-    /**
-     * Can be use to shuffle a deck.
-     */
+ /**
+  * Method to shuffle the deck.
+  */
     @Override
     public void shuffled() {
         this.deck = deckBuilder.buildDeck();
