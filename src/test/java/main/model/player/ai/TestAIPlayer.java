@@ -15,12 +15,11 @@ import org.junit.jupiter.api.Test;
 import model.deck.DeckFactoryImpl;
 import model.deck.api.Card;
 import model.deck.api.Deck;
+import model.game.StateImpl;
 import model.player.ai.AIPlayerFactoryImpl;
 import model.player.ai.api.AIPlayerFactory;
 import model.player.api.Action;
 import model.player.api.Role;
-import model.temp.HandFase;
-import model.temp.State;
 
 public class TestAIPlayer {
 
@@ -49,7 +48,7 @@ public class TestAIPlayer {
         assertEquals(Set.of(), player.getCards());
         assertEquals(0, player.getTotalFaseBet());
         assertThrows(IllegalStateException.class, 
-            () -> player.getAction(new State(0, BET_1000, NUM_OF_PLAYERS, Set.of(), HandFase.PREFLOP)));
+            () -> player.getAction(new StateImpl(BET_1000, NUM_OF_PLAYERS)));
         assertTrue(player.isAI());
     }
 
@@ -58,7 +57,7 @@ public class TestAIPlayer {
         var player = factory.easy(STARTING_CHIPS, Role.REGULAR);
         assertEquals(0, player.getTotalFaseBet());
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
-        var action = player.getAction(new State(0, BET_1000, NUM_OF_PLAYERS, Set.of(), HandFase.PREFLOP));
+        var action = player.getAction(new StateImpl(BET_1000, NUM_OF_PLAYERS));
         System.out.println(action);
         switch (action) {
             case CHECK:
@@ -86,7 +85,7 @@ public class TestAIPlayer {
         assertEquals(0, player.getTotalFaseBet());
         var deck = new DeckFactoryImpl().simplePokerDeck();
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
-        var action = player.getAction(new State(0, BET_1000, NUM_OF_PLAYERS, Set.of(), HandFase.PREFLOP));
+        var action = player.getAction(new StateImpl(BET_1000, NUM_OF_PLAYERS));
         System.out.println(action);
         switch (action) {
             case CHECK:
@@ -113,7 +112,9 @@ public class TestAIPlayer {
         var player = factory.hard(STARTING_CHIPS, Role.REGULAR);
         assertEquals(0, player.getTotalFaseBet());
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
-        var action = player.getAction(new State(POT_2000, 0, NUM_OF_PLAYERS, Set.of(), HandFase.PREFLOP));
+        var state = new StateImpl(0, NUM_OF_PLAYERS);
+        state.addToPot(POT_2000);
+        var action = player.getAction(state);
         System.out.println(action);
         assertTrue(action == Action.CHECK || action == Action.RAISE);
     }
@@ -130,9 +131,11 @@ public class TestAIPlayer {
     public void testLosing() {
         var player = factory.hard(STARTING_CHIPS, Role.REGULAR);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
-        var action = player.getAction(new State(POT_2000, 0, NUM_OF_PLAYERS, Set.of(), HandFase.PREFLOP));
+        var state = new StateImpl(0, NUM_OF_PLAYERS);
+        state.addToPot(POT_2000);
+        var action = player.getAction(state);
         while (action != Action.RAISE) {
-            action = player.getAction(new State(POT_2000, 0, NUM_OF_PLAYERS, Set.of(), HandFase.PREFLOP));
+            action = player.getAction(state);
         }
         player.handLost();
         assertEquals(STARTING_CHIPS - player.getTotalFaseBet(), player.getChips());

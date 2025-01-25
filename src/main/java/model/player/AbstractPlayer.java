@@ -4,12 +4,12 @@ import java.util.Objects;
 import java.util.Set;
 
 import model.deck.api.Card;
+import model.game.api.State;
 import model.player.api.Action;
 import model.player.api.Player;
 import model.player.api.Role;
 import model.temp.Combination;
 import model.temp.Combinations;
-import model.temp.State;
 
 /**
  * Abstract class that implements the common methods of a generic player.
@@ -142,7 +142,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * Used to set the total bet of the player in the current {@link HandFase}.
+     * Used to set the total bet of the player in the current {@link HandPhase}.
      * @param totalFaseBet the amount of chips betted in the current fase.
      */
     protected void setTotalFaseBet(final int totalFaseBet) {
