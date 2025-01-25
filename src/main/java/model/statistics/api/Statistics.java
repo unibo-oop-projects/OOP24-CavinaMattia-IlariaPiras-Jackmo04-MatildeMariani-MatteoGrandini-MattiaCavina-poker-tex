@@ -6,4 +6,9 @@ package model.statistics.api;
  * @see GeneralStatistics Example of an extension of this interface.
  */
 public interface Statistics {
+
+    /**
+     * Resets all statistics to their default values.
+     */
+    void reset();
 }

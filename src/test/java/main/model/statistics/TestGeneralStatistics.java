@@ -59,6 +59,14 @@ public class TestGeneralStatistics {
         // better combination -> should change
         stats.setBestCombinationIfSo(CombinationType.FULL_HOUSE);
         assertEquals(Optional.of(CombinationType.FULL_HOUSE), stats.getBestCombination());
+
+        // Test that the statistics are reset correctly
+        stats.reset();
+        assertEquals(0, stats.getNumOfHandsPlayed());
+        assertEquals(0, stats.getNumOfHandsWon());
+        assertEquals(0, stats.getNumOfGamesPlayed());
+        assertEquals(0, stats.getNumOfGamesWon());
+        assertEquals(Optional.empty(), stats.getBestCombination());
     }
 
 }

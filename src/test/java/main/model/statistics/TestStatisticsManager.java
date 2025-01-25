@@ -101,7 +101,8 @@ public class TestStatisticsManager {
         statsManager.addContributor(s -> s.setHandsPlayed(HANDS_PLAYED));
         statsManager.addContributor(s -> s.setGamesPlayed(GAMES_PLAYED));
         statsManager.updateTotalStatistics();
-        var file_path = System.getProperty("user.home") + File.separator + "poker_stats_test.bin";
+        final var SEP = File.separator;
+        var file_path = System.getProperty("user.home") + SEP + "poker_stats_test.bin";
         // Save the statistics
         try {
             statsManager.saveStatistics(file_path);
@@ -109,8 +110,7 @@ public class TestStatisticsManager {
             fail(e);
         }
         // Reset the statistics
-        statsManager.getTotalStatistics().setHandsPlayed(0);
-        statsManager.getTotalStatistics().setGamesPlayed(0);
+        statsManager.getTotalStatistics().reset();
         // Load the statistics
         try {
             statsManager.loadStatistics(file_path);

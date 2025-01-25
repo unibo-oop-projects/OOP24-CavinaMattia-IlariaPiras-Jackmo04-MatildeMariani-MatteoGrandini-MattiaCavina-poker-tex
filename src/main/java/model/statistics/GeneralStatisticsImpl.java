@@ -185,4 +185,13 @@ public class GeneralStatisticsImpl implements GeneralStatistics, Serializable {
         return Optional.ofNullable(this.bestCombination);
     }
 
+    @Override
+    public void reset() {
+        this.numOfHandsPlayed = 0;
+        this.numOfHandsWon = 0;
+        this.numOfGamesPlayed = 0;
+        this.numOfGamesWon = 0;
+        this.bestCombination = null;
+    }
+
 }
