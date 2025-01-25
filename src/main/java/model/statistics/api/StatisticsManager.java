@@ -1,7 +1,5 @@
 package model.statistics.api;
 
-import java.io.IOException;
-
 /**
  * Interface for managing {@link Statistics} coming from different sources.
  * Such sources are called contributors and they must implement the {@link StatisticsContributor} interface.
@@ -27,16 +25,16 @@ public interface StatisticsManager<S extends Statistics> {
      * Saves the total statistics to the specified file.
      * <p><b>Note:</b> The {@link Statistics} class used must implement the {@link java.io.Serializable} interface.
      * @param fileName The name of the file to save the statistics to.
-     * @throws IOException If an I/O error occurs while saving the statistics.
+     * @throws Exception If an I/O error occurs while saving the statistics or if the statistics class is not serializable.
      */
-    void saveStatistics(String fileName) throws IOException;
+    void saveStatistics(String fileName) throws Exception;
 
     /**
      * Loads the total statistics from the specified file.
      * <p><b>Note:</b> The {@link Statistics} class used must implement the {@link java.io.Serializable} interface.
      * @param fileName The name of the file to load the statistics from.
-     * @throws IOException If an I/O error occurs while loading the statistics.
+     * @throws Exception If an I/O error occurs while loading the statistics or if the statistics class is not serializable.
      */
-    void loadStatistics(String fileName) throws IOException;
+    void loadStatistics(String fileName) throws Exception;
 
 }
