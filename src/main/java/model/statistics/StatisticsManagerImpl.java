@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import model.statistics.api.Statistics;
 import model.statistics.api.StatisticsContributor;
@@ -54,6 +55,14 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
     @Override
     public void addContributor(StatisticsContributor<S> contributor) {
         contributors.add(Objects.requireNonNull(contributor));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addAllContributors(Set<StatisticsContributor<S>> contributors) {
+        contributors.forEach(this::addContributor);
     }
 
     /**
