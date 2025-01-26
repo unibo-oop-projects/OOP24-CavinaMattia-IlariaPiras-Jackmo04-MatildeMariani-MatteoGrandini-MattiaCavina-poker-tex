@@ -23,7 +23,7 @@ import model.temp.CombinationType;
  */
 public class BasicStatisticsImpl implements BasicStatistics, Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     private int numOfHandsPlayed;
     private int numOfHandsWon;
