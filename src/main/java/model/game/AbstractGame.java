@@ -3,6 +3,7 @@ package model.game;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import com.google.common.collect.Iterables;
 
@@ -166,15 +167,20 @@ public abstract class AbstractGame implements Game{
      * @param initialChips initial amount of chips of players.
      */
     private void setPlayers(final int initialChips) {
-        this.players.addAll(this.getAIPlayers(initialChips));
-        //this.players.add(new UserPlayer(initialChips, ));
+        Random rand = new Random();
+        var startingRole = Role.values()[rand.nextInt(Role.values().length)];
+
+        for (var i = 0; i < NUM_AI_PLAYERS; i++) {
+            this.players.add(this.getAIPlayer(initialChips, startingRole.next()));
+        }
+        //this.players.add(new UserPlayer(initialChips, startingRole.next()));
     }
 
     /**
-     * Returns a list of AI players.
+     * Returns a different type of AI player based on the difficulty level of the game.
      * @param initialChips initial amount of chips of players.
-     * @return a list of AI players.
+     * @return an AI player.
      */
-    protected abstract List<Player> getAIPlayers(int initialChips);
+    protected abstract Player getAIPlayer(int initialChips, Role startingRole);
 
 }
