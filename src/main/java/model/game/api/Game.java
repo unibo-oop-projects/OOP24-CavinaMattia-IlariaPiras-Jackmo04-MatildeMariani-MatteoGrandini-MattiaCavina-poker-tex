@@ -22,11 +22,11 @@ public interface Game {
     public boolean isWon();
 
     /**
-    * Starts a new hand until isOver returns true, checking which {@link Player}s are still in the
-    * game and asking the {@link Dealer} to deal the cards for each one of them.
-    * It then goes through each {@link Phase} of the hand until it reaches the last 
-    * one or until all but one player folds, asking the dealer for its card and the players for
-    * their action. At the end of each hand it declares the winner.   
+     * A new hand begins until isOver returns true, checking which {@link Player}s are still in the
+     * game, sorting them by their {@link Role}s and asking the {@link Dealer} to deal cards to
+     * each of them. It then goes through each {@link Phase} of the hand until it reaches the last 
+     * one or until all but one player folds, asking the dealer for the community cards and the players for
+     * their action. At the end of each hand it declares the winner.   
     */
     public void start();
 

@@ -17,11 +17,16 @@ public enum Phase {
         this.numCards = numCards;
     }
 
+    /**
+     * Returns the number of cards that must be dealt in this phase.
+     * @return the number of cards that must be dealt in this phase.
+     */
     public int getNumCards() {
         return numCards;
     }
 
     /**
+     * Returns the next Phase.
      * @return the next Phase.
      */
     public Phase next() {

@@ -84,7 +84,7 @@ public abstract class AbstractGame implements Game{
                         this.manageAction(playersIterator, currentPlayer);
                     }
                 }
-                this.players.forEach(p -> this.gameState.addToPot(p.getTotalFaseBet()));
+                this.players.forEach(p -> this.gameState.addToPot(p.getTotalPhaseBet()));
                 this.gameState.nextHandPhase();
                 
             } while (!(handPlayers.size() < MIN_PLAYERS) || !this.gameState.getHandPhase().equals(Phase.PREFLOP));
@@ -115,14 +115,14 @@ public abstract class AbstractGame implements Game{
      * @param player the player whose turn it is.
      */
     private void manageAction(final Iterator<Player> playersIterator, final Player player) {
-        var action = Action.FOLD; //player.getAction(this.gameState);
+        var action = player.getAction(this.gameState);
         switch (action) {
             case Action.FOLD:
                 playersIterator.remove();
                 this.gameState.setRemainingPlayers(gameState.getRemainingPlayers() - 1);
                 break;
             case Action.RAISE:
-                this.gameState.setCurrentBet(player.getTotalFaseBet());
+                this.gameState.setCurrentBet(player.getTotalPhaseBet());
                 break;
             case Action.CALL:
             case Action.CHECK:
@@ -139,7 +139,7 @@ public abstract class AbstractGame implements Game{
     private boolean isPhaseOver(final List<Player> phasePlayers) {
         return phasePlayers.size() < MIN_PLAYERS || 
                phasePlayers.stream()
-                          .allMatch(p -> p.getTotalFaseBet() == this.gameState.getCurrentBet() || 
+                          .allMatch(p -> p.getTotalPhaseBet() == this.gameState.getCurrentBet() || 
                                 !p.hasChipsLeft());
     }
 
