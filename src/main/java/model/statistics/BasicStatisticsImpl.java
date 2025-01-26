@@ -33,40 +33,20 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
     private CombinationType bestCombination;
 
     /**
-     * The statistics kept by this implementation are:
-     * <ul>
-     * <li> Number of hands played
-     * <li> Number of hands won
-     * <li> Hand win rate
-     * <li> Number of games played 
-     * <li> Number of games won
-     * <li> Game win rate
-     * <li> Best combination achieved
-     * <li> Biggest chips win
-     * </ul>
-     * Initialized to 0 for numbers and to <i>null</i> for non-numbers.
+     * Default constructor. Initializes all statistics to 0 and best combination to <i>null</i>.
      */
     public BasicStatisticsImpl() {
         this(0, 0, 0, 0, 0, null);
     }
 
     /**
-     * The statistics kept by this implementation are:
-     * <ul>
-     * <li> Number of hands played
-     * <li> Number of hands won
-     * <li> Hand win rate
-     * <li> Number of games played 
-     * <li> Number of games won
-     * <li> Game win rate
-     * <li> Best combination achieved
-     * <li> Biggest chips win
-     * </ul>
-     * @param numOfHandsPlayed Initial value for number of hands played
-     * @param numOfHandsWon Initial value for number of hands won
-     * @param numOfGamesPlayed Initial value for number of games played
-     * @param numOfGamesWon Initial value for number of games won
-     * @param bestCombination Initial value for best combination achieved or <i>null</i> if none
+     * Constructor to initialize the statistics with the given values.
+     * @param numOfHandsPlayed The number of hands played
+     * @param numOfHandsWon The number of hands won
+     * @param numOfGamesPlayed The number of games played
+     * @param numOfGamesWon The number of games won
+     * @param biggestWin The biggest win
+     * @param bestCombination The best combination achieved
      */
     public BasicStatisticsImpl(
         int numOfHandsPlayed, 
