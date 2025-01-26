@@ -95,8 +95,8 @@ public class TestStatisticsManager {
 
     @Test
     public void testSaveAndLoad() {
-        var stats = new BasicStatisticsImpl();
-        var statsManager = new StatisticsManagerImpl<BasicStatisticsImpl>(stats);
+        final var stats = new BasicStatisticsImpl();
+        final var statsManager = new StatisticsManagerImpl<BasicStatisticsImpl>(stats);
         statsManager.addContributor(s -> s.setHandsPlayed(HANDS_PLAYED));
         statsManager.addContributor(s -> s.setGamesPlayed(GAMES_PLAYED));
         statsManager.updateTotalStatistics();
@@ -107,18 +107,17 @@ public class TestStatisticsManager {
         } catch (Exception e) {
             fail(e);
         }
-        // Create a new statistics manager with a new statistics object
-        stats = new BasicStatisticsImpl();
-        statsManager = new StatisticsManagerImpl<BasicStatisticsImpl>(stats);
-        // Load the statistics
+        // Create a new statistics manager with a new statistics object (as if the program was restarted)
+        final var newStats = new BasicStatisticsImpl();
+        final var newStatsManager = new StatisticsManagerImpl<BasicStatisticsImpl>(newStats);
+        // Load the old statistics from file to the new statistics manager
         try {
-            statsManager.loadStatistics(FILE_NAME);
+            newStatsManager.loadStatistics(FILE_NAME);
         } catch (Exception e) {
             fail(e);
         }
         // After loading the statistics
-        assertEquals(HANDS_PLAYED, statsManager.getTotalStatistics().getNumOfHandsPlayed());
-        assertEquals(GAMES_PLAYED, statsManager.getTotalStatistics().getNumOfGamesPlayed());
+        assertEquals(stats, newStatsManager.getTotalStatistics());
     }
 
 }
