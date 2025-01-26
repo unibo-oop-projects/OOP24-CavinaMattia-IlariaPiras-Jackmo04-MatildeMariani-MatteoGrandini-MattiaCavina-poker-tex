@@ -13,21 +13,21 @@ import model.deck.api.Card;
 public interface State {
     
     /**
-     * @param playerBet the amount of money a player betted.
-     * It adds a bet to the pot.   
+     * Adds a bet to the pot.
+     * @param playerBet the amount of money a player betted.  
     */
     void addToPot(int playerBet);
     
     /**
-     * @param cards 
-     * It adds cards to the set of community cards for the hand.   
+     * Adds cards to the set of community cards for the hand. 
+     * @param cards the set of cards to add.
     */
     void addCommunityCards(Set<Card> cards);
 
     /**
-     * @param initialBet
-     * @param remainingPlayers
-     * Informs the State that a new hand is starting. It sets all its component accordingly.   
+     * Informs the State that a new hand is starting. It sets all its component accordingly. 
+     * @param initialBet the initial bet required to play in the hand.
+     * @param remainingPlayers the number of players still in the game at the start of the hand.
     */
     void newHand(int initialBet, int remainingPlayers);
 
@@ -37,7 +37,8 @@ public interface State {
     void nextHandPhase();
 
     /**
-     * @return the pot, or the winnings of the hand. 
+     * Returns the pot, or the winnings of the hand.
+     * @return the pot. 
     */
     int getPot();
 
@@ -48,34 +49,44 @@ public interface State {
     int getCurrentBet();
 
     /**
+     * Returns the number of players still in the game.
      * @return the number of players still in the game. 
     */
     int getRemainingPlayers();
 
     /**
+     * Returns the current hand number.
      * @return the hand's number. 
     */
     int getHandNumber();
 
     /**
-     * @return the current {@link Phase}. 
+     * Returns the current {@link Phase}.
+     * @return the current phase. 
     */
     Phase getHandPhase();
 
     /**
+     * Returns the community cards for the current hand.
      * @return the community cards for the current hand. 
     */
     Set<Card> getCommunityCards();
 
     /**
-     * Sets the current bet.
-     * @param currentBet
+     * Sets the current minimum bet players must place if they want to continue playing.
+     * @param currentBet the new minimum bet.
     */
     void setCurrentBet(int currentBet);
 
     /**
      * Sets the number of players still in the game.
-     * @param remainingPlayers
+     * @param remainingPlayers the number of players still in the game.
     */
     void setRemainingPlayers(int remainingPlayers);
+
+    /**
+     * Sets the hand phase.
+     * @param handPhase the current phase.
+    */
+    void setHandPhase(final Phase handPhase);
 }

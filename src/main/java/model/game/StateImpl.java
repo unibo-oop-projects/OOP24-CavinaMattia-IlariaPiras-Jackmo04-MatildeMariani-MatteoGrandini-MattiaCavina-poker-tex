@@ -7,6 +7,9 @@ import model.deck.api.Card;
 import model.game.api.Phase;
 import model.game.api.State;
 
+/**
+ * This class provides an implementation of the State interface.
+ */
 public class StateImpl implements State{
 
     private static final int START_HAND_NUMBER = 1;
@@ -20,6 +23,11 @@ public class StateImpl implements State{
     private Phase handPhase;
     private final Set<Card> communityCards = new HashSet<>();
 
+    /**
+     * Basic constructor for the StateImpl.
+     * @param initialBet the initial bet required to play.
+     * @param numPlayers the initial number of players.
+     */
     public StateImpl(final int initialBet, final int numPlayers) {
         this.pot = INITIAL_POT;
         this.handNumber = START_HAND_NUMBER;
@@ -28,21 +36,53 @@ public class StateImpl implements State{
         this.remainingPlayers = numPlayers;
     }
 
+    /**
+     * Constructor for the StateImpl. Used for testing purposes.
+     * @param pot the pot.
+     * @param currentBet the current bet.
+     * @param remainingPlayers the number of players still in the game.
+     * @param handNumber the number of the hand.
+     * @param handPhase the current phase of the hand.
+     * @param communityCards the set of community cards.
+     */
+    public StateImpl(final int pot, final int currentBet, final int remainingPlayers, 
+                     final int handNumber, final Phase handPhase, final Set<Card> communityCards) {
+        this.pot = pot;
+        this.currentBet = currentBet;
+        this.remainingPlayers = remainingPlayers;
+        this.handNumber = handNumber;
+        this.handPhase = handPhase;
+        this.communityCards.addAll(communityCards);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addToPot(final int playerBet) {
         this.pot += playerBet;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addCommunityCards(final Set<Card> cards) {
-        this.communityCards.addAll(communityCards);
+        this.communityCards.addAll(cards);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void nextHandPhase() {
         this.handPhase.next();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void newHand(final int initialBet, final int remainingPlayers) {
         this.pot = INITIAL_POT;
@@ -53,44 +93,76 @@ public class StateImpl implements State{
         this.communityCards.clear();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getPot() {
         return this.pot;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getCurrentBet() {
         return this.currentBet;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getRemainingPlayers() {
         return this.remainingPlayers;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getHandNumber() {
         return this.handNumber;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Phase getHandPhase() {
         return this.handPhase;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Card> getCommunityCards() {
         return Set.copyOf(this.communityCards);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setCurrentBet(final int currentBet) {
         this.currentBet = currentBet;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setRemainingPlayers(final int remainingPlayers) {
         this.remainingPlayers = remainingPlayers;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setHandPhase(final Phase handPhase) {
+        this.handPhase = handPhase;
     }
 
 }
