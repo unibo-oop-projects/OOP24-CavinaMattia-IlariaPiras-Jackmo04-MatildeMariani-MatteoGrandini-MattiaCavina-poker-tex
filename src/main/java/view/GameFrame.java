@@ -21,8 +21,8 @@ public class GameFrame extends JFrame {
         super("Poker Texas Hold'em");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.screenWidth = screenSize.width * (int) SCREEN_SIZE_FACTOR;
-        this.screenHeight = screenSize.height * (int) SCREEN_SIZE_FACTOR;
+        this.screenWidth = (int) (screenSize.width * SCREEN_SIZE_FACTOR);
+        this.screenHeight = (int) (screenSize.height * SCREEN_SIZE_FACTOR);
         this.setSize(new Dimension(screenWidth, screenHeight));
 
         // CardLayout for switching between panels
