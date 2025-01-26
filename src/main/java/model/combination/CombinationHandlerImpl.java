@@ -8,6 +8,9 @@ import model.deck.api.Card;
 
 public class CombinationHandlerImpl implements CombinationHandler<Card> {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Combination<Card> getCombinationFromCards(List<Card> tableCards, List<Card> playerCards) {
         

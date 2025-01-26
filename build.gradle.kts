@@ -28,6 +28,9 @@ dependencies {
     implementation("org.jooq:jool:0.9.15")
     implementation("com.google.guava:guava:33.4.0-jre")
     implementation("org.apache.commons:commons-collections4:4.4")
+
+            // https://mvnrepository.com/artifact/org.javatuples/javatuples
+    implementation("org.javatuples:javatuples:1.2")
     
 
     /*

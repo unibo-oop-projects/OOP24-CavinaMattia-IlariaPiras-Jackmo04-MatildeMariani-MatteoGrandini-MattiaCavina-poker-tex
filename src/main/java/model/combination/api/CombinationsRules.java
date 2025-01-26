@@ -1,8 +1,12 @@
 package model.combination.api;
 
+/**
+ * Interface for combination rules.
+ * @param <X>
+ */
 public interface CombinationsRules<X> {
 
-    /*
+    /**
      * Check if the combination is a pair.
      * Two card whith same seed.
      * @return true if the combination is a pair.

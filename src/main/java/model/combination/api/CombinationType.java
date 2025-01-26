@@ -5,6 +5,7 @@ package model.combination.api;
  * 
  */
 public enum CombinationType {
+    // CHECKSTYLE: JavadocVariable OFF
     HIGH_CARD(1),
     PAIR(2),
     TWO_PAIRS(3),
@@ -14,19 +15,19 @@ public enum CombinationType {
     FLUSH(7),
     POKER(8),
     ROYAL_FLUSH(9);
+    // CHECKSTYLE: JavadocVariable ON
 
     private final int value;
-
 
     CombinationType(int value) {
         this.value = value;
     }
-    
+
     /**
      * @return the value of the combination.
      */
     public int getValue() {
         return value;
-    }    
+    }
 
 }
