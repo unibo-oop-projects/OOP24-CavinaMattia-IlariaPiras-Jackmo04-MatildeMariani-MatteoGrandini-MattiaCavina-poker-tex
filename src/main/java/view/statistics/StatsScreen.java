@@ -25,6 +25,7 @@ public class StatsScreen extends JPanel {
         statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
         statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 100, 10, 100));
 
+        // TODO get stats from controller
         JPanel gamesPlayedPanel = new StatPanel("Games Played: ", 0);
         JPanel gamesWonPanel = new StatPanel("Games Won: ", 0);
         JPanel handsPlayedPanel = new StatPanel("Hands Played: ", 0);
@@ -41,6 +42,7 @@ public class StatsScreen extends JPanel {
         this.add(backButton, BorderLayout.SOUTH);
     }
 
+    // Inner class to create a panel for each statistic (not definitive)
     private class StatPanel extends JPanel {
         public StatPanel(String name, int value) {
             JLabel nameLabel = new JLabel(name);
