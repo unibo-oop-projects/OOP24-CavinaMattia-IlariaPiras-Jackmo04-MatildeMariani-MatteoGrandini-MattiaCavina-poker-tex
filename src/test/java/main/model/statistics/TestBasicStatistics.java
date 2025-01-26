@@ -27,12 +27,15 @@ public class TestBasicStatistics {
         assertEquals(0, stats.getNumOfHandsWon());
         assertEquals(0, stats.getNumOfGamesPlayed());
         assertEquals(0, stats.getNumOfGamesWon());
+        assertEquals(0, stats.getBiggestWin());
         assertEquals(Optional.empty(), stats.getBestCombination());
+        assertEquals(0, stats.getHandWinRate());
+        assertEquals(0, stats.getGameWinRate());
     }
 
     @Test
-    public void testUpdating() {
-        // Test that the statistics are updated correctly
+    public void testIncrementingStats() {
+        // Test that the counting statistics are updated correctly
         stats.setHandsPlayed(1);
         stats.setHandsWon(2);
         stats.setGamesPlayed(3);
@@ -49,8 +52,11 @@ public class TestBasicStatistics {
         assertEquals(2 + 2, stats.getNumOfHandsWon());
         assertEquals(3 + 3, stats.getNumOfGamesPlayed());
         assertEquals(4 + 4, stats.getNumOfGamesWon());
-        
-        // first combination -> should be set as the best
+    }
+
+    @Test
+    public void testBestCombination() {
+        // Test that the best combination is updated correctly
         stats.setBestCombinationIfSo(CombinationType.TWO_PAIRS);
         assertEquals(Optional.of(CombinationType.TWO_PAIRS), stats.getBestCombination());
         // worse combination -> should not change
@@ -59,14 +65,50 @@ public class TestBasicStatistics {
         // better combination -> should change
         stats.setBestCombinationIfSo(CombinationType.FULL_HOUSE);
         assertEquals(Optional.of(CombinationType.FULL_HOUSE), stats.getBestCombination());
+    }
 
+    @Test
+    public void testBiggestWin() {
+        // Test that the biggest win is updated correctly
+        stats.setBiggestWinIfSo(1000);
+        assertEquals(1000, stats.getBiggestWin());
+        // smaller win -> should not change
+        stats.setBiggestWinIfSo(500);
+        assertEquals(1000, stats.getBiggestWin());
+        // bigger win -> should change
+        stats.setBiggestWinIfSo(1500);
+        assertEquals(1500, stats.getBiggestWin());
+    }
+
+    @Test
+    public void testRatioes() {
+        // Test that the ratioes are calculated correctly
+        stats.setHandsPlayed(10);
+        stats.setHandsWon(5);
+        stats.setGamesPlayed(10);
+        stats.setGamesWon(8);
+        assertEquals(0.5, stats.getHandWinRate());
+        assertEquals(0.8, stats.getGameWinRate());
+    }
+
+    @Test
+    public void testReset() {
         // Test that the statistics are reset correctly
+        stats.setHandsPlayed(10);
+        stats.setHandsWon(5);
+        stats.setGamesPlayed(10);
+        stats.setGamesWon(8);
+        stats.setBiggestWinIfSo(1000);
+        stats.setBestCombinationIfSo(CombinationType.FULL_HOUSE);
         stats.reset();
         assertEquals(0, stats.getNumOfHandsPlayed());
         assertEquals(0, stats.getNumOfHandsWon());
         assertEquals(0, stats.getNumOfGamesPlayed());
         assertEquals(0, stats.getNumOfGamesWon());
+        assertEquals(0, stats.getBiggestWin());
         assertEquals(Optional.empty(), stats.getBestCombination());
+        assertEquals(0, stats.getHandWinRate());
+        assertEquals(0, stats.getGameWinRate());
     }
 
 }

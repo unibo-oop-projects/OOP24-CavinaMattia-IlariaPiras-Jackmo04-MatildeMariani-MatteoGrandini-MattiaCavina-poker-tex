@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -25,7 +25,7 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
     private static final String PROJECT_DIR_NAME = "poker_tex";
 
     private S globalStatistics;
-    private List<StatisticsContributor<S>> contributors;
+    private Set<StatisticsContributor<S>> contributors;
 
     /**
      * Constructs a new instance of this class.
@@ -34,7 +34,7 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      */
     public StatisticsManagerImpl(S statistics) {
         this.globalStatistics = Objects.requireNonNull(statistics);
-        this.contributors = new ArrayList<>();
+        this.contributors = new HashSet<>();
     }
 
     /**
@@ -72,7 +72,7 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      * {@inheritDoc}
      */
     @Override
-    public void addAllContributors(Set<StatisticsContributor<S>> contributors) {
+    public void addAllContributors(Collection<StatisticsContributor<S>> contributors) {
         contributors.forEach(this::addContributor);
     }
 
