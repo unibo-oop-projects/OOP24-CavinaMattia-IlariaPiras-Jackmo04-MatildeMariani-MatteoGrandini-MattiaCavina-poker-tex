@@ -23,10 +23,10 @@ public interface GameFactory {
     Game mediumGame(int initialChips);
 
     /**
-     * Returns a new Game with difficult difficulty level.
+     * Returns a new Game with hard difficulty level.
      * @param initialChips initial amount of chips of players.
      * @return a new game.
      */
-    Game difficultGame(int initialChips);
+    Game hardGame(int initialChips);
 
 }
