@@ -27,14 +27,14 @@ public interface Player {
     void setRole(Role role);
 
     /**
-     * Returns the amount of chips the player has betted since the beginning of the fase.
+     * Returns the amount of chips the player has betted since the beginning of the phase.
      * For example, let's assume that the {@link HandPhase} is {@link HandPhase#PRE_FLOP}.
      * If this player has betted 10 chips and another player raises to 25 chips,
      * if this player calls the raise, the returned value will be 25.
      * But when the {@link HandPhase} changes to {@link HandPhase#FLOP}, the returned value will be reset to 0.
-     * @return the amount of chips the player has betted since the beginning of the fase.
+     * @return the amount of chips the player has betted since the beginning of the phase.
      */
-    int getTotalFaseBet();
+    int getTotalPhaseBet();
 
     /**
      * Informs the player that it's their turn.

@@ -47,7 +47,7 @@ public class TestAIPlayer {
         assertEquals(Role.REGULAR, player.getRole());
         assertEquals(STARTING_CHIPS, player.getChips());
         assertEquals(Set.of(), player.getCards());
-        assertEquals(0, player.getTotalFaseBet());
+        assertEquals(0, player.getTotalPhaseBet());
         assertThrows(IllegalStateException.class, 
             () -> player.getAction(new StateImpl(BET_1000, NUM_OF_PLAYERS)));
         assertTrue(player.isAI());
@@ -56,7 +56,7 @@ public class TestAIPlayer {
     @RepeatedTest(15)
     public void testBettingRegular() {
         var player = factory.easy(STARTING_CHIPS, Role.REGULAR);
-        assertEquals(0, player.getTotalFaseBet());
+        assertEquals(0, player.getTotalPhaseBet());
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         var action = player.getAction(new StateImpl(BET_1000, NUM_OF_PLAYERS));
         System.out.println(action);
@@ -65,25 +65,25 @@ public class TestAIPlayer {
                 fail("Cannot check with a bet of 1000");
                 break;
             case CALL:
-                assertEquals(BET_1000, player.getTotalFaseBet());
+                assertEquals(BET_1000, player.getTotalPhaseBet());
                 break;
             case RAISE:
-                assertTrue(player.getTotalFaseBet() > BET_1000);
+                assertTrue(player.getTotalPhaseBet() > BET_1000);
                 break;
             case FOLD:
-                assertEquals(0, player.getTotalFaseBet());
+                assertEquals(0, player.getTotalPhaseBet());
                 break;
             default:
                 fail("Invalid action");
                 break;
         }
-        assertEquals(STARTING_CHIPS - player.getTotalFaseBet(), player.getChips());
+        assertEquals(STARTING_CHIPS - player.getTotalPhaseBet(), player.getChips());
     }
 
     @RepeatedTest(15)
     public void testBettingWithBlind() {
         var player = factory.easy(STARTING_CHIPS, Role.SMALL_BLIND);
-        assertEquals(0, player.getTotalFaseBet());
+        assertEquals(0, player.getTotalPhaseBet());
         var deck = new DeckFactoryImpl().simplePokerDeck();
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         var action = player.getAction(new StateImpl(BET_1000, NUM_OF_PLAYERS));
@@ -93,25 +93,25 @@ public class TestAIPlayer {
                 fail("Cannot check with a bet of 1000");
                 break;
             case CALL:
-                assertEquals(BET_1000, player.getTotalFaseBet());
+                assertEquals(BET_1000, player.getTotalPhaseBet());
                 break;
             case RAISE:
-                assertTrue(player.getTotalFaseBet() > BET_1000 / 2);
+                assertTrue(player.getTotalPhaseBet() > BET_1000 / 2);
                 break;
             case FOLD:
-                assertEquals(BET_1000 / 2, player.getTotalFaseBet());
+                assertEquals(BET_1000 / 2, player.getTotalPhaseBet());
                 break;
             default:
                 fail("Invalid action");
                 break;
         }
-        assertEquals(STARTING_CHIPS - player.getTotalFaseBet(), player.getChips());
+        assertEquals(STARTING_CHIPS - player.getTotalPhaseBet(), player.getChips());
     }
 
     @RepeatedTest(15)
     public void testChecking() {
         var player = factory.hard(STARTING_CHIPS, Role.REGULAR);
-        assertEquals(0, player.getTotalFaseBet());
+        assertEquals(0, player.getTotalPhaseBet());
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         var state = new StateImpl(0, NUM_OF_PLAYERS);
         state.addToPot(POT_2000);
@@ -139,7 +139,7 @@ public class TestAIPlayer {
             action = player.getAction(state);
         }
         player.handLost();
-        assertEquals(STARTING_CHIPS - player.getTotalFaseBet(), player.getChips());
+        assertEquals(STARTING_CHIPS - player.getTotalPhaseBet(), player.getChips());
         assertEquals(Set.of(), player.getCards());
     }
 }

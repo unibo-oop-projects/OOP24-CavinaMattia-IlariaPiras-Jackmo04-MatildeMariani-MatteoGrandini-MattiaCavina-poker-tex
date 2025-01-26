@@ -23,7 +23,7 @@ public abstract class AbstractPlayer implements Player {
     private Role role;
     private Combination bestCombination;
     private int chips;
-    private int totalFaseBet;
+    private int totalPhaseBet;
 
     /**
      * Constructor for the AbstractPlayer class.
@@ -89,8 +89,8 @@ public abstract class AbstractPlayer implements Player {
      * {@inheritDoc}
      */
     @Override
-    public int getTotalFaseBet() {
-        return this.totalFaseBet;
+    public int getTotalPhaseBet() {
+        return this.totalPhaseBet;
     }
 
     /**
@@ -143,10 +143,10 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Used to set the total bet of the player in the current {@link HandPhase}.
-     * @param totalFaseBet the amount of chips betted in the current fase.
+     * @param totalPhaseBet the amount of chips betted in the current phase.
      */
-    protected void setTotalFaseBet(final int totalFaseBet) {
-        this.totalFaseBet = totalFaseBet;
+    protected void setTotalPhaseBet(final int totalPhaseBet) {
+        this.totalPhaseBet = totalPhaseBet;
     }
 
 }

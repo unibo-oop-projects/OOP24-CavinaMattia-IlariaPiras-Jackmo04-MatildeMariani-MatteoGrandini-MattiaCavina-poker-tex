@@ -14,7 +14,7 @@ public record StateOLD(
     int currentBet,
     int remainingPlayers,
     Set<Card> communityCards,
-    HandPhase handFase
+    HandPhase handPhase
 ) {
 
 }
