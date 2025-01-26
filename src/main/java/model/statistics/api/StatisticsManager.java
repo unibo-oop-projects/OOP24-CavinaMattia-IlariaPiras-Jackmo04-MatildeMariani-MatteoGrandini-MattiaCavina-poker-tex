@@ -1,6 +1,6 @@
 package model.statistics.api;
 
-import java.util.Set;
+import java.util.Collection;
 
 /**
  * Interface for managing {@link Statistics} coming from different sources.
@@ -27,7 +27,7 @@ public interface StatisticsManager<S extends Statistics> {
      * All contributors must be contributing to the same type of statistics as the manager.
      * @param contributors The set of contributors to add.
      */
-    void addAllContributors(Set<StatisticsContributor<S>> contributors);
+    void addAllContributors(Collection<StatisticsContributor<S>> contributors);
 
     /**
      * Updates the total statistics by calling the <b>updateStatistics</b> method of all contributors added.
