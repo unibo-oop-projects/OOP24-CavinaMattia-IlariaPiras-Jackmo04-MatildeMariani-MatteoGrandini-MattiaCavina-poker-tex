@@ -209,7 +209,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public double getWinRate() {
+    public double getGameWinRate() {
         return (double) this.numOfGamesWon / this.numOfGamesPlayed;
     }
 

@@ -129,5 +129,5 @@ public interface BasicStatistics extends Statistics {
      * Returns the win rate of the player, calculated as the number of games won divided by the number of games played.
      * @return The win rate of the player
      */
-    double getWinRate();
+    double getGameWinRate();
 }
