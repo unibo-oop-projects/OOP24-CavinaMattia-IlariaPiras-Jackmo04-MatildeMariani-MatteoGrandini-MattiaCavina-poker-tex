@@ -226,4 +226,41 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
         this.bestCombination = null;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + numOfHandsPlayed;
+        result = prime * result + numOfHandsWon;
+        result = prime * result + numOfGamesPlayed;
+        result = prime * result + numOfGamesWon;
+        result = prime * result + biggestWin;
+        result = prime * result + ((bestCombination == null) ? 0 : bestCombination.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BasicStatisticsImpl other = (BasicStatisticsImpl) obj;
+        if (numOfHandsPlayed != other.numOfHandsPlayed)
+            return false;
+        if (numOfHandsWon != other.numOfHandsWon)
+            return false;
+        if (numOfGamesPlayed != other.numOfGamesPlayed)
+            return false;
+        if (numOfGamesWon != other.numOfGamesWon)
+            return false;
+        if (biggestWin != other.biggestWin)
+            return false;
+        if (bestCombination != other.bestCombination)
+            return false;
+        return true;
+    }
+
 }
