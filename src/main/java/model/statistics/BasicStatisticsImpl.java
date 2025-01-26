@@ -202,7 +202,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      */
     @Override
     public double getHandWinRate() {
-        return (double) this.numOfHandsWon / this.numOfHandsPlayed;
+        return this.numOfHandsPlayed == 0 ? 0 : (double) this.numOfHandsWon / this.numOfHandsPlayed;
     }
 
     /**
@@ -210,7 +210,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      */
     @Override
     public double getGameWinRate() {
-        return (double) this.numOfGamesWon / this.numOfGamesPlayed;
+        return this.numOfGamesPlayed == 0 ? 0 : (double) this.numOfGamesWon / this.numOfGamesPlayed;
     }
 
     /**
