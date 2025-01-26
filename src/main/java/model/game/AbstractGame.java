@@ -143,7 +143,8 @@ public abstract class AbstractGame implements Game{
                                 !p.hasChipsLeft());
     }
 
-    /** TO DO: Change the comparator, if the priority is equal than check the values.
+    /** 
+     * TODO: Change the comparator, if the priority is equal than check the values.
      * (need to wait after Mattia implemented the Combination interface).
     */
 

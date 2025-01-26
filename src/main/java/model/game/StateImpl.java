@@ -12,7 +12,7 @@ import model.game.api.State;
  */
 public class StateImpl implements State{
 
-    private static final int START_HAND_NUMBER = 1;
+    private static final int START_HAND_NUMBER = 0;
     private static final int INITIAL_POT = 0;
     private static final Phase FIRST_PHASE = Phase.PREFLOP;
 
@@ -77,7 +77,7 @@ public class StateImpl implements State{
      */
     @Override
     public void nextHandPhase() {
-        this.handPhase.next();
+        this.handPhase = this.handPhase.next();
     }
 
     /**
