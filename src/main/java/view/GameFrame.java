@@ -3,7 +3,7 @@ package view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import view.statistics.StatsPanel;
+import view.statistics.StatsScreen;
 import view.temp.MainMenuPanel;
 
 import java.awt.CardLayout;
@@ -31,10 +31,10 @@ public class GameFrame extends JFrame {
 
         // Game screen panels TODO add other panels
         JPanel menuPanel = new MainMenuPanel(cardLayout, mainPanel);
-        JPanel statsPanel = new StatsPanel(cardLayout, mainPanel);
+        JPanel statsPanel = new StatsScreen(cardLayout, mainPanel);
 
-        mainPanel.add(menuPanel, "mainMenu");
-        mainPanel.add(statsPanel, "statsScreen");
+        mainPanel.add(menuPanel, "menu");
+        mainPanel.add(statsPanel, "statistics");
 
         this.setContentPane(mainPanel);
         this.setLocationByPlatform(true);

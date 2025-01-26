@@ -20,7 +20,7 @@ public class MainMenuPanel extends JPanel {
         this.add(menuButtons, BorderLayout.CENTER);        
 
         // Button listeners TODO add other listeners
-        goToStats.addActionListener(e -> cardLayout.show(mainPanel, "statsScreen"));
+        goToStats.addActionListener(e -> cardLayout.show(mainPanel, "statistics"));
 
     }
 }
