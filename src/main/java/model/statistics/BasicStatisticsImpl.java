@@ -12,9 +12,12 @@ import model.temp.CombinationType;
  * <ul>
  * <li> Number of hands played
  * <li> Number of hands won
+ * <li> Hand win rate
  * <li> Number of games played 
  * <li> Number of games won
+ * <li> Game win rate
  * <li> Best combination achieved
+ * <li> Biggest chips win
  * </ul>
  * Provides methods to update the aforementioned statistics.
  */
@@ -26,6 +29,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
     private int numOfHandsWon;
     private int numOfGamesPlayed;
     private int numOfGamesWon;
+    private int biggestWin;
     private CombinationType bestCombination;
 
     /**
@@ -33,14 +37,17 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * <ul>
      * <li> Number of hands played
      * <li> Number of hands won
+     * <li> Hand win rate
      * <li> Number of games played 
      * <li> Number of games won
+     * <li> Game win rate
      * <li> Best combination achieved
+     * <li> Biggest chips win
      * </ul>
      * Initialized to 0 for numbers and to <i>null</i> for non-numbers.
      */
     public BasicStatisticsImpl() {
-        this(0, 0, 0, 0, null);
+        this(0, 0, 0, 0, 0, null);
     }
 
     /**
@@ -48,9 +55,12 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * <ul>
      * <li> Number of hands played
      * <li> Number of hands won
+     * <li> Hand win rate
      * <li> Number of games played 
      * <li> Number of games won
+     * <li> Game win rate
      * <li> Best combination achieved
+     * <li> Biggest chips win
      * </ul>
      * @param numOfHandsPlayed Initial value for number of hands played
      * @param numOfHandsWon Initial value for number of hands won
@@ -63,12 +73,14 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
         int numOfHandsWon, 
         int numOfGamesPlayed, 
         int numOfGamesWon,
+        int biggestWin,
         CombinationType bestCombination
     ) {
         this.numOfHandsPlayed = numOfHandsPlayed;
         this.numOfHandsWon = numOfHandsWon;
         this.numOfGamesPlayed = numOfGamesPlayed;
         this.numOfGamesWon = numOfGamesWon;
+        this.biggestWin = biggestWin;
         this.bestCombination = bestCombination;
     }
 
@@ -140,6 +152,16 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
+    public void setBiggestWinIfSo(int winnings) {
+        if (winnings > this.biggestWin) {
+            this.biggestWin = winnings;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setBestCombinationIfSo(CombinationType combination) {
         Objects.requireNonNull(combination);
         if (this.bestCombination == null || combination.compareTo(this.bestCombination) > 0) {
@@ -152,7 +174,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      */
     @Override
     public int getNumOfHandsPlayed() {
-        return numOfHandsPlayed;
+        return this.numOfHandsPlayed;
     }
 
     /**
@@ -160,7 +182,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      */
     @Override
     public int getNumOfHandsWon() {
-        return numOfHandsWon;
+        return this.numOfHandsWon;
     }
 
     /**
@@ -168,7 +190,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      */
     @Override
     public int getNumOfGamesPlayed() {
-        return numOfGamesPlayed;
+        return this.numOfGamesPlayed;
     }
 
     /**
@@ -176,7 +198,15 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      */
     @Override
     public int getNumOfGamesWon() {
-        return numOfGamesWon;
+        return this.numOfGamesWon;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getBiggestWin() {
+        return this.biggestWin;
     }
 
     /**
@@ -187,12 +217,32 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
         return Optional.ofNullable(this.bestCombination);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getHandWinRate() {
+        return (double) this.numOfHandsWon / this.numOfHandsPlayed;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getWinRate() {
+        return (double) this.numOfGamesWon / this.numOfGamesPlayed;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void reset() {
         this.numOfHandsPlayed = 0;
         this.numOfHandsWon = 0;
         this.numOfGamesPlayed = 0;
         this.numOfGamesWon = 0;
+        this.biggestWin = 0;
         this.bestCombination = null;
     }
 

@@ -10,9 +10,12 @@ import model.temp.CombinationType;
  * <ul>
  * <li> Number of hands played
  * <li> Number of hands won
+ * <li> Hand win rate
  * <li> Number of games played 
  * <li> Number of games won
+ * <li> Game win rate
  * <li> Best combination achieved
+ * <li> Biggest chips win
  * </ul>
  */
 public interface BasicStatistics extends Statistics {
@@ -73,6 +76,13 @@ public interface BasicStatistics extends Statistics {
     void setBestCombinationIfSo(CombinationType combination);
 
     /**
+     * If the given amount of chips is greater than the current recorded amount,
+     * set the given amount as the best winnings. Otherwise, do nothing.
+     * @param winnings The candidate amount of chips to be set as the best winnings
+     */
+    void setBiggestWinIfSo(int winnings);
+
+    /**
      * Returns the number of hands played.
      * @return The number of hands played
      */
@@ -102,4 +112,22 @@ public interface BasicStatistics extends Statistics {
      * @return an optional containing the best combination ever achieved
      */
     Optional<CombinationType> getBestCombination();
+
+    /**
+     * Returns the greatest amount of chips ever won.
+     * @return The greatest amount of chips ever won
+     */
+    int getBiggestWin();
+
+    /**
+     * Returns the hand win rate of the player, calculated as the number of hands won divided by the number of hands played.
+     * @return The hand win rate of the player
+     */
+    double getHandWinRate();
+
+    /**
+     * Returns the win rate of the player, calculated as the number of games won divided by the number of games played.
+     * @return The win rate of the player
+     */
+    double getWinRate();
 }
