@@ -5,14 +5,16 @@ import java.util.Set;
 import model.deck.api.Card;
 
 /**
- * Class representing the state of a poker game.
+ * Temporary class representing the state of a poker game.
+ * @deprecated Use {@link model.game.api.State} instead.
  */
-public record State(
+@Deprecated
+public record StateOLD(
     int pot,
     int currentBet,
     int remainingPlayers,
     Set<Card> communityCards,
-    HandFase handFase
+    HandPhase handPhase
 ) {
 
 }

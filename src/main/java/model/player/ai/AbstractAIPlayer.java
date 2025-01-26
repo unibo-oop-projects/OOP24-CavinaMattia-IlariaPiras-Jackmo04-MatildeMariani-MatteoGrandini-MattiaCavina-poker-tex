@@ -10,8 +10,8 @@ import model.player.api.Action;
 import model.player.api.Role;
 import model.temp.Blind;
 import model.temp.Combinations;
-import model.temp.HandFase;
-import model.temp.State;
+import model.game.api.Phase;
+import model.game.api.State;
 
 /**
  * This class provides a basic implementation of the {@link AIPlayer} interface.
@@ -45,14 +45,14 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         }
         this.updateCombination(currentState);
         if (shouldRaise(currentState)) {
-            this.makeBet((int) (currentState.currentBet() + BASIC_BET * raisingFactor));
+            this.makeBet((int) (currentState.getCurrentBet() + BASIC_BET * raisingFactor));
             return Action.RAISE;
         }
         if (canCheck(currentState)) {
             return Action.CHECK;
         }
         if (shouldCall(currentState)) {
-            this.makeBet(currentState.currentBet());
+            this.makeBet(currentState.getCurrentBet());
             return Action.CALL;
         }
         if (!this.paidBlind) {
@@ -106,14 +106,14 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
      * @return the amount of chips required to call or raise in the current state.
      */
     protected int requiredBet(final State currentState) {
-        if (currentState.handFase() == HandFase.PREFLOP) {
-            return (int) (currentState.currentBet() * switch (getRole()) {
+        if (currentState.getHandPhase() == Phase.PREFLOP) {
+            return (int) (currentState.getCurrentBet() * switch (getRole()) {
                 case SMALL_BLIND -> Blind.SMALL.getMultiplier();
                 case BIG_BLIND -> Blind.BIG.getMultiplier();
                 default -> 1;
             });
         } else {
-            return currentState.currentBet();
+            return currentState.getCurrentBet();
         }
     }
 
@@ -122,12 +122,12 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     }
 
     private boolean canCheck(final State currentState) {
-        return requiredBet(currentState) == getTotalFaseBet();
+        return requiredBet(currentState) == getTotalPhaseBet();
     }
 
     private void makeBet(final int amount) {
-        var actualBet = maxBetToReach(amount) - this.getTotalFaseBet();
-        this.setTotalFaseBet(this.getTotalFaseBet() + actualBet);
+        var actualBet = maxBetToReach(amount) - this.getTotalPhaseBet();
+        this.setTotalPhaseBet(this.getTotalPhaseBet() + actualBet);
         this.setChips(getChips() - actualBet);
         this.paidBlind = true;
     }
@@ -140,9 +140,9 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     }
 
     private void updateCombination(final State currentState) {
-        var usableCards = Stream.concat(currentState.communityCards().stream(), this.getCards().stream())
+        var usableCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream())
             .collect(Collectors.toSet());
-        this.setCombination(Combinations.getBestCombination(usableCards));
+        this.setCombination(Combinations.getBestCombination(usableCards)); // TODO Replace with Mattia's method
     }
 
 }
