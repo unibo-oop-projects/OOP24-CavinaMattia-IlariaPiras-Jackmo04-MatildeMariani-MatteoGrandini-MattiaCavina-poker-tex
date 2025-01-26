@@ -162,8 +162,19 @@ public abstract class AbstractGame implements Game{
     }
 
     /** 
-     * Used to set the initial list of {@link Player}s.
+     * Used to set the initial list of {@link Player}s. It's a template method.
+     * @param initialChips initial amount of chips of players.
      */
-    protected abstract void setPlayers(int initialChips);
+    private void setPlayers(final int initialChips) {
+        this.players.addAll(this.getAIPlayers(initialChips));
+        //this.players.add(new UserPlayer(initialChips, ));
+    }
+
+    /**
+     * Returns a list of AI players.
+     * @param initialChips initial amount of chips of players.
+     * @return a list of AI players.
+     */
+    protected abstract List<Player> getAIPlayers(int initialChips);
 
 }
