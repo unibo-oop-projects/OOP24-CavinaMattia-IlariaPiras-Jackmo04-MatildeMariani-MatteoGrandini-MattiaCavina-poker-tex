@@ -122,12 +122,12 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     }
 
     private boolean canCheck(final State currentState) {
-        return requiredBet(currentState) == getTotalFaseBet();
+        return requiredBet(currentState) == getTotalPhaseBet();
     }
 
     private void makeBet(final int amount) {
-        var actualBet = maxBetToReach(amount) - this.getTotalFaseBet();
-        this.setTotalFaseBet(this.getTotalFaseBet() + actualBet);
+        var actualBet = maxBetToReach(amount) - this.getTotalPhaseBet();
+        this.setTotalPhaseBet(this.getTotalPhaseBet() + actualBet);
         this.setChips(getChips() - actualBet);
         this.paidBlind = true;
     }

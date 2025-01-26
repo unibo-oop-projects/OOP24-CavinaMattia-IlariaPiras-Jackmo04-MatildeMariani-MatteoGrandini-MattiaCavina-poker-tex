@@ -14,7 +14,7 @@ enum Role {
 
 | State                                                                                                                            |
 | :------------------------------------------------------------------------------------------------------------------------------- |
-| - int handNumber<br>- HandFase handFase<br>- int plate<br>- int remainingPlayers<br>- Set\<Card\> tableCards<br>- int betToEqual |
+| - int handNumber<br>- HandPhase handPhase<br>- int plate<br>- int remainingPlayers<br>- Set\<Card\> tableCards<br>- int betToEqual |
 
 | \<\<Abstract\>\> <br>AbstractPlayer                                                                                                                                                     |
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
