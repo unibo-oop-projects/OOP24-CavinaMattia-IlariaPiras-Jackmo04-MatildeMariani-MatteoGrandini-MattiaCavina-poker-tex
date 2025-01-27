@@ -179,7 +179,8 @@ public abstract class AbstractGame implements Game{
     }
 
     /** 
-     * Used to set the initial list of {@link Player}s. It's a template method.
+     * Sets the initial list of {@link Player}s, assigning to each of them a
+     * different role randomly. It's a template method.
      * @param initialChips initial amount of chips of players.
      */
     private void setPlayers(final int initialChips) {
@@ -187,7 +188,9 @@ public abstract class AbstractGame implements Game{
         var startingRole = Role.values()[rand.nextInt(Role.values().length)];
 
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
-            this.players.add(this.getAIPlayer(initialChips, startingRole.next()));
+            this.players.add(this.getAIPlayer(initialChips, startingRole));
+            startingRole = startingRole.next();
+
         }
         //this.players.add(new UserPlayer(initialChips, startingRole.next()));
     }
