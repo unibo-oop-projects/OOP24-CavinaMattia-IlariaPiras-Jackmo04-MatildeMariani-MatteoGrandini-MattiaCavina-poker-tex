@@ -1,6 +1,7 @@
 package model.statistics;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -226,6 +227,9 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
         this.bestCombination = null;
     }
 
+    /**
+     * Hash code default method.
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -239,6 +243,9 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
         return result;
     }
 
+    /**
+     * Equals for all fields.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -261,6 +268,23 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
         if (bestCombination != other.bestCombination)
             return false;
         return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Map<String, String> getAsMap() {
+        return Map.of(
+            "Hands played", String.valueOf(this.getNumOfHandsPlayed()),
+            "Hands won", String.valueOf(this.getNumOfHandsWon()),
+            "Games played", String.valueOf(this.getNumOfGamesPlayed()),
+            "Games won", String.valueOf(this.getNumOfGamesWon()),
+            "Best Combination", this.getBestCombination().map(CombinationType::fullName).orElse("None"),
+            "Biggest win", String.valueOf(this.getBiggestWin()),
+            "Hands win rate", String.valueOf(this.getHandWinRate()),
+            "Games win rate", String.valueOf(this.getGameWinRate())
+        );
     }
 
 }
