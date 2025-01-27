@@ -7,48 +7,89 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import controller.player.user.UserPlayerController;
-import model.player.api.Action;
-import model.player.api.Role;
-import model.player.user.UserPlayer;
 
+/**
+ * Class representing the graphical user interface for the poker game.
+ */
 public class PokerGUI {
     private final UserPlayerController controller;
+    private JButton checkButton;
+    private JButton callButton;
+    private JButton raiseButton;
+    private JButton foldButton;
 
-    public PokerGUI(UserPlayer player) {
-        this.controller = new UserPlayerController(player);
+    /**
+     * Constructs a PokerGUI with the specified user player controller.
+     * Initializes the GUI components and sets up the event listeners.
+     * @param controller the user player controller associated with this GUI.
+     */
+    public PokerGUI(final UserPlayerController controller) {
+        this.controller = controller;
         createAndShowGUI();
     }
 
+    /**
+     * Creates and displays the GUI components.
+     * Sets up the buttons and their action listeners.
+     */
     private void createAndShowGUI() {
-        JFrame frame = new JFrame("Poker Game");
+        JFrame frame = new JFrame("Poker Game"); //queste tre righe sono da modificare poi successivamente
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
 
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
 
-        JButton checkButton = new JButton("Check");
-        checkButton.addActionListener(e -> controller.receiveUserAction(Action.CHECK));
-        panel.add(checkButton);
+        this.checkButton = new JButton("Check");
+        checkButton.setActionCommand("CHECK");
+        checkButton.addActionListener(e -> {
+            controller.receiveUserAction(checkButton.getActionCommand());
+        });
+        panel.add(this.checkButton);
 
-        JButton callButton = new JButton("Call");
-        callButton.addActionListener(e -> controller.receiveUserAction(Action.CALL));
-        panel.add(callButton);
+        this.callButton = new JButton("Call");
+        callButton.setActionCommand("CALL");
+        callButton.addActionListener(e -> { 
+            controller.receiveUserAction(callButton.getActionCommand());
+        });
+        panel.add(this.callButton);
 
-        JButton raiseButton = new JButton("Raise");
-        raiseButton.addActionListener(e -> controller.receiveUserAction(Action.RAISE));
-        panel.add(raiseButton);
+        this.raiseButton = new JButton("Raise");
+        raiseButton.setActionCommand("RAISE");
+        raiseButton.addActionListener(e -> {
+            controller.receiveUserAction(raiseButton.getActionCommand());
+        });
+        panel.add(this.raiseButton);
 
-        JButton foldButton = new JButton("Fold");
-        foldButton.addActionListener(e -> controller.receiveUserAction(Action.FOLD));
-        panel.add(foldButton);
+        this.foldButton = new JButton("Fold");
+        foldButton.setActionCommand("FOLD");
+        foldButton.addActionListener(e -> { 
+            controller.receiveUserAction(foldButton.getActionCommand());
+        });
+        panel.add(this.foldButton);
 
         frame.add(panel);
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        UserPlayer player = new UserPlayer(10000, Role.DEALER);
-        PokerGUI pokerGUI = new PokerGUI(player);
+    /**
+     * Updates the states of the buttons based on the current bet.
+     * @param currentBet the current bet in the game.
+     */
+    public void updateButtonStates(final int currentBet) {
+        checkButton.setEnabled(controller.canCheck(currentBet));
+        callButton.setEnabled(controller.canCall());
+        raiseButton.setEnabled(controller.canRaise(currentBet));
+        foldButton.setEnabled(controller.canFold());
+    }
+
+    /**
+     * Disables all the buttons in the GUI.
+     */
+    public void disableAllButtons() {
+        checkButton.setEnabled(false);
+        callButton.setEnabled(false);
+        raiseButton.setEnabled(false);
+        foldButton.setEnabled(false);
     }
 }
