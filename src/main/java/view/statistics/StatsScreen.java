@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class StatsScreen extends JPanel {
+public class StatsScreen extends JPanel implements StatsView {
 
     public StatsScreen(CardLayout cardLayout, JPanel mainPanel) {
         this.setLayout(new BorderLayout());
