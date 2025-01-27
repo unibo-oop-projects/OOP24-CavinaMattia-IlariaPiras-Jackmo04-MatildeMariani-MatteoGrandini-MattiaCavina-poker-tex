@@ -39,7 +39,7 @@ public abstract class AbstractGame implements Game{
         this.startingBet = (int) initialChips / INITIAL_BET_DIVISION_FACT;
         this.dealer = new DealerImpl();
         this.gameState = new StateImpl(startingBet, NUM_INITIAL_PLAYERS);
-        this.setPlayers(initialChips);
+        this.setInitialPlayers(initialChips);
     }
 
     /**
@@ -69,7 +69,7 @@ public abstract class AbstractGame implements Game{
             this.players.stream().forEachOrdered(p -> p.setCards(this.dealer.giveCardsToPlayer()));
             this.gameState.newHand(startingBet, this.players.size());
             var handPlayers = new LinkedList<>(this.players);
-            
+
             do {
                 this.gameState.addCommunityCards(this.dealer.giveCardsToTheGame(gameState.getHandPhase().getNumCards()));
                 if (this.gameState.getHandPhase().equals(Phase.FLOP)) {
@@ -187,7 +187,7 @@ public abstract class AbstractGame implements Game{
      * different role randomly. It's a template method.
      * @param initialChips initial amount of chips of players.
      */
-    private void setPlayers(final int initialChips) {
+    private void setInitialPlayers(final int initialChips) {
         Random rand = new Random();
         var startingRole = Role.values()[rand.nextInt(Role.values().length)];
 
