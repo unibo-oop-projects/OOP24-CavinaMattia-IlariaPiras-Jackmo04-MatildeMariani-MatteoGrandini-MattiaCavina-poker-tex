@@ -4,13 +4,11 @@ import java.util.List;
 
 /**
  * Combination of List of cards and its type and value.
- * 
+ * This class generate a combination whith propreties util for the game.
  * @param <X>
  *                   type of card.
- * @param tableCards
- *                   list of cards on the table.
- * @param playerCard
- *                   list of cards of the player.
+ * @param totalCard
+ *                   list of cards .
  * @param type
  *                   type of combination.
  * @param tieBreaker
@@ -18,6 +16,7 @@ import java.util.List;
  *                   the sum value of players's cards.
  * 
  */
-public record Combination<X>(List<X> tableCards, List<X> playerCard, CombinationType type, int tieBreaker) {
+public record Combination<X>(List<X> totalCard, CombinationType type, int tieBreaker) {
 
-};
+}
+

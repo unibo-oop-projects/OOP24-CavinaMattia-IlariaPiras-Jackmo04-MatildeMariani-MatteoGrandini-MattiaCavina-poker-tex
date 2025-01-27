@@ -9,7 +9,7 @@ import model.player.ai.api.AIPlayer;
 import model.player.api.Action;
 import model.player.api.Role;
 import model.temp.Blind;
-import model.temp.Combinations;
+import model.combination.CombinationHandlerImpl;
 import model.temp.HandFase;
 import model.temp.State;
 
@@ -142,7 +142,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     private void updateCombination(final State currentState) {
         var usableCards = Stream.concat(currentState.communityCards().stream(), this.getCards().stream())
             .collect(Collectors.toSet());
-        this.setCombination(Combinations.getBestCombination(usableCards));
+        this.setCombination(new CombinationHandlerImpl().getCombination(usableCards.stream().toList()));
     }
 
 }

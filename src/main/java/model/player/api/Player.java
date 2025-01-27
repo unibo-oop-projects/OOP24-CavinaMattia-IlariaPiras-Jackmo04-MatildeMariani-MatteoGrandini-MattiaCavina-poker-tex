@@ -3,7 +3,7 @@ package model.player.api;
 import java.util.Set;
 
 import model.deck.api.Card;
-import model.temp.Combination;
+import model.combination.api.Combination;
 import model.temp.State;
 
 /**
@@ -54,7 +54,7 @@ public interface Player {
      * Returns the best {@link Combination} the player has in the current hand.
      * @return the best {@link Combination} the player has in the current hand.
      */
-    Combination getCombination();
+    Combination<Card> getCombination();
 
     /**
      * Returns the {@link Role} of the player in the current hand.

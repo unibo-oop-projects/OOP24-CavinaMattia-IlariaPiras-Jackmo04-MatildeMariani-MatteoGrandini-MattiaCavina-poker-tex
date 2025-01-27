@@ -11,7 +11,7 @@ import model.deck.api.DeckFactory;
 public class DeckFactoryImpl implements DeckFactory {
 
     /**
-     * @return simple poker's deck.
+     * {@inheritDoc}
      */
     @Override
     public Deck<Card> simplePokerDeck() {

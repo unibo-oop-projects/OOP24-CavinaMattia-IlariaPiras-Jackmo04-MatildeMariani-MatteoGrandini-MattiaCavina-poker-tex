@@ -10,6 +10,6 @@ package model.deck.api;
  * @param seedName
  *                    name of card's seed.
  */
-public record Card(SimpleCard cardName, int valueOfCard, SeedCard seedName) {
+public record Card(SimpleCard cardName, Integer valueOfCard, SeedCard seedName) {
 
 }

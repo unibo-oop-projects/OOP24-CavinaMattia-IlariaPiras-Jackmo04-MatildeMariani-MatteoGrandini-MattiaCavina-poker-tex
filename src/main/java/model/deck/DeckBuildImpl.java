@@ -13,10 +13,9 @@ import model.deck.api.SimpleCard;
  */
 public class DeckBuildImpl implements DeckBuild<Card> {
 
+
     /**
-     * Method to generate Poker deck.
-     * 
-     * @return new Poker's deck.
+     * {@inheritDoc}
      */
     @Override
     public List<Card> buildDeck() {

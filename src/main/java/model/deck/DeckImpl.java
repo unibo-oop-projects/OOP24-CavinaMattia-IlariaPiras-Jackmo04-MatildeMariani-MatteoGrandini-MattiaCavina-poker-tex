@@ -28,16 +28,16 @@ public class DeckImpl<X> implements Deck<X> {
         this.deck = deckBuilder.buildDeck();
     }
 
- /**
-  * Method to shuffle the deck.
-  */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void shuffled() {
         this.deck = deckBuilder.buildDeck();
     }
 
     /**
-     * Method to keep some card from deck.
+     * {@inheritDoc}
      */
     @Override
     public List<X> getSomeCards(final int numberOfCard) {

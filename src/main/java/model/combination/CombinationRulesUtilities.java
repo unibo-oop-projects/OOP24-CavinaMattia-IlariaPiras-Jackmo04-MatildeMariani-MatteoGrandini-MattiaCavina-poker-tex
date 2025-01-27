@@ -13,19 +13,28 @@ import model.combination.api.CombinationDimension;
 import model.deck.api.Card;
 import model.deck.api.SeedCard;
 
-public class CombinationRulesUtilities {
+/**
+ * Class whith method to support CombinationRulesImpl class.
+ */
+public final class CombinationRulesUtilities {
+
+    private CombinationRulesUtilities() {
+    }
 
     /**
-     * Method to get a possible combination of RoyalFlush
+     * Method to get a possible combination of RoyalFlush , if it is present. Can
+     * used for Straight too.
+     * 
      * @param totalCardList
      * @return
+     *         List of card that represent the possible RoyalFlush combination.
      */
-    protected static List<Card> getRoyalFlush(List<Card> totalCardList) {
+    protected static List<Card> getRoyalFlush(final List<Card> totalCardList) {
         var straightList = filteredSameValueCard(totalCardList);
-        List<Integer> controList = new LinkedList<>();
         Boolean checkStraight = false;
 
-        while (straightList.size() > CombinationDimension.STRAIGHT.getDimension() && checkStraight != true) {
+        while (straightList.size() >= CombinationDimension.STRAIGHT.getDimension() && checkStraight) {
+            List<Integer> controList = new LinkedList<>();
             for (int i = 0; i < CombinationDimension.STRAIGHT.getDimension(); i++) {
                 controList.add(straightList.get(i).valueOfCard() - i);
             }
@@ -35,18 +44,20 @@ public class CombinationRulesUtilities {
                 straightList.removeFirst();
             }
         }
-        while (checkStraight == true && straightList.size() > CombinationDimension.STRAIGHT.getDimension()) {
+        while (straightList.size() > CombinationDimension.STRAIGHT.getDimension()) {
             straightList.removeLast();
         }
         return straightList;
     }
 
     /**
-     * Method to filter the same value card
+     * Method to filter the same value card.
+     * 
      * @param totalCardList
      * @return
+     *         List of card filtered and merged same value.
      */
-    protected static List<Card> filteredSameValueCard(List<Card> totalCardList) {
+    protected static List<Card> filteredSameValueCard(final List<Card> totalCardList) {
         SeedCard mustUsedSeedCard = getSumOfSameSeedCard(totalCardList).entrySet().stream()
                 .max(Comparator.comparing(Entry::getValue))
                 .get()
@@ -57,7 +68,7 @@ public class CombinationRulesUtilities {
                 .collect(Collectors.toList());
 
         for (int i = 0; i < straightList.size() - 1; i++) {
-            if (straightList.get(i).valueOfCard() == straightList.get(i + 1).valueOfCard()) {
+            if (straightList.get(i).valueOfCard().equals(straightList.get(i + 1).valueOfCard())) {
                 if (!straightList.get(i).seedName().equals(mustUsedSeedCard)) {
                     straightList.remove(i);
                 } else {
@@ -69,22 +80,27 @@ public class CombinationRulesUtilities {
     }
 
     /**
-     * Method to get the sum of the same name card
+     * Method to get the sum of the same name card.
+     * 
      * @param totalCardList
      * @return
+     *         Stream of Integer that represent the sum of the same name card.
      */
-    protected static Stream<Integer> getSumOfSameNameCard(List<Card> totalCardList) {
+    protected static Stream<Integer> getSumOfSameNameCard(final List<Card> totalCardList) {
         return totalCardList.stream().map(t -> t.cardName())
                 .collect(Collectors.toMap(t -> t, t -> 1, Integer::sum, HashMap::new))
                 .values().stream();
     }
 
     /**
-     * Method to get the sum of the same seed card
+     * Method to get the sum of the same seed card.
+     * 
      * @param totalCardList
      * @return
+     *         Map of SeedCard and Integer that represent the sum of the same seed
+     *         card.
      */
-    protected static Map<SeedCard, Integer> getSumOfSameSeedCard(List<Card> totalCardList) {
+    protected static Map<SeedCard, Integer> getSumOfSameSeedCard(final List<Card> totalCardList) {
         return totalCardList.stream()
                 .map(t -> t.seedName())
                 .collect(Collectors.toMap(t -> t, t -> 1, Integer::sum, HashMap::new));

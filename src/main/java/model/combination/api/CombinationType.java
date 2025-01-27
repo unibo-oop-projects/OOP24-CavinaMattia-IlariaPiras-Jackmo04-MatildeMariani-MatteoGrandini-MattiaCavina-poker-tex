@@ -1,7 +1,7 @@
 package model.combination.api;
 
 /**
- * Enumeration of all possible combinations.
+ * Enumeration of all possible combinations and its value for important.
  * 
  */
 public enum CombinationType {
@@ -19,7 +19,7 @@ public enum CombinationType {
 
     private final int value;
 
-    CombinationType(int value) {
+    CombinationType(final int value) {
         this.value = value;
     }
 
