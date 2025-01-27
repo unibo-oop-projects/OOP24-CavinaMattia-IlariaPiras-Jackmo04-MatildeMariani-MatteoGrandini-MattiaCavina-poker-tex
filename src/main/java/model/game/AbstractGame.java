@@ -65,13 +65,11 @@ public abstract class AbstractGame implements Game{
     @Override
     public void start() {
         while (!isOver()) {
-            this.players.removeIf(p -> !p.hasChipsLeft());
-            var firstRole = this.players.size() > MIN_PLAYERS ? Role.REGULAR : Role.SMALL_BLIND;
-            this.sortFromRole(this.players, firstRole);
-
+            this.setPlayersForNewHand();
             this.players.stream().forEachOrdered(p -> p.setCards(this.dealer.giveCardsToPlayer()));
             this.gameState.newHand(startingBet, this.players.size());
             var handPlayers = new LinkedList<>(this.players);
+            
             do {
                 this.gameState.addCommunityCards(this.dealer.giveCardsToTheGame(gameState.getHandPhase().getNumCards()));
                 if (this.gameState.getHandPhase().equals(Phase.FLOP)) {
@@ -108,6 +106,12 @@ public abstract class AbstractGame implements Game{
     @Override
     public State getGameState() {
         return gameState;
+    }
+
+    private void setPlayersForNewHand() {
+        this.players.removeIf(p -> !p.hasChipsLeft());
+        var firstRole = this.players.size() > MIN_PLAYERS ? Role.REGULAR : Role.SMALL_BLIND;
+        this.sortFromRole(this.players, firstRole);
     }
 
     /**
