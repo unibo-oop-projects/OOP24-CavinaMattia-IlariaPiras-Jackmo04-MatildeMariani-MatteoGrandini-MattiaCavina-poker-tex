@@ -32,7 +32,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     AbstractAIPlayer(final int initialChips, final Role initialRole, final double raisingFactor) {
         super(initialChips, initialRole);
         this.raisingFactor = raisingFactor;
-        this.paidBlind = initialRole == Role.REGULAR || initialRole == Role.DEALER;
+        this.paidBlind = false;
     }
 
     /**
@@ -40,6 +40,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
      */
     @Override
     public Action getAction(final State currentState) {
+        this.paidBlind = this.getRole() == Role.REGULAR || this.getRole() == Role.DEALER;
         if (this.getCards().size() != 2) {
             throw new IllegalStateException("Player must have 2 cards to play");
         }
@@ -134,9 +135,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
 
     private void endhand() {
         this.setCards(Set.of());
-        // TODO Ancora decidere come gestire i ruoli, per ora si assume che ci siano sempre 4 giocatori
-        this.setRole(getRole().next());
-        this.paidBlind = this.getRole() == Role.REGULAR || this.getRole() == Role.DEALER;
+        this.paidBlind = false;
     }
 
     private void updateCombination(final State currentState) {
