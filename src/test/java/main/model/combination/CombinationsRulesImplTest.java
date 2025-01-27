@@ -2,6 +2,7 @@ package main.model.combination;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -23,12 +24,18 @@ public class CombinationsRulesImplTest {
                 new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.HEARTH),
                 new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.CLUBS));
 
-        final List<Card> playersCards = List.of(
+        List<Card> playersCards = List.of(
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
 
         assertEquals(true, new CombinationsRulesImpl(tableCards, playersCards).pair());
         assertEquals(false, new CombinationsRulesImpl(tableCards, playersCards).tris());
+
+       playersCards = List.of(
+                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
+                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH));
+
+        assertEquals(true, new CombinationsRulesImpl(new LinkedList<>(), playersCards).pair());
 
     }
 
@@ -97,7 +104,7 @@ public class CombinationsRulesImplTest {
 
         final List<Card> playersCards = List.of(
                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
+                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS));
 
         assertEquals(false, new CombinationsRulesImpl(tableCards, playersCards).poker());
         assertEquals(true, new CombinationsRulesImpl(tableCards, playersCards).flush());
@@ -145,20 +152,33 @@ public class CombinationsRulesImplTest {
 
     @Test
     void testRoyalFlush() {
-        final List<Card> tableCards = List.of(
+        List<Card> tableCards = List.of(
                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.HEARTH),
                 new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.FOUR, SimpleCard.FOUR.getValueOfCard(), SeedCard.CLUBS));
 
-        final List<Card> playersCards = List.of(
+         List<Card> playersCards = List.of(
                 new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND));
 
         assertEquals(true, new CombinationsRulesImpl(tableCards, playersCards).royalFlush());
         assertEquals(false, new CombinationsRulesImpl(tableCards, playersCards).fullHouse());
         assertEquals(true, new CombinationsRulesImpl(tableCards, playersCards).straight());
+
+        tableCards = List.of(
+                new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.DIAMOND),
+                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.HEARTH),
+                new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.DIAMOND),
+                new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.DIAMOND),
+                new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.CLUBS));
+
+        playersCards = List.of(
+                new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.DIAMOND),
+                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND));
+
+        assertEquals(true, new CombinationsRulesImpl(tableCards, playersCards).royalFlush());
 
     }
 }
