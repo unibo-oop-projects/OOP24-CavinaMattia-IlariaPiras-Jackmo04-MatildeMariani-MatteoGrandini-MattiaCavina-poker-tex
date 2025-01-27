@@ -95,18 +95,34 @@ public abstract class AbstractGame implements Game{
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public State getGameState() {
+        return gameState;
+    }
+
+    /**
      * Sort the given list of {@link Player}s, placing the player with the given {@link Role} first, 
      * then the players that were after him in the original list, and lastly those who were before him,
      * in the original order.
      * @param players the list of players to order.
      * @param firstPlayerRole the role of the player that must be set first of the list.
      */
-    private void sortFromRole(final List<Player> players, final Role firstPlayerRole) {
-        var index  = Iterables.indexOf(players, p -> p.getRole().equals(firstPlayerRole));
-        var orderedPlayers = players.subList(index, players.size());
-        orderedPlayers.addAll(players.subList(0, index));
+    public void sortFromRole(final List<Player> players, final Role firstPlayerRole) {
+        var originalList = List.copyOf(players);
         players.clear();
-        players.addAll(orderedPlayers);
+        var index  = Iterables.indexOf(originalList, p -> p.getRole().equals(firstPlayerRole));
+        players.addAll(originalList.subList(index, originalList.size()));
+        players.addAll(originalList.subList(0, index));
     }
 
     /**
