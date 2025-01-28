@@ -15,7 +15,7 @@ import java.awt.Toolkit;
  * The main view of the application.
  * It is a JFrame that contains a CardLayout to switch between different scenes.
  */
-public class MainView extends JFrame implements View {
+public class ViewImpl extends JFrame implements View {
 
     private static final double SCREEN_SIZE_FACTOR = 0.75;
 
@@ -30,7 +30,7 @@ public class MainView extends JFrame implements View {
      * It also sets the CardLayout for switching between scenes.
      * It starts with the main menu scene.
      */
-    public MainView() {
+    public ViewImpl() {
         super("Poker Texas Hold'em");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
