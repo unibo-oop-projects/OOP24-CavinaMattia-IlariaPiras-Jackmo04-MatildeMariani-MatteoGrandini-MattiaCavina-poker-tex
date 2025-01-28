@@ -110,4 +110,13 @@ public class HandImpl implements Hand {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Player> getHandPlayers() {
+        return handPlayers;
+    }
+
+
 }

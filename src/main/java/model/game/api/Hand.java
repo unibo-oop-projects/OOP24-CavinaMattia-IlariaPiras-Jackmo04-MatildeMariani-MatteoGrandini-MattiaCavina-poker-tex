@@ -1,6 +1,7 @@
 package model.game.api;
 
 import java.util.Iterator;
+import java.util.List;
 
 import model.player.api.Action;
 import model.player.api.Player;
@@ -54,5 +55,11 @@ public interface Hand {
      * still in the game or the only one left otherwise) and tells players whether they lost or won accordingly.
     */
     void determinateWinnerOfTheHand();
+
+    /**
+     * Returns the list of players in the hand.
+     * @return the list of players in the hand.
+     */
+    List<Player> getHandPlayers();
     
 }
