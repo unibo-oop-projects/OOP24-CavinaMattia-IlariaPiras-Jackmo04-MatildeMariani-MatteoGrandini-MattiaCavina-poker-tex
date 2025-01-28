@@ -48,4 +48,14 @@ public class MainView extends JFrame implements View {
         this.cardLayout.show(this.mainPanel, scene.getSceneName());
     }
 
+    @Override
+    public int getScreenWidth() {
+        return this.screenWidth;
+    }
+
+    @Override
+    public int getScreenHeight() {
+        return this.screenHeight;
+    }
+
 }
