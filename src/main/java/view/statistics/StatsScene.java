@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.statistics.StatsController;
 import view.commons.Scene;
 
 public class StatsScene extends JPanel implements Scene {
@@ -17,10 +18,10 @@ public class StatsScene extends JPanel implements Scene {
     private static final String SCENE_NAME = "stats";
 
     private final JPanel statsPanel;
-    private final StatsSceneController controller;
+    private final StatsController controller;
 
-    public StatsScene(StatsSceneController statsSceneController) {
-        this.controller = statsSceneController;
+    public StatsScene(StatsController statsController) {
+        this.controller = statsController;
 
         this.setLayout(new BorderLayout());
         JLabel title = new JLabel("Statistics", JLabel.CENTER);
@@ -31,16 +32,6 @@ public class StatsScene extends JPanel implements Scene {
         this.statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
         statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 100, 10, 100));
-
-        // TODO get stats from controller
-        // JPanel gamesPlayedPanel = new StatPanel("Games Played: ", 0);
-        // JPanel gamesWonPanel = new StatPanel("Games Won: ", 0);
-        // JPanel handsPlayedPanel = new StatPanel("Hands Played: ", 0);
-        // JPanel handsWonPanel = new StatPanel("Hands Won: ", 0);
-        // statsPanel.add(gamesPlayedPanel);
-        // statsPanel.add(gamesWonPanel);
-        // statsPanel.add(handsPlayedPanel);
-        // statsPanel.add(handsWonPanel);
 
         this.updateStats();
         

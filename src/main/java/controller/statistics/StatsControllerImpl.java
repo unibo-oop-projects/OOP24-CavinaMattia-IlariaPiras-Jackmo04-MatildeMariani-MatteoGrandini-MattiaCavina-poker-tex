@@ -1,21 +1,20 @@
-package controller;
+package controller.statistics;
 
 import java.util.List;
 
-import model.game.api.Game;
+import controller.menu.MainMenuControllerImpl;
 import model.statistics.BasicStatisticsImpl;
 import model.statistics.StatisticsManagerImpl;
 import temp.Pair;
 import view.View;
+import view.menu.MainMenuScene;
 
-public class MainControllerImpl implements MainController {
+public class StatsControllerImpl implements StatsController {
 
     private static final String STATS_FILE_NAME = "stats.bin";
+    private final View mainView;
 
-    private final View mainView; // TODO will need for updating the game scene
-    private Game game; // TODO will need for managing the game model
-
-    public MainControllerImpl(View mainView) {
+    public StatsControllerImpl(View mainView) {
         this.mainView = mainView;
     }
 
@@ -28,5 +27,10 @@ public class MainControllerImpl implements MainController {
             System.err.println("Failed to load statistics from file");
         }
         return statsManager.getTotalStatistics().getAsList();
+    }
+
+    @Override
+    public void goToMainMenu() {
+        this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
     }
 }

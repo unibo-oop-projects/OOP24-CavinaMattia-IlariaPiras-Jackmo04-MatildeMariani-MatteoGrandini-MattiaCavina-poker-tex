@@ -1,7 +1,12 @@
 package controller.statistics;
 
-import model.statistics.api.Statistics;
+import java.util.List;
 
-public interface StatsController<S extends Statistics> {
+import temp.Pair;
 
+public interface StatsController {
+
+    List<Pair<String, String>> getStatistics();
+
+    void goToMainMenu();
 }

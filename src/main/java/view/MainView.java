@@ -3,11 +3,9 @@ package view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import controller.MainController;
-import controller.MainControllerImpl;
+import controller.menu.MainMenuControllerImpl;
 import view.commons.Scene;
-import view.tempMainMenu.MainMenuScene;
-import view.tempMainMenu.MainMenuSceneControllerImpl;
+import view.menu.MainMenuScene;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -20,7 +18,6 @@ public class MainView extends JFrame implements View {
     private final int screenWidth;
     private final int screenHeight;
     private final JPanel mainPanel;
-    private final MainController mainController;
     private final CardLayout cardLayout;
 
     public MainView() {
@@ -36,10 +33,8 @@ public class MainView extends JFrame implements View {
         this.mainPanel = new JPanel(cardLayout);
         this.setContentPane(this.mainPanel);
         
-        this.mainController = new MainControllerImpl(this);
-
         // Always start with the main menu scene
-        MainMenuScene menuScene = new MainMenuScene(new MainMenuSceneControllerImpl(this, this.mainController));
+        MainMenuScene menuScene = new MainMenuScene(new MainMenuControllerImpl(this));
         this.mainPanel.add(menuScene.getPanel(), menuScene.getName());
         this.cardLayout.show(this.mainPanel, menuScene.getName());
 

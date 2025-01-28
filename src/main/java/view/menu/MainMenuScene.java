@@ -1,4 +1,4 @@
-package view.tempMainMenu;
+package view.menu;
 
 import java.awt.BorderLayout;
 
@@ -7,31 +7,29 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import controller.menu.MainMenuController;
 import view.commons.Scene;
-import view.tempMainMenu.api.MainMenuSceneController;
 
-public class MainMenuScene implements Scene {
+public class MainMenuScene extends JPanel implements Scene {
 
     private static final String NAME = "menu";
 
-    private final MainMenuSceneController controller;
-    private final JPanel panel;
+    private final MainMenuController controller;
 
-    public MainMenuScene(MainMenuSceneController controller) {
+    public MainMenuScene(MainMenuController controller) {
         this.controller = controller;
-        this.panel = new JPanel();
-        this.panel.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout());
         JLabel title = new JLabel("Poker Texas Hols'em", SwingConstants.CENTER);
-        this.panel.add(title, BorderLayout.NORTH);
+        this.add(title, BorderLayout.NORTH);
 
-        // Menu buttons
+        // Menu buttons panel
         JPanel menuButtons = new JPanel();
 
-        // TODO add other buttons (Play, settings, rules, etc.)
+        // TODO add other buttons to panel (Play, settings, rules, etc.)
         JButton goToStats = new JButton("Statistiche");
         menuButtons.add(goToStats);
 
-        this.panel.add(menuButtons, BorderLayout.CENTER);        
+        this.add(menuButtons, BorderLayout.CENTER);        
 
         // Button listeners TODO add other listeners
         goToStats.addActionListener(e -> this.controller.goToStatsScene());
@@ -39,7 +37,7 @@ public class MainMenuScene implements Scene {
 
     @Override
     public JPanel getPanel() {
-        return this.panel;
+        return this;
     }
 
     @Override
