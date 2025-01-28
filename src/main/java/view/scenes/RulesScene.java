@@ -1,4 +1,4 @@
-package view.rules;
+package view.scenes;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controller.rules.RulesController;
-import view.commons.Scene;
+import view.scenes.api.Scene;
 
 /**
  * The {@link Scene} for displaying the rules of the game.

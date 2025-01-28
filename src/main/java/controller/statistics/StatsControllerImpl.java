@@ -7,7 +7,7 @@ import model.statistics.BasicStatisticsImpl;
 import model.statistics.StatisticsManagerImpl;
 import temp.Pair;
 import view.View;
-import view.menu.MainMenuScene;
+import view.scenes.MainMenuScene;
 
 /**
  * Implementation of the StatsController interface.

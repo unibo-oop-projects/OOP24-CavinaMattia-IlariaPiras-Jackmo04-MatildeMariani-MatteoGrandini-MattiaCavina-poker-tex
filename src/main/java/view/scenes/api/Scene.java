@@ -1,4 +1,4 @@
-package view.commons;
+package view.scenes.api;
 
 import javax.swing.JPanel;
 

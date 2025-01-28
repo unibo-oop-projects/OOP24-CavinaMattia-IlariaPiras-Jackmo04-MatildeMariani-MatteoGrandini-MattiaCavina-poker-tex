@@ -1,6 +1,6 @@
 package view;
 
-import view.commons.Scene;
+import view.scenes.api.Scene;
 
 /**
  * The main view for the application.

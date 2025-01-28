@@ -4,8 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import controller.menu.MainMenuControllerImpl;
-import view.commons.Scene;
-import view.menu.MainMenuScene;
+import view.scenes.MainMenuScene;
+import view.scenes.api.Scene;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;

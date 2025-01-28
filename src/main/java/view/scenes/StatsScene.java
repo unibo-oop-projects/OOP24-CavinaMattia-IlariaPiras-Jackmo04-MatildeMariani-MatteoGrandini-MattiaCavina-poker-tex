@@ -1,4 +1,4 @@
-package view.statistics;
+package view.scenes;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controller.statistics.StatsController;
-import view.commons.Scene;
+import view.scenes.api.Scene;
 
 /**
  * The {@link Scene} that displays the statistics of the game.

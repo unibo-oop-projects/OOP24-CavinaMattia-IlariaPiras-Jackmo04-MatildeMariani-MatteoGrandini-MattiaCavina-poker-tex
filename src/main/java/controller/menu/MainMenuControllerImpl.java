@@ -3,8 +3,8 @@ package controller.menu;
 import controller.rules.RulesControllerImpl;
 import controller.statistics.StatsControllerImpl;
 import view.View;
-import view.rules.RulesScene;
-import view.statistics.StatsScene;
+import view.scenes.RulesScene;
+import view.scenes.StatsScene;
 
 /**
  * Implementation of the main menu controller.

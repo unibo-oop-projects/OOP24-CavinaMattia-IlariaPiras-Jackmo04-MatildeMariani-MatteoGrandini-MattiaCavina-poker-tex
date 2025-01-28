@@ -1,4 +1,4 @@
-package view.menu;
+package view.scenes;
 
 import java.awt.BorderLayout;
 
@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import controller.menu.MainMenuController;
-import view.commons.Scene;
+import view.scenes.api.Scene;
 
 /**
  * The {@link Scene} that represents the main menu of the game.

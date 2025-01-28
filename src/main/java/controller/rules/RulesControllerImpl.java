@@ -2,7 +2,7 @@ package controller.rules;
 
 import controller.menu.MainMenuControllerImpl;
 import view.View;
-import view.menu.MainMenuScene;
+import view.scenes.MainMenuScene;
 
 /**
  * Implementation of the rules controller.
