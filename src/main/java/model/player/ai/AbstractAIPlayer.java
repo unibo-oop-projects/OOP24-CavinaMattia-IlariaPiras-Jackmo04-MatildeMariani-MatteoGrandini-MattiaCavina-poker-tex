@@ -10,8 +10,8 @@ import model.player.api.Action;
 import model.player.api.Role;
 import model.temp.Blind;
 import model.combination.CombinationHandlerImpl;
-import model.temp.HandFase;
-import model.temp.State;
+import model.game.api.Phase;
+import model.game.api.State;
 
 /**
  * This class provides a basic implementation of the {@link AIPlayer} interface.
@@ -32,7 +32,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     AbstractAIPlayer(final int initialChips, final Role initialRole, final double raisingFactor) {
         super(initialChips, initialRole);
         this.raisingFactor = raisingFactor;
-        this.paidBlind = initialRole == Role.REGULAR || initialRole == Role.DEALER;
+        this.paidBlind = false;
     }
 
     /**
@@ -40,19 +40,20 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
      */
     @Override
     public Action getAction(final State currentState) {
+        this.paidBlind = this.getRole() == Role.REGULAR || this.getRole() == Role.DEALER;
         if (this.getCards().size() != 2) {
             throw new IllegalStateException("Player must have 2 cards to play");
         }
         this.updateCombination(currentState);
         if (shouldRaise(currentState)) {
-            this.makeBet((int) (currentState.currentBet() + BASIC_BET * raisingFactor));
+            this.makeBet((int) (currentState.getCurrentBet() + BASIC_BET * raisingFactor));
             return Action.RAISE;
         }
         if (canCheck(currentState)) {
             return Action.CHECK;
         }
         if (shouldCall(currentState)) {
-            this.makeBet(currentState.currentBet());
+            this.makeBet(currentState.getCurrentBet());
             return Action.CALL;
         }
         if (!this.paidBlind) {
@@ -106,14 +107,14 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
      * @return the amount of chips required to call or raise in the current state.
      */
     protected int requiredBet(final State currentState) {
-        if (currentState.handFase() == HandFase.PREFLOP) {
-            return (int) (currentState.currentBet() * switch (getRole()) {
+        if (currentState.getHandPhase() == Phase.PREFLOP) {
+            return (int) (currentState.getCurrentBet() * switch (getRole()) {
                 case SMALL_BLIND -> Blind.SMALL.getMultiplier();
                 case BIG_BLIND -> Blind.BIG.getMultiplier();
                 default -> 1;
             });
         } else {
-            return currentState.currentBet();
+            return currentState.getCurrentBet();
         }
     }
 
@@ -122,27 +123,25 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     }
 
     private boolean canCheck(final State currentState) {
-        return requiredBet(currentState) == getTotalFaseBet();
+        return requiredBet(currentState) == getTotalPhaseBet();
     }
 
     private void makeBet(final int amount) {
-        var actualBet = maxBetToReach(amount) - this.getTotalFaseBet();
-        this.setTotalFaseBet(this.getTotalFaseBet() + actualBet);
+        var actualBet = maxBetToReach(amount) - this.getTotalPhaseBet();
+        this.setTotalPhaseBet(this.getTotalPhaseBet() + actualBet);
         this.setChips(getChips() - actualBet);
         this.paidBlind = true;
     }
 
     private void endhand() {
         this.setCards(Set.of());
-        // TODO Ancora decidere come gestire i ruoli, per ora si assume che ci siano sempre 4 giocatori
-        this.setRole(getRole().next());
-        this.paidBlind = this.getRole() == Role.REGULAR || this.getRole() == Role.DEALER;
+        this.paidBlind = false;
     }
 
     private void updateCombination(final State currentState) {
-        var usableCards = Stream.concat(currentState.communityCards().stream(), this.getCards().stream())
+        var usableCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream())
             .collect(Collectors.toSet());
-        this.setCombination(new CombinationHandlerImpl().getCombination(usableCards.stream().toList()));
+        this.setCombination(new CombinationHandlerImpl().getCombination(usableCards));
     }
 
 }

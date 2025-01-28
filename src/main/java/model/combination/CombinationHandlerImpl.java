@@ -1,6 +1,8 @@
 package model.combination;
 
 import java.util.List;
+import java.util.Set;
+
 import model.combination.api.Combination;
 import model.combination.api.CombinationHandler;
 import model.combination.api.CombinationType;
@@ -17,7 +19,7 @@ public class CombinationHandlerImpl implements CombinationHandler<Card> {
      * {@inheritDoc}
      */
     @Override
-    public Combination<Card> getCombination(final List<Card> totalCardList) {
+    public Combination<Card> getCombination(final Set<Card> totalCardList) {
         CombinationsRules<Card> combRules = new CombinationsRulesImpl(totalCardList);
         Integer tieBreakValue = totalCardList.stream()
                 .mapToInt(Card::valueOfCard).sum();

@@ -1,6 +1,7 @@
 package model.combination.api;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Combination of List of cards and its type and value.
@@ -10,13 +11,13 @@ import java.util.List;
  * @param totalCard
  *                   list of cards .
  * @param type
- *                   type of combination.
+ *                   Set of combination.
  * @param tieBreaker
  *                   is used to compare two combinations of the same type ,is
  *                   the sum value of players's cards.
  * 
  */
-public record Combination<X>(List<X> totalCard, CombinationType type, int tieBreaker) {
+public record Combination<X>(Set<X> totalCard, CombinationType type, int tieBreaker) {
 
 }
 

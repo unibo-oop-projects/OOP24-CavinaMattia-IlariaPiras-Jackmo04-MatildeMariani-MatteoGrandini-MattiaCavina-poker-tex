@@ -4,13 +4,12 @@ import java.util.Objects;
 import java.util.Set;
 
 import model.deck.api.Card;
+import model.game.api.State;
 import model.player.api.Action;
 import model.player.api.Player;
 import model.player.api.Role;
 import model.combination.api.Combination;
 import model.combination.CombinationHandlerImpl;
-import model.temp.State;
-
 /**
  * Abstract class that implements the common methods of a generic player.
  * It also provides some abstract methods that must be implemented by the subclasses.
@@ -23,7 +22,7 @@ public abstract class AbstractPlayer implements Player {
     private Role role;
     private Combination<Card> bestCombination;
     private int chips;
-    private int totalFaseBet;
+    private int totalPhaseBet;
 
     /**
      * Constructor for the AbstractPlayer class.
@@ -50,7 +49,7 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public void setCards(final Set<Card> cards) {
         this.cards = Objects.requireNonNull(Set.copyOf(cards));
-        this.bestCombination = new CombinationHandlerImpl().getCombination(cards.stream().toList());
+        this.bestCombination = new CombinationHandlerImpl().getCombination(cards);
     }
 
     /**
@@ -89,8 +88,8 @@ public abstract class AbstractPlayer implements Player {
      * {@inheritDoc}
      */
     @Override
-    public int getTotalFaseBet() {
-        return this.totalFaseBet;
+    public int getTotalPhaseBet() {
+        return this.totalPhaseBet;
     }
 
     /**
@@ -142,11 +141,11 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * Used to set the total bet of the player in the current {@link HandFase}.
-     * @param totalFaseBet the amount of chips betted in the current fase.
+     * Used to set the total bet of the player in the current {@link HandPhase}.
+     * @param totalPhaseBet the amount of chips betted in the current phase.
      */
-    protected void setTotalFaseBet(final int totalFaseBet) {
-        this.totalFaseBet = totalFaseBet;
+    protected void setTotalPhaseBet(final int totalPhaseBet) {
+        this.totalPhaseBet = totalPhaseBet;
     }
 
 }

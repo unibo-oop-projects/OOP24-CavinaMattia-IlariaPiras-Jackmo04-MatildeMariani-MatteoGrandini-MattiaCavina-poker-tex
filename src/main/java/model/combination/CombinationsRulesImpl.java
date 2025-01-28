@@ -1,6 +1,10 @@
 package model.combination;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import model.combination.api.CombinationDimension;
 import model.combination.api.CombinationsRules;
 import model.deck.api.Card;
@@ -11,7 +15,7 @@ import model.deck.api.Card;
  */
 public class CombinationsRulesImpl implements CombinationsRules<Card> {
 
-        private final List<Card> totalCardList;
+        private final List<Card> totalCardList = new LinkedList<>();
 
         /**
          * Constructor for CombinationsRulesImpl.
@@ -19,8 +23,8 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          * @param totalCardList
          *                      list of cards.
          */
-        public CombinationsRulesImpl(final List<Card> totalCardList) {
-                this.totalCardList = totalCardList;
+        public CombinationsRulesImpl(final Set<Card> totalCardList) {
+                totalCardList.forEach(this.totalCardList::add);
         }
 
         /**
@@ -30,7 +34,8 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
         public Boolean isPair() {
                 return totalCardList.size() >= CombinationDimension.PAIR.getDimension()
                                 && CombinationRulesUtilities.getSumOfSameNameCard(totalCardList)
-                                                .filter(t -> t == CombinationDimension.PAIR.getDimension()).count() == 1;
+                                                .filter(t -> t == CombinationDimension.PAIR.getDimension())
+                                                .count() == 1;
 
         }
 
@@ -41,7 +46,8 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
         public Boolean isTwoPairs() {
                 return totalCardList.size() >= CombinationDimension.TWO_PAIRS.getDimension()
                                 && CombinationRulesUtilities.getSumOfSameNameCard(totalCardList)
-                                                .filter(t -> t == CombinationDimension.PAIR.getDimension()).count() == 2;
+                                                .filter(t -> t == CombinationDimension.PAIR.getDimension())
+                                                .count() == 2;
         }
 
         /**
@@ -51,7 +57,8 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
         public Boolean isTris() {
                 return totalCardList.size() >= CombinationDimension.TRIS.getDimension()
                                 && CombinationRulesUtilities.getSumOfSameNameCard(totalCardList)
-                                                .filter(t -> t == CombinationDimension.TRIS.getDimension()).count() == 1;
+                                                .filter(t -> t == CombinationDimension.TRIS.getDimension())
+                                                .count() == 1;
         }
 
         /**

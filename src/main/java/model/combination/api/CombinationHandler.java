@@ -1,6 +1,6 @@
 package model.combination.api;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Interface for combination handler.
@@ -13,9 +13,9 @@ public interface CombinationHandler<X> {
      * Method to get the best combination of the list of cards.
      * 
      * @param totalCardList
-     *                      list of cards.
-     * @return the best combination of the list of cards.
+     *                      Set of cards.
+     * @return the best combination of the Set of cards.
      */
-    Combination<X> getCombination(List<X> totalCardList);
+    Combination<X> getCombination(Set<X> totalCardList);
 
 }

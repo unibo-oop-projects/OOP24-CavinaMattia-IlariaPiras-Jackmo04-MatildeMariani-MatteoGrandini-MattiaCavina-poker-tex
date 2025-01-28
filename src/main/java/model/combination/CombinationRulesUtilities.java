@@ -33,7 +33,7 @@ public final class CombinationRulesUtilities {
         var straightList = filteredSameValueCard(totalCardList);
         Boolean checkStraight = false;
 
-        while (straightList.size() >= CombinationDimension.STRAIGHT.getDimension() && checkStraight) {
+        while (straightList.size() >= CombinationDimension.STRAIGHT.getDimension() && !checkStraight) {
             List<Integer> controList = new LinkedList<>();
             for (int i = 0; i < CombinationDimension.STRAIGHT.getDimension(); i++) {
                 controList.add(straightList.get(i).valueOfCard() - i);
@@ -44,7 +44,7 @@ public final class CombinationRulesUtilities {
                 straightList.removeFirst();
             }
         }
-        while (straightList.size() > CombinationDimension.STRAIGHT.getDimension()) {
+        while (checkStraight && straightList.size() > CombinationDimension.STRAIGHT.getDimension()) {
             straightList.removeLast();
         }
         return straightList;

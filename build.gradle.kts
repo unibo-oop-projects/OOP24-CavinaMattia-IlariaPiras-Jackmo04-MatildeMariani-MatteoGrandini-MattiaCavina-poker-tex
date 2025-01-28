@@ -32,7 +32,6 @@ dependencies {
             // https://mvnrepository.com/artifact/org.javatuples/javatuples
     implementation("org.javatuples:javatuples:1.2")
     
-
     /*
      * Simple Logging Facade for Java (SLF4J) with Apache Log4j
      * See: http://www.slf4j.org/
