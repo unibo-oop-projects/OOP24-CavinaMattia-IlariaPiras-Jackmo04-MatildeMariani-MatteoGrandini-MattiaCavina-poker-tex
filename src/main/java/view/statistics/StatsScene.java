@@ -3,7 +3,6 @@ package view.statistics;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -42,6 +41,8 @@ public class StatsScene extends JPanel implements Scene {
         // statsPanel.add(gamesWonPanel);
         // statsPanel.add(handsPlayedPanel);
         // statsPanel.add(handsWonPanel);
+
+        this.updateStats();
         
         this.add(statsPanel, BorderLayout.CENTER);
 
@@ -50,17 +51,18 @@ public class StatsScene extends JPanel implements Scene {
         this.add(backButton, BorderLayout.SOUTH);
     }
 
-    public void updateStats(Map<String, String> statsMap) {
-        statsMap.entrySet().forEach(e -> {
-            this.statsPanel.removeAll();
-            this.statsPanel.add(new StatPanel(e.getKey(), e.getValue()));
-        });
+    public void updateStats() {
+        var statsMap = this.controller.getStatistics();
+        this.statsPanel.removeAll();
+        statsMap.entrySet().forEach(e -> 
+            this.statsPanel.add(new StatPanel(e.getKey(), e.getValue()))
+        );
     }
 
     // Inner class to create a panel for each statistic (not definitive)
     private class StatPanel extends JPanel {
         public StatPanel(String name, String value) {
-            JLabel nameLabel = new JLabel(name);
+            JLabel nameLabel = new JLabel(name + ": ");
             JLabel valueLabel = new JLabel(value);
             nameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
             valueLabel.setFont(new Font("Arial", Font.PLAIN, 20));

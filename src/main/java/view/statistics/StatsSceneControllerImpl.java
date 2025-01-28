@@ -1,5 +1,7 @@
 package view.statistics;
 
+import java.util.Map;
+
 import controller.MainController;
 import view.View;
 import view.tempMainMenu.MainMenuScene;
@@ -18,6 +20,11 @@ public class StatsSceneControllerImpl implements StatsSceneController {
     @Override
     public void goToMainMenu() {
         this.mainView.changeScene(new MainMenuScene(new MainMenuSceneControllerImpl(mainView, mainController)));
+    }
+
+    @Override
+    public Map<String, String> getStatistics() {
+        return this.mainController.getStatistics();
     }
 
 }

@@ -106,6 +106,7 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
     @Override
     public void loadStatistics(String fileName) throws Exception {
         File file = getFileInProjectDir(fileName);
+        file.createNewFile();
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
         this.globalStatistics = (S) ois.readObject();
         ois.close();

@@ -25,6 +25,7 @@ public class MainControllerImpl implements MainController {
             statsManager.loadStatistics(STATS_FILE_NAME);
         } catch (Exception e) {
             System.err.println("Failed to load statistics from file");
+            e.printStackTrace();
         }
         return statsManager.getTotalStatistics().getAsMap();
     }
