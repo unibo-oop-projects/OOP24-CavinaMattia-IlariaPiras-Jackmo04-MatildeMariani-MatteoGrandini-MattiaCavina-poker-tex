@@ -24,7 +24,7 @@ public class RulesScene extends JPanel implements Scene {
      * Creates a new {@link RulesScene}.
      * @param controller the controller for the game rules
      */
-    public RulesScene(RulesController controller) {
+    public RulesScene(final RulesController controller) {
         this.controller = controller;
 
         this.setLayout(new BorderLayout());

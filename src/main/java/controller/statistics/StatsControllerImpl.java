@@ -2,10 +2,10 @@ package controller.statistics;
 
 import java.util.List;
 
+import commons.Pair;
 import controller.menu.MainMenuControllerImpl;
 import model.statistics.BasicStatisticsImpl;
 import model.statistics.StatisticsManagerImpl;
-import temp.Pair;
 import view.View;
 import view.scenes.MainMenuScene;
 
@@ -23,7 +23,7 @@ public class StatsControllerImpl implements StatsController {
      * Constructor for the StatsControllerImpl class.
      * @param mainView The main view of the application.
      */
-    public StatsControllerImpl(View mainView) {
+    public StatsControllerImpl(final View mainView) {
         this.mainView = mainView;
     }
 

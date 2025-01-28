@@ -18,7 +18,7 @@ public class MainMenuControllerImpl implements MainMenuController {
      * Creates a new main menu controller.
      * @param mainView the main view of the application
      */
-    public MainMenuControllerImpl(View mainView) {
+    public MainMenuControllerImpl(final View mainView) {
         this.mainView = mainView;
     }
 

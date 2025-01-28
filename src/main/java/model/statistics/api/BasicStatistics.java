@@ -107,8 +107,8 @@ public interface BasicStatistics extends Statistics {
     int getNumOfGamesWon();
 
     /**
-     * Returns an optional containing the best combination ever achieved, 
-     * or an empty optional if no combination has been achieved yet
+     * Returns an optional containing the best combination ever achieved,
+     * or an empty optional if no combination has been achieved yet.
      * @return an optional containing the best combination ever achieved
      */
     Optional<CombinationType> getBestCombination();

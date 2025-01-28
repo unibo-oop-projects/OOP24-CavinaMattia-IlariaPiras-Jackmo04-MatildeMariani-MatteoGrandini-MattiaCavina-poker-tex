@@ -21,5 +21,5 @@ public interface Scene {
      * @return the unique name of the scene
      */
     String getSceneName();
-    
+
 }

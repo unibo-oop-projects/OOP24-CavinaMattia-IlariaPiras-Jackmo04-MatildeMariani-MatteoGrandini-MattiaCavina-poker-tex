@@ -2,7 +2,7 @@ package model.statistics.api;
 
 import java.util.List;
 
-import temp.Pair;
+import commons.Pair;
 
 /**
  * Interface that represents a statistics containing object.
@@ -22,7 +22,7 @@ public interface Statistics {
      * <li><b>Key:</b> The name of the statistic
      * <li><b>Value:</b> The string representation of the stat value
      * </ul>
-     * For each statistic kept by the implementation
+     * for each statistic kept by the implementation.
      * @return A list containing all statistics kept by the class
      */
     List<Pair<String, String>> getAsList();

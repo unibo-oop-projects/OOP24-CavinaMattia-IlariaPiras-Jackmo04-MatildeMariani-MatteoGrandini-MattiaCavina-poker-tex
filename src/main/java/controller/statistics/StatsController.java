@@ -2,7 +2,7 @@ package controller.statistics;
 
 import java.util.List;
 
-import temp.Pair;
+import commons.Pair;
 
 /**
  * Interface for the statistics controller.

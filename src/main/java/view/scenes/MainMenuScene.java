@@ -23,7 +23,7 @@ public class MainMenuScene extends JPanel implements Scene {
      * Creates a new {@link MainMenuScene}.
      * @param controller the controller for the main menu
      */
-    public MainMenuScene(MainMenuController controller) {
+    public MainMenuScene(final MainMenuController controller) {
         this.controller = controller;
         this.setLayout(new BorderLayout());
         JLabel title = new JLabel("Poker Texas Hols'em", SwingConstants.CENTER);
@@ -38,7 +38,7 @@ public class MainMenuScene extends JPanel implements Scene {
         menuButtons.add(goToStats);
         menuButtons.add(goToRules);
 
-        this.add(menuButtons, BorderLayout.CENTER);        
+        this.add(menuButtons, BorderLayout.CENTER);
 
         // Button listeners TODO add other listeners
         goToStats.addActionListener(e -> this.controller.goToStatsScene());

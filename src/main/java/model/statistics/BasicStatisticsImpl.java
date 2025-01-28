@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import commons.Pair;
 import model.statistics.api.BasicStatistics;
 import model.temp.CombinationType;
-import temp.Pair;
 
 /**
  * Class to store statistics of the game. The statistics kept by this implementation are:
@@ -51,12 +51,12 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * @param bestCombination The best combination achieved
      */
     public BasicStatisticsImpl(
-        int numOfHandsPlayed, 
-        int numOfHandsWon, 
-        int numOfGamesPlayed, 
-        int numOfGamesWon,
-        int biggestWin,
-        CombinationType bestCombination
+        final int numOfHandsPlayed, 
+        final int numOfHandsWon, 
+        final int numOfGamesPlayed, 
+        final int numOfGamesWon,
+        final int biggestWin,
+        final CombinationType bestCombination
     ) {
         this.numOfHandsPlayed = numOfHandsPlayed;
         this.numOfHandsWon = numOfHandsWon;
@@ -70,7 +70,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void incrementHandsPlayed(int increment) {
+    public void incrementHandsPlayed(final int increment) {
         this.numOfHandsPlayed += increment;
     }
 
@@ -78,7 +78,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void incrementHandsWon(int increment) {
+    public void incrementHandsWon(final int increment) {
         this.numOfHandsWon += increment;
     }
 
@@ -86,7 +86,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void incrementGamesPlayed(int increment) {
+    public void incrementGamesPlayed(final int increment) {
         this.numOfGamesPlayed += increment;
     }
 
@@ -94,7 +94,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void incrementGamesWon(int increment) {
+    public void incrementGamesWon(final int increment) {
         this.numOfGamesWon += increment;
     }
 
@@ -102,7 +102,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void setHandsPlayed(int value) {
+    public void setHandsPlayed(final int value) {
         this.numOfHandsPlayed = value;
     }
 
@@ -110,7 +110,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void setHandsWon(int value) {
+    public void setHandsWon(final int value) {
         this.numOfHandsWon = value;
     }
 
@@ -118,7 +118,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void setGamesPlayed(int value) {
+    public void setGamesPlayed(final int value) {
         this.numOfGamesPlayed = value;
     }
 
@@ -126,7 +126,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void setGamesWon(int value) {
+    public void setGamesWon(final int value) {
         this.numOfGamesWon = value;
     }
 
@@ -134,7 +134,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void setBiggestWinIfSo(int winnings) {
+    public void setBiggestWinIfSo(final int winnings) {
         if (winnings > this.biggestWin) {
             this.biggestWin = winnings;
         }
@@ -144,7 +144,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void setBestCombinationIfSo(CombinationType combination) {
+    public void setBestCombinationIfSo(final CombinationType combination) {
         Objects.requireNonNull(combination);
         if (this.bestCombination == null || combination.compareTo(this.bestCombination) > 0) {
             this.bestCombination = combination;
@@ -248,26 +248,35 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * Equals for all fields.
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         BasicStatisticsImpl other = (BasicStatisticsImpl) obj;
-        if (numOfHandsPlayed != other.numOfHandsPlayed)
+        if (numOfHandsPlayed != other.numOfHandsPlayed) {
             return false;
-        if (numOfHandsWon != other.numOfHandsWon)
+        }
+        if (numOfHandsWon != other.numOfHandsWon) {
             return false;
-        if (numOfGamesPlayed != other.numOfGamesPlayed)
+        }
+        if (numOfGamesPlayed != other.numOfGamesPlayed) {
             return false;
-        if (numOfGamesWon != other.numOfGamesWon)
+        }
+        if (numOfGamesWon != other.numOfGamesWon) {
             return false;
-        if (biggestWin != other.biggestWin)
+        }
+        if (biggestWin != other.biggestWin) {
             return false;
-        if (bestCombination != other.bestCombination)
+        }
+        if (bestCombination != other.bestCombination) {
             return false;
+        }
         return true;
     }
 

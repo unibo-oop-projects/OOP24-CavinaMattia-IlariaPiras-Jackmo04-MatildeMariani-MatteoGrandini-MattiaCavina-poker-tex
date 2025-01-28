@@ -11,6 +11,9 @@ import model.statistics.BasicStatisticsImpl;
 import model.statistics.StatisticsManagerImpl;
 import model.statistics.api.StatisticsContributor;
 
+/**
+ * Tests for a StatisticsManager managing BasicStatistics.
+ */
 public class TestStatisticsManager {
 
     private static final int GAMES_PLAYED = 1;
@@ -54,6 +57,9 @@ public class TestStatisticsManager {
     
     }
 
+    /**
+     * Test a single contributor updating the statistics.
+     */
     @Test
     public void testSingleContributor() {
         final var stats = new BasicStatisticsImpl();
@@ -70,6 +76,9 @@ public class TestStatisticsManager {
         assertEquals(1, stats.getNumOfHandsPlayed());
     }
 
+    /**
+     * Test multiple contributors updating the statistics.
+     */
     @Test
     public void testMultipleContributors() {
         final var stats = new BasicStatisticsImpl();
@@ -93,6 +102,9 @@ public class TestStatisticsManager {
         assertEquals(1, stats.getNumOfGamesPlayed());
     }
 
+    /**
+     * Test saving and loading the statistics.
+     */
     @Test
     public void testSaveAndLoad() {
         final var stats = new BasicStatisticsImpl();
@@ -100,10 +112,10 @@ public class TestStatisticsManager {
         statsManager.addContributor(s -> s.setHandsPlayed(HANDS_PLAYED));
         statsManager.addContributor(s -> s.setGamesPlayed(GAMES_PLAYED));
         statsManager.updateTotalStatistics();
-        final var FILE_NAME = "stats.bin";
+        final var fileName = "stats.bin";
         // Save the statistics
         try {
-            statsManager.saveStatistics(FILE_NAME);
+            statsManager.saveStatistics(fileName);
         } catch (Exception e) {
             fail(e);
         }
@@ -112,7 +124,7 @@ public class TestStatisticsManager {
         final var newStatsManager = new StatisticsManagerImpl<BasicStatisticsImpl>(newStats);
         // Load the old statistics from file to the new statistics manager
         try {
-            newStatsManager.loadStatistics(FILE_NAME);
+            newStatsManager.loadStatistics(fileName);
         } catch (Exception e) {
             fail(e);
         }

@@ -27,7 +27,7 @@ public class StatsScene extends JPanel implements Scene {
      * Creates a new {@link Scene} that displays the statistics of the game.
      * @param statsController the controller for the statistics
      */
-    public StatsScene(StatsController statsController) {
+    public StatsScene(final StatsController statsController) {
         this.controller = statsController;
 
         this.setLayout(new BorderLayout());
@@ -41,7 +41,7 @@ public class StatsScene extends JPanel implements Scene {
         statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 100, 10, 100));
 
         this.updateStats();
-        
+
         this.add(statsPanel, BorderLayout.CENTER);
 
         JButton backButton = new JButton("Back to Menu");
@@ -59,7 +59,7 @@ public class StatsScene extends JPanel implements Scene {
 
     // Inner class to create a panel for each statistic
     private class StatPanel extends JPanel {
-        public StatPanel(String name, String value) {
+        StatPanel(final String name, final String value) {
             JLabel nameLabel = new JLabel(name + ": ");
             JLabel valueLabel = new JLabel(value);
             nameLabel.setFont(new Font("Arial", Font.PLAIN, 20));

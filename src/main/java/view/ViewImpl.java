@@ -42,7 +42,7 @@ public class ViewImpl extends JFrame implements View {
         this.cardLayout = new CardLayout();
         this.mainPanel = new JPanel(cardLayout);
         this.setContentPane(this.mainPanel);
-        
+
         // Always start with the main menu scene
         this.changeScene(new MainMenuScene(new MainMenuControllerImpl(this)));
 
@@ -54,7 +54,7 @@ public class ViewImpl extends JFrame implements View {
      * {@inheritDoc}
      */
     @Override
-    public void changeScene(Scene scene) {
+    public void changeScene(final Scene scene) {
         this.mainPanel.add(scene.getPanel(), scene.getSceneName());
         this.cardLayout.show(this.mainPanel, scene.getSceneName());
     }

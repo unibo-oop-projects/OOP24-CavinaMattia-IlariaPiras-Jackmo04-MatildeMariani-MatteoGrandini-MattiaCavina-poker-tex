@@ -12,13 +12,20 @@ public class RulesControllerImpl implements RulesController {
 
     private View mainView;
 
-    public RulesControllerImpl(View mainView) {
+    /**
+     * Creates a new rules controller.
+     * @param mainView the main view of the application
+     */
+    public RulesControllerImpl(final View mainView) {
         this.mainView = mainView;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void goToMainMenuScene() {
         this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
-    }  
+    }
 
 }

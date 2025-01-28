@@ -6,7 +6,7 @@ import view.scenes.api.Scene;
  * The main view for the application.
  */
 public interface View {
-    
+
     /**
      * Changes the scene of the view.
      * @param scene the {@link Scene} to change to
