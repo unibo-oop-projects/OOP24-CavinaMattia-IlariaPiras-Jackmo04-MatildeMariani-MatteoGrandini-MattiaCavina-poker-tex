@@ -2,6 +2,8 @@ package view.tempMainMenu;
 
 import controller.MainController;
 import view.View;
+import view.statistics.StatsScene;
+import view.statistics.StatsSceneControllerImpl;
 import view.tempMainMenu.api.MainMenuSceneController;
 
 public class MainMenuSceneControllerImpl implements MainMenuSceneController {
@@ -16,7 +18,7 @@ public class MainMenuSceneControllerImpl implements MainMenuSceneController {
 
     @Override
     public void goToStatsScene() {
-        System.out.println("Vado alle statistiche");
+        this.mainView.changeScene(new StatsScene(new StatsSceneControllerImpl(mainView, mainController)));
     }
 
 }

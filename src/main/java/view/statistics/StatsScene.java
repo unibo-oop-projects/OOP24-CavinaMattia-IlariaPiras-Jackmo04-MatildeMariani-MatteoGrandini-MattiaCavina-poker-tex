@@ -1,7 +1,6 @@
 package view.statistics;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.Map;
@@ -12,17 +11,23 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class StatsScreen extends JPanel implements StatsView {
+import view.commons.Scene;
+
+public class StatsScene extends JPanel implements Scene {
+
+    private static final String SCENE_NAME = "stats";
 
     private final JPanel statsPanel;
+    private final StatsSceneController controller;
 
-    public StatsScreen(CardLayout cardLayout, JPanel mainPanel) {
+    public StatsScene(StatsSceneController statsSceneController) {
+        this.controller = statsSceneController;
+
         this.setLayout(new BorderLayout());
         JLabel title = new JLabel("Statistics", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 30));
         title.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         this.add(title, BorderLayout.NORTH);
-
 
         this.statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
@@ -41,11 +46,10 @@ public class StatsScreen extends JPanel implements StatsView {
         this.add(statsPanel, BorderLayout.CENTER);
 
         JButton backButton = new JButton("Back to Menu");
-        backButton.addActionListener(e -> cardLayout.show(mainPanel, "menu"));
+        backButton.addActionListener(e -> this.controller.goToMainMenu());
         this.add(backButton, BorderLayout.SOUTH);
     }
 
-    @Override
     public void updateStats(Map<String, String> statsMap) {
         statsMap.entrySet().forEach(e -> {
             this.statsPanel.removeAll();
@@ -64,6 +68,16 @@ public class StatsScreen extends JPanel implements StatsView {
             this.add(valueLabel);
             this.setPreferredSize(new Dimension(200, 50));
         }
+    }
+
+    @Override
+    public JPanel getPanel() {
+        return this;
+    }
+
+    @Override
+    public String getName() {
+        return SCENE_NAME;
     }
 
 }
