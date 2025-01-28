@@ -14,12 +14,6 @@ import model.player.api.Role;
 public interface Hand {
 
     /**
-     * Sets each {@link Player}'s {@link Role} for the hand, assigning them the role 
-     * that the player before them in the list had in the previous hand.
-     */
-    void setRoles();
-
-    /**
      * Sorts its list of {@link Player}s, placing the player with the given {@link Role} first, 
      * then the players that were after him in the original list, and lastly those who were before him,
      * in the original order.
