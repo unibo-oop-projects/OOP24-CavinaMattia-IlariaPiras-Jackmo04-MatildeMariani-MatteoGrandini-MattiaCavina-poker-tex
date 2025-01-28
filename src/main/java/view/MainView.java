@@ -35,8 +35,8 @@ public class MainView extends JFrame implements View {
         
         // Always start with the main menu scene
         MainMenuScene menuScene = new MainMenuScene(new MainMenuControllerImpl(this));
-        this.mainPanel.add(menuScene.getPanel(), menuScene.getName());
-        this.cardLayout.show(this.mainPanel, menuScene.getName());
+        this.mainPanel.add(menuScene.getPanel(), menuScene.getSceneName());
+        this.cardLayout.show(this.mainPanel, menuScene.getSceneName());
 
         this.setLocationByPlatform(true);
         this.setVisible(true);
@@ -44,8 +44,8 @@ public class MainView extends JFrame implements View {
 
     @Override
     public void changeScene(Scene scene) {
-        this.mainPanel.add(scene.getPanel(), scene.getName());
-        this.cardLayout.show(this.mainPanel, scene.getName());
+        this.mainPanel.add(scene.getPanel(), scene.getSceneName());
+        this.cardLayout.show(this.mainPanel, scene.getSceneName());
     }
 
 }

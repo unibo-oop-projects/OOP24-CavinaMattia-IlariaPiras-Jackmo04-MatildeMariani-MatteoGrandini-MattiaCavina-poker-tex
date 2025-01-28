@@ -30,7 +30,7 @@ public class StatsControllerImpl implements StatsController {
     }
 
     @Override
-    public void goToMainMenu() {
+    public void goToMainMenuScene() {
         this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
     }
 }

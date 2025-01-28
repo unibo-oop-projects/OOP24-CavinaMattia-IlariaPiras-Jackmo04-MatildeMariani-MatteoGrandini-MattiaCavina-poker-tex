@@ -6,5 +6,6 @@ public interface Scene {
 
     JPanel getPanel();
 
-    String getName();
+    String getSceneName();
+    
 }

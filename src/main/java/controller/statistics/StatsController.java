@@ -8,5 +8,5 @@ public interface StatsController {
 
     List<Pair<String, String>> getStatistics();
 
-    void goToMainMenu();
+    void goToMainMenuScene();
 }

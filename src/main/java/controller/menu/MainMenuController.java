@@ -4,4 +4,6 @@ public interface MainMenuController {
 
     void goToStatsScene();
 
+    void goToRulesScene();
+
 }

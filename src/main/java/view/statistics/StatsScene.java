@@ -38,7 +38,7 @@ public class StatsScene extends JPanel implements Scene {
         this.add(statsPanel, BorderLayout.CENTER);
 
         JButton backButton = new JButton("Back to Menu");
-        backButton.addActionListener(e -> this.controller.goToMainMenu());
+        backButton.addActionListener(e -> this.controller.goToMainMenuScene());
         this.add(backButton, BorderLayout.SOUTH);
     }
 
@@ -69,7 +69,7 @@ public class StatsScene extends JPanel implements Scene {
     }
 
     @Override
-    public String getName() {
+    public String getSceneName() {
         return SCENE_NAME;
     }
 
