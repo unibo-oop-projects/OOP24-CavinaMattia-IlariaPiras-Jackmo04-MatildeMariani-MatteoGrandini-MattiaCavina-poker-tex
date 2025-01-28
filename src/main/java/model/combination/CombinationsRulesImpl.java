@@ -3,8 +3,6 @@ package model.combination;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-
 import model.combination.api.CombinationDimension;
 import model.combination.api.CombinationsRules;
 import model.deck.api.Card;
@@ -85,8 +83,8 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
         @Override
         public Boolean isFlush() {
                 return totalCardList.size() >= CombinationDimension.STRAIGHT.getDimension()
-                                && CombinationRulesUtilities.getSumOfSameSeedCard(totalCardList).values().stream()
-                                                .filter(t -> t == CombinationDimension.STRAIGHT.getDimension())
+                                && CombinationRulesUtilities.getSumOfSameSeedCard(totalCardList).entrySet().stream()
+                                                .filter(t -> t.getCount() == CombinationDimension.STRAIGHT.getDimension())
                                                 .count() == 1;
         }
 

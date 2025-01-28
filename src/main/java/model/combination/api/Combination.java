@@ -1,6 +1,5 @@
 package model.combination.api;
 
-import java.util.List;
 import java.util.Set;
 
 /**

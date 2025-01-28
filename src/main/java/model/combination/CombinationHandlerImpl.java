@@ -1,6 +1,5 @@
 package model.combination;
 
-import java.util.List;
 import java.util.Set;
 
 import model.combination.api.Combination;

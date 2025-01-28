@@ -1,17 +1,19 @@
 package model.combination;
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import com.google.common.collect.Multiset;
+import com.google.common.collect.TreeMultiset;
+import com.google.common.collect.Multiset.Entry;
 
 import model.combination.api.CombinationDimension;
 import model.deck.api.Card;
 import model.deck.api.SeedCard;
+import model.deck.api.SimpleCard;
 
 /**
  * Class whith method to support CombinationRulesImpl class.
@@ -59,9 +61,8 @@ public final class CombinationRulesUtilities {
      */
     protected static List<Card> filteredSameValueCard(final List<Card> totalCardList) {
         SeedCard mustUsedSeedCard = getSumOfSameSeedCard(totalCardList).entrySet().stream()
-                .max(Comparator.comparing(Entry::getValue))
-                .get()
-                .getKey();
+                .max(Comparator.comparing(Entry::getCount))
+                .get().getElement();
 
         var straightList = totalCardList.stream()
                 .sorted(Comparator.comparing(Card::valueOfCard))
@@ -87,9 +88,9 @@ public final class CombinationRulesUtilities {
      *         Stream of Integer that represent the sum of the same name card.
      */
     protected static Stream<Integer> getSumOfSameNameCard(final List<Card> totalCardList) {
-        return totalCardList.stream().map(t -> t.cardName())
-                .collect(Collectors.toMap(t -> t, t -> 1, Integer::sum, HashMap::new))
-                .values().stream();
+        Multiset<SimpleCard> nameCardMultiset = TreeMultiset.create();
+        nameCardMultiset.addAll(totalCardList.stream().map(t -> t.cardName()).toList());
+        return nameCardMultiset.entrySet().stream().map(Entry::getCount);
     }
 
     /**
@@ -100,10 +101,10 @@ public final class CombinationRulesUtilities {
      *         Map of SeedCard and Integer that represent the sum of the same seed
      *         card.
      */
-    protected static Map<SeedCard, Integer> getSumOfSameSeedCard(final List<Card> totalCardList) {
-        return totalCardList.stream()
-                .map(t -> t.seedName())
-                .collect(Collectors.toMap(t -> t, t -> 1, Integer::sum, HashMap::new));
+    protected static Multiset<SeedCard> getSumOfSameSeedCard(final List<Card> totalCardList) {
+        Multiset<SeedCard> seedCardMultiset = TreeMultiset.create();
+        seedCardMultiset.addAll(totalCardList.stream().map(t -> t.seedName()).toList());
+        return seedCardMultiset;
     }
 
 }
