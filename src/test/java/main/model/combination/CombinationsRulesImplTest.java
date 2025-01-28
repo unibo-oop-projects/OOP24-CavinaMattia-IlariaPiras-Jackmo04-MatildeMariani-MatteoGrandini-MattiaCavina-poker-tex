@@ -56,7 +56,7 @@ public class CombinationsRulesImplTest { // NOPMD suppressed as it is a false po
 
                 assertEquals(true, new CombinationsRulesImpl(totalCardList).isTwoPairs());
                 assertEquals(false, new CombinationsRulesImpl(totalCardList).isTris());
-                assertEquals(false, new CombinationsRulesImpl(totalCardList).isPair());
+                assertEquals(true, new CombinationsRulesImpl(totalCardList).isPair());
 
                 totalCardList = Set.of(
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),

@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.google.common.collect.Multiset;
 import com.google.common.collect.TreeMultiset;
@@ -87,10 +86,10 @@ public final class CombinationRulesUtilities {
      * @return
      *         Stream of Integer that represent the sum of the same name card.
      */
-    protected static Stream<Integer> getSumOfSameNameCard(final List<Card> totalCardList) {
+    protected static Multiset<SimpleCard> getSumOfSameNameCard(final List<Card> totalCardList) {
         Multiset<SimpleCard> nameCardMultiset = TreeMultiset.create();
         nameCardMultiset.addAll(totalCardList.stream().map(t -> t.cardName()).toList());
-        return nameCardMultiset.entrySet().stream().map(Entry::getCount);
+        return nameCardMultiset;
     }
 
     /**
