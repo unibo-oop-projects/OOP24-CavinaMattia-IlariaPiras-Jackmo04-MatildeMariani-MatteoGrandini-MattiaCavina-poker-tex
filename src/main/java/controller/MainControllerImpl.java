@@ -1,10 +1,11 @@
 package controller;
 
-import java.util.Map;
+import java.util.List;
 
 import model.game.api.Game;
 import model.statistics.BasicStatisticsImpl;
 import model.statistics.StatisticsManagerImpl;
+import temp.Pair;
 import view.View;
 
 public class MainControllerImpl implements MainController {
@@ -19,14 +20,13 @@ public class MainControllerImpl implements MainController {
     }
 
     @Override
-    public Map<String, String> getStatistics() {
+    public List<Pair<String, String>> getStatistics() {
         var statsManager = new StatisticsManagerImpl<>(new BasicStatisticsImpl());
         try {
             statsManager.loadStatistics(STATS_FILE_NAME);
         } catch (Exception e) {
             System.err.println("Failed to load statistics from file");
-            e.printStackTrace();
         }
-        return statsManager.getTotalStatistics().getAsMap();
+        return statsManager.getTotalStatistics().getAsList();
     }
 }

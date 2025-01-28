@@ -1,6 +1,8 @@
 package controller;
 
-import java.util.Map;
+import java.util.List;
+
+import temp.Pair;
 
 /**
  * The main controller of the application.
@@ -12,5 +14,5 @@ public interface MainController {
      * The statistics are loaded from a file in the $HOME/poker directory.
      * @return A map the statistics of the game.
      */
-    Map<String, String> getStatistics();
+    List<Pair<String, String>> getStatistics();
 }

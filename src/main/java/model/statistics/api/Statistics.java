@@ -1,6 +1,8 @@
 package model.statistics.api;
 
-import java.util.Map;
+import java.util.List;
+
+import temp.Pair;
 
 /**
  * Interface that represents a statistics containing object.
@@ -15,13 +17,13 @@ public interface Statistics {
     void reset();
 
     /**
-     * Returns a map containing entries organized as follows:
+     * Returns a list containing pairs organized as follows:
      * <ul>
      * <li><b>Key:</b> The name of the statistic
      * <li><b>Value:</b> The string representation of the stat value
      * </ul>
      * For each statistic kept by the implementation
-     * @return A map containing all statistics kept by the class
+     * @return A list containing all statistics kept by the class
      */
-    Map<String,String> getAsMap();
+    List<Pair<String, String>> getAsList();
 }

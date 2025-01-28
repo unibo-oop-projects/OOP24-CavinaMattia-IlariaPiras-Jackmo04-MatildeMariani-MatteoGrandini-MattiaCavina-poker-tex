@@ -54,8 +54,8 @@ public class StatsScene extends JPanel implements Scene {
     public void updateStats() {
         var statsMap = this.controller.getStatistics();
         this.statsPanel.removeAll();
-        statsMap.entrySet().forEach(e -> 
-            this.statsPanel.add(new StatPanel(e.getKey(), e.getValue()))
+        statsMap.forEach(p -> 
+            this.statsPanel.add(new StatPanel(p.elem1(), p.elem2()))
         );
     }
 

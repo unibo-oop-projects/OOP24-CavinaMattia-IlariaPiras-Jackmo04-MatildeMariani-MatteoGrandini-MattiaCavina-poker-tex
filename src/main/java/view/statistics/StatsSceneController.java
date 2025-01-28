@@ -1,10 +1,12 @@
 package view.statistics;
 
-import java.util.Map;
+import java.util.List;
+
+import temp.Pair;
 
 public interface StatsSceneController {
 
     void goToMainMenu();
 
-    Map<String, String> getStatistics();
+    List<Pair<String, String>> getStatistics();
 }

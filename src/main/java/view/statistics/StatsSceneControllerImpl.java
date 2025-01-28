@@ -1,8 +1,9 @@
 package view.statistics;
 
-import java.util.Map;
+import java.util.List;
 
 import controller.MainController;
+import temp.Pair;
 import view.View;
 import view.tempMainMenu.MainMenuScene;
 import view.tempMainMenu.MainMenuSceneControllerImpl;
@@ -23,7 +24,7 @@ public class StatsSceneControllerImpl implements StatsSceneController {
     }
 
     @Override
-    public Map<String, String> getStatistics() {
+    public List<Pair<String, String>> getStatistics() {
         return this.mainController.getStatistics();
     }
 

@@ -1,12 +1,13 @@
 package model.statistics;
 
 import java.io.Serializable;
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import model.statistics.api.BasicStatistics;
 import model.temp.CombinationType;
+import temp.Pair;
 
 /**
  * Class to store statistics of the game. The statistics kept by this implementation are:
@@ -274,16 +275,16 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public Map<String, String> getAsMap() {
-        return Map.of(
-            "Hands played", String.valueOf(this.getNumOfHandsPlayed()),
-            "Hands won", String.valueOf(this.getNumOfHandsWon()),
-            "Games played", String.valueOf(this.getNumOfGamesPlayed()),
-            "Games won", String.valueOf(this.getNumOfGamesWon()),
-            "Best Combination", this.getBestCombination().map(CombinationType::fullName).orElse("None"),
-            "Biggest win", String.valueOf(this.getBiggestWin()),
-            "Hands win rate", String.valueOf(this.getHandWinRate()),
-            "Games win rate", String.valueOf(this.getGameWinRate())
+    public List<Pair<String, String>> getAsList() {
+        return List.of(
+            new Pair<>("Hands played", String.valueOf(this.getNumOfHandsPlayed())),
+            new Pair<>("Hands won", String.valueOf(this.getNumOfHandsWon())),
+            new Pair<>("Games played", String.valueOf(this.getNumOfGamesPlayed())),
+            new Pair<>("Games won", String.valueOf(this.getNumOfGamesWon())),
+            new Pair<>("Best Combination", this.getBestCombination().map(CombinationType::fullName).orElse("None")),
+            new Pair<>("Biggest win", String.valueOf(this.getBiggestWin())),
+            new Pair<>("Hands win rate", String.valueOf(this.getHandWinRate())),
+            new Pair<>("Games win rate", String.valueOf(this.getGameWinRate()))
         );
     }
 
