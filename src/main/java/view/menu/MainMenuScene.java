@@ -10,12 +10,19 @@ import javax.swing.SwingConstants;
 import controller.menu.MainMenuController;
 import view.commons.Scene;
 
+/**
+ * The {@link Scene} that represents the main menu of the game.
+ */
 public class MainMenuScene extends JPanel implements Scene {
 
-    private static final String NAME = "menu";
+    private static final String SCENE_NAME = "menu";
 
     private final MainMenuController controller;
 
+    /**
+     * Creates a new {@link MainMenuScene}.
+     * @param controller the controller for the main menu
+     */
     public MainMenuScene(MainMenuController controller) {
         this.controller = controller;
         this.setLayout(new BorderLayout());
@@ -38,13 +45,19 @@ public class MainMenuScene extends JPanel implements Scene {
         goToRules.addActionListener(e -> this.controller.goToRulesScene());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel getPanel() {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSceneName() {
-        return NAME;
+        return SCENE_NAME;
     }
 }

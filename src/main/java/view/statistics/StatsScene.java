@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import controller.statistics.StatsController;
 import view.commons.Scene;
 
+/**
+ * The {@link Scene} that displays the statistics of the game.
+ */
 public class StatsScene extends JPanel implements Scene {
 
     private static final String SCENE_NAME = "stats";
@@ -20,6 +23,10 @@ public class StatsScene extends JPanel implements Scene {
     private final JPanel statsPanel;
     private final StatsController controller;
 
+    /**
+     * Creates a new {@link Scene} that displays the statistics of the game.
+     * @param statsController the controller for the statistics
+     */
     public StatsScene(StatsController statsController) {
         this.controller = statsController;
 
@@ -42,7 +49,7 @@ public class StatsScene extends JPanel implements Scene {
         this.add(backButton, BorderLayout.SOUTH);
     }
 
-    public void updateStats() {
+    private void updateStats() {
         var statsMap = this.controller.getStatistics();
         this.statsPanel.removeAll();
         statsMap.forEach(p -> 
@@ -50,7 +57,7 @@ public class StatsScene extends JPanel implements Scene {
         );
     }
 
-    // Inner class to create a panel for each statistic (not definitive)
+    // Inner class to create a panel for each statistic
     private class StatPanel extends JPanel {
         public StatPanel(String name, String value) {
             JLabel nameLabel = new JLabel(name + ": ");
@@ -63,11 +70,17 @@ public class StatsScene extends JPanel implements Scene {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel getPanel() {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSceneName() {
         return SCENE_NAME;

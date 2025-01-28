@@ -4,6 +4,10 @@ import controller.menu.MainMenuControllerImpl;
 import view.View;
 import view.menu.MainMenuScene;
 
+/**
+ * Implementation of the rules controller.
+ * Manages the return to the main menu scene.
+ */
 public class RulesControllerImpl implements RulesController {
 
     private View mainView;

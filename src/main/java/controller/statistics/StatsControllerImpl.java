@@ -9,15 +9,27 @@ import temp.Pair;
 import view.View;
 import view.menu.MainMenuScene;
 
+/**
+ * Implementation of the StatsController interface.
+ * Manages the retrieval of the statistics form the statistics manager and the
+ * return to the main menu scene.
+ */
 public class StatsControllerImpl implements StatsController {
 
     private static final String STATS_FILE_NAME = "stats.bin";
     private final View mainView;
 
+    /**
+     * Constructor for the StatsControllerImpl class.
+     * @param mainView The main view of the application.
+     */
     public StatsControllerImpl(View mainView) {
         this.mainView = mainView;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Pair<String, String>> getStatistics() {
         var statsManager = new StatisticsManagerImpl<>(new BasicStatisticsImpl());
@@ -29,6 +41,9 @@ public class StatsControllerImpl implements StatsController {
         return statsManager.getTotalStatistics().getAsList();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void goToMainMenuScene() {
         this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
