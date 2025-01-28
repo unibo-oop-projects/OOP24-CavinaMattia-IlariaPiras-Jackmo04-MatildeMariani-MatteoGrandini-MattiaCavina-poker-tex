@@ -13,6 +13,7 @@ public class UserPlayerController {
     private final PokerGUI pokerGUI;
     private String action;
     private boolean actionReceived=false;
+    private int raiseAmount;
 
     /**
      * Constructs a UserPlayerController with the specified user player.
@@ -32,6 +33,22 @@ public class UserPlayerController {
     public void receiveUserAction(final String action) {
         this.action = action;
         this.actionReceived=true;
+    }
+
+    /**
+     * Sets the raise amount.
+     * @param raiseAmount the amount to raise.
+     */
+    public void setRaiseAmount(final int raiseAmount) {
+        this.raiseAmount = raiseAmount;
+    }
+
+    /**
+     * Gets the raise amount.
+     * @return the raise amount.
+     */
+    public int getRaiseAmount() {
+        return this.raiseAmount;
     }
 
     /**
@@ -69,6 +86,14 @@ public class UserPlayerController {
     }
 
     /**
+     * Checks if the user player can perform an all-in action.
+     * @return true if the user player can all-in, false otherwise.
+     */
+    public boolean canAllIn() {
+        return true;
+    }
+
+    /**
      * Gets the action from the user player based on the current game state.
      * Updates the button states and waits for an action to be received.
      * @param currentBet the current bet in the game.
@@ -94,7 +119,20 @@ public class UserPlayerController {
             case "FOLD" -> {
                 return Action.FOLD;
             }
+            case "ALL_IN" -> {
+                return Action.ALL_IN; 
+            }
             default -> throw new IllegalArgumentException();
         }
     }
+
+    /**
+     * Checks if the amount entered in the text field is valid.
+     * @return true if the amount is valid, false otherwise.
+     */
+    public boolean isAmountOK(String text) {
+        int amount;
+        amount = Integer.parseInt(text);
+        return this.userPlayer.getChips() > amount;
+    } 
 }
