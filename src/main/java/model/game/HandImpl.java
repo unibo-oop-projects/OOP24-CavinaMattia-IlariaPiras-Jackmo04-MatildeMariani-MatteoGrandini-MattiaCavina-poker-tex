@@ -94,8 +94,7 @@ public class HandImpl implements Hand {
     }
 
     /** 
-     * TODO: Change the comparator, if the priority is equal than check the values.
-     * (need to wait after Mattia implemented the Combination interface).
+     * TODO: Change the comparator, (need to wait after Mattia implemented the Combination interface).
     */
 
     /**
@@ -103,7 +102,7 @@ public class HandImpl implements Hand {
      */
     @Override
     public void determinateWinnerOfTheHand() {
-        this.handPlayers.sort((p1, p2) -> p1.getCombination().value() - p2.getCombination().value());
+        //this.handPlayers.sort();
         this.handPlayers.removeFirst().handWon(this.gameState.getPot());
         if (!this.handPlayers.isEmpty()) {
             this.handPlayers.forEach(p -> p.handLost());

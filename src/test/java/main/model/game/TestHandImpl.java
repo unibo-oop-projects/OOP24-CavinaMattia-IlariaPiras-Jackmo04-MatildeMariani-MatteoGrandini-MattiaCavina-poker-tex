@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 import model.deck.DeckFactoryImpl;
 import model.deck.api.Card;
 import model.deck.api.Deck;
@@ -63,7 +64,6 @@ public class TestHandImpl {
         Player player3 = playerFactory.easy(INITIAL_CHIPS, Role.BIG_BLIND);
         Player player4 = playerFactory.easy(INITIAL_CHIPS, Role.REGULAR);
         var players = new ArrayList<>(List.of(player1, player2, player3, player4));
-        var gameState = new StateImpl(INITIAL_CHIPS / 100, INITIAL_NUM_PLAYERS);
 
         var hand1 = new HandImpl(players, gameState);
         assertEquals(List.of(player2, player3, player4, player1), hand1.getHandPlayers());
