@@ -1,1 +1,0 @@
-# Qui ci andrà la struttura dei package (da definire insieme)
