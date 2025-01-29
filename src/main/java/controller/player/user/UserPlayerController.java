@@ -1,5 +1,6 @@
 package controller.player.user;
 
+import model.game.api.State;
 import model.player.api.Action;
 import model.player.user.UserPlayer;
 import view.player.user.PokerGUI;
@@ -14,6 +15,7 @@ public class UserPlayerController {
     private String action;
     private boolean actionReceived=false;
     private int raiseAmount;
+    private State state;
 
     /**
      * Constructs a UserPlayerController with the specified user player.
@@ -56,8 +58,8 @@ public class UserPlayerController {
      * @param currentBet the current bet in the game.
      * @return true if the user player can check, false otherwise.
      */
-    public boolean canCheck(final int currentBet) {
-        return currentBet == 0;
+    public boolean canCheck() {
+        return this.state.getCurrentBet() == this.userPlayer.getTotalPhaseBet();
     }
 
     /**
@@ -73,8 +75,8 @@ public class UserPlayerController {
      * @param currentBet the current bet in the game.
      * @return true if the user player can raise, false otherwise.
      */
-    public boolean canRaise(final int currentBet) {
-        return userPlayer.getChips() > currentBet;
+    public boolean canRaise() {
+        return userPlayer.getChips() > this.state.getCurrentBet();
     }
 
     /**
@@ -93,6 +95,10 @@ public class UserPlayerController {
         return true;
     }
 
+    public void setCurrentState(final State state) {
+        this.state = state;
+    }
+
     /**
      * Gets the action from the user player based on the current game state.
      * Updates the button states and waits for an action to be received.
@@ -100,7 +106,7 @@ public class UserPlayerController {
      * @return the action received from the user player.
      */
     public Action getUserAction(final int currentBet) {
-        pokerGUI.updateButtonStates(currentBet);
+        pokerGUI.updateButtonStates();
         while(this.actionReceived == false) {
             //qui farà qualcosa
         }

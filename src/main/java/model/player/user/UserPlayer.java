@@ -5,13 +5,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import controller.player.user.UserPlayerController;
+import model.combination.CombinationHandlerImpl;
 import model.game.api.Phase;
 import model.game.api.State;
 import model.player.AbstractPlayer;
 import model.player.api.Action;
 import model.player.api.Role;
 import model.temp.Blind;
-import model.temp.Combinations;
 
 /**
  * Class representing a human player in the game.
@@ -19,7 +19,7 @@ import model.temp.Combinations;
 public class UserPlayer extends AbstractPlayer {
     
     private final UserPlayerController controller;
-
+    private State state;
     /**
      * Constructor for the UserPlayer class.
      * @param initialChips the initial amount of chips that the player has.
@@ -28,6 +28,8 @@ public class UserPlayer extends AbstractPlayer {
     public UserPlayer(final int initialChips, final Role initialRole) {
         super(initialChips, initialRole);
         this.controller = new UserPlayerController(this);
+        this.controller.setCurrentState(state);
+        this.setTotalPhaseBet(0);
     }
 
     /**
@@ -35,6 +37,7 @@ public class UserPlayer extends AbstractPlayer {
      */
     @Override
     public Action getAction(final State currentState) {
+        this.controller.setCurrentState(currentState);
         if (this.getCards().size() != 2) {
             throw new IllegalStateException("Player must have 2 cards to play");
         }
@@ -118,7 +121,7 @@ public class UserPlayer extends AbstractPlayer {
     }
 
     private void updateCombination(final State currentState) {
-        var allCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream()).collect(Collectors.toSet()); 
-        this.setCombination(Combinations.getBestCombination(allCards)); // Imposta la combinazione migliore trovata
+        var allCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream()).collect(Collectors.toSet());
+        this.setCombination((new CombinationHandlerImpl()).getCombination(allCards)); 
     }
 }

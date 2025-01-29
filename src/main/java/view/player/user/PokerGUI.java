@@ -85,10 +85,10 @@ public class PokerGUI {
      * Updates the states of the buttons based on the current bet.
      * @param currentBet the current bet in the game.
      */
-    public void updateButtonStates(final int currentBet) {
-        checkButton.setEnabled(controller.canCheck(currentBet));
+    public void updateButtonStates() {
+        checkButton.setEnabled(controller.canCheck());
         callButton.setEnabled(controller.canCall());
-        raiseButton.setEnabled(controller.canRaise(currentBet));
+        raiseButton.setEnabled(controller.canRaise());
         foldButton.setEnabled(controller.canFold());
         allInButton.setEnabled(controller.canAllIn());
     }
