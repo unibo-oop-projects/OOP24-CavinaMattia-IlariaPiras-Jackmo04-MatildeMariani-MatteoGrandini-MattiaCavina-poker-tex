@@ -82,7 +82,7 @@ public abstract class AbstractPlayer implements Player {
      */
     @Override
     public boolean hasChipsLeft() {
-        return chips > 0;
+        return this.chips > 0;
     }
 
     /**
