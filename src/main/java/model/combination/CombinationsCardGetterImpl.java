@@ -102,7 +102,7 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter {
                 return totalCardList.stream().filter(t -> t.seedName()
                                 .equals(CombinationRulesUtilities.getSumOfSameSeedCard(totalCardList).entrySet()
                                 .stream()
-                                .filter(l -> l.getCount() == CombinationDimension.TRIS.getDimension())
+                                .filter(l -> l.getCount() == CombinationDimension.STRAIGHT.getDimension())
                                 .toList().getFirst().getElement()))
                                 .collect(Collectors.toSet());
 
