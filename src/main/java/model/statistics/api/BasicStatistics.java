@@ -2,7 +2,7 @@ package model.statistics.api;
 
 import java.util.Optional;
 
-import model.temp.CombinationType;
+import model.combination.api.CombinationType;
 
 /**
  * Interface modelling general statistics for the game. 

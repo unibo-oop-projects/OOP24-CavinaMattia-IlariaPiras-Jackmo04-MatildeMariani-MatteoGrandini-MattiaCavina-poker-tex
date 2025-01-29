@@ -6,8 +6,8 @@ import java.util.function.Function;
 import model.player.ai.api.AIPlayer;
 import model.player.ai.api.AIPlayerFactory;
 import model.player.api.Role;
-import model.temp.Combination;
-import model.temp.CombinationType;
+import model.combination.api.Combination;
+import model.combination.api.CombinationType;
 import model.game.api.State;
 
 // TODO Le percentuali saranno sicuramente da rivedere
@@ -62,23 +62,23 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                 case HIGH_CARD -> 0.80;
                 case PAIR -> 0.90;
                 case TWO_PAIRS -> 1.10;
-                case THREE_OF_A_KIND -> 1.60;
+                case TRIS -> 1.60;
                 case STRAIGHT -> 1.80;
                 case FLUSH -> 1.85;
                 case FULL_HOUSE -> 1.90;
-                case FOUR_OF_A_KIND -> 1.95;
-                case STRAIGHT_FLUSH -> 2.00;
+                case POKER -> 1.95;
+                case ROYAL_FLUSH -> 2.00;
             },
             type -> switch (type) {
                 case HIGH_CARD -> 0.01;
                 case PAIR -> 0.05;
                 case TWO_PAIRS -> 0.10;
-                case THREE_OF_A_KIND -> 0.20;
+                case TRIS -> 0.20;
                 case STRAIGHT -> 0.25;
                 case FLUSH -> 0.30;
                 case FULL_HOUSE -> 0.40;
-                case FOUR_OF_A_KIND -> 0.60;
-                case STRAIGHT_FLUSH -> 0.80;
+                case POKER -> 0.60;
+                case ROYAL_FLUSH -> 0.80;
             }
         );
     }
