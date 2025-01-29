@@ -5,12 +5,10 @@ import java.util.function.Function;
 
 import model.player.ai.api.AIPlayer;
 import model.player.ai.api.AIPlayerFactory;
-import model.player.api.Role;
 import model.combination.api.Combination;
 import model.combination.api.CombinationType;
 import model.game.api.State;
 
-// TODO Le percentuali saranno sicuramente da rivedere
 /**
  * Implementation of the {@link AIPlayerFactory} interface.
  * This class provides methods to create AI players with different difficulty
@@ -35,29 +33,29 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
      * {@inheritDoc}
      */
     @Override
-    public AIPlayer easy(final int initialChips, final Role initialRole) {
-        return standard(initialChips, initialRole, EASY_RAISING_FACTOR, EASY_DIFFICULTY_MODIFIER);
+    public AIPlayer easy(final int initialChips) {
+        return standard(initialChips, EASY_RAISING_FACTOR, EASY_DIFFICULTY_MODIFIER);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public AIPlayer medium(final int initialChips, final Role initialRole) {
-        return standard(initialChips, initialRole, MEDIUM_RAISING_FACTOR, MEDIUM_DIFFICULTY_MODIFIER);
+    public AIPlayer medium(final int initialChips) {
+        return standard(initialChips, MEDIUM_RAISING_FACTOR, MEDIUM_DIFFICULTY_MODIFIER);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public AIPlayer hard(final int initialChips, final Role initialRole) {
-        return standard(initialChips, initialRole, HARD_RAISING_FACTOR, HARD_DIFFICULTY_MODIFIER);
+    public AIPlayer hard(final int initialChips) {
+        return standard(initialChips, HARD_RAISING_FACTOR, HARD_DIFFICULTY_MODIFIER);
     }
 
-    private AIPlayer standard(final int initialChips, final Role initialRole,
+    private AIPlayer standard(final int initialChips,
             final double raisingFactor, final double difficultyModifier) {
-        return custom(initialChips, initialRole, raisingFactor, difficultyModifier,
+        return custom(initialChips, raisingFactor, difficultyModifier,
             type -> switch (type) {
                 case HIGH_CARD -> 0.80;
                 case PAIR -> 0.90;
@@ -84,9 +82,9 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
     }
 
     @Override
-    public AIPlayer custom(int initialChips, Role initialRole, double raisingFactor, double difficultyModifier,
+    public AIPlayer custom(int initialChips,  double raisingFactor, double difficultyModifier,
             Function<CombinationType, Double> callChance, Function<CombinationType, Double> raiseChance) {
-        return new AbstractAIPlayer(initialChips, initialRole, raisingFactor) {
+        return new AbstractAIPlayer(initialChips, raisingFactor) {
 
             private final Random random = new Random();
 
