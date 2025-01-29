@@ -96,6 +96,9 @@ public abstract class AbstractGame implements Game{
         return gameState;
     }
 
+    /*
+     * TODO: change the commented lines using Optional.empty 
+     */
     /**
      * Sets the {@link Role}s for the hand, assigning each role to the next player in 
      * the list (keeping in mind that some players may no longer be in the game) and 
@@ -104,8 +107,8 @@ public abstract class AbstractGame implements Game{
     private void setRolesForNewHand() {
         var originalList = List.copyOf(players);
         this.players.removeIf(p -> !p.hasChipsLeft());
-        smallBlindPlayer.setRole(Role.REGULAR);
-        bigBlindPlayer.setRole(Role.REGULAR);
+        //smallBlindPlayer.setRole(Role.REGULAR);
+        //bigBlindPlayer.setRole(Role.REGULAR);
         
         var indexNextSmallBlind = originalList.indexOf(smallBlindPlayer) + 
                                   (this.players.contains(smallBlindPlayer)? 1 : 0);
@@ -119,6 +122,9 @@ public abstract class AbstractGame implements Game{
         bigBlindPlayer = this.players.get(indexNextBigBlind);
     }
 
+    /*
+     * TODO: change the initial role assignment to optional empty and then use rand to get two players to assign the roles to.
+     */
     /** 
      * Sets the initial list of {@link Player}s, assigning to each of them a
      * different role randomly. It's a template method.
@@ -130,8 +136,6 @@ public abstract class AbstractGame implements Game{
 
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
             this.players.add(this.getAIPlayer(initialChips, startingRole));
-            startingRole = startingRole.next();
-
         }
         //this.players.add(new UserPlayer(initialChips, startingRole.next()));
         this.smallBlindPlayer = this.players.stream()

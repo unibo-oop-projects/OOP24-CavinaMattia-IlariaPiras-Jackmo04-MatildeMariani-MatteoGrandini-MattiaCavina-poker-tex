@@ -40,7 +40,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
      */
     @Override
     public Action getAction(final State currentState) {
-        this.paidBlind = this.getRole() == Role.REGULAR || this.getRole() == Role.DEALER;
+        //this.paidBlind = this.getRole() == Role.REGULAR || this.getRole() == Role.DEALER;
         if (this.getCards().size() != 2) {
             throw new IllegalStateException("Player must have 2 cards to play");
         }
