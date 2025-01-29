@@ -26,7 +26,7 @@ public class MainMenuScene extends JPanel implements Scene {
     public MainMenuScene(final MainMenuController controller) {
         this.controller = controller;
         this.setLayout(new BorderLayout());
-        JLabel title = new JLabel("Poker Texas Hols'em", SwingConstants.CENTER);
+        JLabel title = new JLabel("Poker Texas Hold'em", SwingConstants.CENTER);
         this.add(title, BorderLayout.NORTH);
 
         // Menu buttons panel
