@@ -1,10 +1,13 @@
 package model.player.ai;
 
 import java.util.Random;
+import java.util.function.Function;
 
 import model.player.ai.api.AIPlayer;
 import model.player.ai.api.AIPlayerFactory;
 import model.player.api.Role;
+import model.combination.api.Combination;
+import model.combination.api.CombinationType;
 import model.game.api.State;
 
 // TODO Le percentuali saranno sicuramente da rivedere
@@ -54,53 +57,63 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
 
     private AIPlayer standard(final int initialChips, final Role initialRole,
             final double raisingFactor, final double difficultyModifier) {
+        return custom(initialChips, initialRole, raisingFactor, difficultyModifier,
+            type -> switch (type) {
+                case HIGH_CARD -> 0.80;
+                case PAIR -> 0.90;
+                case TWO_PAIRS -> 1.10;
+                case TRIS -> 1.60;
+                case STRAIGHT -> 1.80;
+                case FLUSH -> 1.85;
+                case FULL_HOUSE -> 1.90;
+                case POKER -> 1.95;
+                case ROYAL_FLUSH -> 2.00;
+            },
+            type -> switch (type) {
+                case HIGH_CARD -> 0.01;
+                case PAIR -> 0.05;
+                case TWO_PAIRS -> 0.10;
+                case TRIS -> 0.20;
+                case STRAIGHT -> 0.25;
+                case FLUSH -> 0.30;
+                case FULL_HOUSE -> 0.40;
+                case POKER -> 0.60;
+                case ROYAL_FLUSH -> 0.80;
+            }
+        );
+    }
+
+    @Override
+    public AIPlayer custom(int initialChips, Role initialRole, double raisingFactor, double difficultyModifier,
+            Function<CombinationType, Double> callChance, Function<CombinationType, Double> raiseChance) {
         return new AbstractAIPlayer(initialChips, initialRole, raisingFactor) {
 
             private final Random random = new Random();
 
             @Override
-            protected boolean shouldCall(final State currentState) {
-                var callChance = difficultyModifier * switch (this.getCombination().type()) {
-                    case HIGH_CARD -> 0.80;
-                    case PAIR -> 0.90;
-                    case TWO_PAIRS -> 1.10;
-                    case TRIS -> 1.60;
-                    case STRAIGHT -> 1.80;
-                    case FLUSH -> 1.85;
-                    case FULL_HOUSE -> 1.90;
-                    case POKER -> 1.95;
-                    case ROYAL_FLUSH -> 2.00;
-                };
-                callChance = callChance * switch (currentState.getHandPhase()) {
+            protected boolean shouldCall(State currentState) {
+                var chance = difficultyModifier * callChance.apply(this.getCombination().type());
+                chance = chance * switch (currentState.getHandPhase()) {
                     case PREFLOP -> 1.00;
                     case FLOP -> 0.75;
                     case TURN -> 0.60;
                     case RIVER -> 0.45;
                 };
                 if (this.getTotalPhaseBet() != 0 && requiredBet(currentState) > this.getTotalPhaseBet() * 1.5) {
-                    callChance = callChance * 0.75;
+                    chance = chance * 0.75;
                 }
-                return random.nextDouble() < callChance;
+                return random.nextDouble() < chance;
             }
 
             @Override
-            protected boolean shouldRaise(final State currentState) {
-                var raiseChance = difficultyModifier * switch (this.getCombination().type()) {
-                    case HIGH_CARD -> 0.01;
-                    case PAIR -> 0.05;
-                    case TWO_PAIRS -> 0.10;
-                    case TRIS -> 0.20;
-                    case STRAIGHT -> 0.25;
-                    case FLUSH -> 0.30;
-                    case FULL_HOUSE -> 0.40;
-                    case POKER -> 0.60;
-                    case ROYAL_FLUSH -> 0.80;
-                };
+            protected boolean shouldRaise(State currentState) {
+                var chance = difficultyModifier * raiseChance.apply(this.getCombination().type());
                 if (requiredBet(currentState) == 0) {
-                    raiseChance = raiseChance + 0.80;
+                    chance = chance + 0.80;
                 }
-                return random.nextDouble() < raiseChance;
+                return random.nextDouble() < chance;
             }
+
         };
     }
 
