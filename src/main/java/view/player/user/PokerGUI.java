@@ -17,6 +17,7 @@ import controller.player.user.UserPlayerController;
  * Class representing the graphical user interface for the poker game.
  */
 public class PokerGUI {
+
     private final UserPlayerController controller;
     private JButton checkButton;
     private JButton callButton;
@@ -82,8 +83,7 @@ public class PokerGUI {
     }
 
     /**
-     * Updates the states of the buttons based on the current bet.
-     * @param currentBet the current bet in the game.
+     * Updates the states of the buttons based on the current game state.
      */
     public void updateButtonStates() {
         checkButton.setEnabled(controller.canCheck());
@@ -126,7 +126,7 @@ public class PokerGUI {
     }
 
     /**
-     * Inner class to handle focus events for the text field.
+     * Inner class to handle focus events of the text field.
      */
     private class MyFocusListener implements FocusListener {
         @Override

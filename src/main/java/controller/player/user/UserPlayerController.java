@@ -12,10 +12,10 @@ public class UserPlayerController {
     
     private final UserPlayer userPlayer;
     private final PokerGUI pokerGUI;
-    private String action;
-    private boolean actionReceived=false;
     private int raiseAmount;
     private State state;
+    private Action action;
+    private boolean actionReceived=false;
 
     /**
      * Constructs a UserPlayerController with the specified user player.
@@ -31,9 +31,18 @@ public class UserPlayerController {
      * Receives and handles the action from the GUI.
      * Sets the action and marks it as received.
      * @param action the action received from the GUI.
+     * It should be one of the following: "CHECK", "CALL", "RAISE", "FOLD", "ALL_IN".
+     * @throws IllegalArgumentException if the action is not one of the expected values.
      */
     public void receiveUserAction(final String action) {
-        this.action = action;
+        this.action = switch (action) {
+            case "CHECK" -> Action.CHECK;
+            case "CALL" -> Action.CALL;
+            case "RAISE" -> Action.RAISE;
+            case "FOLD" -> Action.FOLD;
+            case "ALL_IN" -> Action.ALL_IN; 
+            default -> throw new IllegalArgumentException();
+        };
         this.actionReceived=true;
     }
 
@@ -55,7 +64,6 @@ public class UserPlayerController {
 
     /**
      * Checks if the user player can perform a check action.
-     * @param currentBet the current bet in the game.
      * @return true if the user player can check, false otherwise.
      */
     public boolean canCheck() {
@@ -72,7 +80,6 @@ public class UserPlayerController {
 
     /**
      * Checks if the user player can perform a raise action.
-     * @param currentBet the current bet in the game.
      * @return true if the user player can raise, false otherwise.
      */
     public boolean canRaise() {
@@ -95,45 +102,40 @@ public class UserPlayerController {
         return true;
     }
 
+    /**
+     * Sets the current state of the game.
+     * @param state the current state of the game.
+     */
     public void setCurrentState(final State state) {
         this.state = state;
     }
 
     /**
-     * Gets the action from the user player based on the current game state.
-     * Updates the button states and waits for an action to be received.
-     * @param currentBet the current bet in the game.
-     * @return the action received from the user player.
+     * Gets the current state of the game.
+     * @return the current state of the game.
      */
-    public Action getUserAction(final int currentBet) {
-        pokerGUI.updateButtonStates();
-        while(this.actionReceived == false) {
-            //qui farà qualcosa
-        }
-        this.actionReceived = false; 
-        pokerGUI.disableAllButtons();
-        switch (this.action) {
-            case "CHECK" -> {
-                return Action.CHECK;
-            } 
-            case "CALL" -> {
-                return Action.CALL;
-            }
-            case "RAISE" -> {
-                return Action.RAISE;
-            }
-            case "FOLD" -> {
-                return Action.FOLD;
-            }
-            case "ALL_IN" -> {
-                return Action.ALL_IN; 
-            }
-            default -> throw new IllegalArgumentException();
-        }
+    public State getCurrentState() {
+        return this.state;
     }
 
     /**
-     * Checks if the amount entered in the text field is valid.
+     * Gets the action from the user player.
+     * Updates the button states and waits for an action to be received.
+     * @return the action received from the user player.
+     */
+    public Action getUserAction() {
+        pokerGUI.updateButtonStates();
+        /*while(this.actionReceived == false) {
+            //questa parte è da modificare
+        }*/
+        this.actionReceived = false; 
+        pokerGUI.disableAllButtons();
+        return this.action;
+    }
+
+    /**
+     * Checks if the given amount is valid.
+     * @param text the amount as a string.
      * @return true if the amount is valid, false otherwise.
      */
     public boolean isAmountOK(String text) {

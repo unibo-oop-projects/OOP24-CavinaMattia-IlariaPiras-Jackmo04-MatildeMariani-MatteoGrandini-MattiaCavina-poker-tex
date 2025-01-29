@@ -3,13 +3,14 @@ package model.player;
 import java.util.Objects;
 import java.util.Set;
 
+import model.combination.CombinationHandlerImpl;
+import model.combination.api.Combination;
 import model.deck.api.Card;
 import model.game.api.State;
 import model.player.api.Action;
 import model.player.api.Player;
 import model.player.api.Role;
-import model.combination.api.Combination;
-import model.combination.CombinationHandlerImpl;
+
 /**
  * Abstract class that implements the common methods of a generic player.
  * It also provides some abstract methods that must be implemented by the subclasses.
@@ -20,7 +21,7 @@ public abstract class AbstractPlayer implements Player {
 
     private Set<Card> cards;
     private Role role;
-    private Combination<Card> bestCombination;
+    private Combination bestCombination;
     private int chips;
     private int totalPhaseBet;
 
