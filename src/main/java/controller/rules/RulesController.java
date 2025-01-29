@@ -10,4 +10,9 @@ public interface RulesController {
      */
     void goToMainMenuScene();
 
+    /**
+     * Returns the HTML content of the rules.
+     * @return the HTML content of the rules
+     */
+    String getRulesHtml();
 }

@@ -1,11 +1,9 @@
 package view.scenes;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
+import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -29,20 +27,17 @@ public class RulesScene extends JPanel implements Scene {
     public RulesScene(final RulesController controller) {
         this.controller = controller;
         this.setLayout(new BorderLayout());
-
-        // Title
-        JLabel title = new JLabel("Regole", JLabel.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 30));
-        title.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-
-        // Rules
-        JPanel rulesPanel = new JPanel();
-        rulesPanel.add(title);
         
-        // TODO: Add the rules of the game here
+        // Editor pane for displaying the rules loaded from an HTML file
+        JEditorPane editorPane = new JEditorPane();
+        editorPane.setContentType("text/html");
+        editorPane.setEditable(false);
+
+        // Load the rules from the HTML file
+        editorPane.setText(this.controller.getRulesHtml());
 
         // Add a scroll bar to the rules editor pane
-        JScrollPane scrollPane = new JScrollPane(rulesPanel);
+        JScrollPane scrollPane = new JScrollPane(editorPane);
         // Always start at the top of the pane
         SwingUtilities.invokeLater(() -> scrollPane.getVerticalScrollBar().setValue(0));
         this.add(scrollPane, BorderLayout.CENTER);
