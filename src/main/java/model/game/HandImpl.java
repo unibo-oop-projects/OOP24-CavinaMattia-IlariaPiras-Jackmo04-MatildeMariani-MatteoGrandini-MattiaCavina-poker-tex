@@ -16,12 +16,15 @@ import model.player.api.Role;
 public class HandImpl implements Hand {
 
     private static final Role FIRST_ROLE = Role.SMALL_BLIND;
+    private static final Phase FIRST_PHASE = Phase.PREFLOP;
     private static final int MIN_PLAYERS = 2;
 
     private final List<Player> handPlayers;
     private final State gameState;
+    private Phase currentPhase;
 
     public HandImpl(final List<Player> handPlayers, final State gameState) {
+        this.currentPhase = FIRST_PHASE;
         this.gameState = gameState;
         this.handPlayers = new LinkedList<>(handPlayers);
         this.sortFromRole(FIRST_ROLE);
@@ -71,6 +74,7 @@ public class HandImpl implements Hand {
                 this.manageAction(playersIterator, currentPlayer);
             }
         }
+        this.currentPhase = this.currentPhase.next();
     }
     
     /**
@@ -90,7 +94,7 @@ public class HandImpl implements Hand {
     @Override
     public boolean isHandOver() {
         return handPlayers.size() < MIN_PLAYERS || 
-               this.gameState.getHandPhase().equals(Phase.PREFLOP);
+               this.currentPhase.equals(FIRST_PHASE);
     }
 
     /** 
@@ -115,6 +119,14 @@ public class HandImpl implements Hand {
     @Override
     public List<Player> getHandPlayers() {
         return handPlayers;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Phase getCurrentPhase() {
+        return currentPhase;
     }
 
 

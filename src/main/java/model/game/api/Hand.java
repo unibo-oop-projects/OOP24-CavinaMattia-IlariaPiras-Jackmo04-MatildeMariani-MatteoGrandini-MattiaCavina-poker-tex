@@ -9,8 +9,8 @@ import model.player.api.Role;
 
 /**
  * Interface that models a Hand.
- * A Hand has a list of {@link Player}s, a game {@link State} which must always be updated, methods for 
- * managing a {@link Phase} and for determining the winner.
+ * A Hand has a list of {@link Player}s, a game {@link State} which must always be updated, and a 
+ * current {@link Phase}.
  */
 public interface Hand {
 
@@ -61,5 +61,11 @@ public interface Hand {
      * @return the list of players in the hand.
      */
     List<Player> getHandPlayers();
+
+    /**
+     * Returns the current Phase.
+     * @return the current Phase.
+     */
+    Phase getCurrentPhase();
     
 }
