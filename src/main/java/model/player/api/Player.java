@@ -3,9 +3,8 @@ package model.player.api;
 import java.util.Set;
 
 import model.deck.api.Card;
+import model.combination.api.Combination;
 import model.game.api.State;
-import model.temp.Combination;
-
 /**
  * Interface that models a generic player in the game.
  * A player can be either a human or an AI.
@@ -54,7 +53,7 @@ public interface Player {
      * Returns the best {@link Combination} the player has in the current hand.
      * @return the best {@link Combination} the player has in the current hand.
      */
-    Combination getCombination();
+    Combination<Card> getCombination();
 
     /**
      * Returns the {@link Role} of the player in the current hand.

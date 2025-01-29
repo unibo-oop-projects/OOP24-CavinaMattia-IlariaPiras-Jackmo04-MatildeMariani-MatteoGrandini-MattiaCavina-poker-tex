@@ -22,8 +22,12 @@ import model.player.ai.api.AIPlayerFactory;
 import model.player.api.Action;
 import model.player.api.Role;
 
+/**
+ * Tests for the AIPlayer implementation.
+ */
 public class TestAIPlayer {
 
+    private static final int REPEAT_TESTS = 15;
     private static final int POT_2000 = 2000;
     private static final int NUM_OF_PLAYERS = 4;
     private static final int BET_1000 = 1000;
@@ -31,16 +35,25 @@ public class TestAIPlayer {
     private static AIPlayerFactory factory;
     private static Deck<Card> deck;
 
+    /**
+     * Set up the factory for the tests.
+     */
     @BeforeAll
     public static void setUp() {
         factory = new AIPlayerFactoryImpl();
     }
 
+    /**
+     * Create a new deck for each test.
+     */
     @BeforeEach
     public void newDeck() {
         deck = new DeckFactoryImpl().simplePokerDeck();
     }
 
+    /**
+     * Test the creation of an AI player.
+     */
     @Test
     public void testCreation() {
         var player = factory.easy(STARTING_CHIPS, Role.REGULAR);
@@ -53,7 +66,10 @@ public class TestAIPlayer {
         assertTrue(player.isAI());
     }
 
-    @RepeatedTest(15)
+    /**
+     * Test betting for non-small-blind players.
+     */
+    @RepeatedTest(REPEAT_TESTS)
     public void testBettingRegular() {
         var player = factory.easy(STARTING_CHIPS, Role.REGULAR);
         assertEquals(0, player.getTotalPhaseBet());
@@ -80,7 +96,10 @@ public class TestAIPlayer {
         assertEquals(STARTING_CHIPS - player.getTotalPhaseBet(), player.getChips());
     }
 
-    @RepeatedTest(15)
+    /**
+     * Test betting for small-blind players.
+     */
+    @RepeatedTest(REPEAT_TESTS)
     public void testBettingWithBlind() {
         var player = factory.easy(STARTING_CHIPS, Role.SMALL_BLIND);
         assertEquals(0, player.getTotalPhaseBet());
@@ -108,7 +127,10 @@ public class TestAIPlayer {
         assertEquals(STARTING_CHIPS - player.getTotalPhaseBet(), player.getChips());
     }
 
-    @RepeatedTest(15)
+    /**
+     * Test checking for AI players.
+     */
+    @RepeatedTest(REPEAT_TESTS)
     public void testChecking() {
         var player = factory.hard(STARTING_CHIPS, Role.REGULAR);
         assertEquals(0, player.getTotalPhaseBet());
@@ -120,6 +142,9 @@ public class TestAIPlayer {
         assertTrue(action == Action.CHECK || action == Action.RAISE);
     }
 
+    /**
+     * Test the AI player winning a hand.
+     */
     @Test
     public void testWinning() {
         var player = factory.medium(STARTING_CHIPS, Role.REGULAR);
@@ -128,6 +153,9 @@ public class TestAIPlayer {
         assertEquals(Set.of(), player.getCards());
     }
 
+    /**
+     * Test the AI player losing a hand.
+     */
     @Test
     public void testLosing() {
         var player = factory.hard(STARTING_CHIPS, Role.REGULAR);
