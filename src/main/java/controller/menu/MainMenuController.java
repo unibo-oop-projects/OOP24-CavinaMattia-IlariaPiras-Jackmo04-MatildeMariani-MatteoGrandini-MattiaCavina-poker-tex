@@ -15,4 +15,14 @@ public interface MainMenuController {
      */
     void goToRulesScene();
 
+    /**
+     * Changes the scene to the difficulty selection scene.
+     */
+    void goToDifficultySelectionScene();
+
+    /**
+     * Exits the game.
+     */
+    void exitGame();
+
 }

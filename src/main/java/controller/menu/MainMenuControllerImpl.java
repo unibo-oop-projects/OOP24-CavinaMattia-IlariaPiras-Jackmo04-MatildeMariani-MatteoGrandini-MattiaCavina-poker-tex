@@ -38,4 +38,22 @@ public class MainMenuControllerImpl implements MainMenuController {
         this.mainView.changeScene(new RulesScene(new RulesControllerImpl(mainView)));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void goToDifficultySelectionScene() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'goToDifficultySelectionScene'");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void exitGame() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'exitGame'");
+    }
+
 }
