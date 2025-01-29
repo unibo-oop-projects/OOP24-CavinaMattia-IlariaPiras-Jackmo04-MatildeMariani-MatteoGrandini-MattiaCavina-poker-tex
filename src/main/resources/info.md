@@ -1,1 +1,0 @@
-# Qui ci andranno le risorse (es immagini carte)

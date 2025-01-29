@@ -8,9 +8,8 @@ import model.game.api.State;
 import model.player.api.Action;
 import model.player.api.Player;
 import model.player.api.Role;
-import model.temp.Combination;
-import model.temp.Combinations;
-
+import model.combination.api.Combination;
+import model.combination.CombinationHandlerImpl;
 /**
  * Abstract class that implements the common methods of a generic player.
  * It also provides some abstract methods that must be implemented by the subclasses.
@@ -21,7 +20,7 @@ public abstract class AbstractPlayer implements Player {
 
     private Set<Card> cards;
     private Role role;
-    private Combination bestCombination;
+    private Combination<Card> bestCombination;
     private int chips;
     private int totalPhaseBet;
 
@@ -50,7 +49,7 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public void setCards(final Set<Card> cards) {
         this.cards = Objects.requireNonNull(Set.copyOf(cards));
-        this.bestCombination = Combinations.getBestCombination(cards);
+        this.bestCombination = new CombinationHandlerImpl().getCombination(cards);
     }
 
     /**
@@ -73,7 +72,7 @@ public abstract class AbstractPlayer implements Player {
      * {@inheritDoc}
      */
     @Override
-    public Combination getCombination() {
+    public Combination<Card> getCombination() {
         return this.bestCombination;
     }
 
@@ -129,7 +128,7 @@ public abstract class AbstractPlayer implements Player {
      * Used to set the current combination of the player.
      * @param combination the combination to set as the current combination.
      */
-    protected void setCombination(final Combination combination) {
+    protected void setCombination(final Combination<Card> combination) {
         this.bestCombination = combination;
     }
 

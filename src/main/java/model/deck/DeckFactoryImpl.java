@@ -5,13 +5,13 @@ import model.deck.api.Deck;
 import model.deck.api.DeckFactory;
 
 /**
- * Implementation of deck.
+ * Factory to generate deck.
  * 
  */
 public class DeckFactoryImpl implements DeckFactory {
 
     /**
-     * @return simple poker's deck.
+     * {@inheritDoc}
      */
     @Override
     public Deck<Card> simplePokerDeck() {

@@ -19,7 +19,7 @@ public class DeckImpl<X> implements Deck<X> {
     private List<X> deck;
 
     /**
-     * create and shuffle new deck.
+     * Create and shuffle new deck.
      * 
      * @param deckBuilder
      */
@@ -29,7 +29,7 @@ public class DeckImpl<X> implements Deck<X> {
     }
 
     /**
-     * Can be use to shuffle a deck.
+     * {@inheritDoc}
      */
     @Override
     public void shuffled() {
@@ -37,7 +37,7 @@ public class DeckImpl<X> implements Deck<X> {
     }
 
     /**
-     * Method to keep some card from deck.
+     * {@inheritDoc}
      */
     @Override
     public List<X> getSomeCards(final int numberOfCard) {

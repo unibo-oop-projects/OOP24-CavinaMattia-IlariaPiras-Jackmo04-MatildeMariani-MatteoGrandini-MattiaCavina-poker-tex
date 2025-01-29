@@ -9,7 +9,7 @@ import java.util.List;
 public interface DeckBuild<X> {
 
     /**
-     * Method to define the costruction of Deck , usable in costructors and shuffled
+     * Method to define the costruction of Deck , usable in costructors of Deck to shuffled
      * method.
      * 
      * @return Deck implemeted in this class.

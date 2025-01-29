@@ -154,7 +154,7 @@ public abstract class AbstractGame implements Game{
      * @param players the players still in the game. 
     */
     private void determinateWinnerOfTheHand(final List<Player> players) {
-        players.sort((p1, p2) -> p1.getCombination().value() - p2.getCombination().value());
+        players.sort((p1, p2) -> p1.getCombination().type().getValue() - p2.getCombination().type().getValue());
         players.removeFirst().handWon(this.gameState.getPot());
         if (!players.isEmpty()) {
             players.forEach(p -> p.handLost());

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import model.statistics.BasicStatisticsImpl;
 import model.statistics.api.BasicStatistics;
-import model.temp.CombinationType;
+import model.combination.api.CombinationType;
 
 /**
  * Tests for the BasicStatistics implementation.

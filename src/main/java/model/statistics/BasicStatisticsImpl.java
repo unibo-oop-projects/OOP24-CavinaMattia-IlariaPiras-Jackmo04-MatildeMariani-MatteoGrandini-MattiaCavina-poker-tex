@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import commons.Pair;
 import model.statistics.api.BasicStatistics;
-import model.temp.CombinationType;
+import model.combination.api.CombinationType;
 
 /**
  * Class to store statistics of the game. The statistics kept by this implementation are:
@@ -290,7 +290,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
             new Pair<>("Hands won", String.valueOf(this.getNumOfHandsWon())),
             new Pair<>("Games played", String.valueOf(this.getNumOfGamesPlayed())),
             new Pair<>("Games won", String.valueOf(this.getNumOfGamesWon())),
-            new Pair<>("Best Combination", this.getBestCombination().map(CombinationType::fullName).orElse("None")),
+            new Pair<>("Best Combination", this.getBestCombination().map(CombinationType::name).orElse("None")),
             new Pair<>("Biggest win", String.valueOf(this.getBiggestWin())),
             new Pair<>("Hands win rate", String.valueOf(this.getHandWinRate())),
             new Pair<>("Games win rate", String.valueOf(this.getGameWinRate()))
