@@ -1,42 +1,30 @@
 package model.player.api;
 
-import java.util.List;
-
 /**
- * Enum representing the possible roles that a player can have in a poker game.
- * The roles are: big blind, small blind, dealer and regular player.
- * The next() method is used to cycle through the roles in the correct order.
+ * Enum representing the possible roles a player can have in a poker game.
+ * The roles are: big blind, small blind.
+ * The multiplier is used to calculate the amount of chips that players taking on one 
+ * of the two roles must pay at the start of a hand.
+ * For example, if the minimum required bet is 10 chips, the small blind must pay 5 chips
+ * and the big blind 10 chips.
  */
 public enum Role {
     // CHECKSTYLE: JavadocVariable OFF
-    BIG_BLIND, SMALL_BLIND, DEALER, REGULAR;
+    BIG_BLIND(1.0), 
+    SMALL_BLIND(0.5);
     // CHECKSTYLE: JavadocVariable ON
 
-    /**
-     * Only use this method if there are exactly 4 players in the game.
-     * @return the next role.
-     */
-    public Role next() {
-        return Role.values()[(this.ordinal() + 1) % Role.values().length];
+    private final double multiplier;
+    Role(final double multiplier) {
+        this.multiplier = multiplier;
     }
 
     /**
-     * Returns a list of new roles based on the current roles of the remaining players.
-     * @param currentRoles the current roles of the remaining players.
-     * @return a list of the same size as the input list containing the new roles.
+     * Returns the multiplier of the blind.
+     * @return the multiplier of the blind.
      */
-    public static List<Role> getNewRolesFromList(final List<Role> currentRoles) {
-        switch (currentRoles.size()) {
-            case 4:
-                return currentRoles.stream().map(Role::next).toList();
-            case 3:
-                // TODO
-                throw new UnsupportedOperationException("Not implemented yet");
-            case 2:
-                // TODO
-                throw new UnsupportedOperationException("Not implemented yet");
-            default:
-                throw new IllegalStateException("Must provide a list with size between 2 and 4");
-        }
+    public double getMultiplier() {
+        return multiplier;
     }
+
 }

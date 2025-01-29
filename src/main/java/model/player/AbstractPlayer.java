@@ -1,6 +1,7 @@
 package model.player;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import model.combination.CombinationHandlerImpl;
@@ -20,8 +21,8 @@ import model.player.api.Role;
 public abstract class AbstractPlayer implements Player {
 
     private Set<Card> cards;
-    private Role role;
-    private Combination bestCombination;
+    private Optional<Role> role;
+    private Combination<Card> bestCombination;
     private int chips;
     private int totalPhaseBet;
 
@@ -30,9 +31,9 @@ public abstract class AbstractPlayer implements Player {
      * @param initialChips the initial amount of chips that the player has.
      * @param initialRole the initial role of the player.
      */
-    public AbstractPlayer(final int initialChips, final Role initialRole) {
+    public AbstractPlayer(final int initialChips) {
         this.cards = Set.of();
-        this.role = initialRole;
+        this.role = Optional.empty();
         this.chips = initialChips;
     }
 
@@ -57,7 +58,7 @@ public abstract class AbstractPlayer implements Player {
      * {@inheritDoc}
      */
     @Override
-    public Role getRole() {
+    public Optional<Role> getRole() {
         return this.role;
     }
 
@@ -66,7 +67,7 @@ public abstract class AbstractPlayer implements Player {
      */
     @Override
     public void setRole(final Role role) {
-        this.role = role;
+        this.role = Optional.ofNullable(role);
     }
 
     /**
@@ -82,7 +83,7 @@ public abstract class AbstractPlayer implements Player {
      */
     @Override
     public boolean hasChipsLeft() {
-        return chips > 0;
+        return this.chips > 0;
     }
 
     /**
