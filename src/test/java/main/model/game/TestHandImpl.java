@@ -42,10 +42,10 @@ public class TestHandImpl {
 
     @BeforeEach
     public void newHand() {
-        Player player1 = playerFactory.easy(INITIAL_CHIPS, Role.DEALER);
+        Player player1 = playerFactory.easy(INITIAL_CHIPS, Role.SMALL_BLIND/*Role.DEALER*/);
         Player player2 = playerFactory.easy(INITIAL_CHIPS, Role.SMALL_BLIND);
         Player player3 = playerFactory.easy(INITIAL_CHIPS, Role.BIG_BLIND);
-        Player player4 = playerFactory.easy(INITIAL_CHIPS, Role.REGULAR);
+        Player player4 = playerFactory.easy(INITIAL_CHIPS, Role.SMALL_BLIND/*Role.REGULAR*/);
 
         players = new ArrayList<>(List.of(player1, player2, player3, player4));
         gameState = new StateImpl(INITIAL_CHIPS / 100, INITIAL_NUM_PLAYERS);
@@ -59,16 +59,16 @@ public class TestHandImpl {
 
     @Test
     public void testCreation() {
-        Player player1 = playerFactory.easy(INITIAL_CHIPS, Role.DEALER);
+        Player player1 = playerFactory.easy(INITIAL_CHIPS, Role.SMALL_BLIND/*Role.DEALER*/);
         Player player2 = playerFactory.easy(INITIAL_CHIPS, Role.SMALL_BLIND);
         Player player3 = playerFactory.easy(INITIAL_CHIPS, Role.BIG_BLIND);
-        Player player4 = playerFactory.easy(INITIAL_CHIPS, Role.REGULAR);
+        Player player4 = playerFactory.easy(INITIAL_CHIPS, Role.SMALL_BLIND/*Role.REGULAR*/);
         var players = new ArrayList<>(List.of(player1, player2, player3, player4));
 
         var hand1 = new HandImpl(players, gameState);
         assertEquals(List.of(player2, player3, player4, player1), hand1.getHandPlayers());
 
-        player2.setRole(Role.REGULAR);
+        //player2.setRole(Role.REGULAR);
         player3.setRole(Role.SMALL_BLIND);
         player4.setRole(Role.BIG_BLIND);
 
@@ -82,7 +82,7 @@ public class TestHandImpl {
         assertEquals(List.of(player4, player3), hand3.getHandPlayers());
 
         player2.setRole(Role.BIG_BLIND);
-        player3.setRole(Role.REGULAR);
+        //player3.setRole(Role.REGULAR);
         player4.setRole(Role.SMALL_BLIND);
 
         var hand4 = new HandImpl(List.of(player2, player3, player4), gameState);
