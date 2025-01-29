@@ -3,7 +3,7 @@ package model.player.ai.api;
 import java.util.function.Function;
 
 import model.player.api.Role;
-import model.temp.CombinationType;
+import model.combination.api.CombinationType;;
 
 /**
  * Factory for creating AI players.

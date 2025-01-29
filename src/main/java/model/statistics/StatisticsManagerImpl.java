@@ -32,7 +32,7 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      * 
      * @param statistics The object representing the statistics to manage.
      */
-    public StatisticsManagerImpl(S statistics) {
+    public StatisticsManagerImpl(final S statistics) {
         this.globalStatistics = Objects.requireNonNull(statistics);
         this.contributors = new HashSet<>();
     }
@@ -47,7 +47,7 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      * @param statistics The object representing the statistics to manage.
      * @throws IOException If an I/O error occurs while loading the statistics.
      */
-    public StatisticsManagerImpl(String fileName, S statistics) throws Exception {
+    public StatisticsManagerImpl(final String fileName, final S statistics) throws Exception {
         this(statistics);
         this.loadStatistics(fileName);
     }
@@ -64,7 +64,7 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      * {@inheritDoc}
      */
     @Override
-    public void addContributor(StatisticsContributor<S> contributor) {
+    public void addContributor(final StatisticsContributor<S> contributor) {
         contributors.add(Objects.requireNonNull(contributor));
     }
 
@@ -72,7 +72,7 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      * {@inheritDoc}
      */
     @Override
-    public void addAllContributors(Collection<StatisticsContributor<S>> contributors) {
+    public void addAllContributors(final Collection<StatisticsContributor<S>> contributors) {
         contributors.forEach(this::addContributor);
     }
 
@@ -90,7 +90,7 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      * <i>poker_tex</i> directory.
      */
     @Override
-    public void saveStatistics(String fileName) throws Exception {
+    public void saveStatistics(final String fileName) throws Exception {
         File file = getFileInProjectDir(fileName);
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
         oos.writeObject(globalStatistics);
@@ -104,14 +104,15 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      */
     @SuppressWarnings("unchecked")
     @Override
-    public void loadStatistics(String fileName) throws Exception {
+    public void loadStatistics(final String fileName) throws Exception {
         File file = getFileInProjectDir(fileName);
+        file.createNewFile();
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
         this.globalStatistics = (S) ois.readObject();
         ois.close();
     }
 
-    private File getFileInProjectDir(String fileName) {
+    private File getFileInProjectDir(final String fileName) {
         String userHome = System.getProperty("user.home");
         File pokerDir = new File(userHome, PROJECT_DIR_NAME);
         if (!pokerDir.exists()) {
