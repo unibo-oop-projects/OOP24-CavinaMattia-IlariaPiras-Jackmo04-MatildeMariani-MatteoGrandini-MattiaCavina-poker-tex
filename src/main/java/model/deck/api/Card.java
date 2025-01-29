@@ -1,7 +1,7 @@
 package model.deck.api;
 
 /**
- * This is a record to generate a single card with its all propreties.
+ * This is a record to single card with its all propreties.
  * 
  * @param cardName
  *                    name of card.

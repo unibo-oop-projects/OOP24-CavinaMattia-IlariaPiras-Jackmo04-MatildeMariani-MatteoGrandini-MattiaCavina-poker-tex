@@ -7,21 +7,25 @@ import org.junit.jupiter.api.Test;
 import model.deck.DeckFactoryImpl;
 import model.deck.api.Card;
 import model.deck.api.Deck;
+import model.deck.api.SeedCard;
+import model.deck.api.SimpleCard;
 
 /**
- * Test della factory.
+ * Test della factory Deck and the class to generate new Poker's Deck.
  */
-public class DeckFactoryImplTest { // NOPMD suppressed as it is a false positive
+public class DeckFactoryImplTest {
+    private final static int ALL_DECKS = 52;
+    private final static int TWO_CARD = 2;
 
     /**
      * test of simple deck.
      */
     @Test
-    // CHECKSTYLE: MagicNumber OFF
-    protected void simpleDeck() { // NOPMD suppressed as it is a false positive
+
+    protected void simpleDeck() {
         final Deck<Card> t = new DeckFactoryImpl().simplePokerDeck();
-        assertEquals(2, t.getSomeCards(2).size());
-        assertEquals(50, t.getSomeCards(50).size()); 
+        assertEquals(TWO_CARD, t.getSomeCards(TWO_CARD).size());
+        assertEquals(ALL_DECKS - TWO_CARD, t.getSomeCards(ALL_DECKS - TWO_CARD).size());
         try {
             t.getSomeCards(1);
 
@@ -29,9 +33,12 @@ public class DeckFactoryImplTest { // NOPMD suppressed as it is a false positive
             System.out.println("Deck is Empty"); // NOPMD suppressed as it is a false positive
         }
         t.shuffled();
-        assertEquals(52, t.getSomeCards(52).size()); 
+        assertEquals(52, t.getSomeCards(ALL_DECKS).size());
+
+        t.shuffled();
+        assertEquals(true, t.getSomeCards(ALL_DECKS)
+                .contains(new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES)));
 
     }
-    // CHECKSTYLE: MagicNumber ON
 
 }
