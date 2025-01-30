@@ -16,7 +16,7 @@ import model.deck.api.SimpleCard;
 /**
  * Test of CombinationHandlerImpl.
  */
-public class CombinationHandlerImplTest { // NOPMD suppressed as it is a false positive
+public class CombinationHandlerImplTest {
 
     /**
      * Test of Pair.

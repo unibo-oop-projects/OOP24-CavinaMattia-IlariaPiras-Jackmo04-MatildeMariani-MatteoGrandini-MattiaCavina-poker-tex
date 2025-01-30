@@ -43,7 +43,7 @@ public class CombinationHandlerImpl implements CombinationHandler<Card> {
         } else if (combRules.isPair()) {
             return new Combination<>(combGetter.getPair(), CombinationType.PAIR);
         } else {
-            return new Combination<>(totalCardList, CombinationType.POKER);
+            return new Combination<>(totalCardList, CombinationType.HIGH_CARD);
         }
 
     }
