@@ -17,6 +17,7 @@ import model.player.api.Action;
 public class UserPlayer extends AbstractPlayer {
 
     private static final int INITIAL_TOTAL_PHASE_BET = 0;
+
     private final UserPlayerController controller;
 
     /**
@@ -45,44 +46,21 @@ public class UserPlayer extends AbstractPlayer {
             this.setChips(this.getChips() - this.getTotalPhaseBet());
             return Action.CALL;
         } else { 
-            //var action = this.controller.getUserAction();
-            //int chips = this.calculateChipsToBet(currentState.getCurrentBet(), action);
-            //this.setChips(this.getChips() - chips);
-            //this.setTotalPhaseBet(this.getTotalPhaseBet() + chips);
-            
-            switch (controller.getUserAction()) {
-                case Action.RAISE -> {
-                    this.setTotalPhaseBet(this.getTotalPhaseBet() + controller.getRaiseAmount());
-                    this.setChips(this.getChips() - controller.getRaiseAmount());
-                    return Action.RAISE;
-                }
-                case Action.CALL -> {
-                    if(getChips() < (currentState.getCurrentBet() - this.getTotalPhaseBet())) {
-                        this.setTotalPhaseBet(this.getTotalPhaseBet() + this.getChips());
-                        this.setChips(0);
-                    } else {  
-                        this.setChips(getChips() - (currentState.getCurrentBet() - this.getTotalPhaseBet()));
-                        this.setTotalPhaseBet(currentState.getCurrentBet());
-                    }
-                    return Action.CALL;
-                }
-                case Action.CHECK -> {
-                    return Action.CHECK;
-                }
-                case Action.FOLD -> {
-                    return Action.FOLD;
-                }
-                case Action.ALL_IN -> {
-                    this.setTotalPhaseBet(this.getTotalPhaseBet() + this.getChips());
-                    this.setChips(0);
-                    return Action.ALL_IN;
-                }
-                default -> throw new IllegalArgumentException();
-            }
+            var action = this.controller.getUserAction();
+            int bet = this.calculateChipsToBet(currentState.getCurrentBet(), action);
+            this.setChips(this.getChips() - bet);
+            this.setTotalPhaseBet(this.getTotalPhaseBet() + bet);
+            return action;
         }
     }
 
-    /*private int calculateChipsToBet(final int currentBet, final Action action) {
+    /**
+     * Calculates the chips to bet based on the current bet and the action taken by the player.
+     * @param currentBet the current bet in the game.
+     * @param action the action taken by the player (RAISE, CALL, ALL_IN).
+     * @return the number of chips to bet.
+     */
+    private int calculateChipsToBet(final int currentBet, final Action action) {
         switch (action) {
             case Action.RAISE -> {
                 return this.controller.getRaiseAmount();
@@ -95,8 +73,7 @@ public class UserPlayer extends AbstractPlayer {
             }
         }
         return 0;
-
-    }*/
+    }
 
     /**
      * {@inheritDoc}

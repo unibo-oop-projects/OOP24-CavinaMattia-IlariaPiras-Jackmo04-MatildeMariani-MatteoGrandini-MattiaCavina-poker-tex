@@ -17,7 +17,6 @@ import model.game.StateImpl;
 import model.player.api.Action;
 import model.player.api.Role;
 import model.player.user.UserPlayer;
-import model.player.api.Player;
 
 public class TestUserPlayer {
     private static final int INITIAL_TOTAL_PHASE_BET = 0;
@@ -29,7 +28,8 @@ public class TestUserPlayer {
     private static final int MULTIPLIER_RAISE = 3;
     //private static final int POT = 2000;
     //private static final int BET_3000 = 3000;
-    private Player player;
+
+    private UserPlayer player;
     private static Deck<Card> deck;
 
     @BeforeEach
