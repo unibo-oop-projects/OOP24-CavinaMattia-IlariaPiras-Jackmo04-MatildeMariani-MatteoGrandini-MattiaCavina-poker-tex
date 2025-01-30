@@ -45,6 +45,10 @@ public class UserPlayer extends AbstractPlayer {
             this.setChips(this.getChips() - this.getTotalPhaseBet());
             return Action.CALL;
         } else { 
+            //var action = this.controller.getUserAction();
+            //int chips = this.calculateChipsToBet(currentState.getCurrentBet(), action);
+            //this.setChips(this.getChips() - chips);
+            //this.setTotalPhaseBet(this.getTotalPhaseBet() + chips);
             switch (controller.getUserAction()) {
                 case Action.RAISE -> {
                     this.setTotalPhaseBet(this.getTotalPhaseBet() + controller.getRaiseAmount());
@@ -76,6 +80,22 @@ public class UserPlayer extends AbstractPlayer {
             }
         }
     }
+
+    /*private int calculateChipsToBet(final int currentBet, final Action action) {
+        switch (action) {
+            case Action.RAISE -> {
+                return this.controller.getRaiseAmount();
+            }
+            case Action.CALL -> {
+                return this.getChips() < (currentBet - this.getTotalPhaseBet()) ? this.getChips() : (currentBet - this.getTotalPhaseBet());
+            }
+            case Action.ALL_IN -> {
+                return this.getChips();
+            }
+        }
+        return 0;
+
+    }*/
 
     /**
      * {@inheritDoc}
