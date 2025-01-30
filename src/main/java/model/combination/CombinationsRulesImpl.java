@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multiset.Entry;
 import model.combination.api.CombinationDimension;
 import model.combination.api.CombinationsRules;
@@ -32,8 +33,10 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isPair() {
-                return totalCardList.size() >= CombinationDimension.PAIR.getDimension()
-                                && CombinationRulesUtilities.getSumOfSameNameCard(totalCardList).entrySet()
+               var safetyList = Lists.newLinkedList(totalCardList);
+
+                return safetyList.size() >= CombinationDimension.PAIR.getDimension()
+                                && CombinationRulesUtilities.getSumOfSameNameCard(safetyList).entrySet()
                                                 .stream()
                                                 .map(Entry::getCount)
                                                 .toList()
@@ -46,8 +49,10 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isTwoPairs() {
-                return totalCardList.size() >= CombinationDimension.TWO_PAIRS.getDimension()
-                                && CombinationRulesUtilities.getSumOfSameNameCard(totalCardList).entrySet()
+                var safetyList = Lists.newLinkedList(totalCardList);
+
+                return safetyList.size() >= CombinationDimension.TWO_PAIRS.getDimension()
+                                && CombinationRulesUtilities.getSumOfSameNameCard(safetyList).entrySet()
                                                 .stream()
                                                 .map(Entry::getCount)
                                                 .filter(t -> t == CombinationDimension.PAIR.getDimension())
@@ -59,8 +64,10 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isTris() {
-                return totalCardList.size() >= CombinationDimension.TRIS.getDimension()
-                                && CombinationRulesUtilities.getSumOfSameNameCard(totalCardList).entrySet()
+                var safetyList = Lists.newLinkedList(totalCardList);
+
+                return safetyList.size() >= CombinationDimension.TRIS.getDimension()
+                                && CombinationRulesUtilities.getSumOfSameNameCard(safetyList).entrySet()
                                                 .stream()
                                                 .map(Entry::getCount)
                                                 .toList()
@@ -72,7 +79,9 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isStraight() {
-                return CombinationRulesUtilities.getRoyalFlush(totalCardList).size() == CombinationDimension.STRAIGHT
+                var safetyList = Lists.newLinkedList(totalCardList);
+
+                return CombinationRulesUtilities.getRoyalFlush(safetyList).size() == CombinationDimension.STRAIGHT
                                 .getDimension();
         }
 
@@ -81,7 +90,9 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isFullHouse() {
-                return totalCardList.size() >= (CombinationDimension.STRAIGHT.getDimension())
+                var safetyList = Lists.newLinkedList(totalCardList);
+
+                return safetyList.size() >= (CombinationDimension.STRAIGHT.getDimension())
                                 && isPair() && isTris();
         }
 
@@ -90,8 +101,10 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isFlush() {
-                return totalCardList.size() >= CombinationDimension.STRAIGHT.getDimension()
-                                && CombinationRulesUtilities.getSumOfSameSeedCard(totalCardList).entrySet()
+                var safetyList = Lists.newLinkedList(totalCardList);
+
+                return safetyList.size() >= CombinationDimension.STRAIGHT.getDimension()
+                                && CombinationRulesUtilities.getSumOfSameSeedCard(safetyList).entrySet()
                                 .stream()
                                 .map(Entry::getCount)
                                 .toList()
@@ -103,8 +116,10 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isPoker() {
-                return totalCardList.size() >= CombinationDimension.POKER.getDimension()
-                                && CombinationRulesUtilities.getSumOfSameNameCard(totalCardList).entrySet()
+                var safetyList = Lists.newLinkedList(totalCardList);
+
+                return safetyList.size() >= CombinationDimension.POKER.getDimension()
+                                && CombinationRulesUtilities.getSumOfSameNameCard(safetyList).entrySet()
                                                 .stream()
                                                 .map(Entry::getCount)
                                                 .toList()
@@ -116,8 +131,10 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isRoyalFlush() {
+                var safetyList = Lists.newLinkedList(totalCardList);
+                
                 return isStraight()
-                                && CombinationRulesUtilities.getRoyalFlush(totalCardList).stream()
+                                && CombinationRulesUtilities.getRoyalFlush(safetyList).stream()
                                                 .map(t -> t.seedName())
                                                 .distinct()
                                                 .count() == 1;
