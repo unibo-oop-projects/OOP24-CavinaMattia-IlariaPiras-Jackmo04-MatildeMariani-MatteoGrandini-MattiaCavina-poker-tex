@@ -16,7 +16,7 @@ import model.player.api.Role;
  */
 public abstract class AbstractGame implements Game{
 
-    private static final int INITIAL_BET_DIVISION_FACT = 10;
+    private static final int INITIAL_BET_DIVISION_FACT = 100;
     protected static final int NUM_AI_PLAYERS = 3;
 
     private final Dealer dealer;

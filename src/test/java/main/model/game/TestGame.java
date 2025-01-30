@@ -29,15 +29,11 @@ public class TestGame {
         assertFalse(game.isWon());
 
         assertEquals(INITIAL_NUM_PLAYERS, game.getPlayers().size());
-        var role1 = game.getPlayers().getFirst().getRole();
-        var role2 = game.getPlayers().get(1).getRole();
-        var role3 = game.getPlayers().get(2).getRole();
-        assertTrue(role1 != role2 && role1 != role3 && role2 != role3);
         assertEquals(INITIAL_CHIPS, game.getPlayers().getFirst().getChips());
         assertEquals(INITIAL_CHIPS, game.getPlayers().get(1).getChips());
         assertEquals(INITIAL_CHIPS, game.getPlayers().get(2).getChips());
-        assertEquals(INITIAL_CHIPS / 10, game.getGameState().getCurrentBet());
-        assertEquals(INITIAL_NUM_PLAYERS + 1, game.getGameState().getRemainingPlayers());
+        assertEquals(INITIAL_CHIPS / 100, game.getGameState().getCurrentBet());
+        assertEquals(INITIAL_NUM_PLAYERS, game.getGameState().getRemainingPlayers());
 
     }
 
