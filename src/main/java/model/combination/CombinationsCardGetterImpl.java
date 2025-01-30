@@ -17,7 +17,7 @@ import model.deck.api.SimpleCard;
  * Class that implements the rules of the combinations.
  * All the methods are used to check how type of combination is it.
  */
-public class CombinationsCardGetterImpl implements CombinationsCardGetter {
+public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> {
 
         private final List<Card> totalCardList = new LinkedList<>();
 

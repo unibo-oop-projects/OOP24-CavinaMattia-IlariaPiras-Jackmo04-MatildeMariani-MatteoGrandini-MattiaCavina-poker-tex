@@ -4,46 +4,62 @@ import java.util.Set;
 
 import model.deck.api.Card;
 
-public interface CombinationsCardGetter {
+public interface CombinationsCardGetter<X> {
 
     /**
-     * {@inheritDoc}
+     * Get the pair combination from card Set.
+     * 
+     * @return the pair combination from card Set.
      */
-    Set<Card> getPair();
+    Set<X> getPair();
 
     /**
-     * {@inheritDoc}
+     * Get the two pairs combination from card Set.
+     * 
+     * @return the two pairs combination from card Set.
      */
-    Set<Card> getTwoPairs();
+    Set<X> getTwoPairs();
 
     /**
-     * {@inheritDoc}
+     * Get the tris combination from card Set.
+     * 
+     * @return the tris combination from card Set.
      */
-    Set<Card> getTris();
+    Set<X> getTris();
 
     /**
-     * {@inheritDoc}
+     * Get the straight combination from card Set.
+     * 
+     * @return the straight combination from card Set.
      */
-    Set<Card> getStraight();
+    Set<X> getStraight();
 
     /**
-     * {@inheritDoc}
+     * Get the full house combination from card Set.
+     * 
+     * @return the full house combination from card Set.
      */
-    Set<Card> getFullHouse();
+    Set<X> getFullHouse();
 
     /**
-     * {@inheritDoc}
+     * Get the flush combination from card Set.
+     * 
+     * @return the flush combination from card Set.
      */
-    Set<Card> getFlush();
+    Set<X> getFlush();
 
     /**
-     * {@inheritDoc}
+     * Get the poker combination from card Set.
+     * 
+     * @return the poker combination from card Set.
      */
-    Set<Card> getPoker();
+    Set<X> getPoker();
 
     /**
-     * {@inheritDoc}
+     * Get the royal flush combination from card Set.
+     * 
+     * @return the royal flush combination from card Set.
      */
-    Set<Card> getRoyalFlush();
+    Set<X> getRoyalFlush();
 
 }

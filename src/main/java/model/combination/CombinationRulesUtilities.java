@@ -59,24 +59,29 @@ public final class CombinationRulesUtilities {
      *         List of card filtered and merged same value.
      */
     protected static List<Card> filteredSameValueCard(final List<Card> totalCardList) {
-        SeedCard mustUsedSeedCard = getSumOfSameSeedCard(totalCardList).entrySet().stream()
-                .max(Comparator.comparing(Entry::getCount))
-                .get().getElement();
+        SeedCard mustUsedSeedCard;
+        if (!totalCardList.isEmpty()) {
+            mustUsedSeedCard = getSumOfSameSeedCard(totalCardList).entrySet().stream()
+                    .max(Comparator.comparing(Entry::getCount))
+                    .get().getElement();
 
-        var straightList = totalCardList.stream()
-                .sorted(Comparator.comparing(Card::valueOfCard))
-                .collect(Collectors.toList());
+            var straightList = totalCardList.stream()
+                    .sorted(Comparator.comparing(Card::valueOfCard))
+                    .collect(Collectors.toList());
 
-        for (int i = 0; i < straightList.size() - 1; i++) {
-            if (straightList.get(i).valueOfCard().equals(straightList.get(i + 1).valueOfCard())) {
-                if (!straightList.get(i).seedName().equals(mustUsedSeedCard)) {
-                    straightList.remove(i);
-                } else {
-                    straightList.remove(i + 1);
+            for (int i = 0; i < straightList.size() - 1; i++) {
+                if (straightList.get(i).valueOfCard().equals(straightList.get(i + 1).valueOfCard())) {
+                    if (!straightList.get(i).seedName().equals(mustUsedSeedCard)) {
+                        straightList.remove(i);
+                    } else {
+                        straightList.remove(i + 1);
+                    }
                 }
             }
+            return straightList;
+        } else {
+            return totalCardList;
         }
-        return straightList;
     }
 
     /**

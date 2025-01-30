@@ -1,15 +1,11 @@
 package main.model.combination;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
 import model.combination.CombinationsCardGetterImpl;
-import model.combination.CombinationsRulesImpl;
 import model.deck.api.Card;
 import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
@@ -17,7 +13,7 @@ import model.deck.api.SimpleCard;
 public class CombinationCardGetterTest {
 
     /**
-     * Test for the method isPair.
+     * Test to get a pair.
      */
     @Test
     void testPair() {
@@ -38,7 +34,7 @@ public class CombinationCardGetterTest {
     }
 
     /**
-     * Test for the method isTwoPairs.
+     * Test to get two pairs.
      */
     @Test
     void testTwoPairs() {
@@ -61,7 +57,7 @@ public class CombinationCardGetterTest {
     }
 
     /**
-     * Test for the method isTris.
+     * Test to get a tris.
      */
     @Test
     void testTris() {
@@ -83,7 +79,7 @@ public class CombinationCardGetterTest {
     }
 
     /**
-     * Test for the method isPoker.
+     * Test to get a poker.
      */
     @Test
     void testPoker() {
@@ -106,7 +102,7 @@ public class CombinationCardGetterTest {
     }
 
     /**
-     * Test for the method isFlush.
+     * Test to get a flush.
      */
     @Test
     void testFlush() {
@@ -130,7 +126,7 @@ public class CombinationCardGetterTest {
     }
 
     /**
-     * Test for the method isFullHouse.
+     * Test to get a full house.
      */
     @Test
     void testFullHouse() {
@@ -154,7 +150,7 @@ public class CombinationCardGetterTest {
     }
 
     /**
-     * Test for the method isStraight.
+     * Test to get a straight.
      */
     @Test
     void testStraight() {
@@ -178,7 +174,7 @@ public class CombinationCardGetterTest {
     }
 
     /**
-     * Test for the method isRoyalFlush.
+     * Test to get a royal flush.
      */
     @Test
     void testRoyalFlush() {
