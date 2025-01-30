@@ -1,14 +1,10 @@
 package view.scenes;
 
 import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 import controller.rules.RulesController;
@@ -32,21 +28,7 @@ public class RulesScene extends JPanel implements Scene {
         this.setLayout(new BorderLayout());
         
         // Editor pane for displaying the rules loaded from an HTML file (Decidere su usare o no)
-        // JEditorPane container = htmlEditorPane(this.controller.getRulesHtml());
-
-        JPanel container = new JPanel();
-        container.setLayout(new BorderLayout());
-        JLabel title = new JLabel("Rules", JLabel.CENTER);
-        title.setFont(title.getFont().deriveFont(24.0f));
-        title.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        container.add(title, BorderLayout.NORTH);
-        JPanel introPanel = new JPanel(new BorderLayout());
-        JTextArea intro = new JTextArea(this.controller.getRulesIntro());
-        intro.setLineWrap(true);
-        intro.setWrapStyleWord(true);
-        intro.setEditable(false);
-        introPanel.add(intro, BorderLayout.CENTER);
-        container.add(introPanel, BorderLayout.CENTER);
+        JEditorPane container = htmlEditorPane(this.controller.getRulesHtml());
 
         // Add a scroll bar to the rules editor pane
         JScrollPane scrollPane = new JScrollPane(container);
