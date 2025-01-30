@@ -25,25 +25,13 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
 
         if (returnValue == 0) {
             switch (o1.type()) {
-                case HIGH_CARD:
-                    return Integer.compare(sumValueCard(o1.totalCard()), sumValueCard(o2.totalCard()));
-                case PAIR:
-                    return Integer.compare(sumValueCard(o1.totalCard()), sumValueCard(o2.totalCard()));
                 case TWO_PAIRS:
                     return twoPairCompair(o1.totalCard(), o2.totalCard());
-                case TRIS:
-                    return Integer.compare(sumValueCard(o1.totalCard()), sumValueCard(o2.totalCard()));
-                case STRAIGHT:
-                    return Integer.compare(sumValueCard(o1.totalCard()), sumValueCard(o2.totalCard()));
-                case FLUSH:
-                    return Integer.compare(sumValueCard(o1.totalCard()), sumValueCard(o2.totalCard()));
                 case FULL_HOUSE:
                     return Integer.compare(sumValueCard(getTrisFromCombination(o1)),
                             sumValueCard(getTrisFromCombination(o2)));
-                case POKER:
-                    return Integer.compare(sumValueCard(o1.totalCard()), sumValueCard(o2.totalCard()));
                 default:
-                    return 0;
+                    return Integer.compare(sumValueCard(o1.totalCard()), sumValueCard(o2.totalCard()));
             }
         }
         return returnValue;
