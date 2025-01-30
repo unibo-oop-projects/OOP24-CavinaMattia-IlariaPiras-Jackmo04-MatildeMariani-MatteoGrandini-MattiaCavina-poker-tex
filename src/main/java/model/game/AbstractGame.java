@@ -18,7 +18,6 @@ public abstract class AbstractGame implements Game{
 
     private static final int INITIAL_BET_DIVISION_FACT = 10;
     protected static final int NUM_AI_PLAYERS = 3;
-    protected static final int NUM_INITIAL_PLAYERS = 4;
 
     private final Dealer dealer;
     private final State gameState;
@@ -34,8 +33,8 @@ public abstract class AbstractGame implements Game{
     public AbstractGame(final int initialChips) {
         this.startingBet = (int) initialChips / INITIAL_BET_DIVISION_FACT;
         this.dealer = new DealerImpl();
-        this.gameState = new StateImpl(startingBet, NUM_INITIAL_PLAYERS);
         this.setInitialPlayers(initialChips);
+        this.gameState = new StateImpl(startingBet, this.players.size());
     }
 
     /**
