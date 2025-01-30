@@ -46,10 +46,15 @@ public class RulesControllerImpl implements RulesController {
             throw new IllegalArgumentException("File not found: " + RULES_HTML_PATH);
         }
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
-            return reader.lines().collect(Collectors.joining("\n"));
+            var html = reader.lines().collect(Collectors.joining("\n"));
+            return correctImagesURLs(html);
         } catch (Exception e) {
             return "<html><body><p>Errore nel caricamento del file HTML</p></body></html>";
         }
+    }
+
+    private String correctImagesURLs(String html) {
+        return html.replaceAll("images/", ClassLoader.getSystemResource("rules/images/").toString());
     }
 
 }
