@@ -49,6 +49,7 @@ public class UserPlayer extends AbstractPlayer {
             //int chips = this.calculateChipsToBet(currentState.getCurrentBet(), action);
             //this.setChips(this.getChips() - chips);
             //this.setTotalPhaseBet(this.getTotalPhaseBet() + chips);
+            
             switch (controller.getUserAction()) {
                 case Action.RAISE -> {
                     this.setTotalPhaseBet(this.getTotalPhaseBet() + controller.getRaiseAmount());
