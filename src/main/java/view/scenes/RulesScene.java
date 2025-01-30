@@ -29,12 +29,7 @@ public class RulesScene extends JPanel implements Scene {
         this.setLayout(new BorderLayout());
         
         // Editor pane for displaying the rules loaded from an HTML file
-        JEditorPane editorPane = new JEditorPane();
-        editorPane.setContentType("text/html");
-        editorPane.setEditable(false);
-
-        // Load the rules from the HTML file
-        editorPane.setText(this.controller.getRulesHtml());
+        JEditorPane editorPane = htmlEditorPane(this.controller.getRulesHtml()); // Decidere su usare o no
 
         // Add a scroll bar to the rules editor pane
         JScrollPane scrollPane = new JScrollPane(editorPane);
@@ -46,6 +41,14 @@ public class RulesScene extends JPanel implements Scene {
         JButton backButton = new JButton("Back to Menu");
         backButton.addActionListener(e -> this.controller.goToMainMenuScene());
         this.add(backButton, BorderLayout.SOUTH);
+    }
+
+    private JEditorPane htmlEditorPane(String html) {
+        JEditorPane editorPane = new JEditorPane();
+        editorPane.setContentType("text/html");
+        editorPane.setEditable(false);
+        editorPane.setText(this.controller.getRulesHtml());
+        return editorPane;
     }
 
     /**
