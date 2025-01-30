@@ -23,9 +23,6 @@ public class CombinationHandlerImpl implements CombinationHandler<Card> {
         CombinationsRules<Card> combRules = new CombinationsRulesImpl(totalCardList);
         CombinationsCardGetter<Card> combGetter = new CombinationsCardGetterImpl(totalCardList);
 
-        Integer tieBreakValue = totalCardList.stream()
-                .mapToInt(Card::valueOfCard).sum();
-
         if (combRules.isRoyalFlush()) {
             return new Combination<>(combGetter.getRoyalFlush(), CombinationType.ROYAL_FLUSH);
         } else if (combRules.isPoker()) {

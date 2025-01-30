@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multiset.Entry;
 
 import model.combination.api.CombinationDimension;
@@ -26,9 +27,16 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> 
          * 
          * @param totalCardList
          *                      list of cards.
+         * @throws NullPointerException
+         *                              thrown when the list is empty.
+         * 
          */
         public CombinationsCardGetterImpl(final Set<Card> totalCardList) {
-                totalCardList.forEach(this.totalCardList::add);
+                if (!totalCardList.isEmpty()) {
+                        totalCardList.forEach(this.totalCardList::add);
+                } else {
+                        throw new NullPointerException("Empty Set passed like Argument");
+                }
         }
 
         /**
@@ -36,10 +44,13 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> 
          */
         @Override
         public Set<Card> getPair() {
-                return totalCardList.stream().filter(t -> t.cardName()
-                                .equals(CombinationRulesUtilities.getSumOfSameNameCard(totalCardList).entrySet()
+                var safetyList = Lists.newLinkedList(totalCardList);
+
+                return safetyList.stream().filter(t -> t.cardName()
+                                .equals(CombinationRulesUtilities.getSumOfSameNameCard(safetyList).entrySet()
                                                 .stream()
-                                                .filter(l -> l.getCount() == CombinationDimension.PAIR.getDimension())
+                                                .filter(l -> l.getCount() == CombinationDimension.PAIR
+                                                                .getDimension())
                                                 .toList().getFirst().getElement()))
                                 .collect(Collectors.toSet());
 
@@ -50,13 +61,16 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> 
          */
         @Override
         public Set<Card> getTwoPairs() {
-                List<SimpleCard> twoPairSeedList = CombinationRulesUtilities.getSumOfSameNameCard(totalCardList)
+                var safetyList = Lists.newLinkedList(totalCardList);
+
+                List<SimpleCard> twoPairSeedList = CombinationRulesUtilities.getSumOfSameNameCard(safetyList)
                                 .entrySet()
                                 .stream()
                                 .filter(l -> l.getCount() == CombinationDimension.PAIR.getDimension())
                                 .map(Entry::getElement)
                                 .toList();
-                return totalCardList.stream().filter(t -> t.cardName() == twoPairSeedList.getFirst()
+
+                return safetyList.stream().filter(t -> t.cardName() == twoPairSeedList.getFirst()
                                 || t.cardName() == twoPairSeedList.getLast())
                                 .collect(Collectors.toSet());
         }
@@ -66,8 +80,10 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> 
          */
         @Override
         public Set<Card> getTris() {
-                return totalCardList.stream().filter(t -> t.cardName()
-                                .equals(CombinationRulesUtilities.getSumOfSameNameCard(totalCardList).entrySet()
+                var safetyList = Lists.newLinkedList(totalCardList);
+
+                return safetyList.stream().filter(t -> t.cardName()
+                                .equals(CombinationRulesUtilities.getSumOfSameNameCard(safetyList).entrySet()
                                                 .stream()
                                                 .filter(l -> l.getCount() == CombinationDimension.TRIS.getDimension())
                                                 .toList().getFirst().getElement()))
@@ -79,7 +95,9 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> 
          */
         @Override
         public Set<Card> getStraight() {
-                return CombinationRulesUtilities.getRoyalFlush(totalCardList)
+                var safetyList = Lists.newLinkedList(totalCardList);
+
+                return CombinationRulesUtilities.getRoyalFlush(safetyList)
                                 .stream()
                                 .collect(Collectors.toSet());
         }
@@ -89,7 +107,6 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> 
          */
         @Override
         public Set<Card> getFullHouse() {
-
                 return Stream.concat(getPair().stream(), getTris().stream())
                                 .collect(Collectors.toSet());
         }
@@ -99,11 +116,14 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> 
          */
         @Override
         public Set<Card> getFlush() {
-                return totalCardList.stream().filter(t -> t.seedName()
-                                .equals(CombinationRulesUtilities.getSumOfSameSeedCard(totalCardList).entrySet()
-                                .stream()
-                                .filter(l -> l.getCount() == CombinationDimension.STRAIGHT.getDimension())
-                                .toList().getFirst().getElement()))
+                var safetyList = Lists.newLinkedList(totalCardList);
+
+                return safetyList.stream().filter(t -> t.seedName()
+                                .equals(CombinationRulesUtilities.getSumOfSameSeedCard(safetyList).entrySet()
+                                                .stream()
+                                                .filter(l -> l.getCount() == CombinationDimension.STRAIGHT
+                                                                .getDimension())
+                                                .toList().getFirst().getElement()))
                                 .collect(Collectors.toSet());
 
         }
@@ -113,8 +133,10 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> 
          */
         @Override
         public Set<Card> getPoker() {
-                return totalCardList.stream().filter(t -> t.cardName()
-                                .equals(CombinationRulesUtilities.getSumOfSameNameCard(totalCardList).entrySet()
+                var safetyList = Lists.newLinkedList(totalCardList);
+
+                return safetyList.stream().filter(t -> t.cardName()
+                                .equals(CombinationRulesUtilities.getSumOfSameNameCard(safetyList).entrySet()
                                                 .stream()
                                                 .filter(l -> l.getCount() == CombinationDimension.POKER.getDimension())
                                                 .toList().getFirst().getElement()))
