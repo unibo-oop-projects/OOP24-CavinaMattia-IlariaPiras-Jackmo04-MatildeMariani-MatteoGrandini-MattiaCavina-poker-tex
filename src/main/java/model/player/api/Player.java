@@ -1,5 +1,6 @@
 package model.player.api;
 
+import java.util.Optional;
 import java.util.Set;
 
 import model.deck.api.Card;
@@ -21,6 +22,7 @@ public interface Player {
 
     /** 
      * Sets the player's role for the current hand.
+     * The role is reset at the end of each hand.
      * @param role the role to be given to the player.
      */
     void setRole(Role role);
@@ -56,10 +58,12 @@ public interface Player {
     Combination<Card> getCombination();
 
     /**
-     * Returns the {@link Role} of the player in the current hand.
-     * @return the {@link Role} of the player in the current hand.
+     * Returns an {@link Optional} containing the {@link Role} of the player in the current hand.
+     * If the player is neither the Small Blind nor the Big Blind, the Optional will be empty.
+     * Otherwise, it will contain the role of the player.
+     * @return an {@link Optional} containing the {@link Role} of the player in the current hand.
      */
-    Role getRole();
+    Optional<Role> getRole();
 
     /**
      * Returns the amount of chips the player has left.
