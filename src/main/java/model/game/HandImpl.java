@@ -3,6 +3,7 @@ package model.game;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import com.google.common.collect.Iterables;
 
@@ -37,7 +38,7 @@ public class HandImpl implements Hand {
     public void sortFromRole(final Role firstPlayerRole) {
         var originalList = List.copyOf(this.handPlayers);
         this.handPlayers.clear();
-        var index  = Iterables.indexOf(originalList, p -> p.getRole().equals(firstPlayerRole));
+        var index  = Iterables.indexOf(originalList, p -> p.getRole().equals(Optional.of(firstPlayerRole)));
         this.handPlayers.addAll(originalList.subList(index, originalList.size()));
         this.handPlayers.addAll(originalList.subList(0, index));
     }
