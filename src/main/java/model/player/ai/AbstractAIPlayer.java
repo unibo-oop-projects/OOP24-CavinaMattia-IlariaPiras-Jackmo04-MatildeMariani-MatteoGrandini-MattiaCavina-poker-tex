@@ -42,6 +42,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         if (this.getCards().size() != 2) {
             throw new IllegalStateException("Player must have 2 cards to play");
         }
+        this.updateCombination(currentState);
         if (!this.hasChipsLeft()) {
             return Action.CHECK;
         }
@@ -50,7 +51,6 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
             this.makeBet(requiredBet(currentState));
             return Action.CALL;            
         }
-        this.updateCombination(currentState);
         if (shouldRaise(currentState)) {
             this.makeBet((int) (currentState.getCurrentBet() + BASIC_BET * raisingFactor));
             // Might not have enough chips to raise
