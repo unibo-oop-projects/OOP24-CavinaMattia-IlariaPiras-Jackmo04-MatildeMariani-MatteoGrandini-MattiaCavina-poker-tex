@@ -6,7 +6,6 @@ import model.player.ai.AIPlayerFactoryImpl;
 import model.player.ai.api.AIPlayer;
 import model.player.ai.api.AIPlayerFactory;
 import model.player.api.Player;
-import model.player.api.Role;
 
 /**
  * Implementation of the {@link GameFactory} interface.
@@ -32,8 +31,8 @@ public class GameFactoryImpl implements GameFactory{
         return new AbstractGame(initialChips) {
 
             @Override
-            protected Player getAIPlayer(final int initialChips, final Role startingRole) {
-                return playerFactory.easy(initialChips, startingRole);
+            protected Player getAIPlayer(final int initialChips) {
+                return playerFactory.easy(initialChips);
             }
 
         };
@@ -47,8 +46,8 @@ public class GameFactoryImpl implements GameFactory{
         return new AbstractGame(initialChips) {
 
             @Override
-            protected Player getAIPlayer(int initialChips, Role startingRole) {
-                return playerFactory.medium(initialChips, startingRole);
+            protected Player getAIPlayer(int initialChips) {
+                return playerFactory.medium(initialChips);
             }
 
         };
@@ -62,8 +61,8 @@ public class GameFactoryImpl implements GameFactory{
         return new AbstractGame(initialChips) {
 
             @Override
-            protected Player getAIPlayer(int initialChips, Role startingRole) {
-                return playerFactory.hard(initialChips, startingRole);
+            protected Player getAIPlayer(int initialChips) {
+                return playerFactory.hard(initialChips);
             }
 
         };

@@ -96,56 +96,47 @@ public abstract class AbstractGame implements Game{
         return gameState;
     }
 
-    /*
-     * TODO: change the commented lines using Optional.empty 
-     */
     /**
-     * Sets the {@link Role}s for the hand, assigning each role to the next player in 
-     * the list (keeping in mind that some players may no longer be in the game) and 
-     * updating the smallBlindPlayer and bigBlindPlayer fields.
+     * Sets the {@link Role}s for the hand, randomly if it's the first hand or to the next player in 
+     * the list (keeping in mind that some players may no longer be in the game) otherwise.
+     * Updates the smallBlindPlayer and bigBlindPlayer fields.
      */
     private void setRolesForNewHand() {
-        var originalList = List.copyOf(players);
-        this.players.removeIf(p -> !p.hasChipsLeft());
-        //smallBlindPlayer.setRole(Role.REGULAR);
-        //bigBlindPlayer.setRole(Role.REGULAR);
-        
-        var indexNextSmallBlind = originalList.indexOf(smallBlindPlayer) + 
-                                  (this.players.contains(smallBlindPlayer)? 1 : 0);
-        var indexNextBigBlind = originalList.indexOf(bigBlindPlayer) + 
-                                (this.players.contains(bigBlindPlayer)? 1 : 0);
-    
-        this.players.get(indexNextSmallBlind).setRole(Role.SMALL_BLIND);
-        this.players.get(indexNextBigBlind).setRole(Role.BIG_BLIND);
+        int indexNextSmallBlind;
+        int indexNextBigBlind;
 
+        if (this.gameState.getHandNumber() == 0) {
+            Random rand = new Random();
+            indexNextSmallBlind = rand.nextInt(players.size());
+            indexNextBigBlind = (indexNextSmallBlind + 1) % players.size();
+        } else {
+            var originalList = List.copyOf(players);
+            this.players.removeIf(p -> !p.hasChipsLeft());
+
+            indexNextSmallBlind = originalList.indexOf(smallBlindPlayer) + 
+                                  (this.players.contains(smallBlindPlayer)? 1 : 0);
+            indexNextBigBlind = originalList.indexOf(bigBlindPlayer) + 
+                                (this.players.contains(bigBlindPlayer)? 1 : 0);
+        }
+    
         smallBlindPlayer = this.players.get(indexNextSmallBlind);
         bigBlindPlayer = this.players.get(indexNextBigBlind);
+        
+        this.smallBlindPlayer.setRole(Role.SMALL_BLIND);
+        this.bigBlindPlayer.setRole(Role.BIG_BLIND);
+
     }
 
-    /*
-     * TODO: change the initial role assignment to optional empty and then use rand to get two players to assign the roles to.
-     */
     /** 
-     * Sets the initial list of {@link Player}s, assigning to each of them a
-     * different role randomly. It's a template method.
+     * Sets the initial list of {@link Player}s. It's a template method.
      * @param initialChips initial amount of chips of players.
      */
     private void setInitialPlayers(final int initialChips) {
-        Random rand = new Random();
-        var startingRole = Role.values()[rand.nextInt(Role.values().length)];
-
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
-            this.players.add(this.getAIPlayer(initialChips, startingRole));
+            this.players.add(this.getAIPlayer(initialChips));
         }
-        //this.players.add(new UserPlayer(initialChips, startingRole.next()));
-        this.smallBlindPlayer = this.players.stream()
-                                    .filter(p -> p.getRole().equals(Role.SMALL_BLIND))
-                                    .findAny()
-                                    .get();
-        this.bigBlindPlayer = this.players.stream()
-                                  .filter(p -> p.getRole().equals(Role.BIG_BLIND))
-                                  .findAny()
-                                  .get();
+        //this.players.add(new UserPlayer(initialChips));
+    
     }
 
     /**
@@ -153,6 +144,6 @@ public abstract class AbstractGame implements Game{
      * @param initialChips initial amount of chips of players.
      * @return an AI player.
      */
-    protected abstract Player getAIPlayer(int initialChips, Role startingRole);
+    protected abstract Player getAIPlayer(int initialChips);
 
 }
