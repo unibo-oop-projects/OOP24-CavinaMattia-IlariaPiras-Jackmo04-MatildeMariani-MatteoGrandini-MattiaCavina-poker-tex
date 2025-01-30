@@ -15,4 +15,6 @@ public interface RulesController {
      * @return the HTML content of the rules
      */
     String getRulesHtml();
+
+    String getRulesIntro();
 }
