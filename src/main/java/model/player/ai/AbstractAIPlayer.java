@@ -8,7 +8,6 @@ import model.player.AbstractPlayer;
 import model.player.ai.api.AIPlayer;
 import model.player.api.Action;
 import model.player.api.Role;
-import model.temp.Blind;
 import model.combination.CombinationHandlerImpl;
 import model.game.api.Phase;
 import model.game.api.State;
@@ -29,8 +28,8 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
      * @param initialRole the initial role of the player.
      * @param raisingFactor a double determining by how much the player will raise.
      */
-    AbstractAIPlayer(final int initialChips, final Role initialRole, final double raisingFactor) {
-        super(initialChips, initialRole);
+    AbstractAIPlayer(final int initialChips, final double raisingFactor) {
+        super(initialChips);
         this.raisingFactor = raisingFactor;
         this.paidBlind = false;
     }
@@ -40,14 +39,22 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
      */
     @Override
     public Action getAction(final State currentState) {
-        this.paidBlind = this.getRole() == Role.REGULAR || this.getRole() == Role.DEALER;
         if (this.getCards().size() != 2) {
             throw new IllegalStateException("Player must have 2 cards to play");
+        }
+        if (!this.hasChipsLeft()) {
+            return Action.CHECK;
+        }
+        this.paidBlind = this.getRole().isEmpty() || this.getTotalPhaseBet() > 0;
+        if (!paidBlind) {
+            this.makeBet(requiredBet(currentState));
+            return Action.CALL;            
         }
         this.updateCombination(currentState);
         if (shouldRaise(currentState)) {
             this.makeBet((int) (currentState.getCurrentBet() + BASIC_BET * raisingFactor));
-            return Action.RAISE;
+            // Might not have enough chips to raise
+            return this.getTotalPhaseBet() > currentState.getCurrentBet() ? Action.RAISE : Action.CALL;
         }
         if (canCheck(currentState)) {
             return Action.CHECK;
@@ -55,9 +62,6 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         if (shouldCall(currentState)) {
             this.makeBet(currentState.getCurrentBet());
             return Action.CALL;
-        }
-        if (!this.paidBlind) {
-            this.makeBet(requiredBet(currentState));
         }
         return Action.FOLD;
     }
@@ -103,19 +107,16 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
 
     /**
      * Returns the amount of chips required to call or raise in the current state.
-     * @param currentState
+     * This amount is multiplied by the role's multiplier if the hand phase is preflop.
+     * @param currentState the current state of the game.
      * @return the amount of chips required to call or raise in the current state.
      */
     protected int requiredBet(final State currentState) {
-        if (currentState.getHandPhase() == Phase.PREFLOP) {
-            return (int) (currentState.getCurrentBet() * switch (getRole()) {
-                case SMALL_BLIND -> Blind.SMALL.getMultiplier();
-                case BIG_BLIND -> Blind.BIG.getMultiplier();
-                default -> 1;
-            });
-        } else {
-            return currentState.getCurrentBet();
-        }
+        return (int) (currentState.getCurrentBet() * this.getRole()
+            .filter(r -> currentState.getHandPhase() == Phase.PREFLOP)
+            .map(Role::getMultiplier)
+            .orElse(1.0)
+        );
     }
 
     private int maxBetToReach(final int amount) {
@@ -123,18 +124,19 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     }
 
     private boolean canCheck(final State currentState) {
-        return requiredBet(currentState) == getTotalPhaseBet();
+        return currentState.getCurrentBet() == this.getTotalPhaseBet();
     }
 
     private void makeBet(final int amount) {
-        var actualBet = maxBetToReach(amount) - this.getTotalPhaseBet();
+        var diff = amount - this.getTotalPhaseBet();
+        var actualBet = maxBetToReach(diff);
         this.setTotalPhaseBet(this.getTotalPhaseBet() + actualBet);
         this.setChips(getChips() - actualBet);
-        this.paidBlind = true;
     }
 
     private void endhand() {
         this.setCards(Set.of());
+        this.setRole(null);
         this.paidBlind = false;
     }
 
