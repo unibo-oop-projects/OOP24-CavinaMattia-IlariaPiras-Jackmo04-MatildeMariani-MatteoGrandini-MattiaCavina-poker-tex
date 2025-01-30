@@ -32,13 +32,15 @@ public final class CombinationRulesUtilities {
      *         List of card that represent the possible RoyalFlush combination.
      */
     protected static List<Card> getRoyalFlush(final List<Card> totalCardList) {
-        var straightList = filteredSameValueCard(addAceOneValue(totalCardList));
+        var straightList = filteredSameValueCard(addAceOneValue(totalCardList)).reversed();
+        //straightList.sort(Comparator.comparing(Card::valueOfCard));
+        //straightList.reversed();
         Boolean checkStraight = false;
 
         while (straightList.size() >= CombinationDimension.STRAIGHT.getDimension() && !checkStraight) {
             List<Integer> controList = new LinkedList<>();
             for (int i = 0; i < CombinationDimension.STRAIGHT.getDimension(); i++) {
-                controList.add(straightList.get(i).valueOfCard() - i);
+                controList.add(straightList.get(i).valueOfCard() + i);
             }
             if (controList.stream().distinct().count() == 1) {
                 checkStraight = true;
