@@ -3,9 +3,9 @@ import view.ViewImpl;
 /**
  * Main class of the application.
  */
-public final class App {
+public final class PokerTexas {
 
-    private App() {
+    private PokerTexas() {
     }
 
     /**
