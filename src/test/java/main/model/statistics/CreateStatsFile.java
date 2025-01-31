@@ -8,10 +8,10 @@ public class CreateStatsFile {
 
     public static void main(String[] args) {
         final var stats = new BasicStatisticsImpl();
-        stats.setHandsPlayed(0);
-        stats.setGamesPlayed(0);
-        stats.setHandsWon(0);
-        stats.setGamesWon(0);
+        stats.setHandsPlayed(10);
+        stats.setHandsWon(5);
+        stats.setGamesPlayed(3);
+        stats.setGamesWon(1);
         stats.setBestCombinationIfSo(CombinationType.HIGH_CARD);
         stats.setBiggestWinIfSo(0);
         final var statsManager = new StatisticsManagerImpl<BasicStatisticsImpl>(stats);

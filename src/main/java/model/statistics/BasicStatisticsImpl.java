@@ -286,14 +286,14 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
     @Override
     public List<Pair<String, String>> getAsList() {
         return List.of(
-            new Pair<>("Hands played", String.valueOf(this.getNumOfHandsPlayed())),
-            new Pair<>("Hands won", String.valueOf(this.getNumOfHandsWon())),
-            new Pair<>("Games played", String.valueOf(this.getNumOfGamesPlayed())),
             new Pair<>("Games won", String.valueOf(this.getNumOfGamesWon())),
+            new Pair<>("Games played", String.valueOf(this.getNumOfGamesPlayed())),
+            new Pair<>("Hands won", String.valueOf(this.getNumOfHandsWon())),
+            new Pair<>("Hands played", String.valueOf(this.getNumOfHandsPlayed())),
             new Pair<>("Best Combination", this.getBestCombination().map(CombinationType::getName).orElse("None")),
             new Pair<>("Biggest win", String.valueOf(this.getBiggestWin())),
-            new Pair<>("Hands win rate", String.valueOf(this.getHandWinRate() * 100) + "%"),
-            new Pair<>("Games win rate", String.valueOf(this.getGameWinRate() * 100) + "%")
+            new Pair<>("Games win rate", String.format("%.2f%%", this.getGameWinRate() * 100)),
+            new Pair<>("Hands win rate", String.format("%.2f%%", this.getHandWinRate() * 100))
         );
     }
 

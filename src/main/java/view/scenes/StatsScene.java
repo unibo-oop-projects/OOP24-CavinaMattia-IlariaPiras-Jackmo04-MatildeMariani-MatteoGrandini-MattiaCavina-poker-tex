@@ -45,6 +45,7 @@ public class StatsScene extends JPanel implements Scene {
         this.add(statsPanel, BorderLayout.CENTER);
 
         JButton backButton = new JButton("Back to Menu");
+        backButton.setFont(new Font("Arial", Font.BOLD, 18));
         backButton.addActionListener(e -> this.controller.goToMainMenuScene());
         this.add(backButton, BorderLayout.SOUTH);
     }
