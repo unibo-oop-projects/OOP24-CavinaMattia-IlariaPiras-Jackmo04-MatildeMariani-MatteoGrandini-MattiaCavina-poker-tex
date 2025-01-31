@@ -16,6 +16,7 @@ public class UserPlayerController {
     private State state;
     private Action action;
     private boolean actionReceived=false;
+    private int userChips;
 
     /**
      * Constructs a UserPlayerController with the specified user player.
@@ -123,8 +124,9 @@ public class UserPlayerController {
      * Updates the button states and waits for an action to be received.
      * @return the action received from the user player.
      */
-    public Action getUserAction() {
-        pokerGUI.updateButtonStates();
+    public Action getUserAction(final int userChips) {
+        this.userChips = userChips;
+        pokerGUI.updateButtonStates(this.userChips);
         /*while(this.actionReceived == false) {
             //questa parte è da modificare
         }*/

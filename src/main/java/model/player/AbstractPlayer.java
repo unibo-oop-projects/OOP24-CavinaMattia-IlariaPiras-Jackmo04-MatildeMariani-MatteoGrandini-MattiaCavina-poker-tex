@@ -4,14 +4,12 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-import model.combination.CombinationHandlerImpl;
 import model.combination.api.Combination;
 import model.deck.api.Card;
 import model.game.api.State;
 import model.player.api.Action;
 import model.player.api.Player;
 import model.player.api.Role;
-
 /**
  * Abstract class that implements the common methods of a generic player.
  * It also provides some abstract methods that must be implemented by the subclasses.
@@ -51,7 +49,6 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public void setCards(final Set<Card> cards) {
         this.cards = Objects.requireNonNull(Set.copyOf(cards));
-        this.bestCombination = new CombinationHandlerImpl().getCombination(cards);
     }
 
     /**

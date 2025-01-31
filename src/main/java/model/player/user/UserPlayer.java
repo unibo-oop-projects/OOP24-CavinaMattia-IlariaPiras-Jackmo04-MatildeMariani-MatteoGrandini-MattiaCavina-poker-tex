@@ -46,7 +46,7 @@ public class UserPlayer extends AbstractPlayer {
             this.setChips(this.getChips() - this.getTotalPhaseBet());
             return Action.CALL;
         } else { 
-            var action = this.controller.getUserAction();
+            var action = this.controller.getUserAction(this.getChips());
             int bet = this.calculateChipsToBet(currentState.getCurrentBet(), action);
             this.setChips(this.getChips() - bet);
             this.setTotalPhaseBet(this.getTotalPhaseBet() + bet);

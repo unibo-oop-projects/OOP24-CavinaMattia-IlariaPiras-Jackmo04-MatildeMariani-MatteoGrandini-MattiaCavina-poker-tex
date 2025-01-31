@@ -16,14 +16,16 @@ import model.deck.api.SimpleCard;
 /**
  * Test of CombinationHandlerImpl.
  */
-public class CombinationHandlerImplTest { // NOPMD suppressed as it is a false positive
+public class CombinationHandlerImplTest {
 
     /**
      * Test of Pair.
      */
     @Test
     void testPair() {
-        final Set<Card> totalCardList = Set.of(new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
+
+        final Set<Card> totalCardList = Set.of(
+                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.SPADES),
                 new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
@@ -54,12 +56,13 @@ public class CombinationHandlerImplTest { // NOPMD suppressed as it is a false p
         assertNotEquals(CombinationType.ROYAL_FLUSH, new CombinationHandlerImpl().getCombination(totalCardList).type());
     }
 
-        /**
+    /**
      * Test of Pair.
      */
     @Test
     void testHightCard() {
-        final Set<Card> totalCardList = Set.of(new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
+        final Set<Card> totalCardList = Set.of(
+                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                 new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.SPADES),
                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.SPADES),
                 new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
@@ -71,7 +74,5 @@ public class CombinationHandlerImplTest { // NOPMD suppressed as it is a false p
         assertNotEquals(CombinationType.POKER, new CombinationHandlerImpl().getCombination(totalCardList).type());
 
     }
-
-
 
 }

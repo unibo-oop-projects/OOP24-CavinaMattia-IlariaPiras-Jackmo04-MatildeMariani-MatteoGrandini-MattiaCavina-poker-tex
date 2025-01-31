@@ -16,7 +16,7 @@ import java.util.Set;
  *                   the sum value of players's cards.
  * 
  */
-public record Combination<X>(Set<X> totalCard, CombinationType type, int tieBreaker) {
+public record Combination<X>(Set<X> totalCard, CombinationType type) {
 
 }
 

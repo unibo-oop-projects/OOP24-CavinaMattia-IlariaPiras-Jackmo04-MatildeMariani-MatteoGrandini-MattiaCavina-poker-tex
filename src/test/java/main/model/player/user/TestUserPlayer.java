@@ -56,12 +56,12 @@ public class TestUserPlayer {
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().setCurrentState(state);
         player.getController().receiveUserAction("CALL");
-        assertEquals(Action.CALL, player.getController().getUserAction());
+        assertEquals(Action.CALL, player.getController().getUserAction(player.getChips()));
         player.getAction(state);
         assertEquals(INITIAL_CHIPS - INITIAL_BET, player.getChips());
         assertEquals(INITIAL_BET, player.getTotalPhaseBet());
         player.getController().receiveUserAction("CHECK");
-        assertEquals(Action.CHECK, player.getController().getUserAction());
+        assertEquals(Action.CHECK, player.getController().getUserAction(player.getChips()));
         assertEquals(INITIAL_CHIPS - INITIAL_BET, player.getChips());
         assertEquals(INITIAL_BET, player.getTotalPhaseBet());
         
@@ -87,7 +87,7 @@ public class TestUserPlayer {
         player.getController().setCurrentState(state);
         player.getController().receiveUserAction("RAISE");
         player.getController().setRaiseAmount(INITIAL_BET_500 * MULTIPLIER_RAISE);
-        assertEquals(Action.RAISE, player.getController().getUserAction());
+        assertEquals(Action.RAISE, player.getController().getUserAction(player.getChips()));
         player.getAction(state);
         assertEquals(INITIAL_CHIPS - (INITIAL_BET_500 * MULTIPLIER_RAISE), player.getChips());
         assertEquals(INITIAL_BET_500 * MULTIPLIER_RAISE, player.getTotalPhaseBet());

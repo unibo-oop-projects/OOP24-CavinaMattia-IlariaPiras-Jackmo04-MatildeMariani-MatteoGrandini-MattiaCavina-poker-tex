@@ -1,30 +1,43 @@
 package main.model.combination;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Sets;
 
-import model.combination.CombinationsRulesImpl;
+import model.combination.CombinationsCardGetterImpl;
 import model.deck.api.Card;
 import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Test class for is used to test all combination rules with differet cards.
+ * Test of CombinationCardGetter.
  */
-public class CombinationsRulesImplTest { // NOPMD suppressed as it is a false positive
+public class CombinationCardGetterTest {
 
         /**
-         * Test for the method isPair.
+         * Empty test
+         * 
+         */
+        @Test
+        void testEmpty() {
+                Set<Card> totalCardList = Sets.newHashSet();
+                try {
+                        new CombinationsCardGetterImpl(totalCardList).getPair();
+                } catch (NullPointerException e) {
+                        System.out.println("Empty list");
+                }
+
+        }
+
+        /**
+         * Test to get a pair.
          */
         @Test
         void testPair() {
-                Set<Card> totalCardList = Set.of(
+                final Set<Card> totalCardList = Set.of(
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
@@ -33,28 +46,19 @@ public class CombinationsRulesImplTest { // NOPMD suppressed as it is a false po
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
 
-                assertTrue(new CombinationsRulesImpl(totalCardList).isPair());
-                assertFalse(new CombinationsRulesImpl(totalCardList).isTris());
-                assertFalse(new CombinationsRulesImpl(totalCardList).isPoker());
-
-                totalCardList = Set.of(
-                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
-                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH));
-
-                assertTrue(new CombinationsRulesImpl(totalCardList).isPair());
-
-                totalCardList = Sets.newHashSet();
-
-                assertFalse(new CombinationsRulesImpl(totalCardList).isPair());
+                assertEquals(Set.of(
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND)),
+                                new CombinationsCardGetterImpl(totalCardList).getPair());
 
         }
 
         /**
-         * Test for the method isTwoPairs.
+         * Test to get two pairs.
          */
         @Test
         void testTwoPairs() {
-                Set<Card> totalCardList = Set.of(
+               final Set<Card> totalCardList = Set.of(
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
@@ -63,28 +67,21 @@ public class CombinationsRulesImplTest { // NOPMD suppressed as it is a false po
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
 
-                assertTrue(new CombinationsRulesImpl(totalCardList).isTwoPairs());
-                assertFalse(new CombinationsRulesImpl(totalCardList).isTris());
-                assertTrue(new CombinationsRulesImpl(totalCardList).isPair());
-
-                totalCardList = Set.of(
+                assertEquals(Set.of(
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
+                                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
-                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH));
-
-                assertFalse(new CombinationsRulesImpl(totalCardList).isTris());
-
-                totalCardList = Sets.newHashSet();
-
-                assertFalse(new CombinationsRulesImpl(totalCardList).isTwoPairs());
+                                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND)),
+                                new CombinationsCardGetterImpl(totalCardList).getTwoPairs());
 
         }
 
         /**
-         * Test for the method isTris.
+         * Test to get a tris.
          */
         @Test
         void testTris() {
-                Set<Card> totalCardList = Set.of(
+                final Set<Card> totalCardList = Set.of(
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
@@ -93,23 +90,20 @@ public class CombinationsRulesImplTest { // NOPMD suppressed as it is a false po
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
 
-                assertFalse(new CombinationsRulesImpl(totalCardList).isTwoPairs());
-                assertTrue(new CombinationsRulesImpl(totalCardList).isTris());
-                assertFalse(new CombinationsRulesImpl(totalCardList).isPair());
-                assertFalse(new CombinationsRulesImpl(totalCardList).isPoker());
-
-                totalCardList = Sets.newHashSet();
-
-                assertFalse(new CombinationsRulesImpl(totalCardList).isTris());
+                assertEquals(Set.of(
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH)),
+                                new CombinationsCardGetterImpl(totalCardList).getTris());
 
         }
 
         /**
-         * Test for the method isPoker.
+         * Test to get a poker.
          */
         @Test
         void testPoker() {
-                Set<Card> totalCardList = Set.of(
+                final Set<Card> totalCardList = Set.of(
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.SPADES),
@@ -118,22 +112,21 @@ public class CombinationsRulesImplTest { // NOPMD suppressed as it is a false po
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
 
-                assertTrue(new CombinationsRulesImpl(totalCardList).isPoker());
-                assertFalse(new CombinationsRulesImpl(totalCardList).isTris());
-                assertFalse(new CombinationsRulesImpl(totalCardList).isPair());
-
-                totalCardList = Sets.newHashSet();
-
-                assertFalse(new CombinationsRulesImpl(totalCardList).isPoker());
+                assertEquals(Set.of(
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.SPADES),
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH)),
+                                new CombinationsCardGetterImpl(totalCardList).getPoker());
 
         }
 
         /**
-         * Test for the method isFlush.
+         * Test to get a flush.
          */
         @Test
         void testFlush() {
-                Set<Card> totalCardList = Set.of(
+                final Set<Card> totalCardList = Set.of(
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.CLUBS),
@@ -142,22 +135,22 @@ public class CombinationsRulesImplTest { // NOPMD suppressed as it is a false po
                                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS));
 
-                assertFalse(new CombinationsRulesImpl(totalCardList).isPoker());
-                assertTrue(new CombinationsRulesImpl(totalCardList).isFlush());
-                assertFalse(new CombinationsRulesImpl(totalCardList).isPair());
-
-                totalCardList = Sets.newHashSet();
-
-                assertFalse(new CombinationsRulesImpl(totalCardList).isFlush());
+                assertEquals(Set.of(
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
+                                new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.CLUBS),
+                                new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.CLUBS),
+                                new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.CLUBS),
+                                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS)),
+                                new CombinationsCardGetterImpl(totalCardList).getFlush());
 
         }
 
         /**
-         * Test for the method isFullHouse.
+         * Test to get a full house.
          */
         @Test
         void testFullHouse() {
-                Set<Card> totalCardList = Set.of(
+                final Set<Card> totalCardList = Set.of(
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
@@ -166,23 +159,22 @@ public class CombinationsRulesImplTest { // NOPMD suppressed as it is a false po
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.DIAMOND));
 
-                assertFalse(new CombinationsRulesImpl(totalCardList).isTwoPairs());
-                assertTrue(new CombinationsRulesImpl(totalCardList).isTris());
-                assertTrue(new CombinationsRulesImpl(totalCardList).isPair());
-                assertTrue(new CombinationsRulesImpl(totalCardList).isFullHouse());
-
-                totalCardList = Sets.newHashSet();
-
-                assertFalse(new CombinationsRulesImpl(totalCardList).isFullHouse());
+                assertEquals(Set.of(
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
+                                new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH),
+                                new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.DIAMOND)),
+                                new CombinationsCardGetterImpl(totalCardList).getFullHouse());
 
         }
 
         /**
-         * Test for the method isStraight.
+         * Test to get a straight.
          */
         @Test
         void testStraight() {
-                Set<Card> totalCardList = Set.of(
+                final Set<Card> totalCardList = Set.of(
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.SPADES),
@@ -191,56 +183,22 @@ public class CombinationsRulesImplTest { // NOPMD suppressed as it is a false po
                                 new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
                                 new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.DIAMOND));
 
-                assertFalse(new CombinationsRulesImpl(totalCardList).isTwoPairs());
-                assertFalse(new CombinationsRulesImpl(totalCardList).isFullHouse());
-                assertTrue(new CombinationsRulesImpl(totalCardList).isStraight());
-
-                totalCardList = Set.of(new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
-                                new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.SPADES),
-                                new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
-                                new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.CLUBS),
-                                new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.DIAMOND),
-                                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
-
-                assertFalse(new CombinationsRulesImpl(totalCardList).isStraight());
-
-                totalCardList = Set.of(
-                                new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.CLUBS),
+                assertEquals(Set.of(
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND),
-                                new Card(SimpleCard.EIGHT, SimpleCard.EIGHT.getValueOfCard(), SeedCard.SPADES),
-                                new Card(SimpleCard.SEVEN, SimpleCard.SEVEN.getValueOfCard(), SeedCard.HEARTH),
+                                new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.HEARTH),
                                 new Card(SimpleCard.FOUR, SimpleCard.FOUR.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
-                                new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.DIAMOND));
-
-                assertTrue(new CombinationsRulesImpl(totalCardList).isStraight());
-/**
- * test with Ace like 1.
- */
-                totalCardList = Set.of(
-                        new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-                        new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND),
-                        new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.SPADES),
-                        new Card(SimpleCard.SEVEN, SimpleCard.SEVEN.getValueOfCard(), SeedCard.HEARTH),
-                        new Card(SimpleCard.FOUR, SimpleCard.FOUR.getValueOfCard(), SeedCard.CLUBS),
-                        new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
-                        new Card(SimpleCard.SEVEN, SimpleCard.SEVEN.getValueOfCard(), SeedCard.DIAMOND));
-
-                        assertTrue(new CombinationsRulesImpl(totalCardList).isStraight());
-
-                totalCardList = Sets.newHashSet();
-
-                assertFalse(new CombinationsRulesImpl(totalCardList).isStraight());
+                                new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.DIAMOND)),
+                                new CombinationsCardGetterImpl(totalCardList).getStraight());
 
         }
 
         /**
-         * Test for the method isRoyalFlush.
+         * Test to get a royal flush.
          */
         @Test
         void testRoyalFlush() {
-                Set<Card> totalCardList = Set.of(
+                final Set<Card> totalCardList = Set.of(
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.HEARTH),
                                 new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.DIAMOND),
@@ -249,24 +207,14 @@ public class CombinationsRulesImplTest { // NOPMD suppressed as it is a false po
                                 new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND));
 
-                assertTrue(new CombinationsRulesImpl(totalCardList).isRoyalFlush());
-                assertFalse(new CombinationsRulesImpl(totalCardList).isFullHouse());
-                assertTrue(new CombinationsRulesImpl(totalCardList).isStraight());
-
-                totalCardList = Set.of(
+                assertEquals(Set.of(
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.DIAMOND),
-                                new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.HEARTH),
                                 new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.DIAMOND),
-                                new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.DIAMOND),
-                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND));
-
-                assertTrue(new CombinationsRulesImpl(totalCardList).isRoyalFlush());
-
-                totalCardList = Sets.newHashSet();
-
-                assertFalse(new CombinationsRulesImpl(totalCardList).isRoyalFlush());
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND)),
+                                new CombinationsCardGetterImpl(totalCardList).getRoyalFlush());
 
         }
+
 }
