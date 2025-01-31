@@ -27,8 +27,8 @@ public class AIPlayerPanel extends JPanel {
         MyLabel sxCard = new MyLabel("");
         dxCard.setSize(CARD_WIDTH, CARD_HEIGHT);
         sxCard.setSize(CARD_WIDTH, CARD_HEIGHT);
-        dxCard.setImage("retroCarta.png");
-        sxCard.setImage("retroCarta.png");
+        dxCard.setImage("src/main/resources/retroCarta.png");
+        sxCard.setImage("src/main/resources/retroCarta.png");
         cardsPanel.add(sxCard);
         cardsPanel.add(dxCard);
         cardsPanel.setBackground(Color.LIGHT_GRAY);
@@ -36,7 +36,7 @@ public class AIPlayerPanel extends JPanel {
         /*Creation player image label*/
         MyLabel playerImage = new MyLabel("");
         playerImage.setSize(PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
-        playerImage.setImage("hat.png");
+        playerImage.setImage("src/main/resources/hat.png");
 
         /*Creation images panel, it contains the player image and his set of cards*/
         JPanel imagesPanel = new JPanel();

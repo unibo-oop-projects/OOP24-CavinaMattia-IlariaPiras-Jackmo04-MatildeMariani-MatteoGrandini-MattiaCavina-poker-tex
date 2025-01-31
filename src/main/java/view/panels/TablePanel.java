@@ -27,11 +27,11 @@ public class TablePanel extends JPanel {
             card4.setSize(CARD_WIDTH, CARD_HEIGHT);
             card5.setSize(CARD_WIDTH, CARD_HEIGHT);
 
-            card1.setImage("retroCarta.png");
-            card2.setImage("retroCarta.png");
-            card3.setImage("retroCarta.png");
-            card4.setImage("retroCarta.png");
-            card5.setImage("retroCarta.png");
+            card1.setImage("src/main/resources/retroCarta.png");
+            card2.setImage("src/main/resources/retroCarta.png");
+            card3.setImage("src/main/resources/retroCarta.png");
+            card4.setImage("src/main/resources/retroCarta.png");
+            card5.setImage("src/main/resources/retroCarta.png");
 
             cardsPanel.add(card1);
             cardsPanel.add(card2);
@@ -56,22 +56,22 @@ public class TablePanel extends JPanel {
             MyLabel southPlayerBet = new MyLabel("20");
 
             westPlayerBet.setSize(50, 60);
-            westPlayerBet.setImage("fisches.png");
+            westPlayerBet.setImage("src/main/resources/fisches.png");
             westPlayerBet.setVerticalTextPosition(JLabel.CENTER);
             westPlayerBet.setHorizontalTextPosition(JLabel.RIGHT);
 
             northPlayerBet.setSize(50, 60);
-            northPlayerBet.setImage("fisches.png");
+            northPlayerBet.setImage("src/main/resources/fisches.png");
             northPlayerBet.setVerticalTextPosition(JLabel.CENTER);
             northPlayerBet.setHorizontalTextPosition(JLabel.RIGHT);
 
             eastPlayerBet.setSize(50, 60);
-            eastPlayerBet.setImage("fisches.png");
+            eastPlayerBet.setImage("src/main/resources/fisches.png");
             eastPlayerBet.setVerticalTextPosition(JLabel.CENTER);
             eastPlayerBet.setHorizontalTextPosition(JLabel.LEFT);
 
             southPlayerBet.setSize(50, 60);
-            southPlayerBet.setImage("fisches.png");
+            southPlayerBet.setImage("src/main/resources/fisches.png");
             southPlayerBet.setVerticalTextPosition(JLabel.CENTER);
             southPlayerBet.setHorizontalTextPosition(JLabel.RIGHT);
             
