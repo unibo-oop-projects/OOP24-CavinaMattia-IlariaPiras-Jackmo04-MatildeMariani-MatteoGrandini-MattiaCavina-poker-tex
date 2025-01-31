@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.TreeMultiset;
 import com.google.common.collect.Multiset.Entry;
@@ -31,13 +32,15 @@ public final class CombinationRulesUtilities {
      *         List of card that represent the possible RoyalFlush combination.
      */
     protected static List<Card> getRoyalFlush(final List<Card> totalCardList) {
-        var straightList = filteredSameValueCard(totalCardList);
+        var straightList = filteredSameValueCard(addAceOneValue(totalCardList)).reversed();
+        //straightList.sort(Comparator.comparing(Card::valueOfCard));
+        //straightList.reversed();
         Boolean checkStraight = false;
 
         while (straightList.size() >= CombinationDimension.STRAIGHT.getDimension() && !checkStraight) {
             List<Integer> controList = new LinkedList<>();
             for (int i = 0; i < CombinationDimension.STRAIGHT.getDimension(); i++) {
-                controList.add(straightList.get(i).valueOfCard() - i);
+                controList.add(straightList.get(i).valueOfCard() + i);
             }
             if (controList.stream().distinct().count() == 1) {
                 checkStraight = true;
@@ -59,24 +62,29 @@ public final class CombinationRulesUtilities {
      *         List of card filtered and merged same value.
      */
     protected static List<Card> filteredSameValueCard(final List<Card> totalCardList) {
-        SeedCard mustUsedSeedCard = getSumOfSameSeedCard(totalCardList).entrySet().stream()
-                .max(Comparator.comparing(Entry::getCount))
-                .get().getElement();
+        SeedCard mustUsedSeedCard;
+        if (!totalCardList.isEmpty()) {
+            mustUsedSeedCard = getSumOfSameSeedCard(totalCardList).entrySet().stream()
+                    .max(Comparator.comparing(Entry::getCount))
+                    .get().getElement();
 
-        var straightList = totalCardList.stream()
-                .sorted(Comparator.comparing(Card::valueOfCard))
-                .collect(Collectors.toList());
+            var straightList = totalCardList.stream()
+                    .sorted(Comparator.comparing(Card::valueOfCard))
+                    .collect(Collectors.toList());
 
-        for (int i = 0; i < straightList.size() - 1; i++) {
-            if (straightList.get(i).valueOfCard().equals(straightList.get(i + 1).valueOfCard())) {
-                if (!straightList.get(i).seedName().equals(mustUsedSeedCard)) {
-                    straightList.remove(i);
-                } else {
-                    straightList.remove(i + 1);
+            for (int i = 0; i < straightList.size() - 1; i++) {
+                if (straightList.get(i).valueOfCard().equals(straightList.get(i + 1).valueOfCard())) {
+                    if (!straightList.get(i).seedName().equals(mustUsedSeedCard)) {
+                        straightList.remove(i);
+                    } else {
+                        straightList.remove(i + 1);
+                    }
                 }
             }
+            return straightList;
+        } else {
+            return totalCardList;
         }
-        return straightList;
     }
 
     /**
@@ -104,6 +112,17 @@ public final class CombinationRulesUtilities {
         Multiset<SeedCard> seedCardMultiset = TreeMultiset.create();
         seedCardMultiset.addAll(totalCardList.stream().map(t -> t.seedName()).toList());
         return seedCardMultiset;
+    }
+
+    protected static List<Card> addAceOneValue(final List<Card> totalCardList) {
+        List<Card> aceList = Lists.newLinkedList();
+        totalCardList.stream().forEach(t -> {
+            if (t.cardName().equals(SimpleCard.ACE)) {
+                aceList.add(new Card(SimpleCard.ACE, 1, t.seedName()));
+            }
+        });
+        totalCardList.addAll(aceList);
+        return totalCardList;
     }
 
 }
