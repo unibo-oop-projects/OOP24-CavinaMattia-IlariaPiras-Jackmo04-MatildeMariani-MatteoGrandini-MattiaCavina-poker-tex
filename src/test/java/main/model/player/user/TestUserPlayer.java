@@ -26,8 +26,8 @@ public class TestUserPlayer {
     private static final int INITIAL_BET_500 = 500;
     private static final double MULTIPLIER_SMALL_BLIND = 0.5;
     private static final int MULTIPLIER_RAISE = 3;
-    //private static final int POT = 2000;
-    //private static final int BET_3000 = 3000;
+    private static final int POT = 2000;
+    private static final int BET_3000 = 3000;
 
     private UserPlayer player;
     private static Deck<Card> deck;
@@ -107,7 +107,7 @@ public class TestUserPlayer {
 
     }
 
-    /*@Test
+    @Test
     public void testWinning() {
         this.player = new UserPlayer(INITIAL_CHIPS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
@@ -129,5 +129,5 @@ public class TestUserPlayer {
         player.handLost();
         assertEquals(INITIAL_CHIPS - player.getTotalPhaseBet(), player.getChips());
         assertEquals(Set.of(), player.getCards());
-    }*/
+    }
 }
