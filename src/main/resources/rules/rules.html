@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
 <html>
 <head>
     <style>
@@ -33,34 +35,101 @@
     <h2>The Basics</h2>
     <hr>
     <p>
-        A game is composed of a series of <b>hands</b>. Each hand progresses as follows:
+        A game of Poker is composed of a series of <b>hands</b>. Each hand progresses as follows:
     </p>
     <p>
-        Two cards are dealt face down to each player, and then a total of five community cards are dealt face up during the four <b>phases</b> of the game. (see <i<u>Game Phases</u></i>)
+        Two cards are dealt face down to each player and a total of five community cards are dealt face up during the four <b>phases</b> of the game. (see <i<u>Hand Phases</u></i>)
     </p>
     <p>
         Each player seeks the <b>best poker combination</b> obtainable from the seven cards at their disposal (the five community cards plus their two personal cards). (see <i><u>Combinations</u></i>)
     </p>
     <p>
-        During each phase the players are allowed to make bets which will be added to a <b>pot</b>. The player who has the best <b>combination</b> at the end of the hand, or is the only player who hasn't <i>folded</i>, wins the pot. (see <i><u>Betting</u></i>)
+        During each phase the players are allowed to make <b>bets</b> which will be added to a <b>pot</b>. 
+        The player who has the best <b>combination</b> at the end of the hand, or is the only one who hasn't <i>folded</i>, wins the pot. 
+        (see <i><u>Betting</u></i>)
     </p>
-    <h2>Game Phases</h2>
+    <p>
+        The game continues until a player runs out of chips, at which point they are <b>eliminated</b> from the game. 
+        The last player remaining wins the game.
+    </p>
+
+    <h2>Hand Phases</h2>
     <hr>
     <p>
-        The game is divided into four phases:
+        Before each hand begins, two roles are assigned to two players: the <b>small bilnd</b> and the <b>big blind</b>.<br>
+        The big blind is always the player to the left of the small blind, and these roles rotate clockwise after each hand.<br>
+        These players are <b>required to make a bet</b> before the hand begins, in particular:
+        <ul>
+            <li>The <u>small blind</u> must bet half of the minimum bet</li>
+            <li>The <u>big blind</u> must bet the minimum bet</li>
+        </ul>
     </p>
+    After these mandatory bets are made, the hand begins and progresses through four phases:
     <ol>
-        <li><b>Pre-flop</b>
-        <li><b>Flop</b>
-        <li><b>Turn</b>
-        <li><b>River</b>
+        <li><b>Pre-flop</b></li>
+        <li><b>Flop</b></li>
+        <li><b>Turn</b></li>
+        <li><b>River</b></li>
     </ol>
-    Here is a description of each phase:
     <h3>Pre-flop</h3>
     <p>
-        Each player is dealt two cards face down. The player to the left of the dealer starts the betting.
+        Each player is dealt two cards face down and the first round of betting begins.<br>
+        The player to the left of the big blind is the first to act.
+    </p>
+    <h3>Flop</h3>
+    <p>
+        Three community cards are dealt face up and the second round of betting begins.<br>
+        The small blind is the first to act.
+    </p>
+    <h3>Turn</h3>
+    <p>
+        A fourth community card is dealt face up and the third round of betting begins.<br>
+        The small blind is the first to act.
+    </p>
+    <h3>River</h3>
+    <p>
+        A fifth and final community card is dealt face up and the fourth round of betting begins.<br>
+        The small blind is the first to act.
+    </p>
+
+    <h2>Betting</h2>
+    <hr>
+    <p>
+        During each phase, players are allowed to make <b>bets</b>. The following actions are allowed:
+        <ul>
+            <li><b>Check</b>: If no one has bet yet, the player can check and pass the turn to the next player.</li>
+            <li><b>Call</b>: The player bets enough chips to match the current bet.</li>
+            <li><b>Raise</b>: The player bets more chips than the current bet.</li>
+            <li><b>Fold</b>: The player discards their cards and forfeits the hand.</li>
+        </ul>
+        For example, if the current bet is 1000 chips, a player can <u>call</u> by betting 1000 chips, <u>raise</u> by betting more than 1000 chips, or <u>fold</u> by discarding their cards.
+    </p>
+    <p>
+        Each betting round proceeds in clockwise order and ends when all players have either <u>folded</u> or <u>called the highest bet</u>, 
+        meaning that if a player <u>raises</u> the current bet, the other players must <u>call</u> the new bet to continue playing.
     </p>
     
+    <h2>Combinations</h2>
+    <hr>
+    <p>
+        The goal of the game is to obtain the best <b>combination</b> of five cards from the seven cards at your disposal.<br>
+        The possible combinations are, in <u>descending order of strength</u>:
+        <ol>
+            <li><b>Royal Flush</b>: Five consecutive cards of the same suit</li>
+            <li><b>Four of a Kind</b>: Four cards of the same rank</li>
+            <li><b>Full House</b>: Three cards of the same rank and two cards of another rank</li>
+            <li><b>Flush</b>: Five cards of the same suit</li>
+            <li><b>Straight</b>: Five consecutive ranked cards of different suits</li>
+            <li><b>Three of a Kind</b>: Three cards of the same rank</li>
+            <li><b>Two Pair</b>: Two cards of the same rank and two cards of another rank</li>
+            <li><b>Pair</b>: Two cards of the same rank</li>
+            <li><b>High Card</b>: The highest ranked card of the seven cards</li>
+        </ol>
+    </p>
+    <p>
+        If two players have the same combination, the player with the highest card contributing to the combination wins. 
+        For example, if a player has a <u>pair of Aces</u> and another player has a <u>pair of Kings</u>, the player with the pair of Aces wins.
+    </p>
     
 </body>
 </html>
