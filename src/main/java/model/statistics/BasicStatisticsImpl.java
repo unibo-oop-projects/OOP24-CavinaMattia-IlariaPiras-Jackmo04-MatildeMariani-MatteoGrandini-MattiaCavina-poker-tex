@@ -290,10 +290,10 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
             new Pair<>("Hands won", String.valueOf(this.getNumOfHandsWon())),
             new Pair<>("Games played", String.valueOf(this.getNumOfGamesPlayed())),
             new Pair<>("Games won", String.valueOf(this.getNumOfGamesWon())),
-            new Pair<>("Best Combination", this.getBestCombination().map(CombinationType::name).orElse("None")),
+            new Pair<>("Best Combination", this.getBestCombination().map(CombinationType::getName).orElse("None")),
             new Pair<>("Biggest win", String.valueOf(this.getBiggestWin())),
-            new Pair<>("Hands win rate", String.valueOf(this.getHandWinRate())),
-            new Pair<>("Games win rate", String.valueOf(this.getGameWinRate()))
+            new Pair<>("Hands win rate", String.valueOf(this.getHandWinRate() * 100) + "%"),
+            new Pair<>("Games win rate", String.valueOf(this.getGameWinRate() * 100) + "%")
         );
     }
 

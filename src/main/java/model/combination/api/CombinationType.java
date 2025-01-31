@@ -6,21 +6,23 @@ package model.combination.api;
  */
 public enum CombinationType {
     // CHECKSTYLE: JavadocVariable OFF
-    HIGH_CARD(1),
-    PAIR(2),
-    TWO_PAIRS(3),
-    TRIS(4),
-    STRAIGHT(5),
-    FULL_HOUSE(6),
-    FLUSH(7),
-    POKER(8),
-    ROYAL_FLUSH(9);
+    HIGH_CARD(1, "High Card"),
+    PAIR(2, "Pair"),
+    TWO_PAIRS(3, "Two Pair"),
+    TRIS(4, "Three of a Kind"),
+    STRAIGHT(5, "Straight"),
+    FULL_HOUSE(6, "Full House"),
+    FLUSH(7, "Flush"),
+    POKER(8, "Four of a Kind"),
+    ROYAL_FLUSH(9, "Royal Flush");
     // CHECKSTYLE: JavadocVariable ON
 
     private final int value;
+    private final String name;
 
-    CombinationType(final int value) {
+    CombinationType(final int value, final String name) {
         this.value = value;
+        this.name = name;
     }
 
     /**
@@ -28,6 +30,13 @@ public enum CombinationType {
      */
     public int getValue() {
         return value;
+    }
+
+    /**
+     * @return the name of the combination.
+     */
+    public String getName() {
+        return name;
     }
 
 }
