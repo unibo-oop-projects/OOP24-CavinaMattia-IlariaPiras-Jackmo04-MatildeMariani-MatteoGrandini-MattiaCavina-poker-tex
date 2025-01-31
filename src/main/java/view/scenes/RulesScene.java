@@ -1,6 +1,8 @@
 package view.scenes;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
+
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
@@ -29,15 +31,18 @@ public class RulesScene extends JPanel implements Scene {
         
         // Editor pane for displaying the rules loaded from an HTML file (Decidere su usare o no)
         JEditorPane container = htmlEditorPane(this.controller.getRulesHtml());
+        container.setFocusable(false);
 
         // Add a scroll bar to the rules editor pane
         JScrollPane scrollPane = new JScrollPane(container);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         // Always start at the top of the pane
         SwingUtilities.invokeLater(() -> scrollPane.getVerticalScrollBar().setValue(0));
         this.add(scrollPane, BorderLayout.CENTER);
 
         // Back to menu button
         JButton backButton = new JButton("Back to Menu");
+        backButton.setFont(new Font("Arial", Font.BOLD, 18));
         backButton.addActionListener(e -> this.controller.goToMainMenuScene());
         this.add(backButton, BorderLayout.SOUTH);
     }
