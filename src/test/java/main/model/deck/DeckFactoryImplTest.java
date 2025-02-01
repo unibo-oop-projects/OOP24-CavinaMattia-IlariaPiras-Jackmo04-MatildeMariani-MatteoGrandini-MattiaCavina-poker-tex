@@ -1,6 +1,7 @@
 package main.model.deck;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +37,7 @@ public class DeckFactoryImplTest {
         assertEquals(ALL_DECKS, t.getSomeCards(ALL_DECKS).size());
 
         t.shuffled();
-        assertEquals(true, t.getSomeCards(ALL_DECKS)
+        assertTrue(t.getSomeCards(ALL_DECKS)
                 .contains(new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES)));
 
     }

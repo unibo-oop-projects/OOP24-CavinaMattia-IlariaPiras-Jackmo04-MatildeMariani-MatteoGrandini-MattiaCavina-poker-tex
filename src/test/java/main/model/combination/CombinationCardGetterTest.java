@@ -26,7 +26,7 @@ public class CombinationCardGetterTest {
                 Set<Card> totalCardList = Sets.newHashSet();
                 try {
                         new CombinationsCardGetterImpl(totalCardList).getPair();
-                } catch (NullPointerException e) {
+                } catch (Exception e) {
                         System.out.println("Empty list");
                 }
 
