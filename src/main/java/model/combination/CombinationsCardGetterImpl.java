@@ -37,7 +37,7 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> 
                 if (!totalCardList.isEmpty()) {
                         totalCardList.forEach(this.totalCardList::add);
                 } else {
-                        throw new IllegalAccessError("Empty Set passed like Argument");
+                        throw new IllegalArgumentException("Empty Set passed like Argument");
                 }
         }
 
