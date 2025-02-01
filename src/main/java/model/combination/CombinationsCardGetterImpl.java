@@ -27,7 +27,7 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> 
          * 
          * @param totalCardList
          *                      list of cards.
-         * @throws NullPointerException
+         * @throws IllegalAccessError
          *                              thrown when the list is empty.
          * 
          */
@@ -35,7 +35,7 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> 
                 if (!totalCardList.isEmpty()) {
                         totalCardList.forEach(this.totalCardList::add);
                 } else {
-                        throw new NullPointerException("Empty Set passed like Argument");
+                        throw new IllegalAccessError("Empty Set passed like Argument");
                 }
         }
 
