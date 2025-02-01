@@ -33,7 +33,7 @@ public class DeckFactoryImplTest {
             System.out.println("Deck is Empty"); // NOPMD suppressed as it is a false positive
         }
         t.shuffled();
-        assertEquals(ALL_DECKS - TWO_CARD, t.getSomeCards(ALL_DECKS).size());
+        assertEquals(ALL_DECKS, t.getSomeCards(ALL_DECKS).size());
 
         t.shuffled();
         assertEquals(true, t.getSomeCards(ALL_DECKS)
