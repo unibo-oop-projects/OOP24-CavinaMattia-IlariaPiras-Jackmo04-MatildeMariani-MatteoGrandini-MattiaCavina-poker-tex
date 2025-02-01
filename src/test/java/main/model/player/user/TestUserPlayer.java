@@ -19,6 +19,7 @@ import model.player.api.Role;
 import model.player.user.UserPlayer;
 
 public class TestUserPlayer {
+    
     private static final int INITIAL_TOTAL_PHASE_BET = 0;
     private static final int INITIAL_CHIPS = 2000;
     private static final int NUM_OF_PLAYERS = 4;
@@ -50,18 +51,18 @@ public class TestUserPlayer {
     }
 
     @Test
-    public void testCheck() {
+    public void testCheck() throws InterruptedException {
         this.player = new UserPlayer(INITIAL_CHIPS);
         var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().setCurrentState(state);
         player.getController().receiveUserAction("CALL");
-        assertEquals(Action.CALL, player.getController().getUserAction(player.getChips()));
+        assertEquals(Action.CALL, player.getController().getUserAction());
         player.getAction(state);
         assertEquals(INITIAL_CHIPS - INITIAL_BET, player.getChips());
         assertEquals(INITIAL_BET, player.getTotalPhaseBet());
         player.getController().receiveUserAction("CHECK");
-        assertEquals(Action.CHECK, player.getController().getUserAction(player.getChips()));
+        assertEquals(Action.CHECK, player.getController().getUserAction());
         assertEquals(INITIAL_CHIPS - INITIAL_BET, player.getChips());
         assertEquals(INITIAL_BET, player.getTotalPhaseBet());
         
@@ -80,14 +81,14 @@ public class TestUserPlayer {
     }
 
     @Test
-    public void testTextField() {
+    public void testTextField() throws InterruptedException {
         this.player = new UserPlayer(INITIAL_CHIPS);
         var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().setCurrentState(state);
         player.getController().receiveUserAction("RAISE");
         player.getController().setRaiseAmount(INITIAL_BET_500 * MULTIPLIER_RAISE);
-        assertEquals(Action.RAISE, player.getController().getUserAction(player.getChips()));
+        assertEquals(Action.RAISE, player.getController().getUserAction());
         player.getAction(state);
         assertEquals(INITIAL_CHIPS - (INITIAL_BET_500 * MULTIPLIER_RAISE), player.getChips());
         assertEquals(INITIAL_BET_500 * MULTIPLIER_RAISE, player.getTotalPhaseBet());

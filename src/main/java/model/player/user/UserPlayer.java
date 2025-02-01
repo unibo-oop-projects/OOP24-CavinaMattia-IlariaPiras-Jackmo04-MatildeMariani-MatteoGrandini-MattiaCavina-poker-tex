@@ -19,11 +19,11 @@ public class UserPlayer extends AbstractPlayer {
     private static final int INITIAL_TOTAL_PHASE_BET = 0;
 
     private final UserPlayerController controller;
+    private Action action;
 
     /**
      * Constructor for the UserPlayer class.
      * @param initialChips the initial amount of chips that the player has.
-     * @param initialRole the initial role of the player.
      */
     public UserPlayer(final int initialChips) {
         super(initialChips);
@@ -44,20 +44,32 @@ public class UserPlayer extends AbstractPlayer {
         if(currentState.getHandPhase() == Phase.PREFLOP && this.getTotalPhaseBet() == 0 && this.getRole().isPresent()) {
             this.setTotalPhaseBet((int) (currentState.getCurrentBet() * this.getRole().get().getMultiplier()));
             this.setChips(this.getChips() - this.getTotalPhaseBet());
-            return Action.CALL;
+            this.action = Action.CALL;
         } else { 
-            var action = this.controller.getUserAction(this.getChips());
-            int bet = this.calculateChipsToBet(currentState.getCurrentBet(), action);
+            this.action = this.controller.getUserAction();
+            int bet = this.calculateChipsToBet(currentState.getCurrentBet(), this.action);
             this.setChips(this.getChips() - bet);
             this.setTotalPhaseBet(this.getTotalPhaseBet() + bet);
-            return action;
         }
+        this.controller.updateUserChips(this.getChips());
+        return this.action;
+    }
+
+    /**
+     * Updates the player's best combination based on the current state of the game.
+     * This method combines the player's cards with the community cards and calculates the best combination.
+     * @param currentState the current state of the game, which includes the community cards.
+     */
+    private void updateCombination(final State currentState) {
+        var allCards = Stream.concat(currentState.getCommunityCards().stream(), 
+                        this.getCards().stream()).collect(Collectors.toSet());
+        this.setCombination((new CombinationHandlerImpl()).getCombination(allCards)); 
     }
 
     /**
      * Calculates the chips to bet based on the current bet and the action taken by the player.
      * @param currentBet the current bet in the game.
-     * @param action the action taken by the player (RAISE, CALL, ALL_IN).
+     * @param action the action taken by the player (RAISE, CALL, ALL_IN, FOLD, CHECK).
      * @return the number of chips to bet.
      */
     private int calculateChipsToBet(final int currentBet, final Action action) {
@@ -106,16 +118,6 @@ public class UserPlayer extends AbstractPlayer {
      */
     private void endHand() {
         this.setCards(Set.of());
-    }
-
-    /**
-     * Updates the player's best combination based on the current state of the game.
-     * This method combines the player's cards with the community cards and calculates the best combination.
-     * @param currentState the current state of the game, which includes the community cards.
-     */
-    private void updateCombination(final State currentState) {
-        var allCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream()).collect(Collectors.toSet());
-        this.setCombination((new CombinationHandlerImpl()).getCombination(allCards)); 
     }
 
     /**

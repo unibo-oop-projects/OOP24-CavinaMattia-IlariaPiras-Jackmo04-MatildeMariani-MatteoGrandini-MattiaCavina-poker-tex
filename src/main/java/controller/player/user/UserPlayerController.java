@@ -3,7 +3,7 @@ package controller.player.user;
 import model.game.api.State;
 import model.player.api.Action;
 import model.player.user.UserPlayer;
-import view.player.user.PokerGUI;
+import view.player.user.UserPanel;
 
 /**
  * Controller class for managing user player actions and interactions with the GUI.
@@ -11,40 +11,81 @@ import view.player.user.PokerGUI;
 public class UserPlayerController {
     
     private final UserPlayer userPlayer;
-    private final PokerGUI pokerGUI;
+    private final UserPanel userPanel;
     private int raiseAmount;
     private State state;
     private Action action;
-    private boolean actionReceived=false;
-    private int userChips;
+    private boolean actionReceived = false;
+    private final Object lock = new Object();
 
     /**
      * Constructs a UserPlayerController with the specified user player.
-     * Initializes the PokerGUI associated with this controller.
+     * Initializes the userPanel associated with this controller.
      * @param userPlayer the user player associated with this controller.
      */
     public UserPlayerController(final UserPlayer userPlayer) {
         this.userPlayer = userPlayer;
-        this.pokerGUI = new PokerGUI(this);
+        this.userPanel = new UserPanel(this, userPlayer.getChips());
     }
 
     /**
      * Receives and handles the action from the GUI.
      * Sets the action and marks it as received.
+     * This method is called when an action is performed in the GUI. It synchronizes
+     * on the lock object to ensure thread safety, sets the action based on the input
+     * string, marks the action as received, and notifies any waiting threads.
      * @param action the action received from the GUI.
      * It should be one of the following: "CHECK", "CALL", "RAISE", "FOLD", "ALL_IN".
      * @throws IllegalArgumentException if the action is not one of the expected values.
      */
     public void receiveUserAction(final String action) {
-        this.action = switch (action) {
+        synchronized (this.lock) {
+            this.action = switch (action) {
             case "CHECK" -> Action.CHECK;
             case "CALL" -> Action.CALL;
             case "RAISE" -> Action.RAISE;
             case "FOLD" -> Action.FOLD;
             case "ALL_IN" -> Action.ALL_IN; 
             default -> throw new IllegalArgumentException();
-        };
-        this.actionReceived=true;
+            };
+            this.actionReceived = true;
+            this.lock.notifyAll();  
+        }
+    }
+
+    /**
+     * Gets the action from the user player.
+     * Updates the button states and waits for an action to be received.
+     * This method updates the states of the buttons in the user interface to reflect
+     * the current game state and then waits for the user to perform an action. The method
+     * will block until an action is received from the user. Once an action is received,
+     * it disables all buttons and returns the action.
+     * @return the action received from the user player.
+     */
+    public Action getUserAction() {
+        userPanel.updateButtonStates();
+        synchronized (this.lock) {
+            while (!this.actionReceived) {
+                try {
+                    this.lock.wait();
+                } catch (InterruptedException ex) {
+                }
+            }
+        }
+        this.actionReceived = false; 
+        userPanel.disableAllButtons();
+        return this.action;
+    }
+
+    /**
+     * Checks if the given amount is valid.
+     * @param text the amount as a string.
+     * @return true if the amount is valid, false otherwise.
+     */
+    public boolean isAmountOK(String text) {
+        int amount;
+        amount = Integer.parseInt(text);
+        return this.userPlayer.getChips() > amount;
     }
 
     /**
@@ -112,37 +153,12 @@ public class UserPlayerController {
     }
 
     /**
-     * Gets the current state of the game.
-     * @return the current state of the game.
+     * Updates the user's chip count in the user interface.
+     * This method updates the label in the user interface to reflect the current
+     * number of chips the user has.
+     * @param chips the current number of chips the user has.
      */
-    public State getCurrentState() {
-        return this.state;
-    }
-
-    /**
-     * Gets the action from the user player.
-     * Updates the button states and waits for an action to be received.
-     * @return the action received from the user player.
-     */
-    public Action getUserAction(final int userChips) {
-        this.userChips = userChips;
-        pokerGUI.updateButtonStates(this.userChips);
-        /*while(this.actionReceived == false) {
-            //questa parte è da modificare
-        }*/
-        this.actionReceived = false; 
-        pokerGUI.disableAllButtons();
-        return this.action;
-    }
-
-    /**
-     * Checks if the given amount is valid.
-     * @param text the amount as a string.
-     * @return true if the amount is valid, false otherwise.
-     */
-    public boolean isAmountOK(String text) {
-        int amount;
-        amount = Integer.parseInt(text);
-        return this.userPlayer.getChips() > amount;
+    public void updateUserChips(final int chips) {
+        this.userPanel.updateLabelUserChips(chips); 
     } 
 }
