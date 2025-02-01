@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import controller.card.CardGetterImmage;
 
 public class CardGetterImmageTest {
+    final static int NUMBER_CARD = 2;
+    final static int TABLE_NUMBER_CARD = 5;
 
     @Test
     public void testGetCardImage() {
@@ -21,7 +23,9 @@ public class CardGetterImmageTest {
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND));
 
-                            assertEquals(2, cardGetterImmage.getCardImage(card).size());
+                            assertEquals(NUMBER_CARD, cardGetterImmage.getCardImage(card).size());
+                            assertEquals(NUMBER_CARD, cardGetterImmage.getBackCardImage(NUMBER_CARD).size());
+                            assertEquals(TABLE_NUMBER_CARD, cardGetterImmage.getTableCardImage(card).size());
 
 
     }
