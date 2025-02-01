@@ -7,7 +7,8 @@ public interface DeckFactory {
 
     /**
      * 
-     * @return a simple deck to play poker.
+     * @return
+     *         a simple deck to play poker.
      */
     Deck<Card> simplePokerDeck();
 }
