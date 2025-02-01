@@ -1,11 +1,16 @@
-# All files types not specified below
-* 				text=auto eol=lf
+# Normalize text files
+* text=auto
 
 # Windows script files
-*.[cC][mM][dD] 	text eol=crlf
-*.[bB][aA][tT] 	text eol=crlf
-*.[pP][sS]1 	text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
 
 # Image files
-*.[jJ][pP][gG]  -text
-*.[pP][nN][gG]   -text
+*.jpg  -text
+*.jpeg -text
+*.png  -text
+*.gif  -text
+*.bmp  -text
+*.svg  -text
+*.webp -text
