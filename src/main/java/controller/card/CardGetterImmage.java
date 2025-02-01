@@ -31,8 +31,8 @@ public class CardGetterImmage {
      */
     public List<ImageIcon> getCardImage(final Set<Card> card) {
         return card.stream()
-                .map(t -> new ImageIcon(ClassLoader
-                        .getSystemResource(BASE_PATH + t.cardName() + DIVIDE_SIGN + t.valueOfCard() + EXTENSION)))
+                .map(t -> new ImageIcon(
+                    ClassLoader.getSystemResource(BASE_PATH + t.seedName() + DIVIDE_SIGN + t.valueOfCard() + EXTENSION)))
                 .toList();
     }
 
