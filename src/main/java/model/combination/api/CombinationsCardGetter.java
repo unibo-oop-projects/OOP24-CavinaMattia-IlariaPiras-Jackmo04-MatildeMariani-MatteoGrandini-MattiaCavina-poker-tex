@@ -68,4 +68,11 @@ public interface CombinationsCardGetter<X> {
      */
     Set<X> getRoyalFlush();
 
+    /**
+     * Get the hight card combination from card Set.
+     * @return
+     *        the hight card combination from card Set.
+     */
+    Set<X> getHightCard();
+
 }

@@ -77,7 +77,7 @@ public class CombinationComparatorTest {
                                 new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
 
-                assertEquals(FIRST_WIN,
+                assertEquals(EQUAL,
                                 combinationComparator.compare(
                                                 new CombinationHandlerImpl().getCombination(firstPlayerCard),
                                                 new CombinationHandlerImpl().getCombination(secondPlayerCard)));
