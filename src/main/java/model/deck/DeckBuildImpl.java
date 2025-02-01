@@ -1,5 +1,6 @@
 package model.deck;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,8 @@ public class DeckBuildImpl implements DeckBuild<Card> {
                 deckNew.add(new Card(elemSimple, elemSimple.getValueOfCard(), elemSeed));
             }
         }
-        return deckNew.stream().unordered().collect(Collectors.toList());
+        Collections.shuffle(deckNew);
+        return deckNew;
     }
 
 }
