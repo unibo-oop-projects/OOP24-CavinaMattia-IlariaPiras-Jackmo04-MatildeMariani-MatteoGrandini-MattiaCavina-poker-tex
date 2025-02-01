@@ -13,8 +13,12 @@ public class MyLabel extends JLabel {
         this.setVerticalAlignment(JLabel.CENTER);
     }
 
-    public void setImage(String image) {
-        Image Img = new ImageIcon(image).getImage()
+    public void setImageFromPath(String image) {
+        this.setImageFromIcon(new ImageIcon(image));
+    }
+
+    public void setImageFromIcon(ImageIcon image) {
+        Image Img = image.getImage()
                         .getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
         this.setIcon(new ImageIcon(Img));
     }
