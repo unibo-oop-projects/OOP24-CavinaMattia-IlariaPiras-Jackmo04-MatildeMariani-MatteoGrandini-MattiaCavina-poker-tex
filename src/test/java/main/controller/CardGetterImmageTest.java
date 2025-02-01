@@ -12,10 +12,16 @@ import org.junit.jupiter.api.Test;
 
 import controller.card.CardGetterImmage;
 
+/**
+ * CardGetterImmageTest is a class that is used to test the CardGetterImmage class.
+ */
 public class CardGetterImmageTest {
     final static int NUMBER_CARD = 2;
     final static int TABLE_NUMBER_CARD = 5;
 
+    /**
+     * This method is used to test the getCardImage method.
+     */
     @Test
     public void testGetCardImage() {
         CardGetterImmage cardGetterImmage = new CardGetterImmage();
