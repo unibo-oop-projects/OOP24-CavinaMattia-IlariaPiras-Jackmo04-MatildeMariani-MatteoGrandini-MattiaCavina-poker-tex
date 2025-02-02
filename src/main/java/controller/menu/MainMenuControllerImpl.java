@@ -52,8 +52,7 @@ public class MainMenuControllerImpl implements MainMenuController {
      */
     @Override
     public void exitGame() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exitGame'");
+        System.exit(0);
     }
 
 }

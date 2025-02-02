@@ -1,8 +1,5 @@
 package view.scenes;
 
-import javax.swing.JFrame;
-
-import controller.gameover.GameOverMenu;
 import controller.gameover.GameOverMenuImpl;
 import view.ViewImpl;
 
@@ -21,7 +18,7 @@ public final class TestMain {
     public static void main(final String[] args) {
         ViewImpl pannel = new ViewImpl();
 
-        pannel.changeScene(new EndGameScene(new GameOverMenuImpl(pannel)));
+        pannel.changeScene(new EndGameScene(new GameOverMenuImpl(pannel),true));
 
 
     }

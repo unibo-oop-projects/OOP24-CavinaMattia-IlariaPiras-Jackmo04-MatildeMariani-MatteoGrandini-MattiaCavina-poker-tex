@@ -3,10 +3,13 @@ package view.scenes;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import controller.gameover.GameOverMenu;
 import view.scenes.api.Scene;
@@ -17,26 +20,35 @@ import view.scenes.api.Scene;
 public class EndGameScene extends JPanel implements Scene {
 
     private static final String SCENE_NAME = "endgame";
+    private static final String RESOURCE_PATH = "endgame/";
 
     private final GameOverMenu controller;
 
-    private boolean endGameStatus = false;
+    private boolean endGameStatus = true;
     final JPanel victoryPanel;
-    final JPanel losePanel;
+    final JLabel endImmage = new JLabel();
+    final JLabel textFinalResult = new JLabel();
+    final Font standardFont = new Font("PROVA", Font.ROMAN_BASELINE, 20);
 
     /**
      * Creates a new {@link MainMenuScene}.
      * 
      * @param controller the controller for the main menu
      */
-    public EndGameScene(final GameOverMenu controller) {
+    public EndGameScene(final GameOverMenu controller, Boolean endGameStatus) {
         this.controller = controller;
+        this.endGameStatus = endGameStatus;
+        endImmage.setMaximumSize(new Dimension(50, 50));
+        endImmage.setHorizontalAlignment(JLabel.CENTER);
+        endImmage.setVerticalAlignment(JLabel.CENTER);
+        textFinalResult.setFont(new Font("PROVA", Font.ITALIC, 50));
+        textFinalResult.setHorizontalAlignment(JLabel.CENTER);
+
         this.setLayout(new BorderLayout());
 
         // Lose and Win panel
         victoryPanel = new JPanel(new BorderLayout());
-        losePanel = new JPanel(new BorderLayout());
-        this.setBackground(Color.GREEN);
+        getFinalPannel(this.endGameStatus);
 
         // Choose button pannel
         final JPanel menuButtons = new JPanel();
@@ -44,27 +56,35 @@ public class EndGameScene extends JPanel implements Scene {
         // TODO add other buttons to panel (Play, settings, rules, etc.)
         JButton goToStats = new JButton("Statistics");
         JButton goToExitGame = new JButton("Exit Game");
+        goToExitGame.setBackground(Color.MAGENTA);
+        goToExitGame.setFont(standardFont);
         JButton goToMainMenu = new JButton("Main Menu");
+        goToMainMenu.setFont(standardFont);
+        goToMainMenu.setBackground(Color.CYAN);
 
+        /** BUttuon to test both pannel */
         JButton changeresul = new JButton("Change");
+
         changeresul.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                endGameStatus = !endGameStatus;
-                getFinalPannel(endGameStatus);
+                setEndGameStatus(!getEndGameStatus());
+                getFinalPannel(getEndGameStatus());
             }
-            
         });
 
+        victoryPanel.add(goToExitGame, BorderLayout.EAST);
+        victoryPanel.add(goToMainMenu, BorderLayout.WEST);
+        victoryPanel.add(endImmage, BorderLayout.CENTER);
+        victoryPanel.add(textFinalResult, BorderLayout.NORTH);
+
         menuButtons.add(goToStats);
-        menuButtons.add(goToExitGame);
-        menuButtons.add(goToMainMenu);
         menuButtons.add(changeresul);
 
         this.add(menuButtons, BorderLayout.SOUTH);
+        this.add(victoryPanel, BorderLayout.CENTER);
 
-        // Button listeners TODO add other listeners
         goToStats.addActionListener(e -> this.controller.goToStatsScene());
         goToExitGame.addActionListener(e -> this.controller.exitGame());
         goToMainMenu.addActionListener(e -> this.controller.goToMainScene());
@@ -87,12 +107,17 @@ public class EndGameScene extends JPanel implements Scene {
     }
 
     public void getFinalPannel(Boolean status) {
-       if(status){
-        this.setBackground(Color.GREEN);
-       } 
-       else{
-        this.setBackground(Color.BLACK);
-       }
+        if (status) {
+            victoryPanel.setBackground(Color.GREEN);
+            endImmage.setIcon(new ImageIcon(ClassLoader.getSystemResource(RESOURCE_PATH + "Victory.jpg")));
+            textFinalResult.setText("YOU WIN!");
+            textFinalResult.setForeground(Color.BLACK);
+        } else {
+            victoryPanel.setBackground(Color.BLACK);
+            endImmage.setIcon(new ImageIcon(ClassLoader.getSystemResource(RESOURCE_PATH + "Lose.jpg")));
+            textFinalResult.setText("YOU LOSE!");
+            textFinalResult.setForeground(Color.WHITE);
+        }
     }
 
     private void setEndGameStatus(boolean status) {
@@ -101,12 +126,6 @@ public class EndGameScene extends JPanel implements Scene {
 
     private boolean getEndGameStatus() {
         return this.endGameStatus;
-    }
-
-    private void setSizeofInternal(JPanel pannel){
-        var initWidth = (int) (300);
-        var initHeight = (int) (300);
-        pannel.setSize(new Dimension(initWidth, initHeight));
     }
 
 }
