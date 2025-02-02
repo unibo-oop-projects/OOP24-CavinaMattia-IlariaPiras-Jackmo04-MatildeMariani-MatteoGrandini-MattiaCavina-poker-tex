@@ -1,16 +1,11 @@
 package controller.gameover;
 
-import controller.menu.MainMenuController;
+import controller.scene.SceneController;
 
 /**
  * Inteface to controll end game menu.
  */
-public interface GameOverMenu extends MainMenuController {
-
-    /**
-     * Method to change scene to MainScene.
-     */
-    void goToMainScene();
+public interface GameOverMenu extends SceneController {
 
     /**
      * Method to change result pannel to from win to lose.
