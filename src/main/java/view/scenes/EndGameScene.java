@@ -24,11 +24,11 @@ public class EndGameScene extends JPanel implements Scene {
 
     private final GameOverMenu controller;
 
-    private boolean endGameStatus = true;
-    final JPanel victoryPanel;
-    final JLabel endImmage = new JLabel();
-    final JLabel textFinalResult = new JLabel();
-    final Font standardFont = new Font("PROVA", Font.ROMAN_BASELINE, 20);
+    private boolean endGameStatus;
+    private final JPanel victoryPanel;
+    private final JLabel endImmage = new JLabel();
+    private final JLabel textFinalResult = new JLabel();
+    private final Font standardFont = new Font("PROVA", Font.ROMAN_BASELINE, 20);
 
     /**
      * Creates a new {@link MainMenuScene}.
@@ -38,14 +38,16 @@ public class EndGameScene extends JPanel implements Scene {
     public EndGameScene(final GameOverMenu controller, Boolean endGameStatus) {
         this.controller = controller;
         this.endGameStatus = endGameStatus;
+        this.setLayout(new BorderLayout());
+
         endImmage.setMaximumSize(new Dimension(50, 50));
         endImmage.setHorizontalAlignment(JLabel.CENTER);
         endImmage.setVerticalAlignment(JLabel.CENTER);
+
         textFinalResult.setFont(new Font("PROVA", Font.ITALIC, 50));
         textFinalResult.setHorizontalAlignment(JLabel.CENTER);
 
-        this.setLayout(new BorderLayout());
-
+        
         // Lose and Win panel
         victoryPanel = new JPanel(new BorderLayout());
         getFinalPannel(this.endGameStatus);
@@ -55,12 +57,15 @@ public class EndGameScene extends JPanel implements Scene {
 
         // TODO add other buttons to panel (Play, settings, rules, etc.)
         JButton goToStats = new JButton("Statistics");
+
         JButton goToExitGame = new JButton("Exit Game");
-        goToExitGame.setBackground(Color.MAGENTA);
+        goToExitGame.setBackground(Color.DARK_GRAY);
         goToExitGame.setFont(standardFont);
+        goToExitGame.setForeground(Color.WHITE);
+
         JButton goToMainMenu = new JButton("Main Menu");
         goToMainMenu.setFont(standardFont);
-        goToMainMenu.setBackground(Color.CYAN);
+        goToMainMenu.setBackground(Color.LIGHT_GRAY);
 
         /** BUttuon to test both pannel */
         JButton changeresul = new JButton("Change");
