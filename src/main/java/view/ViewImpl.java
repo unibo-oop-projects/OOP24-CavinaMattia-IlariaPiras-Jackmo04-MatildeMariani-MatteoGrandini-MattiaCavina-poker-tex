@@ -17,10 +17,10 @@ import java.awt.Toolkit;
  */
 public class ViewImpl extends JFrame implements View {
 
-    private static final double SCREEN_SIZE_FACTOR = 0.75;
+    private static final double INIT_FRAME_SIZE_FACTOR = 0.75;
+    private static final double MIN_FRAME_SIZE_FACTOR = 0.5; // TODO: change this value if needed
 
-    private final int screenWidth;
-    private final int screenHeight;
+    private final Dimension screenSize;
     private final JPanel mainPanel;
     private final CardLayout cardLayout;
 
@@ -33,10 +33,13 @@ public class ViewImpl extends JFrame implements View {
     public ViewImpl() {
         super("Poker Texas Hold'em");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        final var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.screenWidth = (int) (screenSize.width * SCREEN_SIZE_FACTOR);
-        this.screenHeight = (int) (screenSize.height * SCREEN_SIZE_FACTOR);
-        this.setSize(new Dimension(screenWidth, screenHeight));
+        this.screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        var initWidth = (int) (screenSize.width * INIT_FRAME_SIZE_FACTOR);
+        var initHeight = (int) (screenSize.height * INIT_FRAME_SIZE_FACTOR);
+        var minWidth = (int) (screenSize.width * MIN_FRAME_SIZE_FACTOR);
+        var minHeight = (int) (screenSize.height * MIN_FRAME_SIZE_FACTOR);
+        this.setSize(new Dimension(initWidth, initHeight));
+        this.setMinimumSize(new Dimension(minWidth, minHeight));
 
         // CardLayout for switching between scenes
         this.cardLayout = new CardLayout();
@@ -59,20 +62,14 @@ public class ViewImpl extends JFrame implements View {
         this.cardLayout.show(this.mainPanel, scene.getSceneName());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int getScreenWidth() {
-        return this.screenWidth;
+        return this.screenSize.width;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int getScreenHeight() {
-        return this.screenHeight;
+        return this.screenSize.height;
     }
 
 }

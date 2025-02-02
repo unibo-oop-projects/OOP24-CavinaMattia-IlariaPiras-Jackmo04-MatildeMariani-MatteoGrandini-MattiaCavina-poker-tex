@@ -1,6 +1,8 @@
 package main.model.combination;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -24,12 +26,7 @@ public class CombinationCardGetterTest {
         @Test
         void testEmpty() {
                 Set<Card> totalCardList = Sets.newHashSet();
-                try {
-                        new CombinationsCardGetterImpl(totalCardList).getPair();
-                } catch (NullPointerException e) {
-                        System.out.println("Empty list");
-                }
-
+                assertThrows(IllegalArgumentException.class, () -> new CombinationsCardGetterImpl(totalCardList).getPair());
         }
 
         /**

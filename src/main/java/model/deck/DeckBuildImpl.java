@@ -1,7 +1,8 @@
 package model.deck;
 
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
+import com.google.common.collect.Lists;
 
 import model.deck.api.Card;
 import model.deck.api.DeckBuild;
@@ -19,12 +20,13 @@ public class DeckBuildImpl implements DeckBuild<Card> {
      */
     @Override
     public List<Card> buildDeck() {
-        final List<Card> deckNew = new LinkedList<>();
+        final List<Card> deckNew = Lists.newLinkedList();
         for (final var elemSimple : SimpleCard.values()) {
             for (final var elemSeed : SeedCard.values()) {
                 deckNew.add(new Card(elemSimple, elemSimple.getValueOfCard(), elemSeed));
             }
         }
+        Collections.shuffle(deckNew);
         return deckNew;
     }
 

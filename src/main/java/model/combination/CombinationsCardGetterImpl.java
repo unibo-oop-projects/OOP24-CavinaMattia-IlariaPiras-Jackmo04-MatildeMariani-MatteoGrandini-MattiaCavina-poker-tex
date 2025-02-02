@@ -1,5 +1,6 @@
 package model.combination;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -21,13 +22,14 @@ import model.deck.api.SimpleCard;
 public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> {
 
         private final List<Card> totalCardList = new LinkedList<>();
+        private final static int COMBINATION_NUMBER = 5; ;
 
         /**
          * Constructor for CombinationsRulesImpl.
          * 
          * @param totalCardList
          *                      list of cards.
-         * @throws NullPointerException
+         * @throws IllegalAccessError
          *                              thrown when the list is empty.
          * 
          */
@@ -35,7 +37,7 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> 
                 if (!totalCardList.isEmpty()) {
                         totalCardList.forEach(this.totalCardList::add);
                 } else {
-                        throw new NullPointerException("Empty Set passed like Argument");
+                        throw new IllegalArgumentException("Empty Set passed like Argument");
                 }
         }
 
@@ -150,5 +152,19 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> 
         public Set<Card> getRoyalFlush() {
                 return getStraight();
         }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Set<Card> getHightCard() {
+                return totalCardList.stream()
+                .sorted(Comparator.comparing(Card::valueOfCard)).toList()
+                .reversed()
+                .stream()
+                .limit(COMBINATION_NUMBER)
+                .collect(Collectors.toSet());
+        }
+        
 
 }
