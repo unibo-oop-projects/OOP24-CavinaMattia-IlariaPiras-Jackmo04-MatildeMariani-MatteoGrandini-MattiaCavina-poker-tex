@@ -18,7 +18,7 @@ public final class TestMain {
     public static void main(final String[] args) {
         ViewImpl pannel = new ViewImpl();
 
-        pannel.changeScene(new EndGameScene(new GameOverMenuImpl(pannel),true));
+        pannel.changeScene(new GameOverScene(new GameOverMenuImpl(pannel,true)));
 
 
     }

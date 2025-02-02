@@ -16,7 +16,7 @@ public class MainMenuControllerImpl implements MainMenuController {
 
     /**
      * Creates a new main menu controller.
-     * @param mainView the main view of the application
+     * @param mainView the main view of the application.
      */
     public MainMenuControllerImpl(final View mainView) {
         this.mainView = mainView;
@@ -53,6 +53,15 @@ public class MainMenuControllerImpl implements MainMenuController {
     @Override
     public void exitGame() {
         System.exit(0);
+    }
+
+    /**
+     * Method to get mainView.
+     * @return
+     *          the main view of the application   
+     */
+    protected View getView() {
+        return this.mainView;
     }
 
 }
