@@ -4,25 +4,20 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.util.List;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controller.card.CardGetterImmage;
 
 public class TablePanel extends JPanel {
 
+        private static final int NUM_CARDS = 5;
         private static final int THICKNESS = 30;
         private static final int GAP = 10;
-        private static final int CARD_HEIGHT = 70;
-        private static final int CARD_WIDTH = 50;
 
-        private JPanel cardsPanel;
-        private CardGetterImmage cardGetterImage;
+        private CardsPanel cardsPanel;
         private MyLabel pot;
         private MyLabel westPlayerBet;
         private MyLabel northPlayerBet;
@@ -30,28 +25,8 @@ public class TablePanel extends JPanel {
         private MyLabel southPlayerBet;
 
         public TablePanel() {
-            this.cardGetterImage = new CardGetterImmage();
-
-            this.cardsPanel = new JPanel(new GridLayout(1, 5, GAP, 0));
-            MyLabel card1 = new MyLabel("");
-            MyLabel card2 = new MyLabel("");
-            MyLabel card3 = new MyLabel("");
-            MyLabel card4 = new MyLabel("");
-            MyLabel card5 = new MyLabel("");
-            
-            card1.setSize(CARD_WIDTH, CARD_HEIGHT);
-            card2.setSize(CARD_WIDTH, CARD_HEIGHT);
-            card3.setSize(CARD_WIDTH, CARD_HEIGHT);
-            card4.setSize(CARD_WIDTH, CARD_HEIGHT);
-            card5.setSize(CARD_WIDTH, CARD_HEIGHT);
-
-            cardsPanel.add(card1);
-            cardsPanel.add(card2);
-            cardsPanel.add(card3);
-            cardsPanel.add(card4);
-            cardsPanel.add(card5);
-
-            this.setCards(this.cardGetterImage.getTableCardImage(Set.of()));
+            this.cardsPanel = new CardsPanel(NUM_CARDS, GAP);
+            this.cardsPanel.setCards(cardsPanel.getCardGetterImage().getTableCardImage(Set.of()));
             cardsPanel.setBackground(Color.GREEN);
 
             this.pot = new MyLabel("Pot: 0");
@@ -80,11 +55,6 @@ public class TablePanel extends JPanel {
             this.setBackground(Color.GREEN);
             this.setBorder(BorderFactory.createLineBorder(Color.GREEN.darker(), THICKNESS, true));
 
-        }
-
-        public void setCards(final List<ImageIcon> cardsImages) {
-            cardsImages.forEach(img -> ((MyLabel) this.cardsPanel.getComponent(cardsImages.indexOf(img)))
-                                       .setImageFromIcon(img));
         }
 
         private class PlayerBetLabel extends MyLabel{
