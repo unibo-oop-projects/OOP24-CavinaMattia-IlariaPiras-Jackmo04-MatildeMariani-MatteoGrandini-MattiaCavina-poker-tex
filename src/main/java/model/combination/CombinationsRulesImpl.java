@@ -9,6 +9,7 @@ import com.google.common.collect.Multiset.Entry;
 import model.combination.api.CombinationDimension;
 import model.combination.api.CombinationsRules;
 import model.deck.api.Card;
+import model.deck.api.SimpleCard;
 
 /**
  * Class that implements the rules of the combinations.
@@ -119,9 +120,12 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
         public Boolean isRoyalFlush() {
                 return isStraight()
                                 && CombinationRulesUtilities.getRoyalFlush(getSafetyList()).stream()
-                                                .map(t -> t.seedName())
+                                                .map(Card::seedName)
                                                 .distinct()
-                                                .count() == 1;
+                                                .count() == 1
+                                && CombinationRulesUtilities.getRoyalFlush(getSafetyList()).stream()
+                                                .mapToInt(t -> t.valueOfCard())
+                                                .min().getAsInt() == SimpleCard.TEN.getValueOfCard();
         }
 
         private List<Card> getSafetyList() {
