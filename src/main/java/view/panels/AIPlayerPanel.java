@@ -7,6 +7,10 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+/**
+ * Class that models an AIPlayer panel. It has a {@link CardsPanel}, a label for the player's action,
+ * one for his chips, and one for his role (if he has one).
+ */
 public class AIPlayerPanel extends JPanel {
 
     private static final int NUM_CARDS = 2;
@@ -22,26 +26,25 @@ public class AIPlayerPanel extends JPanel {
      * Constructor for the AIPlayerPanel class.
      */
     public AIPlayerPanel() {
-        /*Temporary Images*/
 
-        /*Creation cards Panel, initially covered*/
+        /*Creation of the player cardsPanel, with the cards initially covered*/
         this.cardsPanel = new CardsPanel(NUM_CARDS, 0);
         this.cardsPanel.setCards(cardsPanel.getCardGetterImage().getBackCardImage(NUM_CARDS));
         this.cardsPanel.setBackground(Color.LIGHT_GRAY);
 
-        /*Creation player image label*/
+        /*Creation of the player image label*/
         MyLabel playerImage = new MyLabel("");
         playerImage.setSize(PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
         playerImage.setImageFromPath("src/main/resources/hat.png");
 
-        /*Creation images panel, it contains the player image and his set of cards*/
+        /*Creation of imagesPanel, it contains the player image and his set of cards*/
         JPanel imagesPanel = new JPanel();
         imagesPanel.setLayout(new BoxLayout(imagesPanel, BoxLayout.X_AXIS));
         imagesPanel.add(playerImage);
         imagesPanel.add(cardsPanel);
         imagesPanel.setBackground(Color.LIGHT_GRAY);
 
-        /*Creation data Panel, it contains the basic data of a player*/
+        /*Creation of dataPanel, it contains the basic data of a player*/
         JPanel dataPanel = new JPanel();
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.X_AXIS));
             

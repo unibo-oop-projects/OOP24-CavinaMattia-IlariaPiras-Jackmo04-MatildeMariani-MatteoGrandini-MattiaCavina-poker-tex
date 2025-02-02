@@ -8,6 +8,10 @@ import javax.swing.JPanel;
 
 import controller.card.CardGetterImmage;
 
+/**
+ * Class that models a card panel with the specified number of cards. It has a CardGetterImage
+ * and a method to set its cards image.
+ */
 public class CardsPanel extends JPanel {
     
     private static final int CARD_HEIGHT = 70;
@@ -15,6 +19,11 @@ public class CardsPanel extends JPanel {
     
     private CardGetterImmage cardGetterImage;
 
+    /**
+     * Creates a new CardsPanel with numCards cards.
+     * @param numCards the number of cards
+     * @param hGap the horizontal gap between cards
+     */
     public CardsPanel(final int numCards, final int hGap) {
 
         this.cardGetterImage = new CardGetterImmage();
@@ -28,11 +37,19 @@ public class CardsPanel extends JPanel {
 
     }
 
+    /**
+     * Sets its cards image from the ImageIcon list
+     * @param cardsImages the list of ImageIcons
+     */
     public void setCards(final List<ImageIcon> cardsImages) {
         cardsImages.forEach(img -> ((MyLabel) this.getComponent(cardsImages.indexOf(img)))
                                     .setImageFromIcon(img));
     }
 
+    /**
+     * Returns the CardGetterImage.
+     * @return the CardGetterImage.
+     */
     public CardGetterImmage getCardGetterImage() {
         return cardGetterImage;
     }

@@ -10,7 +10,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
+/**
+ * Class that models a table panel. It has a {@link CardsPanel}, a label for the pot (or the winnings)
+ * and one for each of the four player's bet.
+ */
 public class TablePanel extends JPanel {
 
         private static final int NUM_CARDS = 5;
@@ -24,13 +27,20 @@ public class TablePanel extends JPanel {
         private MyLabel eastPlayerBet;
         private MyLabel southPlayerBet;
 
+        /**
+         * Constructor for the TablePanel class.
+        */
         public TablePanel() {
+
+            /*Creation of the table cardsPanel, with the cards initially covered*/
             this.cardsPanel = new CardsPanel(NUM_CARDS, GAP);
             this.cardsPanel.setCards(cardsPanel.getCardGetterImage().getTableCardImage(Set.of()));
             cardsPanel.setBackground(Color.GREEN);
 
+            /*Creation of the pot label*/
             this.pot = new MyLabel("Pot: 0");
 
+            /*Creation of the tableData panel, it contains the pot and the cardsPanel*/
             JPanel tableData = new JPanel(new GridLayout(2, 1));
             tableData.add(pot);
             tableData.add(cardsPanel);
@@ -39,12 +49,14 @@ public class TablePanel extends JPanel {
             table.add(tableData);
             table.setBackground(Color.GREEN);
 
+            /*Creation of the four player's bet labels*/
             this.westPlayerBet = new PlayerBetLabel("20");
             this.northPlayerBet = new PlayerBetLabel("20");
             this.eastPlayerBet = new PlayerBetLabel("20");
             this.southPlayerBet = new PlayerBetLabel("20");
             eastPlayerBet.setHorizontalTextPosition(JLabel.LEFT);
             
+            /*Adding components to the TablePanel*/
             this.setLayout(new BorderLayout(GAP, GAP));
             this.add(table, BorderLayout.CENTER);
             this.add(westPlayerBet, BorderLayout.WEST);
@@ -57,6 +69,9 @@ public class TablePanel extends JPanel {
 
         }
 
+        /**
+         * Private class that models a player's bet label.
+         */
         private class PlayerBetLabel extends MyLabel{
 
             private static final int HEIGHT = 60;
