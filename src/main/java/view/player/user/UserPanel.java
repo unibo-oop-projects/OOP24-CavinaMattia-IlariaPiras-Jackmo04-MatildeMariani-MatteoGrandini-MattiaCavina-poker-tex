@@ -153,6 +153,7 @@ public class UserPanel {
      * Disables all the buttons and the text field in the GUI.
      */
     public void disableAllButtons() {
+        textField.setText("Insert your bet here and then push Raise");
         textField.setEnabled(false);
         checkButton.setEnabled(false);
         callButton.setEnabled(false);

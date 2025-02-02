@@ -109,7 +109,7 @@ public class UserPlayerController {
      * @return true if the user player can check, false otherwise.
      */
     public boolean canCheck() {
-        return this.state.getCurrentBet() == this.userPlayer.getTotalPhaseBet();
+        return this.state.getCurrentBet() == this.userPlayer.getTotalPhaseBet() && this.userPlayer.getChips() > 0;
     }
 
     /**
@@ -117,7 +117,7 @@ public class UserPlayerController {
      * @return true if the user player can call, false otherwise.
      */
     public boolean canCall() {
-        return true;
+        return this.userPlayer.getChips() > 0;
     }
 
     /**
@@ -141,7 +141,7 @@ public class UserPlayerController {
      * @return true if the user player can all-in, false otherwise.
      */
     public boolean canAllIn() {
-        return true;
+        return this.userPlayer.getChips() > 0;
     }
 
     /**
