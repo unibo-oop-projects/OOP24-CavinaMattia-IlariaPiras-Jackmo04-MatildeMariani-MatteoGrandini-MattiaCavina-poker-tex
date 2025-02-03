@@ -7,20 +7,29 @@ import javax.swing.JPanel;
 
 import controller.game.GameControllerImpl;
 import view.panels.AIPlayerPanel;
+import view.panels.PlayerPanelImpl;
 import view.panels.TablePanel;
+import view.panels.api.PlayerPanel;
 import view.scenes.api.Scene;
 
+/**
+ * The {@link Scene} of the game.
+ */
 public class GameScene extends JPanel implements Scene {
 
     private static final String SCENE_NAME = "game";
     
     private final GameControllerImpl controller;
     private final TablePanel table;
-    private final AIPlayerPanel west;
-    private final AIPlayerPanel north;
-    private final AIPlayerPanel east;
-    private final AIPlayerPanel south;
+    private final PlayerPanelImpl west;
+    private final PlayerPanelImpl north;
+    private final PlayerPanelImpl east;
+    private final PlayerPanelImpl south;
 
+    /**
+     * Creates a new {@link GameScene}.
+     * @param controller the controller for the game.
+     */
     public GameScene(final GameControllerImpl controller) {
 
         this.controller = controller;
@@ -28,6 +37,7 @@ public class GameScene extends JPanel implements Scene {
         this.setBackground(Color.DARK_GRAY);
         this.setOpaque(true);
 
+        /*Sets the panels for the player and for the table*/
         this.west = new AIPlayerPanel();
         this.north = new AIPlayerPanel();
         this.east = new AIPlayerPanel();
@@ -35,11 +45,13 @@ public class GameScene extends JPanel implements Scene {
         this.south = new AIPlayerPanel();  
         this.table = new TablePanel();
 
+        /*Sets background color*/
         west.setBackground(Color.DARK_GRAY);
         north.setBackground(Color.DARK_GRAY);
         east.setBackground(Color.DARK_GRAY);
         south.setBackground(Color.DARK_GRAY);
 
+        /*Adds the panels*/
         this.add(north, BorderLayout.NORTH);
         this.add(west, BorderLayout.WEST);
         this.add(east, BorderLayout.EAST);
@@ -68,7 +80,12 @@ public class GameScene extends JPanel implements Scene {
         return SCENE_NAME;
     }
 
-    public AIPlayerPanel getPlayerPanel(final int id) {
+    /**
+     * Returns the PlayerPanel that corresponds to the given id.
+     * @param id the player's id.
+     * @return the corrisponding PlayerPanel.
+     */
+    public PlayerPanel getPlayerPanel(final int id) {
         return switch(id) {
             case 0 -> this.west;
             case 1 -> this.north;
@@ -78,6 +95,10 @@ public class GameScene extends JPanel implements Scene {
         };
     }
 
+    /**
+     * Returns the {@link TablePanel}.
+     * @return the table panel.
+     */
     public TablePanel getTable() {
         return this.table;
     }
