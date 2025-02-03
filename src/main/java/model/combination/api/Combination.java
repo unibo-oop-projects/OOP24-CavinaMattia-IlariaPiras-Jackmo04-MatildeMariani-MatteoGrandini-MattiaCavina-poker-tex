@@ -11,9 +11,6 @@ import java.util.Set;
  *                   list of cards .
  * @param type
  *                   Set of combination.
- * @param tieBreaker
- *                   is used to compare two combinations of the same type ,is
- *                   the sum value of players's cards.
  * 
  */
 public record Combination<X>(Set<X> totalCard, CombinationType type) {

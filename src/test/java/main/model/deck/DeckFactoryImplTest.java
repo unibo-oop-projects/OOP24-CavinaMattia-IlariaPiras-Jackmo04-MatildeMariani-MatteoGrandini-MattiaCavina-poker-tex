@@ -14,7 +14,7 @@ import model.deck.api.SimpleCard;
 /**
  * Test della factory Deck and the class to generate new Poker's Deck.
  */
-public class DeckFactoryImplTest {
+public class DeckFactoryImplTest {  // NOPMD suppressed as it is a false positive
     private static final  int ALL_DECKS = 52;
     private static final int TWO_CARD = 2;
 
@@ -22,8 +22,7 @@ public class DeckFactoryImplTest {
      * test of simple deck.
      */
     @Test
-
-    protected void simpleDeck() {
+    protected void simpleDeck() { // NOPMD suppressed as it is a false positive
         final Deck<Card> t = new DeckFactoryImpl().simplePokerDeck();
         assertEquals(TWO_CARD, t.getSomeCards(TWO_CARD).size());
         assertEquals(ALL_DECKS - TWO_CARD, t.getSomeCards(ALL_DECKS - TWO_CARD).size());

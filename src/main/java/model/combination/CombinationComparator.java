@@ -19,9 +19,9 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
      *         0 if they are equals, 1 if first is bigger, -1 if second is bigger.
      */
     @Override
-    public int compare(Combination<Card> o1, Combination<Card> o2) {
+    public int compare(final Combination<Card> o1, final Combination<Card> o2) {
 
-        int returnValue = Integer.compare(o1.type().getValue(), o2.type().getValue());
+        final int returnValue = Integer.compare(o1.type().getValue(), o2.type().getValue());
 
         if (returnValue == 0) {
             switch (o1.type()) {
@@ -45,7 +45,7 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
      * @return
      *         sum of card's value
      */
-    private static Integer sumValueCard(Set<Card> totalCardList) {
+    private static Integer sumValueCard(final Set<Card> totalCardList) {
         return totalCardList.stream().mapToInt(Card::valueOfCard).sum();
     }
 
@@ -56,7 +56,7 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
      * @return
      *         Set of card that represent the tris.
      */
-    private static Set<Card> getTrisFromCombination(Combination<Card> combination) {
+    private static Set<Card> getTrisFromCombination(final Combination<Card> combination) {
         return new CombinationsCardGetterImpl(combination.totalCard()).getTris();
     }
 
@@ -68,12 +68,12 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
      * @return
      *         0 if they are equals, 1 if first is bigger, -1 if second is bigger.
      */
-    private static Integer twoPairCompair(Set<Card> firstList, Set<Card> secondList) {
+    private static Integer twoPairCompair(final Set<Card> firstList, final Set<Card> secondList) {
 
-        var valueFirstList = firstList.stream().map(Card::valueOfCard)
+        final var valueFirstList = firstList.stream().map(Card::valueOfCard)
                 .distinct()
                 .collect(Collectors.toList());
-        var valueSecondList = secondList.stream().map(Card::valueOfCard)
+        final var valueSecondList = secondList.stream().map(Card::valueOfCard)
                 .distinct()
                 .collect(Collectors.toList());
 

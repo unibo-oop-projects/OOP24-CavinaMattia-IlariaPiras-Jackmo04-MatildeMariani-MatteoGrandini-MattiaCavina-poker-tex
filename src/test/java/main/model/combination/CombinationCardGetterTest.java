@@ -17,15 +17,15 @@ import model.deck.api.SimpleCard;
 /**
  * Test of CombinationCardGetter.
  */
-public class CombinationCardGetterTest {
+public class CombinationCardGetterTest { //NOPMD suppressed as it is a false positive
 
         /**
-         * Empty test
+         * Empty test.
          * 
          */
         @Test
         void testEmpty() {
-                Set<Card> totalCardList = Sets.newHashSet();
+               final Set<Card> totalCardList = Sets.newHashSet();
                 assertThrows(IllegalArgumentException.class, () -> new CombinationsCardGetterImpl(totalCardList).getPair());
         }
 
