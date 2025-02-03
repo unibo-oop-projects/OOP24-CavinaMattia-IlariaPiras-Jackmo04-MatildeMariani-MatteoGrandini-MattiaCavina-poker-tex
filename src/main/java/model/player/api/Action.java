@@ -5,6 +5,6 @@ package model.player.api;
  */
 public enum Action {
     // CHECKSTYLE: JavadocVariable OFF
-    FOLD, CHECK, CALL, RAISE;
+    FOLD, CHECK, CALL, RAISE, ALL_IN;
     // CHECKSTYLE: JavadocVariable ON
 }
