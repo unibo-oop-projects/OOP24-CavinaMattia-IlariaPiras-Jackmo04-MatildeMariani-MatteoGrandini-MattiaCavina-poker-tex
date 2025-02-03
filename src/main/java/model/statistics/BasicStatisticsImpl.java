@@ -2,7 +2,6 @@ package model.statistics;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import commons.Pair;
@@ -135,9 +134,7 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      */
     @Override
     public void setBiggestWinIfSo(final int winnings) {
-        if (winnings > this.biggestWin) {
-            this.biggestWin = winnings;
-        }
+        this.biggestWin = Math.max(this.biggestWin, winnings);
     }
 
     /**
@@ -145,10 +142,22 @@ public class BasicStatisticsImpl implements BasicStatistics, Serializable {
      */
     @Override
     public void setBestCombinationIfSo(final CombinationType combination) {
-        Objects.requireNonNull(combination);
-        if (this.bestCombination == null || combination.compareTo(this.bestCombination) > 0) {
+        if (this.bestCombination == null || combination != null && combination.compareTo(this.bestCombination) > 0) {
             this.bestCombination = combination;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void append(final BasicStatistics other) {
+        this.incrementHandsPlayed(other.getNumOfHandsPlayed());
+        this.incrementHandsWon(other.getNumOfHandsWon());
+        this.incrementGamesPlayed(other.getNumOfGamesPlayed());
+        this.incrementGamesWon(other.getNumOfGamesWon());
+        this.setBiggestWinIfSo(other.getBiggestWin());
+        this.setBestCombinationIfSo(other.getBestCombination().orElse(null));
     }
 
     /**

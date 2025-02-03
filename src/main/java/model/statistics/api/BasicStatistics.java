@@ -83,6 +83,12 @@ public interface BasicStatistics extends Statistics {
     void setBiggestWinIfSo(int winnings);
 
     /**
+     * Appends the statistics of another object to the current one.
+     * @param other The object to append to the current one
+     */
+    void append(BasicStatistics other);
+
+    /**
      * Returns the number of hands played.
      * @return The number of hands played
      */
