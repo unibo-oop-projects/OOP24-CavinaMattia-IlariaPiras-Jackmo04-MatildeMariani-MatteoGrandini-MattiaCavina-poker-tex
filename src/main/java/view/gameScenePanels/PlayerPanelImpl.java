@@ -103,6 +103,4 @@ public class PlayerPanelImpl extends JPanel implements PlayerPanel{
         return this.playerRole;
     }
 
-    
-
 }
