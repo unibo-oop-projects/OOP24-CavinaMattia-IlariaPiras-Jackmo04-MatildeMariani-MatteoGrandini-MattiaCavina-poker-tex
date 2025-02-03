@@ -1,5 +1,9 @@
 package view.panels.api;
 
+import java.util.List;
+
+import javax.swing.ImageIcon;
+
 import model.deck.api.Card;
 import model.player.api.Player;
 import model.player.api.Action;
@@ -37,5 +41,17 @@ public interface PlayerPanel {
      * @param role the player's role.
      */
     void setRole(String role);
+
+    /**
+     * Resets the player's card image and action.
+     * @param cardsback the list of card back image icons.
+     */
+    void reset(final List<ImageIcon> cardsback);
+
+    /**
+     * Informs the PlayerPanel that the player has lost and is no longer in the game.
+     * Disables the Panel.
+     */
+    void lost();
 
 }
