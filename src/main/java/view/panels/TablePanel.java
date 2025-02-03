@@ -21,12 +21,12 @@ public class TablePanel extends JPanel {
         private static final int THICKNESS = 30;
         private static final int GAP = 10;
 
-        private CardsPanel cardsPanel;
-        private MyLabel pot;
-        private PlayerBetLabel westPlayerBet;
-        private PlayerBetLabel northPlayerBet;
-        private PlayerBetLabel eastPlayerBet;
-        private PlayerBetLabel southPlayerBet;
+        private final CardsPanel cardsPanel;
+        private final MyLabel pot;
+        private final PlayerBetLabel westPlayerBet;
+        private final PlayerBetLabel northPlayerBet;
+        private final PlayerBetLabel eastPlayerBet;
+        private final PlayerBetLabel southPlayerBet;
 
         /**
          * Constructor for the TablePanel class.
@@ -51,10 +51,10 @@ public class TablePanel extends JPanel {
             table.setBackground(Color.GREEN);
 
             /*Creation of the four player's bet labels*/
-            this.westPlayerBet = new PlayerBetLabel("20");
-            this.northPlayerBet = new PlayerBetLabel("20");
-            this.eastPlayerBet = new PlayerBetLabel("20");
-            this.southPlayerBet = new PlayerBetLabel("20");
+            this.westPlayerBet = new PlayerBetLabel("");
+            this.northPlayerBet = new PlayerBetLabel("");
+            this.eastPlayerBet = new PlayerBetLabel("");
+            this.southPlayerBet = new PlayerBetLabel("");
             eastPlayerBet.setHorizontalTextPosition(JLabel.LEFT);
             
             /*Adding components to the TablePanel*/
@@ -87,7 +87,14 @@ public class TablePanel extends JPanel {
                 default -> null;
             };
             playerBet.setText(bet);
-            playerBet.showIcon();
+            playerBet.setEnabled(true);
+        }
+
+        public void resetPlayersBet() {
+            this.westPlayerBet.setEnabled(false);
+            this.northPlayerBet.setEnabled(false);
+            this.eastPlayerBet.setEnabled(false);
+            this.southPlayerBet.setEnabled(false);
         }
 
         /**
@@ -102,12 +109,10 @@ public class TablePanel extends JPanel {
             PlayerBetLabel(final String text) {
                 super(text);
                 this.setSize(WIDTH, HEIGHT);
+                this.setImageFromPath(PATH_FISCHES);
                 this.setVerticalTextPosition(JLabel.CENTER);
                 this.setHorizontalTextPosition(JLabel.RIGHT);
-            }
-
-            public void showIcon() {
-                this.setImageFromPath(PATH_FISCHES);
+                this.setEnabled(false);
             }
         }
     }
