@@ -1,4 +1,4 @@
-package view.panels;
+package view.gameScenePanels;
 
 import java.awt.Color;
 import java.awt.GridBagLayout;
@@ -7,7 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import view.panels.api.MyLabel;
+import view.gameScenePanels.api.MyLabel;
 
 /**
  * Class that models an AIPlayer panel. 

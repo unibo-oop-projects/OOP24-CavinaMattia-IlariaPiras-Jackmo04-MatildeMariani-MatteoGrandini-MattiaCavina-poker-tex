@@ -1,12 +1,12 @@
-package view.panels;
+package view.gameScenePanels;
 
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import view.panels.api.MyLabel;
-import view.panels.api.PlayerPanel;
+import view.gameScenePanels.api.MyLabel;
+import view.gameScenePanels.api.PlayerPanel;
 
 /**
  * Class that implements the common PlayerPanel methods.

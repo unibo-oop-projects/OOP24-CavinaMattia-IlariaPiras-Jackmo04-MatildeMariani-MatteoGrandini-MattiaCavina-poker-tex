@@ -1,4 +1,4 @@
-package view.panels.api;
+package view.gameScenePanels.api;
 
 import java.util.List;
 
@@ -8,8 +8,7 @@ import model.deck.api.Card;
 import model.player.api.Player;
 import model.player.api.Action;
 import model.player.api.Role;
-
-import view.panels.CardsPanel;
+import view.gameScenePanels.CardsPanel;
 
 /**
  * Interface that models a PlayerPanel. 

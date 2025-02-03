@@ -1,4 +1,4 @@
-package view.panels;
+package view.gameScenePanels;
 
 import java.awt.GridLayout;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import view.panels.api.MyLabel;
+import view.gameScenePanels.api.MyLabel;
 
 /**
  * Class that models a card panel with the specified number of cards. It has a CardGetterImage

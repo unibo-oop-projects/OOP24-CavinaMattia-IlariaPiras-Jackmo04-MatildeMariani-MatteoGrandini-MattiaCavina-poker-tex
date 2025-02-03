@@ -6,10 +6,9 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 import controller.game.GameControllerImpl;
-import view.panels.AIPlayerPanel;
-import view.panels.PlayerPanelImpl;
-import view.panels.TablePanel;
-import view.panels.api.PlayerPanel;
+import view.gameScenePanels.AIPlayerPanel;
+import view.gameScenePanels.PlayerPanelImpl;
+import view.gameScenePanels.TablePanel;
 import view.scenes.api.Scene;
 
 /**
@@ -85,7 +84,7 @@ public class GameScene extends JPanel implements Scene {
      * @param id the player's id.
      * @return the corrisponding PlayerPanel.
      */
-    public PlayerPanel getPlayerPanel(final int id) {
+    public PlayerPanelImpl getPlayerPanel(final int id) {
         return switch(id) {
             case 0 -> this.west;
             case 1 -> this.north;

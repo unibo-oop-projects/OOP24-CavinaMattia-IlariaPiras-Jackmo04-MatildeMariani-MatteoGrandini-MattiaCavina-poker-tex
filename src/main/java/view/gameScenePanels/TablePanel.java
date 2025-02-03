@@ -1,4 +1,4 @@
-package view.panels;
+package view.gameScenePanels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -9,7 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import view.panels.api.MyLabel;
+import view.gameScenePanels.api.MyLabel;
 
 /**
  * Class that models a table panel. It has a {@link CardsPanel}, a label for the pot (or the winnings)

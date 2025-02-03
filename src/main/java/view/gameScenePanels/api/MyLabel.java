@@ -1,4 +1,4 @@
-package view.panels.api;
+package view.gameScenePanels.api;
 
 import java.awt.Image;
 
