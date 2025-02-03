@@ -25,6 +25,8 @@ public abstract class AbstractGame implements Game{
     private final List<Player> players = new LinkedList<>();
     private Player smallBlindPlayer;
     private Player bigBlindPlayer;
+
+    //add controller
     
     /**
      * Constructor for the AbstractGame. 
@@ -62,21 +64,27 @@ public abstract class AbstractGame implements Game{
         while (!isOver()) {
             this.setRolesForNewHand();
             this.players.stream().forEachOrdered(p -> p.setCards(this.dealer.giveCardsToPlayer()));
+            //add controller.setPlayerCard(playerid, player.getCards())
             this.gameState.newHand(startingBet, this.players.size());
             var hand = new HandImpl(this.players, this.gameState);
 
             do {
                 this.gameState.addCommunityCards(this.dealer.giveCardsToTheGame(
                      gameState.getHandPhase().getNumCards()));
-
+                //add controller.setCommunityCard(this.gamestate.getCommunityCards())
                 hand.startPhase();
                 this.players.forEach(p -> this.gameState.addToPot(p.getTotalPhaseBet()));
+                //add controller.setPot(this.gamestate.getPot())
                 this.gameState.nextHandPhase();
                 
             } while (!hand.isHandOver());
 
             hand.determinateWinnerOfTheHand();
+            //add controller.updatePlayerChips(playerid, player.getChips())
+            
         }
+        //add controller.goToResultScene(this.isWon())
+        
     }
 
     /**
@@ -124,6 +132,7 @@ public abstract class AbstractGame implements Game{
         this.smallBlindPlayer.setRole(Role.SMALL_BLIND);
         this.bigBlindPlayer.setRole(Role.BIG_BLIND);
 
+        //add controller.setUpdateRoles(smallBlindId, bigBlindId)
     }
 
     /** 
@@ -132,7 +141,7 @@ public abstract class AbstractGame implements Game{
      */
     private void setInitialPlayers(final int initialChips) {
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
-            this.players.add(this.getAIPlayer(initialChips));
+            this.players.add(this.getAIPlayer(i, initialChips));
         }
         //this.players.add(new UserPlayer(initialChips));
     
@@ -143,6 +152,6 @@ public abstract class AbstractGame implements Game{
      * @param initialChips initial amount of chips of players.
      * @return an AI player.
      */
-    protected abstract Player getAIPlayer(int initialChips);
+    protected abstract Player getAIPlayer(int id, int initialChips);
 
 }
