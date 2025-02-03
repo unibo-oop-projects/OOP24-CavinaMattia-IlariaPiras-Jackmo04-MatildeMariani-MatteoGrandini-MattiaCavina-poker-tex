@@ -20,4 +20,5 @@ public interface StatsController {
      * Goes back to the main menu scene.
      */
     void goToMainMenuScene();
+
 }

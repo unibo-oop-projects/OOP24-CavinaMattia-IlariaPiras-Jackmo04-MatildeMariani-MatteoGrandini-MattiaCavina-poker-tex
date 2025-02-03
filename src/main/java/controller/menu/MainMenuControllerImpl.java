@@ -1,7 +1,7 @@
 package controller.menu;
 
 import controller.rules.RulesControllerImpl;
-import controller.statistics.StatsControllerImpl;
+import controller.statistics.BasicStatisticsControllerImpl;
 import view.View;
 import view.scenes.RulesScene;
 import view.scenes.StatsScene;
@@ -27,7 +27,7 @@ public class MainMenuControllerImpl implements MainMenuController {
      */
     @Override
     public void goToStatsScene() {
-        this.mainView.changeScene(new StatsScene(new StatsControllerImpl(mainView)));
+        this.mainView.changeScene(new StatsScene(new BasicStatisticsControllerImpl(mainView)));
     }
 
     /**
