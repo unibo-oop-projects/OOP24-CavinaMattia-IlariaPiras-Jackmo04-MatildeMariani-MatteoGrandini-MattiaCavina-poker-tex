@@ -1,10 +1,12 @@
 package view.scenes;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,6 +21,9 @@ import view.scenes.api.Scene;
 public class StatsScene extends JPanel implements Scene {
 
     private static final String SCENE_NAME = "stats";
+    private static final int LIGHT_GREEN_HEX = 0x88e378;
+    private static final int DARK_GREEN_HEX = 0x0cac64;
+    private static final int DARKER_GREEN_HEX = 0x2e603f;
 
     private final JPanel statsPanel;
     private final StatsController controller;
@@ -30,15 +35,18 @@ public class StatsScene extends JPanel implements Scene {
     public StatsScene(final StatsController statsController) {
         this.controller = statsController;
 
+        this.setBackground(new Color(0x2e603f));
         this.setLayout(new BorderLayout());
         JLabel title = new JLabel("Statistics", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 30));
-        title.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        title.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
+        title.setForeground(Color.WHITE);
         this.add(title, BorderLayout.NORTH);
 
         this.statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
         statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 100, 10, 100));
+        statsPanel.setBackground(new Color(DARKER_GREEN_HEX));
 
         this.updateStats();
 
@@ -53,20 +61,22 @@ public class StatsScene extends JPanel implements Scene {
     private void updateStats() {
         var statsMap = this.controller.getStatistics();
         this.statsPanel.removeAll();
-        statsMap.forEach(p -> 
-            this.statsPanel.add(new StatPanel(p.elem1(), p.elem2()))
-        );
+        var count = 0;
+        for (final var stat : statsMap) {
+            var panel = new StatPanel(stat.elem1(), stat.elem2());
+            panel.setBackground(count++ % 2 == 0 ? new Color(LIGHT_GREEN_HEX) : new Color(DARK_GREEN_HEX));
+            this.statsPanel.add(panel);
+        }
+        this.statsPanel.add(Box.createVerticalStrut(20));
     }
 
     // Inner class to create a panel for each statistic
     private class StatPanel extends JPanel {
         StatPanel(final String name, final String value) {
-            JLabel nameLabel = new JLabel(name + ": ");
-            JLabel valueLabel = new JLabel(value);
-            nameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
-            valueLabel.setFont(new Font("Arial", Font.PLAIN, 20));
-            this.add(nameLabel);
-            this.add(valueLabel);
+            JLabel label = new JLabel(name + ": " + value, JLabel.CENTER);
+            label.setFont(new Font("Arial", Font.BOLD, 20));
+            this.setLayout(new BorderLayout());
+            this.add(label, BorderLayout.CENTER);
             this.setPreferredSize(new Dimension(200, 50));
         }
     }
