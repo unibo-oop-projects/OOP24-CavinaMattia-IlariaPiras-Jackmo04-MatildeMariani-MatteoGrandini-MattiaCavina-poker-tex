@@ -10,6 +10,7 @@ import com.google.common.collect.TreeMultiset;
 import com.google.common.collect.Multiset.Entry;
 
 import model.combination.api.CombinationDimension;
+import model.combination.api.CombinationRulesUtilities;
 import model.deck.api.Card;
 import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
@@ -17,20 +18,16 @@ import model.deck.api.SimpleCard;
 /**
  * Class whith method to support CombinationRulesImpl class.
  */
-public final class CombinationRulesUtilities {
+public final class CombinationRulesUtilitiesImpl implements CombinationRulesUtilities {
 
-    private CombinationRulesUtilities() {
+    public CombinationRulesUtilitiesImpl() {
     }
 
     /**
-     * Method to get a possible combination of RoyalFlush , if it is present. Can
-     * used for Straight too.
-     * 
-     * @param totalCardList
-     * @return
-     *         List of card that represent the possible RoyalFlush combination.
+     * {@inheritDoc}
      */
-    public static List<Card> getRoyalFlush(final List<Card> totalCardList) {
+    @Override
+    public List<Card> getRoyalFlush(final List<Card> totalCardList) {
         final var straightList = filteredSameValueCard(addAceOneValue(totalCardList)).reversed();
         Boolean checkStraight = false;
 
@@ -51,6 +48,26 @@ public final class CombinationRulesUtilities {
         return straightList;
     }
 
+        /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Multiset<SimpleCard> getSumOfSameNameCard(final List<Card> totalCardList) {
+        Multiset<SimpleCard> nameCardMultiset = TreeMultiset.create();
+        nameCardMultiset.addAll(totalCardList.stream().map(Card::cardName).toList());
+        return nameCardMultiset;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Multiset<SeedCard> getSumOfSameSeedCard(final List<Card> totalCardList) {
+       final Multiset<SeedCard> seedCardMultiset = TreeMultiset.create();
+        seedCardMultiset.addAll(totalCardList.stream().map(Card::seedName).toList());
+        return seedCardMultiset;
+    }
+
     /**
      * Method to filter the same value card.
      * 
@@ -58,7 +75,7 @@ public final class CombinationRulesUtilities {
      * @return
      *         List of card filtered and merged same value.
      */
-    private static List<Card> filteredSameValueCard(final List<Card> totalCardList) {
+    private List<Card> filteredSameValueCard(final List<Card> totalCardList) {
         SeedCard mustUsedSeedCard;
         if (!totalCardList.isEmpty()) {
             mustUsedSeedCard = getSumOfSameSeedCard(totalCardList).entrySet().stream()
@@ -85,33 +102,6 @@ public final class CombinationRulesUtilities {
     }
 
     /**
-     * Method to get the sum of the same name card.
-     * 
-     * @param totalCardList
-     * @return
-     *         Stream of Integer that represent the sum of the same name card.
-     */
-    public static Multiset<SimpleCard> getSumOfSameNameCard(final List<Card> totalCardList) {
-        Multiset<SimpleCard> nameCardMultiset = TreeMultiset.create();
-        nameCardMultiset.addAll(totalCardList.stream().map(Card::cardName).toList());
-        return nameCardMultiset;
-    }
-
-    /**
-     * Method to get the sum of the same seed card.
-     * 
-     * @param totalCardList
-     * @return
-     *         Map of SeedCard and Integer that represent the sum of the same seed
-     *         card.
-     */
-    public static Multiset<SeedCard> getSumOfSameSeedCard(final List<Card> totalCardList) {
-       final Multiset<SeedCard> seedCardMultiset = TreeMultiset.create();
-        seedCardMultiset.addAll(totalCardList.stream().map(Card::seedName).toList());
-        return seedCardMultiset;
-    }
-
-    /**
      * Method to add card ace type, if it is present, with one value to consider
      * both value of that card.
      * 
@@ -119,7 +109,7 @@ public final class CombinationRulesUtilities {
      * @return
      *         list with add ace with one value.
      */
-    private static List<Card> addAceOneValue(final List<Card> totalCardList) {
+    private List<Card> addAceOneValue(final List<Card> totalCardList) {
         final List<Card> aceList = Lists.newLinkedList();
         totalCardList.stream().forEach(t -> {
             if (t.cardName().equals(SimpleCard.ACE)) {
