@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.menu.MainMenuControllerImpl;
@@ -10,6 +11,8 @@ import view.scenes.api.Scene;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * The main view of the application.
@@ -62,14 +65,60 @@ public class ViewImpl extends JFrame implements View {
         this.cardLayout.show(this.mainPanel, scene.getSceneName());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getScreenWidth() {
         return this.screenSize.width;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getScreenHeight() {
         return this.screenSize.height;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void enableConfermationOnClose() {
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int confirm = JOptionPane.showOptionDialog(
+                    ViewImpl.this, 
+                    """
+                        Are you sure you want to exit the game?
+                        Progress will be lost.
+                    """,
+                    "Exit game?",
+                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.QUESTION_MESSAGE, 
+                    null, 
+                    null, 
+                    null
+                );
+                if (confirm == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void disableConfermationOnClose() {
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        if (this.getWindowListeners().length > 0) {
+            this.removeWindowListener(this.getWindowListeners()[0]);            
+        }
     }
 
 }
