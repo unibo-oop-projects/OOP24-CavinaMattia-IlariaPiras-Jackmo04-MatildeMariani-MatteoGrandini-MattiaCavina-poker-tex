@@ -19,12 +19,6 @@ import view.panels.CardsPanel;
 public interface PlayerPanel {
 
     /**
-     * Returns the {@link CardsPanel}.
-     * @return the CardsPanel.
-     */
-    CardsPanel getCardsPanel();
-
-    /**
      * Sets the label of the player's {@link Action}.
      * @param action the player's action.
      */
@@ -53,5 +47,29 @@ public interface PlayerPanel {
      * Disables the Panel.
      */
     void lost();
+
+    /**
+     * Returns the {@link CardsPanel}.
+     * @return the CardsPanel.
+     */
+    CardsPanel getCardsPanel();
+
+    /**
+     * Returns the player's {@link Action} label.
+     * @return the player's {@link Action} label.
+     */
+    MyLabel getPlayerAction();
+
+    /**
+     * Returns the player's remaining chips label.
+     * @return the player's remaining chips label.
+     */
+    MyLabel getPlayerChips();
+
+    /**
+     * Returns the player's {@link Role} label.
+     * @return the player's {@link Role} label.
+     */
+    MyLabel getPlayerRole();
 
 }
