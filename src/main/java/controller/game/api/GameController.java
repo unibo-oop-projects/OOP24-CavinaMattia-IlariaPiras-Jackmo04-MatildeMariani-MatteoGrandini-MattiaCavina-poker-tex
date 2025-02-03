@@ -4,6 +4,7 @@ import java.util.Set;
 
 import model.deck.api.Card;
 import model.game.api.Game;
+import model.game.api.Hand;
 import model.player.api.Action;
 import model.player.api.Player;
 import view.scenes.GameScene;
@@ -16,6 +17,17 @@ import controller.card.CardGetterImage;
  * It acts as a mediator between the model (Game) and the view (GameScene).
  */
 public interface GameController {
+
+    /**
+     * Sets the {@link GameScene}.
+     * @param gameScene the gameScene.
+     */
+    void setGameScene(final GameScene gameScene);
+
+    /**
+     * Calls {@link GameScene} methods to update it at the start of a new {@link Hand}.
+     */
+    void updateForNewHand();
 
     /**
      * Starts the game.
