@@ -49,19 +49,18 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         this.paidBlind = this.getRole().isEmpty() || this.getTotalPhaseBet() > 0;
         if (!paidBlind) {
             this.makeBet(requiredBet(currentState));
-            return Action.CALL;            
+            return this.actionOrAllIn(Action.CALL);         
         }
         if (shouldRaise(currentState)) {
             this.makeBet((int) (currentState.getCurrentBet() + BASIC_BET * raisingFactor));
-            // Might not have enough chips to raise
-            return this.getTotalPhaseBet() > currentState.getCurrentBet() ? Action.RAISE : Action.CALL;
+            return this.actionOrAllIn(Action.RAISE);
         }
         if (canCheck(currentState)) {
             return Action.CHECK;
         }
         if (shouldCall(currentState)) {
             this.makeBet(currentState.getCurrentBet());
-            return Action.CALL;
+            return this.actionOrAllIn(Action.CALL);
         }
         return Action.FOLD;
     }
@@ -144,6 +143,10 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         var usableCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream())
             .collect(Collectors.toSet());
         this.setCombination(new CombinationHandlerImpl().getCombination(usableCards));
+    }
+
+    private Action actionOrAllIn(final Action action) {
+        return this.getChips() == 0 ? Action.ALL_IN : action;
     }
 
 }

@@ -35,14 +35,17 @@ public class MainMenuScene extends JPanel implements Scene {
         // TODO add other buttons to panel (Play, settings, rules, etc.)
         JButton goToStats = new JButton("Statistiche");
         JButton goToRules = new JButton("Regole");
+        JButton goToDifficultySelection = new JButton("Seleziona difficoltà");
         menuButtons.add(goToStats);
         menuButtons.add(goToRules);
+        menuButtons.add(goToDifficultySelection);
 
         this.add(menuButtons, BorderLayout.CENTER);
 
         // Button listeners TODO add other listeners
         goToStats.addActionListener(e -> this.controller.goToStatsScene());
         goToRules.addActionListener(e -> this.controller.goToRulesScene());
+        goToDifficultySelection.addActionListener(e -> this.controller.goToDifficultySelectionScene());
     }
 
     /**

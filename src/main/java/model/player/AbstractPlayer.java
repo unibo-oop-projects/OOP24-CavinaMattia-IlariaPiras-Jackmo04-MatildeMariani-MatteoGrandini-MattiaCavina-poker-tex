@@ -1,15 +1,15 @@
 package model.player;
 
 import java.util.Objects;
-import java.util.Set;
 import java.util.Optional;
+import java.util.Set;
 
+import model.combination.api.Combination;
 import model.deck.api.Card;
 import model.game.api.State;
 import model.player.api.Action;
 import model.player.api.Player;
 import model.player.api.Role;
-import model.temp.HandPhase;
 import model.combination.api.Combination;
 /**
  * Abstract class that implements the common methods of a generic player.
