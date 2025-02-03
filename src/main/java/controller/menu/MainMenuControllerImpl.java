@@ -1,8 +1,10 @@
 package controller.menu;
 
+import controller.difficulty.DifficultySelectionControllerImpl;
 import controller.rules.RulesControllerImpl;
 import controller.statistics.BasicStatisticsControllerImpl;
 import view.View;
+import view.scenes.DifficultySelectionScene;
 import view.scenes.RulesScene;
 import view.scenes.StatsScene;
 
@@ -43,8 +45,7 @@ public class MainMenuControllerImpl implements MainMenuController {
      */
     @Override
     public void goToDifficultySelectionScene() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'goToDifficultySelectionScene'");
+        this.mainView.changeScene(new DifficultySelectionScene(new DifficultySelectionControllerImpl(mainView)));
     }
 
     /**
