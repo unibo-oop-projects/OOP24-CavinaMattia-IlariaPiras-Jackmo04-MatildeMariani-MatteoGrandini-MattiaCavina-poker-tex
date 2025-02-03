@@ -18,7 +18,7 @@ public class RulesControllerImpl implements RulesController {
 
     private static final String RULES_HTML_PATH = "rules/rules.html";
 
-    private View mainView;
+    private final View mainView;
 
     /**
      * Creates a new rules controller.

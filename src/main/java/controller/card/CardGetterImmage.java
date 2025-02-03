@@ -18,9 +18,6 @@ public class CardGetterImmage {
     private static final String BACK_NAME = "BACK";
     private static final int TABLE_CARD = 5;
 
-    public CardGetterImmage() {
-    };
-
     /**
      * This method is used to get the image of the card.
      * 
@@ -32,7 +29,8 @@ public class CardGetterImmage {
     public List<ImageIcon> getCardImage(final Set<Card> card) {
         return card.stream()
                 .map(t -> new ImageIcon(
-                    ClassLoader.getSystemResource(BASE_PATH + t.seedName() + DIVIDE_SIGN + t.valueOfCard() + EXTENSION)))
+                        ClassLoader.getSystemResource(
+                                BASE_PATH + t.seedName() + DIVIDE_SIGN + t.valueOfCard() + EXTENSION)))
                 .toList();
     }
 
