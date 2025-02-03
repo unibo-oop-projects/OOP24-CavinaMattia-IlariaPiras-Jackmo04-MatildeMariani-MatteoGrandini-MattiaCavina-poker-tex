@@ -2,9 +2,11 @@ package view.panels;
 
 import java.awt.Color;
 import java.awt.GridBagLayout;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import view.panels.api.MyLabel;
@@ -19,6 +21,8 @@ public class AIPlayerPanel extends JPanel implements PlayerPanel {
     private static final int NUM_CARDS = 2;
     private static final int PLAYER_IMAGE_WIDTH = 50;
     private static final int PLAYER_IMAGE_HEIGHT = 50;
+    private static final int BORDER_THICKNESS = 5;
+    private static final String HAT_PATH = "src/main/resources/hat.png";
 
     private CardsPanel cardsPanel;
     private MyLabel playerAction;
@@ -28,7 +32,7 @@ public class AIPlayerPanel extends JPanel implements PlayerPanel {
     /**
      * Constructor for the AIPlayerPanel class.
      */
-    public AIPlayerPanel() {
+    public AIPlayerPanel(final int initialChips) {
 
         /*Creation of the player cardsPanel, with the cards initially covered*/
         this.cardsPanel = new CardsPanel(NUM_CARDS, 0);
@@ -38,7 +42,7 @@ public class AIPlayerPanel extends JPanel implements PlayerPanel {
         /*Creation of the player image label*/
         MyLabel playerImage = new MyLabel("");
         playerImage.setSize(PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
-        playerImage.setImageFromPath("src/main/resources/hat.png");
+        playerImage.setImageFromPath(HAT_PATH);
 
         /*Creation of imagesPanel, it contains the player image and his set of cards*/
         JPanel imagesPanel = new JPanel();
@@ -51,9 +55,9 @@ public class AIPlayerPanel extends JPanel implements PlayerPanel {
         JPanel dataPanel = new JPanel();
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.X_AXIS));
             
-        this.playerAction = new MyLabel("ACTION ");
-        this.playerChips = new MyLabel(" Chips: 2000 ");
-        this.playerRole = new MyLabel(" SB");
+        this.playerAction = new MyLabel("");
+        this.playerChips = new MyLabel(" Chips: " + initialChips);
+        this.playerRole = new MyLabel("");
         dataPanel.add(this.playerAction);
         dataPanel.add(this.playerChips);
         dataPanel.add(this.playerRole);
@@ -66,7 +70,7 @@ public class AIPlayerPanel extends JPanel implements PlayerPanel {
         mainPanel.add(dataPanel);
         mainPanel.setBackground(Color.LIGHT_GRAY);
         mainPanel.setOpaque(true);
-        mainPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5, true));
+        mainPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, BORDER_THICKNESS, true));
 
         this.setLayout(new GridBagLayout());
         this.add(mainPanel);
@@ -94,7 +98,7 @@ public class AIPlayerPanel extends JPanel implements PlayerPanel {
      */
     @Override
     public void setChips(final String chips) {
-        this.playerChips.setText(chips);
+        this.playerChips.setText(" Chips: " + chips);
     }
 
     /**
@@ -103,6 +107,23 @@ public class AIPlayerPanel extends JPanel implements PlayerPanel {
     @Override
     public void setRole(final String role) {
         this.playerAction.setText(role);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void reset(final List<ImageIcon> cardsback) {
+        this.cardsPanel.setCards(cardsback);
+        this.playerAction.setText("");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void lost() {
+        this.setEnabled(false);
     }
 
 }
