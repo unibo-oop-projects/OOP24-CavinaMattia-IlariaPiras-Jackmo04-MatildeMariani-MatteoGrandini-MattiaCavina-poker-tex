@@ -6,7 +6,7 @@ import java.util.Set;
 import model.deck.api.Card;
 import model.combination.api.Combination;
 import model.game.api.State;
-import model.temp.HandPhase;
+
 /**
  * Interface that models a generic player in the game.
  * A player can be either a human or an AI.

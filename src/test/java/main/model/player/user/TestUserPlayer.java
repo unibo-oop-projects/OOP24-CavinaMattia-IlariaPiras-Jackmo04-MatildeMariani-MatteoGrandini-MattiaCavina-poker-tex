@@ -20,6 +20,7 @@ import model.player.user.UserPlayer;
 
 public class TestUserPlayer {
     
+    private static final int PLAYER_ID = 1;
     private static final int INITIAL_TOTAL_PHASE_BET = 0;
     private static final int INITIAL_CHIPS = 2000;
     private static final int NUM_OF_PLAYERS = 4;
@@ -39,7 +40,7 @@ public class TestUserPlayer {
 
     @Test
     public void testCreation() {
-        this.player = new UserPlayer(INITIAL_CHIPS);
+        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         assertTrue(this.player.getRole().isEmpty());
         assertEquals(INITIAL_CHIPS, player.getChips());
         assertEquals(Set.of(), player.getCards());
@@ -51,7 +52,7 @@ public class TestUserPlayer {
 
     @Test
     public void testCheck() throws InterruptedException {
-        this.player = new UserPlayer(INITIAL_CHIPS);
+        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         assertEquals(Action.CALL, player.getAction(state));
@@ -65,7 +66,7 @@ public class TestUserPlayer {
 
     @Test
     public void testPreFlopSmallBlind() {
-        this.player = new UserPlayer(INITIAL_CHIPS);
+        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         player.setRole(Role.SMALL_BLIND);
         var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
@@ -76,7 +77,7 @@ public class TestUserPlayer {
 
     @Test
     public void testTextField() throws InterruptedException {
-        this.player = new UserPlayer(INITIAL_CHIPS);
+        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         assertEquals(Action.RAISE, player.getAction(state));
@@ -90,7 +91,7 @@ public class TestUserPlayer {
 
     @Test
     public void testAllIn() {
-        this.player = new UserPlayer(INITIAL_CHIPS);
+        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         assertEquals(Action.ALL_IN, player.getAction(state));
@@ -100,7 +101,7 @@ public class TestUserPlayer {
 
     @Test
     public void testWinning() {
-        this.player = new UserPlayer(INITIAL_CHIPS);
+        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.handWon(BET_3000);
         assertEquals(INITIAL_CHIPS + BET_3000, player.getChips());
@@ -109,7 +110,7 @@ public class TestUserPlayer {
 
     @Test
     public void testLosing() {
-        this.player = new UserPlayer(INITIAL_CHIPS);
+        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         assertEquals(Action.RAISE, player.getAction(state));
