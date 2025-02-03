@@ -10,11 +10,14 @@ import model.game.api.Game;
 import model.game.api.State;
 import model.player.api.Player;
 import model.player.api.Role;
+import model.statistics.BasicStatisticsImpl;
+import model.statistics.api.BasicStatistics;
+import model.statistics.api.StatisticsContributor;
 
 /**
  * This class provides an implementation of the Game interface, abstracting the choice of players.
  */
-public abstract class AbstractGame implements Game{
+public abstract class AbstractGame implements Game, StatisticsContributor<BasicStatistics>{
 
     private static final int INITIAL_BET_DIVISION_FACT = 100;
     protected static final int NUM_AI_PLAYERS = 3;
@@ -25,6 +28,7 @@ public abstract class AbstractGame implements Game{
     private final List<Player> players = new LinkedList<>();
     private Player smallBlindPlayer;
     private Player bigBlindPlayer;
+    private final BasicStatistics statistics;
     
     /**
      * Constructor for the AbstractGame. 
@@ -35,6 +39,7 @@ public abstract class AbstractGame implements Game{
         this.dealer = new DealerImpl();
         this.setInitialPlayers(initialChips);
         this.gameState = new StateImpl(startingBet, this.players.size());
+        this.statistics = new BasicStatisticsImpl();
     }
 
     /**
@@ -59,7 +64,9 @@ public abstract class AbstractGame implements Game{
      */
     @Override
     public void start() {
+        this.statistics.incrementGamesPlayed(1);
         while (!isOver()) {
+            this.statistics.incrementHandsPlayed(1);
             this.setRolesForNewHand();
             this.players.stream().forEachOrdered(p -> p.setCards(this.dealer.giveCardsToPlayer()));
             this.gameState.newHand(startingBet, this.players.size());
@@ -76,6 +83,9 @@ public abstract class AbstractGame implements Game{
             } while (!hand.isHandOver());
 
             hand.determinateWinnerOfTheHand();
+        }
+        if (this.isWon()) {
+            this.statistics.incrementGamesWon(1);            
         }
     }
 
@@ -145,4 +155,12 @@ public abstract class AbstractGame implements Game{
      */
     protected abstract Player getAIPlayer(int initialChips);
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateStatistics(final BasicStatistics totalStats) {
+        totalStats.append(this.statistics);
+        this.statistics.reset();
+    }
 }

@@ -18,7 +18,7 @@ import model.game.api.State;
  */
 public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
-    private static final int BASIC_BET = 1000;
+    private static final int BASIC_BET = 1000; // TODO: change this value if needed
     private final double raisingFactor;
     private boolean paidBlind;
 
