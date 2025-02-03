@@ -11,6 +11,7 @@ import model.deck.api.SimpleCard;
 
 /**
  * Class to generate Standard Deck of Poker.
+ * Merged feuture of card {@link SimpleCard} and {@link SeedCard} create all type of poker's Card.
  */
 public class DeckBuildImpl implements DeckBuild<Card> {
 

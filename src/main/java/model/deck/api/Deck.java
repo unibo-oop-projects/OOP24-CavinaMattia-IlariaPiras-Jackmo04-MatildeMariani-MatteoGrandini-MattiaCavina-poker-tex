@@ -6,6 +6,7 @@ import java.util.List;
  * Inteface to Generate and manage a single deck.
  * 
  * @param <X>
+ *  Parameter to manage diffirent type of card , to reuse this inteface for more game.
  * 
  */
 public interface Deck<X> {
