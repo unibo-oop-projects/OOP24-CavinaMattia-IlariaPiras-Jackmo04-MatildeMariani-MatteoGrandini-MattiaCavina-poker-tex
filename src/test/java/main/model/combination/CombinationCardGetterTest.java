@@ -1,6 +1,8 @@
 package main.model.combination;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -15,21 +17,16 @@ import model.deck.api.SimpleCard;
 /**
  * Test of CombinationCardGetter.
  */
-public class CombinationCardGetterTest {
+public class CombinationCardGetterTest { //NOPMD suppressed as it is a false positive
 
         /**
-         * Empty test
+         * Empty test.
          * 
          */
         @Test
         void testEmpty() {
-                Set<Card> totalCardList = Sets.newHashSet();
-                try {
-                        new CombinationsCardGetterImpl(totalCardList).getPair();
-                } catch (Exception e) {
-                        System.out.println("Empty list");
-                }
-
+               final Set<Card> totalCardList = Sets.newHashSet();
+                assertThrows(IllegalArgumentException.class, () -> new CombinationsCardGetterImpl(totalCardList).getPair());
         }
 
         /**

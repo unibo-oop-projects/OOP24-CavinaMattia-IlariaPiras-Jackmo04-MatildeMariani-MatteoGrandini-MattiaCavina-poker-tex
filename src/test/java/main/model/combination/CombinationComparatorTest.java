@@ -14,15 +14,15 @@ import model.deck.api.SimpleCard;
 /**
  * Test of CombinationComparator.
  */
-public class CombinationComparatorTest {
+public class CombinationComparatorTest { // NOPMD suppressed as it is a false positive
 
-        private final static int FIRST_WIN = 1;
-        private final static int SECOND_WIN = -1;
-        private final static int EQUAL = 0;
+        private static final int FIRST_WIN = 1;
+        private static final int SECOND_WIN = -1;
+        private static final int EQUAL = 0;
 
-        Set<Card> firstPlayerCard;
-        Set<Card> secondPlayerCard;
-        CombinationComparator combinationComparator = new CombinationComparator();
+        private Set<Card> firstPlayerCard;
+        private Set<Card> secondPlayerCard;
+        private CombinationComparator combinationComparator = new CombinationComparator();
 
         /**
          * Pair vs Poker; Poker wins.
@@ -56,7 +56,7 @@ public class CombinationComparatorTest {
         }
 
         /**
-         * Hight Card vs Hight Card
+         * Hight Card vs Hight Card.
          */
         @Test
         void hightVsHight() {
@@ -85,7 +85,7 @@ public class CombinationComparatorTest {
         }
 
         /**
-         * TwoPair vs TwoPair
+         * TwoPair vs TwoPair.
          */
         @Test
         void twoPairvsTwoPair() {
@@ -116,7 +116,7 @@ public class CombinationComparatorTest {
         }
 
         /**
-         * TwoPair vs TwoPair
+         * TwoPair vs TwoPair.
          */
         @Test
         void fullHousVsFullHous() {
@@ -147,7 +147,7 @@ public class CombinationComparatorTest {
         }
 
         /**
-         * Equals Test
+         * Equals Test.
          */
         @Test
         void equalsTest() {
@@ -181,7 +181,7 @@ public class CombinationComparatorTest {
          * Straight vs Straigh with differt card , first player wins.
          */
         @Test
-        void StraighVsStraigh() {
+        void straighVsStraigh() {
 
                 firstPlayerCard = Set.of(
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.CLUBS),

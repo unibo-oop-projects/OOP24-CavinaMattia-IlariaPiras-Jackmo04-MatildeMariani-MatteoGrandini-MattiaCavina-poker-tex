@@ -18,9 +18,6 @@ public class CardGetterImmage {
     private static final String BACK_NAME = "BACK";
     private static final int TABLE_CARD = 5;
 
-    public CardGetterImmage() {
-    };
-
     /**
      * This method is used to get the image of the card.
      * 
@@ -31,8 +28,9 @@ public class CardGetterImmage {
      */
     public List<ImageIcon> getCardImage(final Set<Card> card) {
         return card.stream()
-                .map(t -> new ImageIcon(ClassLoader
-                        .getSystemResource(BASE_PATH + t.cardName() + DIVIDE_SIGN + t.valueOfCard() + EXTENSION)))
+                .map(t -> new ImageIcon(
+                        ClassLoader.getSystemResource(
+                                BASE_PATH + t.seedName() + DIVIDE_SIGN + t.valueOfCard() + EXTENSION)))
                 .toList();
     }
 
@@ -45,7 +43,7 @@ public class CardGetterImmage {
      *         List of ImageIcon of the back card.
      */
     public List<ImageIcon> getBackCardImage(final int numerOfBack) {
-        return Stream.iterate(0, t -> t < numerOfBack, t -> t++)
+        return Stream.iterate(0, t -> t < numerOfBack, t -> t + 1)
                 .map(t -> new ImageIcon(ClassLoader.getSystemResource(BASE_PATH + BACK_NAME + EXTENSION)))
                 .toList();
     }
@@ -61,7 +59,7 @@ public class CardGetterImmage {
      * @throws IllegalArgumentException
      *                                  If the number of card is over the limit.
      */
-    public List<ImageIcon> tableImmageIcons(final Set<Card> card) {
+    public List<ImageIcon> getTableCardImage(final Set<Card> card) {
         if (card.size() > TABLE_CARD) {
             throw new IllegalArgumentException("The number of card is over the limit");
         }

@@ -2,6 +2,10 @@ package model.combination.api;
 
 import java.util.Set;
 
+/**
+ * Interface to get various poker combination card.
+ * @param <X>
+ */
 public interface CombinationsCardGetter<X> {
 
     /**
