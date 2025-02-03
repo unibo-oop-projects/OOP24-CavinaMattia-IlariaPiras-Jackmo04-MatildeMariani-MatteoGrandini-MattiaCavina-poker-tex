@@ -7,11 +7,13 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import view.panels.api.PlayerPanel;
+
 /**
- * Class that models an AIPlayer panel. It has a {@link CardsPanel}, a label for the player's action,
- * one for his chips, and one for his role (if he has one).
+ * Class that models an AIPlayer panel. 
+ * It implements the PlayerPanel interface.
  */
-public class AIPlayerPanel extends JPanel {
+public class AIPlayerPanel extends JPanel implements PlayerPanel {
 
     private static final int NUM_CARDS = 2;
     private static final int PLAYER_IMAGE_WIDTH = 50;
@@ -29,7 +31,7 @@ public class AIPlayerPanel extends JPanel {
 
         /*Creation of the player cardsPanel, with the cards initially covered*/
         this.cardsPanel = new CardsPanel(NUM_CARDS, 0);
-        this.cardsPanel.setCards(cardsPanel.getCardGetterImage().getBackCardImage(NUM_CARDS));
+        //this.cardsPanel.setCards(cardsPanel.getCardGetterImage().getBackCardImage(NUM_CARDS));
         this.cardsPanel.setBackground(Color.LIGHT_GRAY);
 
         /*Creation of the player image label*/
@@ -68,6 +70,38 @@ public class AIPlayerPanel extends JPanel {
         this.setLayout(new GridBagLayout());
         this.add(mainPanel);
 
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CardsPanel getCardsPanel() {
+        return this.cardsPanel;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setAction(final String action) {
+        this.playerAction.setText(action);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setChips(final String chips) {
+        this.playerChips.setText(chips);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setRole(final String role) {
+        this.playerAction.setText(role);
     }
 
 }
