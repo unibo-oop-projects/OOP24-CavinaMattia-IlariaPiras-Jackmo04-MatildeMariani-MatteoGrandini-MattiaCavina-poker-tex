@@ -9,6 +9,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import view.panels.api.MyLabel;
+
 /**
  * Class that models a table panel. It has a {@link CardsPanel}, a label for the pot (or the winnings)
  * and one for each of the four player's bet.

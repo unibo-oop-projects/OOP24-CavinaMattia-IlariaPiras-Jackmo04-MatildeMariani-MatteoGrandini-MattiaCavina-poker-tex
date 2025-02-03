@@ -1,4 +1,4 @@
-package view.panels;
+package view.panels.api;
 
 import java.awt.Image;
 
@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 
 public class MyLabel extends JLabel {
         
-    MyLabel(final String text) {
+    public MyLabel(final String text) {
         this.setText(text);
         this.setHorizontalAlignment(JLabel.CENTER);
         this.setVerticalAlignment(JLabel.CENTER);

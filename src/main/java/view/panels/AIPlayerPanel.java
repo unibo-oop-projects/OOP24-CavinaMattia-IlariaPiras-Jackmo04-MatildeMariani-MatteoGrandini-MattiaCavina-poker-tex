@@ -7,6 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import view.panels.api.MyLabel;
 import view.panels.api.PlayerPanel;
 
 /**

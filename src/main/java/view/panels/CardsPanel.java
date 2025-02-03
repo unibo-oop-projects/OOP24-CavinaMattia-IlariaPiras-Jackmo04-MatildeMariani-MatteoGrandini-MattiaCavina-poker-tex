@@ -6,6 +6,8 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import view.panels.api.MyLabel;
+
 /**
  * Class that models a card panel with the specified number of cards. It has a CardGetterImage
  * and a method to set its cards image.
