@@ -28,8 +28,8 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
      * @param initialRole the initial role of the player.
      * @param raisingFactor a double determining by how much the player will raise.
      */
-    AbstractAIPlayer(final int initialChips, final double raisingFactor) {
-        super(initialChips);
+    AbstractAIPlayer(final int id, final int initialChips, final double raisingFactor) {
+        super(id, initialChips);
         this.raisingFactor = raisingFactor;
         this.paidBlind = false;
     }

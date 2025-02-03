@@ -9,6 +9,7 @@ import model.game.api.State;
 import model.player.api.Action;
 import model.player.api.Player;
 import model.player.api.Role;
+import model.temp.HandPhase;
 import model.combination.api.Combination;
 /**
  * Abstract class that implements the common methods of a generic player.
@@ -18,6 +19,7 @@ import model.combination.api.Combination;
  */
 public abstract class AbstractPlayer implements Player {
 
+    private final int id;
     private Set<Card> cards;
     private Optional<Role> role;
     private Combination<Card> bestCombination;
@@ -26,13 +28,22 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Constructor for the AbstractPlayer class.
+     * @param id the id of the player.
      * @param initialChips the initial amount of chips that the player has.
-     * @param initialRole the initial role of the player.
      */
-    public AbstractPlayer(final int initialChips) {
+    public AbstractPlayer(final int id, final int initialChips) {
+        this.id = id;
         this.cards = Set.of();
         this.role = Optional.empty();
         this.chips = initialChips;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getId() {
+        return this.id;
     }
 
     /**
