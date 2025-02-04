@@ -16,12 +16,11 @@ import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Class whith method to support CombinationRulesImpl class.
+ * Class whith method to support method of
+ * {@link model.combination.CombinationsRulesImpl}
+ * and {@link model.combination.CombinationsCardGetterImpl} classes.
  */
 public final class CombinationRulesUtilitiesImpl implements CombinationRulesUtilities {
-
-    public CombinationRulesUtilitiesImpl() {
-    }
 
     /**
      * {@inheritDoc}
@@ -48,12 +47,12 @@ public final class CombinationRulesUtilitiesImpl implements CombinationRulesUtil
         return straightList;
     }
 
-        /**
+    /**
      * {@inheritDoc}
      */
     @Override
     public Multiset<SimpleCard> getSumOfSameNameCard(final List<Card> cardList) {
-        Multiset<SimpleCard> nameCardMultiset = TreeMultiset.create();
+       final Multiset<SimpleCard> nameCardMultiset = TreeMultiset.create();
         nameCardMultiset.addAll(cardList.stream().map(Card::cardName).toList());
         return nameCardMultiset;
     }
@@ -63,7 +62,7 @@ public final class CombinationRulesUtilitiesImpl implements CombinationRulesUtil
      */
     @Override
     public Multiset<SeedCard> getSumOfSameSeedCard(final List<Card> cardList) {
-       final Multiset<SeedCard> seedCardMultiset = TreeMultiset.create();
+        final Multiset<SeedCard> seedCardMultiset = TreeMultiset.create();
         seedCardMultiset.addAll(cardList.stream().map(Card::seedName).toList());
         return seedCardMultiset;
     }
@@ -72,17 +71,18 @@ public final class CombinationRulesUtilitiesImpl implements CombinationRulesUtil
      * Method to filter the same value card.
      * 
      * @param cardList
+     *                 List of card to be filtered.
      * @return
      *         List of card filtered and merged same value.
      */
     private List<Card> filteredSameValueCard(final List<Card> cardList) {
-        SeedCard mustUsedSeedCard;
+        final SeedCard mustUsedSeedCard;
         if (!cardList.isEmpty()) {
             mustUsedSeedCard = getSumOfSameSeedCard(cardList).entrySet().stream()
                     .max(Comparator.comparing(Entry::getCount))
                     .get().getElement();
 
-          final  var straightList = cardList.stream()
+            final var straightList = cardList.stream()
                     .sorted(Comparator.comparing(Card::valueOfCard))
                     .collect(Collectors.toList());
 
@@ -106,6 +106,7 @@ public final class CombinationRulesUtilitiesImpl implements CombinationRulesUtil
      * both value of that card.
      * 
      * @param cardList
+     *                 List to add ace like one value if it present.
      * @return
      *         list with add ace with one value.
      */

@@ -11,6 +11,8 @@ import model.deck.api.Card;
 
 /**
  * Class that find type of combination.
+ * That class implemets {@link model.combination.api.CombinationHandler} with
+ * card type {@link model.deck.api.Card}.
  */
 public class CombinationHandlerImpl implements CombinationHandler<Card> {
 

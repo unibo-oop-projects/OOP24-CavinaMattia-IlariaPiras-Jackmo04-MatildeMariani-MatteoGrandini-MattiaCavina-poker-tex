@@ -22,7 +22,7 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
 
         private Set<Card> firstPlayerCard;
         private Set<Card> secondPlayerCard;
-        private CombinationComparator combinationComparator = new CombinationComparator();
+        private final CombinationComparator combinationComparator = new CombinationComparator();
 
         /**
          * Pair vs Poker; Poker wins.

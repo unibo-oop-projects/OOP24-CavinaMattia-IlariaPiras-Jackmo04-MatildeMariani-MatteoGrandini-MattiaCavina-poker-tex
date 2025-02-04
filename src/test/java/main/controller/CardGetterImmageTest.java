@@ -11,6 +11,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import controller.card.CardGetterImmage;
+import controller.card.CardGetterImmageImpl;
 
 /**
  * CardGetterImmageTest is a class that is used to test the CardGetterImmage class.
@@ -24,7 +25,7 @@ public class CardGetterImmageTest { //NOPMD suppressed as it is a false positive
      */
     @Test
     public void testGetCardImage() {
-        final CardGetterImmage cardGetterImmage = new CardGetterImmage();
+        final CardGetterImmage cardGetterImmage = new CardGetterImmageImpl();
         final Set<Card> card = Set.of(
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND));

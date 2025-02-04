@@ -14,6 +14,7 @@ import model.deck.api.DeckBuild;
  * keep card.
  * 
  * @param <X>
+ *            Generic parameter useful to manage different card.
  */
 public class DeckImpl<X> implements Deck<X> {
 
@@ -24,6 +25,8 @@ public class DeckImpl<X> implements Deck<X> {
      * Create and shuffle new deck.
      * 
      * @param deckBuilder
+     *                    {@link model.deck.api.DeckBuild} that permit to generate
+     *                    deck.
      */
     public DeckImpl(final DeckBuild<X> deckBuilder) {
         this.deckBuilder = deckBuilder;

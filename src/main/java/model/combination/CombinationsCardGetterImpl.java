@@ -16,7 +16,7 @@ import model.deck.api.Card;
 import model.deck.api.SimpleCard;
 
 /**
- * Class that implements the rules of the combinations.
+ * Class that implements {@link model.combination.api.CombinationsRules}.
  * All the methods are used to check how type of combination is it.
  */
 public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> {
@@ -62,7 +62,7 @@ public class CombinationsCardGetterImpl implements CombinationsCardGetter<Card> 
          */
         @Override
         public Set<Card> getTwoPairs() {
-                List<SimpleCard> twoPairSeedList = rulesUtilities.getSumOfSameNameCard(getSafetyList())
+               final List<SimpleCard> twoPairSeedList = rulesUtilities.getSumOfSameNameCard(getSafetyList())
                                 .entrySet()
                                 .stream()
                                 .filter(l -> l.getCount() == CombinationDimension.PAIR.getDimension())

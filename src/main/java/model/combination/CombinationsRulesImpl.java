@@ -13,7 +13,7 @@ import model.deck.api.SimpleCard;
 
 /**
  * Class that implements the rules of the combinations.
- * All the methods are used to check how type of combination is it.
+ * All the methods are used to check how {@link model.combination.api.CombinationType} is it.
  */
 public class CombinationsRulesImpl implements CombinationsRules<Card> {
 
@@ -84,7 +84,7 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isFullHouse() {
-                return getSafetyList().size() >= (CombinationDimension.STRAIGHT.getDimension())
+                return getSafetyList().size() >= CombinationDimension.STRAIGHT.getDimension()
                                 && isPair() && isTris();
         }
 
@@ -125,7 +125,7 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
                                                 .distinct()
                                                 .count() == 1
                                 && rulesUtilities.getRoyalFlush(getSafetyList()).stream()
-                                                .mapToInt(t -> t.valueOfCard())
+                                                .mapToInt(Card::valueOfCard)
                                                 .min().getAsInt() == SimpleCard.TEN.getValueOfCard();
         }
 
