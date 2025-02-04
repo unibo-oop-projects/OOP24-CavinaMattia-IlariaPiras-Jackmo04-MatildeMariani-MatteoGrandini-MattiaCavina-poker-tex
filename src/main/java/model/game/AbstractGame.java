@@ -11,8 +11,10 @@ import model.game.api.State;
 import model.player.api.Player;
 import model.player.api.Role;
 import model.statistics.BasicStatisticsImpl;
+import model.statistics.StatisticsManagerImpl;
 import model.statistics.api.BasicStatistics;
 import model.statistics.api.StatisticsContributor;
+import model.statistics.api.StatisticsManager;
 
 /**
  * This class provides an implementation of the Game interface, abstracting the choice of players.
@@ -29,6 +31,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
     private Player smallBlindPlayer;
     private Player bigBlindPlayer;
     private final BasicStatistics statistics;
+    private final StatisticsManager<BasicStatistics> statsManager;
 
     //add controller
     
@@ -42,6 +45,8 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.setInitialPlayers(initialChips);
         this.gameState = new StateImpl(startingBet, this.players.size());
         this.statistics = new BasicStatisticsImpl();
+        this.statsManager = new StatisticsManagerImpl<>("stats.bin", new BasicStatisticsImpl());
+        this.statsManager.addContributor(this);
     }
 
     /**
@@ -92,6 +97,12 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         }
         if (this.isWon()) {
             this.statistics.incrementGamesWon(1);            
+        }
+        this.statsManager.updateTotalStatistics();
+        try {
+            this.statsManager.saveStatistics("stats.bin");
+        } catch (Exception e) {
+            System.err.println("Failed to save statistics");
         }
         //add controller.goToResultScene(this.isWon())
         
@@ -153,8 +164,9 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
             this.players.add(this.getAIPlayer(i, initialChips));
         }
-        //this.players.add(new UserPlayer(initialChips));
-    
+        //var userPlayer = new UserPlayer(initialChips);
+        //this.players.add(userPlayer);
+        //this.statsManager.addContributor(userPlayer);
     }
 
     /**
