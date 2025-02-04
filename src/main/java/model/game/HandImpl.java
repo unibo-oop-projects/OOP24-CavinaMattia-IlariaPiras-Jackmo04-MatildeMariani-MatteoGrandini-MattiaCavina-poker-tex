@@ -19,6 +19,7 @@ public class HandImpl implements Hand {
     private static final Role FIRST_ROLE = Role.SMALL_BLIND;
     private static final Phase FIRST_PHASE = Phase.PREFLOP;
     private static final int MIN_PLAYERS = 2;
+    private static final int WAIT_TIME = 5000;
 
     private final CombinationComparator comparator;
     private final List<Player> handPlayers;
@@ -80,6 +81,12 @@ public class HandImpl implements Hand {
             var currentPlayer = playersIterator.next();
             if (currentPlayer.hasChipsLeft()) {
                 this.manageAction(playersIterator, currentPlayer);
+            }
+
+            try {
+                Thread.sleep(WAIT_TIME);
+            } catch (InterruptedException e) {
+
             }
         }
         this.currentPhase = this.currentPhase.next();
