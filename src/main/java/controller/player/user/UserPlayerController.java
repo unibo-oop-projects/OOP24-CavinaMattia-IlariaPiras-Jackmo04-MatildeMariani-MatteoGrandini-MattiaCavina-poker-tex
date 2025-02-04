@@ -6,7 +6,7 @@ import model.player.user.UserPlayer;
 import view.player.user.UserPanel;
 
 /**
- * Controller class for managing user player actions and interactions with the GUI.
+ * Controller class for managing user player actions and interactions with the UserPanel.
  */
 public class UserPlayerController {
     
@@ -25,13 +25,13 @@ public class UserPlayerController {
      */
     public UserPlayerController(final UserPlayer userPlayer) {
         this.userPlayer = userPlayer;
-        this.userPanel = new UserPanel(this, userPlayer.getChips());
+        this.userPanel = new UserPanel(this);
     }
 
     /**
      * Receives and handles the action from the GUI.
      * Sets the action and marks it as received.
-     * This method is called when an action is performed in the GUI. It synchronizes
+     * This method is called when an action is performed in the UserPanel. It synchronizes
      * on the lock object to ensure thread safety, sets the action based on the input
      * string, marks the action as received, and notifies any waiting threads.
      * @param action the action received from the GUI.
@@ -133,7 +133,7 @@ public class UserPlayerController {
      * @return true if the user player can fold, false otherwise.
      */
     public boolean canFold() {
-        return true;
+        return this.userPlayer.getChips() > 0;
     }
 
     /**
@@ -151,14 +151,4 @@ public class UserPlayerController {
     public void setCurrentState(final State state) {
         this.state = state;
     }
-
-    /**
-     * Updates the user's chip count in the user interface.
-     * This method updates the label in the user interface to reflect the current
-     * number of chips the user has.
-     * @param chips the current number of chips the user has.
-     */
-    public void updateUserChips(final int chips) {
-        this.userPanel.updateLabelUserChips(chips); 
-    } 
 }

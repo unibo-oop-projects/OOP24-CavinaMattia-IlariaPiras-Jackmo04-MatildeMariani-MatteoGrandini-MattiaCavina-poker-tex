@@ -23,6 +23,7 @@ public class UserPlayer extends AbstractPlayer {
 
     /**
      * Constructor for the UserPlayer class.
+     * @param id the identifier for the player.
      * @param initialChips the initial amount of chips that the player has.
      */
     public UserPlayer(final int id, final int initialChips) {
@@ -51,7 +52,6 @@ public class UserPlayer extends AbstractPlayer {
             this.setChips(this.getChips() - bet);
             this.setTotalPhaseBet(this.getTotalPhaseBet() + bet);
         }
-        this.controller.updateUserChips(this.getChips());
         return this.action;
     }
 
@@ -82,6 +82,9 @@ public class UserPlayer extends AbstractPlayer {
             }
             case Action.ALL_IN -> {
                 return this.getChips();
+            }
+            case Action.FOLD, Action.CHECK -> {
+                return 0;
             }
         }
         return 0;
@@ -118,13 +121,5 @@ public class UserPlayer extends AbstractPlayer {
      */
     private void endHand() {
         this.setCards(Set.of());
-    }
-
-    /**
-     * Gets the controller associated with this user player.
-     * @return the UserPlayerController associated with this user player.
-     */
-    public UserPlayerController getController() {
-        return this.controller;
     }
 }
