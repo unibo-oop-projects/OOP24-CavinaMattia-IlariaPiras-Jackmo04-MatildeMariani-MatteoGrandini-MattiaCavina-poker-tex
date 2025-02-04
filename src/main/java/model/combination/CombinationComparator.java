@@ -15,23 +15,31 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
     /**
      * Method to compare two combination.
      * 
+     * @param firstCombination
+     *                          First {@link Combination} of {@link Card} to be
+     *                          comparable.
+     * @param secondCombination
+     *                          Second {@link Combination} of {@link Card} to be
+     *                          comparable.
      * @return
      *         0 if they are equals, 1 if first is bigger, -1 if second is bigger.
      */
     @Override
-    public int compare(final Combination<Card> o1, final Combination<Card> o2) {
+    public int compare(final Combination<Card> firstCombination, final Combination<Card> secondCombination) {
 
-        final int returnValue = Integer.compare(o1.type().getValue(), o2.type().getValue());
+        final int returnValue = Integer.compare(firstCombination.type().getValue(),
+                secondCombination.type().getValue());
 
         if (returnValue == 0) {
-            switch (o1.type()) {
+            switch (firstCombination.type()) {
                 case TWO_PAIRS:
-                    return twoPairCompair(o1.totalCard(), o2.totalCard());
+                    return twoPairCompair(firstCombination.combinationCard(), secondCombination.combinationCard());
                 case FULL_HOUSE:
-                    return Integer.compare(sumValueCard(getTrisFromCombination(o1)),
-                            sumValueCard(getTrisFromCombination(o2)));
+                    return Integer.compare(sumValueCard(getTrisFromCombination(firstCombination)),
+                            sumValueCard(getTrisFromCombination(secondCombination)));
                 default:
-                    return Integer.compare(sumValueCard(o1.totalCard()), sumValueCard(o2.totalCard()));
+                    return Integer.compare(sumValueCard(firstCombination.combinationCard()),
+                            sumValueCard(secondCombination.combinationCard()));
             }
         }
         return returnValue;
@@ -41,12 +49,12 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
     /**
      * Method to sum value of Card set.
      * 
-     * @param totalCardList
+     * @param combinationCard
      * @return
      *         sum of card's value
      */
-    private static Integer sumValueCard(final Set<Card> totalCardList) {
-        return totalCardList.stream().mapToInt(Card::valueOfCard).sum();
+    private Integer sumValueCard(final Set<Card> combinationCard) {
+        return combinationCard.stream().mapToInt(Card::valueOfCard).sum();
     }
 
     /**
@@ -56,8 +64,8 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
      * @return
      *         Set of card that represent the tris.
      */
-    private static Set<Card> getTrisFromCombination(final Combination<Card> combination) {
-        return new CombinationsCardGetterImpl(combination.totalCard()).getTris();
+    private Set<Card> getTrisFromCombination(final Combination<Card> combination) {
+        return new CombinationsCardGetterImpl(combination.combinationCard()).getTris();
     }
 
     /**
@@ -68,7 +76,7 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
      * @return
      *         0 if they are equals, 1 if first is bigger, -1 if second is bigger.
      */
-    private static Integer twoPairCompair(final Set<Card> firstList, final Set<Card> secondList) {
+    private Integer twoPairCompair(final Set<Card> firstList, final Set<Card> secondList) {
 
         final var valueFirstList = firstList.stream().map(Card::valueOfCard)
                 .distinct()

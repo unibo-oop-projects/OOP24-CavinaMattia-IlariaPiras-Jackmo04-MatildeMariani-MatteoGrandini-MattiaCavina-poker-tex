@@ -142,7 +142,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     private void updateCombination(final State currentState) {
         var usableCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream())
             .collect(Collectors.toSet());
-        this.setCombination(new CombinationHandlerImpl().getCombination(usableCards));
+        this.setCombination(new CombinationHandlerImpl().getBestCombination(usableCards));
     }
 
     private Action actionOrAllIn(final Action action) {

@@ -50,8 +50,8 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
 
                 assertEquals(SECOND_WIN,
                                 combinationComparator.compare(
-                                                new CombinationHandlerImpl().getCombination(firstPlayerCard),
-                                                new CombinationHandlerImpl().getCombination(secondPlayerCard)));
+                                                new CombinationHandlerImpl().getBestCombination(firstPlayerCard),
+                                                new CombinationHandlerImpl().getBestCombination(secondPlayerCard)));
 
         }
 
@@ -79,8 +79,8 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
 
                 assertEquals(EQUAL,
                                 combinationComparator.compare(
-                                                new CombinationHandlerImpl().getCombination(firstPlayerCard),
-                                                new CombinationHandlerImpl().getCombination(secondPlayerCard)));
+                                                new CombinationHandlerImpl().getBestCombination(firstPlayerCard),
+                                                new CombinationHandlerImpl().getBestCombination(secondPlayerCard)));
 
         }
 
@@ -110,8 +110,8 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
 
                 assertEquals(SECOND_WIN,
                                 combinationComparator.compare(
-                                                new CombinationHandlerImpl().getCombination(firstPlayerCard),
-                                                new CombinationHandlerImpl().getCombination(secondPlayerCard)));
+                                                new CombinationHandlerImpl().getBestCombination(firstPlayerCard),
+                                                new CombinationHandlerImpl().getBestCombination(secondPlayerCard)));
 
         }
 
@@ -141,8 +141,8 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
 
                 assertEquals(FIRST_WIN,
                                 combinationComparator.compare(
-                                                new CombinationHandlerImpl().getCombination(firstPlayerCard),
-                                                new CombinationHandlerImpl().getCombination(secondPlayerCard)));
+                                                new CombinationHandlerImpl().getBestCombination(firstPlayerCard),
+                                                new CombinationHandlerImpl().getBestCombination(secondPlayerCard)));
 
         }
 
@@ -172,8 +172,8 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
 
                 assertEquals(EQUAL,
                                 combinationComparator.compare(
-                                                new CombinationHandlerImpl().getCombination(firstPlayerCard),
-                                                new CombinationHandlerImpl().getCombination(secondPlayerCard)));
+                                                new CombinationHandlerImpl().getBestCombination(firstPlayerCard),
+                                                new CombinationHandlerImpl().getBestCombination(secondPlayerCard)));
 
         }
 
@@ -203,8 +203,8 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
 
                 assertEquals(FIRST_WIN,
                                 combinationComparator.compare(
-                                                new CombinationHandlerImpl().getCombination(firstPlayerCard),
-                                                new CombinationHandlerImpl().getCombination(secondPlayerCard)));
+                                                new CombinationHandlerImpl().getBestCombination(firstPlayerCard),
+                                                new CombinationHandlerImpl().getBestCombination(secondPlayerCard)));
 
         }
 

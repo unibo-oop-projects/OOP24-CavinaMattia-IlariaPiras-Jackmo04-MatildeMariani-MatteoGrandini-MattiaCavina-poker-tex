@@ -18,7 +18,7 @@ public class CombinationHandlerImpl implements CombinationHandler<Card> {
      * {@inheritDoc}
      */
     @Override
-    public Combination<Card> getCombination(final Set<Card> totalCardList) {
+    public Combination<Card> getBestCombination(final Set<Card> totalCardList) {
         final CombinationsRules<Card> combRules = new CombinationsRulesImpl(totalCardList);
         final CombinationsCardGetter<Card> combGetter = new CombinationsCardGetterImpl(totalCardList);
 

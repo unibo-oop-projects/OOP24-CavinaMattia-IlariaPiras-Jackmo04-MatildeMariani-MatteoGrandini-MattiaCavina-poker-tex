@@ -63,7 +63,7 @@ public class UserPlayer extends AbstractPlayer {
     private void updateCombination(final State currentState) {
         var allCards = Stream.concat(currentState.getCommunityCards().stream(), 
                         this.getCards().stream()).collect(Collectors.toSet());
-        this.setCombination((new CombinationHandlerImpl()).getCombination(allCards)); 
+        this.setCombination((new CombinationHandlerImpl()).getBestCombination(allCards)); 
     }
 
     /**

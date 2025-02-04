@@ -4,15 +4,20 @@ import java.util.Set;
 
 /**
  * Interface to get various poker combination card.
+ * To know how that combination are formed can be read
+ * {@link model.combination.api.CombinationsRules}.
+ * 
  * @param <X>
+ *            Generic type to reuse in differt type of card.
  */
 public interface CombinationsCardGetter<X> {
 
     /**
-     * Get the pair combination from card Set.
+     * Get the pairs combination from card Set.
      * 
      * @return
-     *         the pair combination from card Set.
+     *         {@link java.util.Set} of {@link model.deck.api.Card} that form the
+     *         pair combination.
      */
     Set<X> getPair();
 
@@ -20,7 +25,8 @@ public interface CombinationsCardGetter<X> {
      * Get the two pairs combination from card Set.
      * 
      * @return
-     *         the two pairs combination from card Set.
+     *         {@link java.util.Set} of {@link model.deck.api.Card} that form the
+     *         two-pair combination.
      */
     Set<X> getTwoPairs();
 
@@ -28,7 +34,8 @@ public interface CombinationsCardGetter<X> {
      * Get the tris combination from card Set.
      * 
      * @return
-     *         the tris combination from card Set.
+     *         {@link java.util.Set} of {@link model.deck.api.Card} that form the
+     *         tris combination.
      */
     Set<X> getTris();
 
@@ -36,7 +43,8 @@ public interface CombinationsCardGetter<X> {
      * Get the straight combination from card Set.
      * 
      * @return
-     *         the straight combination from card Set.
+     *         {@link java.util.Set} of {@link model.deck.api.Card} that form the
+     *         straight combination.
      */
     Set<X> getStraight();
 
@@ -44,7 +52,8 @@ public interface CombinationsCardGetter<X> {
      * Get the full house combination from card Set.
      * 
      * @return
-     *         the full house combination from card Set.
+     *         {@link java.util.Set} of {@link model.deck.api.Card} that form the
+     *         Full-House combination.
      */
     Set<X> getFullHouse();
 
@@ -52,7 +61,8 @@ public interface CombinationsCardGetter<X> {
      * Get the flush combination from card Set.
      * 
      * @return
-     *         the flush combination from card Set.
+     *         {@link java.util.Set} of {@link model.deck.api.Card} that form the
+     *         Flush combination.
      */
     Set<X> getFlush();
 
@@ -60,7 +70,8 @@ public interface CombinationsCardGetter<X> {
      * Get the poker combination from card Set.
      * 
      * @return
-     *         the poker combination from card Set.
+     *         {@link java.util.Set} of {@link model.deck.api.Card} that form the
+     *         Poker combination.
      */
     Set<X> getPoker();
 
@@ -68,14 +79,17 @@ public interface CombinationsCardGetter<X> {
      * Get the royal flush combination from card Set.
      * 
      * @return
-     *         the royal flush combination from card Set.
+     *         {@link java.util.Set} of {@link model.deck.api.Card} that form the
+     *         Royal-Flush combination.
      */
     Set<X> getRoyalFlush();
 
     /**
      * Get the hight card combination from card Set.
+     * 
      * @return
-     *        the hight card combination from card Set.
+     *         {@link java.util.Set} of {@link model.deck.api.Card} that form the
+     *         Hight-Card combination.
      */
     Set<X> getHightCard();
 
