@@ -6,23 +6,29 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import controller.game.GameControllerImpl;
+import controller.game.api.Difficulty;
+import controller.game.api.GameController;
 import model.game.GameFactoryImpl;
 import model.game.api.GameFactory;
+import view.ViewImpl;
 public class TestGame {
 
     private static final int INITIAL_CHIPS = 500;
     private static final int INITIAL_NUM_PLAYERS = 4;
 
     private static GameFactory gameFactory;
+    private static GameController controller;
 
     @BeforeAll
     public static void setUp() {
         gameFactory = new GameFactoryImpl();
+        controller = new GameControllerImpl(new ViewImpl(), Difficulty.EASY, INITIAL_CHIPS);
     }
 
     @Test
     public void testCreation() {
-        var game = gameFactory.easyGame(INITIAL_CHIPS);
+        var game = gameFactory.easyGame(controller, INITIAL_CHIPS);
         assertFalse(game.isOver());
         assertFalse(game.isWon());
 

@@ -37,14 +37,14 @@ public class GameControllerImpl implements GameController{
         var gameFactory = new GameFactoryImpl();
         switch (difficulty) {
             case MEDIUM:
-                this.game = gameFactory.mediumGame(initialChips);
+                this.game = gameFactory.mediumGame(this, initialChips);
                 break;
             case HARD:
-                this.game = gameFactory.hardGame(initialChips);
+                this.game = gameFactory.hardGame(this, initialChips);
                 break;
             case EASY:
             default:
-                this.game = gameFactory.easyGame(initialChips);
+                this.game = gameFactory.easyGame(this, initialChips);
                 break;
         }
         this.cardGetterImage = new CardGetterImage();

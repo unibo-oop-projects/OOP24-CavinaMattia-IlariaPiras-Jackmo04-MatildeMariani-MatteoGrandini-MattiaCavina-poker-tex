@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import controller.game.api.GameController;
 import model.dealer.DealerImpl;
 import model.dealer.api.Dealer;
 import model.game.api.Game;
@@ -20,6 +21,7 @@ public abstract class AbstractGame implements Game{
     private static final int INITIAL_BET_DIVISION_FACT = 100;
     protected static final int NUM_AI_PLAYERS = 3;
 
+    private final GameController controller;
     private final Dealer dealer;
     private final State gameState;
     private final int startingBet;
@@ -33,7 +35,8 @@ public abstract class AbstractGame implements Game{
      * Constructor for the AbstractGame. 
      * @param initialChips initial amount of chips of players.
      */
-    public AbstractGame(final int initialChips) {
+    public AbstractGame(final GameController controller, final int initialChips) {
+        this.controller = controller;
         this.startingBet = (int) initialChips / INITIAL_BET_DIVISION_FACT;
         this.dealer = new DealerImpl();
         this.setInitialPlayers(initialChips);

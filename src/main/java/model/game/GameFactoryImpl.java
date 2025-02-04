@@ -1,5 +1,6 @@
 package model.game;
 
+import controller.game.api.GameController;
 import model.game.api.Game;
 import model.game.api.GameFactory;
 import model.player.ai.AIPlayerFactoryImpl;
@@ -27,8 +28,8 @@ public class GameFactoryImpl implements GameFactory{
      * {@inheritDoc}
      */
     @Override
-    public Game easyGame(int initialChips) {
-        return new AbstractGame(initialChips) {
+    public Game easyGame(GameController controller, int initialChips) {
+        return new AbstractGame(controller, initialChips) {
 
             @Override
             protected Player getAIPlayer(final int id, final int initialChips) {
@@ -42,8 +43,8 @@ public class GameFactoryImpl implements GameFactory{
      * {@inheritDoc}
      */
     @Override
-    public Game mediumGame(int initialChips) {
-        return new AbstractGame(initialChips) {
+    public Game mediumGame(GameController controller, int initialChips) {
+        return new AbstractGame(controller, initialChips) {
 
             @Override
             protected Player getAIPlayer(final int id, final int initialChips) {
@@ -57,8 +58,8 @@ public class GameFactoryImpl implements GameFactory{
      * {@inheritDoc}
      */
     @Override
-    public Game hardGame(int initialChips) {
-        return new AbstractGame(initialChips) {
+    public Game hardGame(GameController controller, int initialChips) {
+        return new AbstractGame(controller, initialChips) {
 
             @Override
             protected Player getAIPlayer(final int id, final int initialChips) {
