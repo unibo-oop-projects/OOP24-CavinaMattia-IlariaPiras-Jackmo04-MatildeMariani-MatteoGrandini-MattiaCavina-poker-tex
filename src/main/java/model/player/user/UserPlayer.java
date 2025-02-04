@@ -10,16 +10,20 @@ import model.game.api.Phase;
 import model.game.api.State;
 import model.player.AbstractPlayer;
 import model.player.api.Action;
+import model.statistics.BasicStatisticsImpl;
+import model.statistics.api.BasicStatistics;
+import model.statistics.api.StatisticsContributor;
 
 /**
  * Class representing a human player in the game.
  */
-public class UserPlayer extends AbstractPlayer {
+public class UserPlayer extends AbstractPlayer implements StatisticsContributor<BasicStatistics> {
 
     private static final int INITIAL_TOTAL_PHASE_BET = 0;
 
     private final UserPlayerController controller;
     private Action action;
+    private final BasicStatistics statistics;
 
     /**
      * Constructor for the UserPlayer class.
@@ -30,6 +34,7 @@ public class UserPlayer extends AbstractPlayer {
         super(id, initialChips);
         this.controller = new UserPlayerController(this);
         this.setTotalPhaseBet(INITIAL_TOTAL_PHASE_BET);
+        this.statistics = new BasicStatisticsImpl();
     }
 
     /**
@@ -63,7 +68,10 @@ public class UserPlayer extends AbstractPlayer {
     private void updateCombination(final State currentState) {
         var allCards = Stream.concat(currentState.getCommunityCards().stream(), 
                         this.getCards().stream()).collect(Collectors.toSet());
-        this.setCombination((new CombinationHandlerImpl()).getCombination(allCards)); 
+
+        var combination = (new CombinationHandlerImpl()).getBestCombination(allCards);
+        this.statistics.setBestCombinationIfSo(combination.type());
+        this.setCombination(combination); 
     }
 
     /**
@@ -104,6 +112,8 @@ public class UserPlayer extends AbstractPlayer {
     @Override
     public void handWon(final int winnings) {
         this.setChips(this.getChips() + winnings);
+        this.statistics.incrementHandsWon(1);
+        this.statistics.setBiggestWinIfSo(winnings);
         this.endHand();
     }
 
@@ -121,5 +131,19 @@ public class UserPlayer extends AbstractPlayer {
      */
     private void endHand() {
         this.setCards(Set.of());
+    }
+
+    /**
+     * Gets the controller associated with this user player.
+     * @return the UserPlayerController associated with this user player.
+     */
+    public UserPlayerController getController() {
+        return this.controller;
+    }
+
+    @Override
+    public void updateStatistics(BasicStatistics stats) {
+        stats.append(this.statistics);
+        this.statistics.reset();
     }
 }

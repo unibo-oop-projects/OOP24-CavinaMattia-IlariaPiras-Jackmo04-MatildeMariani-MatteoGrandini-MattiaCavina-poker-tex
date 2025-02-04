@@ -7,9 +7,10 @@ import model.game.api.Game;
 import model.game.api.Hand;
 import model.player.api.Action;
 import model.player.api.Player;
-import view.scenes.GameScene;
-import view.View;
 import controller.card.CardGetterImage;
+import view.scenes.GameScene;
+import view.scenes.GameOverScene;
+import view.View;
 
 /**
  * Interface that models a GameController. 
@@ -83,5 +84,10 @@ public interface GameController {
      * @param bigBlindId the big blind player's id.
      */
     void setRoles(int smallBlindId, int bigBlindId);
-    
+
+    /**
+     * Goes to the {@link GameOverScene}.
+     * @param won boolean indicating whether the user player won.
+     */
+    void goToGameOverScene(boolean won);    
 }

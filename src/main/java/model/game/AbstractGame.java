@@ -4,39 +4,53 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import controller.game.api.GameController;
 import model.dealer.DealerImpl;
 import model.dealer.api.Dealer;
 import model.game.api.Game;
 import model.game.api.State;
 import model.player.api.Player;
 import model.player.api.Role;
+import model.player.user.UserPlayer;
+import model.statistics.BasicStatisticsImpl;
+import model.statistics.StatisticsManagerImpl;
+import model.statistics.api.BasicStatistics;
+import model.statistics.api.StatisticsContributor;
+import model.statistics.api.StatisticsManager;
 
 /**
  * This class provides an implementation of the Game interface, abstracting the choice of players.
  */
-public abstract class AbstractGame implements Game{
+public abstract class AbstractGame implements Game, StatisticsContributor<BasicStatistics>{
 
     private static final int INITIAL_BET_DIVISION_FACT = 100;
     protected static final int NUM_AI_PLAYERS = 3;
+    private static final int USER_PLAYER_ID = NUM_AI_PLAYERS;
+    private static final String STATISTICS_FILE_NAME = "stats.bin";
 
+    private final GameController controller;
     private final Dealer dealer;
     private final State gameState;
     private final int startingBet;
     private final List<Player> players = new LinkedList<>();
     private Player smallBlindPlayer;
     private Player bigBlindPlayer;
-
-    //add controller
+    private final BasicStatistics statistics;
+    private final StatisticsManager<BasicStatistics> statsManager;
     
     /**
      * Constructor for the AbstractGame. 
      * @param initialChips initial amount of chips of players.
      */
-    public AbstractGame(final int initialChips) {
+    public AbstractGame(final GameController controller, final int initialChips) {
+        this.controller = controller;
         this.startingBet = (int) initialChips / INITIAL_BET_DIVISION_FACT;
         this.dealer = new DealerImpl();
         this.setInitialPlayers(initialChips);
         this.gameState = new StateImpl(startingBet, this.players.size());
+        this.statistics = new BasicStatisticsImpl();
+        this.statsManager = new StatisticsManagerImpl<>(STATISTICS_FILE_NAME, new BasicStatisticsImpl());
+        this.statsManager.addContributor(this);
     }
 
     /**
@@ -61,29 +75,37 @@ public abstract class AbstractGame implements Game{
      */
     @Override
     public void start() {
+        this.statistics.incrementGamesPlayed(1);
         while (!isOver()) {
+            this.statistics.incrementHandsPlayed(1);
             this.setRolesForNewHand();
             this.players.stream().forEachOrdered(p -> p.setCards(this.dealer.giveCardsToPlayer()));
-            //add controller.setPlayerCard(playerid, player.getCards())
             this.gameState.newHand(startingBet, this.players.size());
-            var hand = new HandImpl(this.players, this.gameState);
+            var hand = new HandImpl(this.controller, this.players, this.gameState);
+
+            this.controller.updateForNewHand();
+            this.controller.setPlayerCards(USER_PLAYER_ID, this.players.getLast().getCards());
 
             do {
                 this.gameState.addCommunityCards(this.dealer.giveCardsToTheGame(
                      gameState.getHandPhase().getNumCards()));
-                //add controller.setCommunityCard(this.gamestate.getCommunityCards())
+                this.controller.setCommunityCards(this.gameState.getCommunityCards());
+                
                 hand.startPhase();
-                this.players.forEach(p -> this.gameState.addToPot(p.getTotalPhaseBet()));
-                //add controller.setPot(this.gamestate.getPot())
+                this.players.forEach(p -> {
+                    this.gameState.addToPot(p.getTotalPhaseBet());
+                    this.controller.setPlayerBet(p.getId(), 0);
+                });
+                this.controller.setPot(this.gameState.getPot());
                 this.gameState.nextHandPhase();
                 
             } while (!hand.isHandOver());
 
-            hand.determinateWinnerOfTheHand();
-            //add controller.updatePlayerChips(playerid, player.getChips())
+            hand.determinesWinnerOfTheHand();
             
         }
-        //add controller.goToResultScene(this.isWon())
+        this.updateStatisticsAfterGameEnd();
+        this.controller.goToGameOverScene(this.isWon());
         
     }
 
@@ -92,7 +114,7 @@ public abstract class AbstractGame implements Game{
      */
     @Override
     public List<Player> getPlayers() {
-        return players;
+        return this.players;
     }
 
     /**
@@ -100,7 +122,7 @@ public abstract class AbstractGame implements Game{
      */
     @Override
     public State getGameState() {
-        return gameState;
+        return this.gameState;
     }
 
     /**
@@ -132,7 +154,7 @@ public abstract class AbstractGame implements Game{
         this.smallBlindPlayer.setRole(Role.SMALL_BLIND);
         this.bigBlindPlayer.setRole(Role.BIG_BLIND);
 
-        //add controller.setUpdateRoles(smallBlindId, bigBlindId)
+        this.controller.setRoles(smallBlindPlayer.getId(), bigBlindPlayer.getId());
     }
 
     /** 
@@ -143,8 +165,7 @@ public abstract class AbstractGame implements Game{
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
             this.players.add(this.getAIPlayer(i, initialChips));
         }
-        //this.players.add(new UserPlayer(initialChips));
-    
+        this.players.add(new UserPlayer(USER_PLAYER_ID, initialChips));
     }
 
     /**
@@ -154,4 +175,24 @@ public abstract class AbstractGame implements Game{
      */
     protected abstract Player getAIPlayer(int id, int initialChips);
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateStatistics(final BasicStatistics totalStats) {
+        totalStats.append(this.statistics);
+        this.statistics.reset();
+    }
+
+    private void updateStatisticsAfterGameEnd() {
+        if (this.isWon()) {
+            this.statistics.incrementGamesWon(1);            
+        }
+        this.statsManager.updateTotalStatistics();
+        try {
+            this.statsManager.saveStatistics(STATISTICS_FILE_NAME);
+        } catch (Exception e) {
+            System.err.println("Failed to save statistics");
+        }
+    }
 }

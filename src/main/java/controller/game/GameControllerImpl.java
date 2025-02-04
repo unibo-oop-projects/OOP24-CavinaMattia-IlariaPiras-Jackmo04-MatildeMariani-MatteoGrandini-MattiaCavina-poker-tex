@@ -4,14 +4,17 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import controller.card.CardGetterImage;
+import controller.card.CardGetterImageImpl;
 import controller.game.api.Difficulty;
 import controller.game.api.GameController;
+import controller.gameover.GameOverMenuImpl;
 import controller.menu.MainMenuControllerImpl;
 import model.deck.api.Card;
 import model.game.GameFactoryImpl;
 import model.game.api.Game;
 import model.player.api.Action;
 import view.View;
+import view.scenes.GameOverScene;
 import view.scenes.GameScene;
 import view.scenes.MainMenuScene;
 
@@ -37,17 +40,17 @@ public class GameControllerImpl implements GameController{
         var gameFactory = new GameFactoryImpl();
         switch (difficulty) {
             case MEDIUM:
-                this.game = gameFactory.mediumGame(initialChips);
+                this.game = gameFactory.mediumGame(this, initialChips);
                 break;
             case HARD:
-                this.game = gameFactory.hardGame(initialChips);
+                this.game = gameFactory.hardGame(this, initialChips);
                 break;
             case EASY:
             default:
-                this.game = gameFactory.easyGame(initialChips);
+                this.game = gameFactory.easyGame(this, initialChips);
                 break;
         }
-        this.cardGetterImage = new CardGetterImage();
+        this.cardGetterImage = new CardGetterImageImpl();
     }
 
     /**
@@ -148,8 +151,15 @@ public class GameControllerImpl implements GameController{
                     id == bigBlindId ? "BB" : ""));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void goToGameOverScene(boolean won) {
+        this.mainView.changeScene(new GameOverScene(new GameOverMenuImpl(this.mainView, won)));
+    }
+
     public void goToMainMenuScene() {
         this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
     }
-
 }

@@ -7,11 +7,12 @@ import java.util.Optional;
 
 import com.google.common.collect.Iterables;
 
+import controller.game.api.GameController;
+import model.combination.CombinationComparator;
 import model.game.api.Hand;
 import model.game.api.Phase;
 import model.game.api.State;
 import model.player.api.Player;
-import model.player.api.Action;
 import model.player.api.Role;
 
 public class HandImpl implements Hand {
@@ -19,15 +20,20 @@ public class HandImpl implements Hand {
     private static final Role FIRST_ROLE = Role.SMALL_BLIND;
     private static final Phase FIRST_PHASE = Phase.PREFLOP;
     private static final int MIN_PLAYERS = 2;
+    private static final int WAIT_TIME = 5000;
 
+    private final CombinationComparator comparator;
+    private final GameController controller;
     private final List<Player> handPlayers;
     private final State gameState;
     private Phase currentPhase;
 
-    public HandImpl(final List<Player> handPlayers, final State gameState) {
+    public HandImpl(final GameController controller, final List<Player> handPlayers, final State gameState) {
         this.currentPhase = FIRST_PHASE;
         this.gameState = gameState;
+        this.controller = controller;
         this.handPlayers = new LinkedList<>(handPlayers);
+        this.comparator = new CombinationComparator();
         this.sortFromRole(FIRST_ROLE);
     } 
         
@@ -50,17 +56,25 @@ public class HandImpl implements Hand {
     public void manageAction(final Iterator<Player> playersIterator, final Player player) {
         var action = player.getAction(this.gameState);
         switch (action) {
-            case Action.FOLD:
+            case FOLD:
                 playersIterator.remove();
                 this.gameState.setRemainingPlayers(this.gameState.getRemainingPlayers() - 1);
                 break;
-            case Action.RAISE:
+            case RAISE:
                 this.gameState.setCurrentBet(player.getTotalPhaseBet());
                 break;
-            case Action.CALL:
-            case Action.CHECK:
+            case ALL_IN: 
+                if (this.gameState.getCurrentBet() < player.getTotalPhaseBet()) {
+                    this.gameState.setCurrentBet(player.getTotalPhaseBet());
+                }
+                break;
+            case CALL:
+            case CHECK:
                 break;
         }
+        this.controller.setPlayerAction(player.getId(), action);
+        this.controller.setPlayerBet(player.getId(), player.getTotalPhaseBet());
+        this.controller.setPlayerChips(player.getId(), player.getChips());
     }
 
     /**
@@ -73,6 +87,12 @@ public class HandImpl implements Hand {
             var currentPlayer = playersIterator.next();
             if (currentPlayer.hasChipsLeft()) {
                 this.manageAction(playersIterator, currentPlayer);
+            }
+
+            try {
+                Thread.sleep(WAIT_TIME);
+            } catch (InterruptedException e) {
+
             }
         }
         this.currentPhase = this.currentPhase.next();
@@ -98,20 +118,20 @@ public class HandImpl implements Hand {
                this.currentPhase.equals(FIRST_PHASE);
     }
 
-    /** 
-     * TODO: Change the comparator, (need to wait after Mattia implemented the Combination interface).
-    */
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public void determinateWinnerOfTheHand() {
-        //this.handPlayers.sort();
-        this.handPlayers.removeFirst().handWon(this.gameState.getPot());
+    public void determinesWinnerOfTheHand() {
+        this.handPlayers.forEach(p -> this.controller.setPlayerCards(p.getId(), p.getCards()));
+        this.handPlayers.sort((p1, p2) -> this.comparator.compare(p1.getCombination(), p2.getCombination()));
+        var winner = this.handPlayers.removeFirst();
+        winner.handWon(this.gameState.getPot());
         if (!this.handPlayers.isEmpty()) {
             this.handPlayers.forEach(p -> p.handLost());
         }
+        this.controller.setPot(0);
+        this.controller.setPlayerChips(winner.getId(), winner.getChips());
     }
 
     /**
