@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JPanel;
 
-import controller.game.GameControllerImpl;
+import controller.game.api.GameController;
 import view.gameScenePanels.AIPlayerPanel;
 import view.gameScenePanels.PlayerPanelImpl;
 import view.gameScenePanels.TablePanel;
@@ -18,7 +18,7 @@ public class GameScene extends JPanel implements Scene {
 
     private static final String SCENE_NAME = "game";
     
-    private final GameControllerImpl controller;
+    private final GameController controller;
     private final TablePanel table;
     private final PlayerPanelImpl west;
     private final PlayerPanelImpl north;
@@ -29,7 +29,7 @@ public class GameScene extends JPanel implements Scene {
      * Creates a new {@link GameScene}.
      * @param controller the controller for the game.
      */
-    public GameScene(final GameControllerImpl controller) {
+    public GameScene(final GameController controller) {
 
         this.controller = controller;
         this.setLayout(new BorderLayout());
