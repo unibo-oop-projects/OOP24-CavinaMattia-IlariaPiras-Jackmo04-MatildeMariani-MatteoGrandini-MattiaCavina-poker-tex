@@ -1,5 +1,6 @@
 package model.game.api;
 
+import controller.game.api.GameController;
 import model.player.ai.api.AIPlayer;
 
 /**
@@ -9,24 +10,27 @@ import model.player.ai.api.AIPlayer;
 public interface GameFactory {
 
     /**
-     * Returns a new Game with easy difficulty level.
+     * Returns a new {@link Game} with easy difficulty level.
+     * @param controller the game controller.
      * @param initialChips initial amount of chips of players.
      * @return a new game.
      */
-    Game easyGame(int initialChips);
+    Game easyGame(GameController controller, int initialChips);
 
     /**
-     * Returns a new Game with medium difficulty level.
+     * Returns a new {@link Game} with medium difficulty level.
+     * @param controller the game controller.
      * @param initialChips initial amount of chips of players.
      * @return a new game.
      */
-    Game mediumGame(int initialChips);
+    Game mediumGame(GameController controller, int initialChips);
 
     /**
-     * Returns a new Game with hard difficulty level.
+     * Returns a new {@link Game} with hard difficulty level.
+     * @param controller the game controller.
      * @param initialChips initial amount of chips of players.
      * @return a new game.
      */
-    Game hardGame(int initialChips);
+    Game hardGame(GameController controller, int initialChips);
 
 }
