@@ -1,6 +1,7 @@
 package view.scenes;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JButton;
@@ -18,6 +19,7 @@ import view.scenes.api.Scene;
 public class RulesScene extends JPanel implements Scene {
 
     private static final String SCENE_NAME = "rules";
+    private static final int BG_COLOR_HEX = 0xDCBA85;
 
     private final RulesController controller;
 
@@ -32,6 +34,7 @@ public class RulesScene extends JPanel implements Scene {
         // Editor pane for displaying the rules loaded from an HTML file (Decidere su usare o no)
         JEditorPane container = htmlEditorPane(this.controller.getRulesHtml());
         container.setFocusable(false);
+        container.setBackground(new Color(BG_COLOR_HEX));
 
         // Add a scroll bar to the rules editor pane
         JScrollPane scrollPane = new JScrollPane(container);
@@ -40,7 +43,7 @@ public class RulesScene extends JPanel implements Scene {
         SwingUtilities.invokeLater(() -> scrollPane.getVerticalScrollBar().setValue(0));
         this.add(scrollPane, BorderLayout.CENTER);
 
-        // Back to menu button
+        // Back to menu button, TODO change style to match other buttons
         JButton backButton = new JButton("Back to Menu");
         backButton.setFont(new Font("Arial", Font.BOLD, 18));
         backButton.addActionListener(e -> this.controller.goToMainMenuScene());

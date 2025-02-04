@@ -35,7 +35,7 @@ public class StatsScene extends JPanel implements Scene {
     public StatsScene(final StatsController statsController) {
         this.controller = statsController;
 
-        this.setBackground(new Color(0x2e603f));
+        this.setBackground(new Color(DARKER_GREEN_HEX));
         this.setLayout(new BorderLayout());
         JLabel title = new JLabel("Statistics", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 30));

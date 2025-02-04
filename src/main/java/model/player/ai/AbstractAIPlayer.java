@@ -18,7 +18,7 @@ import model.game.api.State;
  */
 public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
-    private static final int BASIC_BET = 1000;
+    private static final int BASIC_BET = 1000; // TODO: change this value if needed
     private final double raisingFactor;
     private boolean paidBlind;
 
@@ -142,7 +142,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     private void updateCombination(final State currentState) {
         var usableCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream())
             .collect(Collectors.toSet());
-        this.setCombination(new CombinationHandlerImpl().getCombination(usableCards));
+        this.setCombination(new CombinationHandlerImpl().getBestCombination(usableCards));
     }
 
     private Action actionOrAllIn(final Action action) {
