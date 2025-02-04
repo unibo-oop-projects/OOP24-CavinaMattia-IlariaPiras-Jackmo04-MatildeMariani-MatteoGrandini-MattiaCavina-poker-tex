@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import controller.difficulty.DifficultySelectionController;
+import controller.game.api.Difficulty;
 import view.scenes.api.Scene;
 
 public class DifficultySelectionScene extends JPanel implements Scene {
@@ -159,10 +160,6 @@ public class DifficultySelectionScene extends JPanel implements Scene {
     @Override
     public String getSceneName() {
         return SCENE_NAME;
-    }
-
-    public enum Difficulty { //da togliere una volta realizzato GameScene
-        EASY, MEDIUM, HARD;
     }
 
     private class MyButton extends JButton {
