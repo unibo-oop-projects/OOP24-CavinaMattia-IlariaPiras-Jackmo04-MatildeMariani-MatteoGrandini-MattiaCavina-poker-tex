@@ -13,7 +13,8 @@ import model.deck.api.SimpleCard;
 
 /**
  * Class that implements the rules of the combinations.
- * All the methods are used to check how {@link model.combination.api.CombinationType} is it.
+ * All the methods are used to check how
+ * {@link model.combination.api.CombinationType} is it.
  */
 public class CombinationsRulesImpl implements CombinationsRules<Card> {
 
@@ -35,7 +36,7 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isPair() {
-                return getSafetyList().size() >= CombinationDimension.PAIR.getDimension()
+                return isLongEnough(CombinationDimension.PAIR.getDimension())
                                 && rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
                                                 .stream()
                                                 .map(Entry::getCount)
@@ -49,7 +50,7 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isTwoPairs() {
-                return getSafetyList().size() >= CombinationDimension.TWO_PAIRS.getDimension()
+                return isLongEnough(CombinationDimension.TWO_PAIRS.getDimension())
                                 && rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
                                                 .stream()
                                                 .map(Entry::getCount)
@@ -62,7 +63,7 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isTris() {
-                return getSafetyList().size() >= CombinationDimension.TRIS.getDimension()
+                return isLongEnough(CombinationDimension.TRIS.getDimension())
                                 && rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
                                                 .stream()
                                                 .map(Entry::getCount)
@@ -84,8 +85,9 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isFullHouse() {
-                return getSafetyList().size() >= CombinationDimension.STRAIGHT.getDimension()
-                                && isPair() && isTris();
+                return isLongEnough(CombinationDimension.STRAIGHT.getDimension())
+                                && isPair()
+                                && isTris();
         }
 
         /**
@@ -93,7 +95,7 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isFlush() {
-                return getSafetyList().size() >= CombinationDimension.STRAIGHT.getDimension()
+                return isLongEnough(CombinationDimension.STRAIGHT.getDimension())
                                 && rulesUtilities.getSumOfSameSeedCard(getSafetyList()).entrySet()
                                                 .stream()
                                                 .map(Entry::getCount)
@@ -106,7 +108,7 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          */
         @Override
         public Boolean isPoker() {
-                return getSafetyList().size() >= CombinationDimension.POKER.getDimension()
+                return isLongEnough(CombinationDimension.POKER.getDimension())
                                 && rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
                                                 .stream()
                                                 .map(Entry::getCount)
@@ -131,5 +133,9 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
 
         private List<Card> getSafetyList() {
                 return Lists.newLinkedList(this.totalCardList);
+        }
+
+        private boolean isLongEnough(Integer combinationDimansion) {
+                return getSafetyList().size() >= combinationDimansion;
         }
 }

@@ -86,12 +86,13 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
 
     /**
      * Method to compare copple of two-pair and decretate winner.
-     * Win copple with the highter pair , if are equal are compare the other pair.
+     * Win copple with the highter pair , if are equal must compare the other pair.
+     * if either are equal is parity.
      * 
      * @param firstList
-     *                   Set of card of firstPlayer.
+     *                   Set of card of firstCombination.
      * @param secondList
-     *                   Set of Card of secondPlayer
+     *                   Set of Card of secondCombination
      * @return
      *         0 if they are equals, 1 if first is bigger, -1 if second is bigger.
      */
@@ -99,9 +100,11 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
 
         final var valueFirstList = firstList.stream().map(Card::valueOfCard)
                 .distinct()
+                .sorted()
                 .collect(Collectors.toList());
         final var valueSecondList = secondList.stream().map(Card::valueOfCard)
                 .distinct()
+                .sorted()
                 .collect(Collectors.toList());
 
         if (valueFirstList.getLast().equals(valueSecondList.getLast())) {

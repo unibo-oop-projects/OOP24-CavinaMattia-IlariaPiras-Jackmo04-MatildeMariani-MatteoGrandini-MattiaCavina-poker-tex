@@ -20,8 +20,6 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
         private static final int SECOND_WIN = -1;
         private static final int EQUAL = 0;
 
-        private Set<Card> firstPlayerCard;
-        private Set<Card> secondPlayerCard;
         private final CombinationComparator combinationComparator = new CombinationComparator();
 
         /**
@@ -30,7 +28,7 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
         @Test
         void pairVsPoker() {
 
-                firstPlayerCard = Set.of(
+                final Set<Card> firstPlayerCard = Set.of(
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
@@ -39,7 +37,7 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
 
-                secondPlayerCard = Set.of(
+                final Set<Card> secondPlayerCard = Set.of(
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
@@ -61,7 +59,8 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
         @Test
         void hightVsHight() {
 
-                firstPlayerCard = Set.of(new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
+                final Set<Card> firstPlayerCard = Set.of(
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.SPADES),
                                 new Card(SimpleCard.FOUR, SimpleCard.FOUR.getValueOfCard(), SeedCard.SPADES),
                                 new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
@@ -69,7 +68,8 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
                                 new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
 
-                secondPlayerCard = Set.of(new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
+                final Set<Card> secondPlayerCard = Set.of(
+                                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.SPADES),
                                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.SPADES),
                                 new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
@@ -90,7 +90,7 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
         @Test
         void twoPairvsTwoPair() {
 
-                firstPlayerCard = Set.of(
+                final Set<Card> firstPlayerCard = Set.of(
                                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
@@ -99,7 +99,7 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
 
-                secondPlayerCard = Set.of(
+                final Set<Card> secondPlayerCard = Set.of(
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
@@ -121,7 +121,7 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
         @Test
         void fullHousVsFullHous() {
 
-                firstPlayerCard = Set.of(
+                final Set<Card> firstPlayerCard = Set.of(
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
@@ -130,7 +130,7 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.DIAMOND));
 
-                secondPlayerCard = Set.of(
+                final Set<Card> secondPlayerCard = Set.of(
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
@@ -152,7 +152,7 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
         @Test
         void equalsTest() {
 
-                firstPlayerCard = Set.of(
+                final Set<Card> firstPlayerCard = Set.of(
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
@@ -161,7 +161,7 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.HEARTH),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.DIAMOND));
 
-                secondPlayerCard = Set.of(
+                final Set<Card> secondPlayerCard = Set.of(
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
@@ -183,7 +183,7 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
         @Test
         void straighVsStraigh() {
 
-                firstPlayerCard = Set.of(
+                final Set<Card> firstPlayerCard = Set.of(
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.NINE, SimpleCard.NINE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.EIGHT, SimpleCard.EIGHT.getValueOfCard(), SeedCard.SPADES),
@@ -192,7 +192,7 @@ public class CombinationComparatorTest { // NOPMD suppressed as it is a false po
                                 new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
                                 new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.DIAMOND));
 
-                secondPlayerCard = Set.of(
+                final Set<Card> secondPlayerCard = Set.of(
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.EIGHT, SimpleCard.EIGHT.getValueOfCard(), SeedCard.SPADES),
