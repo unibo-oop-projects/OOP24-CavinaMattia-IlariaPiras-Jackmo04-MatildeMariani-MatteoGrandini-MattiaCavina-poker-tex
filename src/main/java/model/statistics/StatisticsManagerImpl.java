@@ -3,7 +3,6 @@ package model.statistics;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
@@ -40,16 +39,20 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
     /**
      * Constructs a new instance of this class.
      * Will load the statistics from the specified file if they were saved
-     * previously
+     * previously, otherwise the statistics will be initialized with the
+     * provided object.
      * using the {@link #saveStatistics(String)} method.
      * 
      * @param fileName   The name of the file to load the statistics from.
      * @param statistics The object representing the statistics to manage.
-     * @throws IOException If an I/O error occurs while loading the statistics.
      */
-    public StatisticsManagerImpl(final String fileName, final S statistics) throws Exception {
+    public StatisticsManagerImpl(final String fileName, final S statistics) {
         this(statistics);
-        this.loadStatistics(fileName);
+        try {
+            this.loadStatistics(fileName);
+        } catch (Exception e) {
+            this.globalStatistics = statistics;
+        }
     }
 
     /**
