@@ -16,6 +16,10 @@ import javax.swing.SwingConstants;
 import controller.start.StartController;
 import view.scenes.api.Scene;
 
+/**
+ * The StartScene class represents the initial scene of the application.
+ * It displays the title of the game and allows the user to proceed to the main menu by pressing the button.
+ */
 public class StartScene extends JPanel implements Scene {
 
     private static final int R_BUTTONS_PANEL = 236;
@@ -25,15 +29,22 @@ public class StartScene extends JPanel implements Scene {
     private static final int G_BORDER = 0;
     private static final int B_BORDER = 0;
     private static final int A_BORDER = 50;
+    private static final int FONT_SIZE_TITLE = 50; 
     private static final int FONT_SIZE = 30; 
     private static final int THICKNESS = 4;
     private static final int R_BACKGROUND = 220;
     private static final int G_BACKGROUND = 186;
     private static final int B_BACKGROUND = 133;
+    private static final int BUTTON_WIDTH = 250;
+    private static final int BUTTON_HEIGHT = 60;
     private static final String SCENE_NAME = "start";
 
     private final StartController controller;
 
+    /**
+     * Constructs a new StartScene.
+     * @param controller the controller that handles the start scene logic.
+     */
     public StartScene(final StartController controller) {
 
         this.controller = controller;
@@ -48,7 +59,7 @@ public class StartScene extends JPanel implements Scene {
         titlePanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
         
         JLabel title = new JLabel("POKER TEXAS HOLD'EM", SwingConstants.CENTER);
-        title.setFont(new Font("Roboto", Font.BOLD, 50));
+        title.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE_TITLE));
         titlePanel.add(title);
 
         JPanel centerPanel = new JPanel();
@@ -66,12 +77,16 @@ public class StartScene extends JPanel implements Scene {
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
         button.setOpaque(true);
         button.setContentAreaFilled(true);
-        button.setPreferredSize(new Dimension(250, 60));
+        button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         button.addActionListener(e -> this.controller.goToMainMenuScene());
+
         menuPanel.add(button);
+
         centerPanel.add(titlePanel);
         centerPanel.add(menuPanel);
+
         mainPanel.add(centerPanel);
+
         this.add(mainPanel);
     }
 
