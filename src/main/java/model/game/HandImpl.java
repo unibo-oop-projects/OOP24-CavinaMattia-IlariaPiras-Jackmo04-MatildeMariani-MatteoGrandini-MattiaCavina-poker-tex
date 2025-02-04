@@ -11,7 +11,6 @@ import model.game.api.Hand;
 import model.game.api.Phase;
 import model.game.api.State;
 import model.player.api.Player;
-import model.player.api.Action;
 import model.player.api.Role;
 
 public class HandImpl implements Hand {
@@ -50,15 +49,20 @@ public class HandImpl implements Hand {
     public void manageAction(final Iterator<Player> playersIterator, final Player player) {
         var action = player.getAction(this.gameState);
         switch (action) {
-            case Action.FOLD:
+            case FOLD:
                 playersIterator.remove();
                 this.gameState.setRemainingPlayers(this.gameState.getRemainingPlayers() - 1);
                 break;
-            case Action.RAISE:
+            case RAISE:
                 this.gameState.setCurrentBet(player.getTotalPhaseBet());
                 break;
-            case Action.CALL:
-            case Action.CHECK:
+            case ALL_IN: 
+                if (this.gameState.getCurrentBet() < player.getTotalPhaseBet()) {
+                    this.gameState.setCurrentBet(player.getTotalPhaseBet());
+                }
+                break;
+            case CALL:
+            case CHECK:
                 break;
         }
     }
