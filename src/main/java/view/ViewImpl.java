@@ -86,6 +86,9 @@ public class ViewImpl extends JFrame implements View {
      */
     @Override
     public void enableConfermationOnClose() {
+        if (getWindowListeners().length > 0) {
+            return;            
+        }
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -115,10 +118,11 @@ public class ViewImpl extends JFrame implements View {
      */
     @Override
     public void disableConfermationOnClose() {
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        if (this.getWindowListeners().length > 0) {
-            this.removeWindowListener(this.getWindowListeners()[0]);            
+        if (getWindowListeners().length == 0) {
+            return;            
         }
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.removeWindowListener(this.getWindowListeners()[0]);            
     }
 
 }
