@@ -2,6 +2,7 @@ package model.combination.api;
 
 /**
  * Enum for the dimension of the Poker's combination.
+ * Can be used for find correct {@link model.combination.api.CombinationType}.
  */
 public enum CombinationDimension {
 
@@ -17,13 +18,16 @@ public enum CombinationDimension {
 
     /**
      * Constructor for CombinationDimension.
+     * 
      * @param dimension
+     *                  Number of card to form combination.
      */
     CombinationDimension(final int dimension) {
         this.dimension = dimension;
     }
 
     /**
+     * Method to keep from enum its relative number of card to form its combination.
      * 
      * @return minumum number of cards to have a combination.
      */

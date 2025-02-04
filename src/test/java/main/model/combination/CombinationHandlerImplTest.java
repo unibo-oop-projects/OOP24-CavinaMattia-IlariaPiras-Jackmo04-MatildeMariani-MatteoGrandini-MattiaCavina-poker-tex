@@ -33,8 +33,8 @@ public class CombinationHandlerImplTest { //NOPMD suppressed as it is a false po
                 new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
 
-        assertEquals(CombinationType.PAIR, new CombinationHandlerImpl().getCombination(totalCardList).type());
-        assertNotEquals(CombinationType.POKER, new CombinationHandlerImpl().getCombination(totalCardList).type());
+        assertEquals(CombinationType.PAIR, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
+        assertNotEquals(CombinationType.POKER, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
 
     }
 
@@ -52,8 +52,8 @@ public class CombinationHandlerImplTest { //NOPMD suppressed as it is a false po
                 new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
                 new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.DIAMOND));
 
-        assertEquals(CombinationType.STRAIGHT, new CombinationHandlerImpl().getCombination(totalCardList).type());
-        assertNotEquals(CombinationType.ROYAL_FLUSH, new CombinationHandlerImpl().getCombination(totalCardList).type());
+        assertEquals(CombinationType.STRAIGHT, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
+        assertNotEquals(CombinationType.ROYAL_FLUSH, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
     }
 
     /**
@@ -70,8 +70,8 @@ public class CombinationHandlerImplTest { //NOPMD suppressed as it is a false po
                 new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
 
-        assertEquals(CombinationType.HIGH_CARD, new CombinationHandlerImpl().getCombination(totalCardList).type());
-        assertNotEquals(CombinationType.POKER, new CombinationHandlerImpl().getCombination(totalCardList).type());
+        assertEquals(CombinationType.HIGH_CARD, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
+        assertNotEquals(CombinationType.POKER, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
 
     }
 

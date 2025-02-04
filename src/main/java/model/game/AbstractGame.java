@@ -12,15 +12,21 @@ import model.game.api.State;
 import model.player.api.Player;
 import model.player.api.Role;
 import model.player.user.UserPlayer;
+import model.statistics.BasicStatisticsImpl;
+import model.statistics.StatisticsManagerImpl;
+import model.statistics.api.BasicStatistics;
+import model.statistics.api.StatisticsContributor;
+import model.statistics.api.StatisticsManager;
 
 /**
  * This class provides an implementation of the Game interface, abstracting the choice of players.
  */
-public abstract class AbstractGame implements Game{
+public abstract class AbstractGame implements Game, StatisticsContributor<BasicStatistics>{
 
     private static final int INITIAL_BET_DIVISION_FACT = 100;
     protected static final int NUM_AI_PLAYERS = 3;
     private static final int USER_PLAYER_ID = NUM_AI_PLAYERS;
+    private static final String STATISTICS_FILE_NAME = "stats.bin";
 
     private final GameController controller;
     private final Dealer dealer;
@@ -29,6 +35,8 @@ public abstract class AbstractGame implements Game{
     private final List<Player> players = new LinkedList<>();
     private Player smallBlindPlayer;
     private Player bigBlindPlayer;
+    private final BasicStatistics statistics;
+    private final StatisticsManager<BasicStatistics> statsManager;
     
     /**
      * Constructor for the AbstractGame. 
@@ -40,6 +48,9 @@ public abstract class AbstractGame implements Game{
         this.dealer = new DealerImpl();
         this.setInitialPlayers(initialChips);
         this.gameState = new StateImpl(startingBet, this.players.size());
+        this.statistics = new BasicStatisticsImpl();
+        this.statsManager = new StatisticsManagerImpl<>(STATISTICS_FILE_NAME, new BasicStatisticsImpl());
+        this.statsManager.addContributor(this);
     }
 
     /**
@@ -64,7 +75,9 @@ public abstract class AbstractGame implements Game{
      */
     @Override
     public void start() {
+        this.statistics.incrementGamesPlayed(1);
         while (!isOver()) {
+            this.statistics.incrementHandsPlayed(1);
             this.setRolesForNewHand();
             this.players.stream().forEachOrdered(p -> p.setCards(this.dealer.giveCardsToPlayer()));
             this.gameState.newHand(startingBet, this.players.size());
@@ -88,8 +101,10 @@ public abstract class AbstractGame implements Game{
                 
             } while (!hand.isHandOver());
 
-            hand.determinesWinnerOfTheHand();            
+            hand.determinesWinnerOfTheHand();
+            
         }
+        this.updateStatisticsAfterGameEnd();
         this.controller.goToGameOverScene(this.isWon());
         
     }
@@ -160,4 +175,24 @@ public abstract class AbstractGame implements Game{
      */
     protected abstract Player getAIPlayer(int id, int initialChips);
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateStatistics(final BasicStatistics totalStats) {
+        totalStats.append(this.statistics);
+        this.statistics.reset();
+    }
+
+    private void updateStatisticsAfterGameEnd() {
+        if (this.isWon()) {
+            this.statistics.incrementGamesWon(1);            
+        }
+        this.statsManager.updateTotalStatistics();
+        try {
+            this.statsManager.saveStatistics(STATISTICS_FILE_NAME);
+        } catch (Exception e) {
+            System.err.println("Failed to save statistics");
+        }
+    }
 }

@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import controller.card.CardGetterImage;
+import controller.card.CardGetterImageImpl;
 import controller.game.api.Difficulty;
 import controller.game.api.GameController;
 import controller.gameover.GameOverMenuImpl;
@@ -49,7 +50,7 @@ public class GameControllerImpl implements GameController{
                 this.game = gameFactory.easyGame(this, initialChips);
                 break;
         }
-        this.cardGetterImage = new CardGetterImage();
+        this.cardGetterImage = new CardGetterImageImpl();
     }
 
     /**
