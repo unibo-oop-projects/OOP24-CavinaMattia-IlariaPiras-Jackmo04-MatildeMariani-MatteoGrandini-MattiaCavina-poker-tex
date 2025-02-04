@@ -18,7 +18,7 @@ import model.game.api.State;
  */
 public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
-    private static final int BASIC_BET = 1000;
+    private static final int BASIC_BET = 1000; // TODO: change this value if needed
     private final double raisingFactor;
     private boolean paidBlind;
 
@@ -28,8 +28,8 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
      * @param initialRole the initial role of the player.
      * @param raisingFactor a double determining by how much the player will raise.
      */
-    AbstractAIPlayer(final int initialChips, final double raisingFactor) {
-        super(initialChips);
+    AbstractAIPlayer(final int id, final int initialChips, final double raisingFactor) {
+        super(id, initialChips);
         this.raisingFactor = raisingFactor;
         this.paidBlind = false;
     }

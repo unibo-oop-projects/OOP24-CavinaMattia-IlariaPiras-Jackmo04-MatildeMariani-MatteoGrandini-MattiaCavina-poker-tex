@@ -1,8 +1,10 @@
 package controller.difficulty;
 
+import controller.game.GameControllerImpl;
+import controller.game.api.Difficulty;
 import controller.menu.MainMenuControllerImpl;
 import view.View;
-import view.scenes.DifficultySelectionScene.Difficulty;
+import view.scenes.GameScene;
 import view.scenes.MainMenuScene;
 
 public class DifficultySelectionControllerImpl implements DifficultySelectionController {
@@ -26,7 +28,7 @@ public class DifficultySelectionControllerImpl implements DifficultySelectionCon
         if (this.difficulty == null || this.initialChips <= 0) {
             throw new IllegalStateException("Difficulty or initial chips not set!");
         }
-        //this.mainView.changeScene(new GameScene(this.mainView, this.difficulty, this.initialChips));
+        this.mainView.changeScene(new GameScene(new GameControllerImpl(this.mainView, this.difficulty, this.initialChips)));
     }
 
     @Override

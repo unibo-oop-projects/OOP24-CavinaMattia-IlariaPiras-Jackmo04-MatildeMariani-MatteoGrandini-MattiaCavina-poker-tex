@@ -10,8 +10,7 @@ import model.deck.api.Card;
 /**
  * Inteface to trafrom set of card in its respective Immage to be showed.
  */
-public interface CardGetterImmage {
-
+public interface CardGetterImage {
     /**
      * This method is used to get the image of the card.
      * 

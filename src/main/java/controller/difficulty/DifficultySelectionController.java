@@ -1,6 +1,6 @@
 package controller.difficulty;
 
-import view.scenes.DifficultySelectionScene.Difficulty;
+import controller.game.api.Difficulty;
 
 public interface DifficultySelectionController {
 

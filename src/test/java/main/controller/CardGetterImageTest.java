@@ -10,13 +10,12 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
-import controller.card.CardGetterImmage;
-import controller.card.CardGetterImmageImpl;
-
+import controller.card.CardGetterImage;
+import controller.card.CardGetterImageImpl;
 /**
  * CardGetterImmageTest is a class that is used to test the CardGetterImmage class.
  */
-public class CardGetterImmageTest { //NOPMD suppressed as it is a false positive 
+public class CardGetterImageTest { //NOPMD suppressed as it is a false positive 
     private static final int NUMBER_CARD = 2;
     private static final int TABLE_NUMBER_CARD = 5;
 
@@ -25,7 +24,8 @@ public class CardGetterImmageTest { //NOPMD suppressed as it is a false positive
      */
     @Test
     public void testGetCardImage() {
-        final CardGetterImmage cardGetterImmage = new CardGetterImmageImpl();
+
+        final CardGetterImage cardGetterImmage = new CardGetterImageImpl();
         final Set<Card> card = Set.of(
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND));
