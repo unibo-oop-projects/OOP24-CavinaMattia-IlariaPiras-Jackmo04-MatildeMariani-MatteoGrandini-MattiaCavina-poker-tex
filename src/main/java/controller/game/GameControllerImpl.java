@@ -6,12 +6,14 @@ import java.util.stream.Stream;
 import controller.card.CardGetterImage;
 import controller.game.api.Difficulty;
 import controller.game.api.GameController;
+import controller.gameover.GameOverMenuImpl;
 import controller.menu.MainMenuControllerImpl;
 import model.deck.api.Card;
 import model.game.GameFactoryImpl;
 import model.game.api.Game;
 import model.player.api.Action;
 import view.View;
+import view.scenes.GameOverScene;
 import view.scenes.GameScene;
 import view.scenes.MainMenuScene;
 
@@ -148,8 +150,15 @@ public class GameControllerImpl implements GameController{
                     id == bigBlindId ? "BB" : ""));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void gotToGameOverScene(boolean won) {
+        this.mainView.changeScene(new GameOverScene(new GameOverMenuImpl(this.mainView, won)));
+    }
+
     public void goToMainMenuScene() {
         this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
     }
-
 }
