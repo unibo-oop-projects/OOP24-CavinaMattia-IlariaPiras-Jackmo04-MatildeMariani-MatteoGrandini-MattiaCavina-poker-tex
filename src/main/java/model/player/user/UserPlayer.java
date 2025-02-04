@@ -29,8 +29,8 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
      * Constructor for the UserPlayer class.
      * @param initialChips the initial amount of chips that the player has.
      */
-    public UserPlayer(final int initialChips) {
-        super(initialChips);
+    public UserPlayer(final int id, final int initialChips) {
+        super(id, initialChips);
         this.controller = new UserPlayerController(this);
         this.setTotalPhaseBet(INITIAL_TOTAL_PHASE_BET);
         this.statistics = new BasicStatisticsImpl();

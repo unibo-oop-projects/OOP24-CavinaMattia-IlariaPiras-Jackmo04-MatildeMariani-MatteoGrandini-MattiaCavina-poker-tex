@@ -29,6 +29,8 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
     private Player smallBlindPlayer;
     private Player bigBlindPlayer;
     private final BasicStatistics statistics;
+
+    //add controller
     
     /**
      * Constructor for the AbstractGame. 
@@ -69,24 +71,30 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
             this.statistics.incrementHandsPlayed(1);
             this.setRolesForNewHand();
             this.players.stream().forEachOrdered(p -> p.setCards(this.dealer.giveCardsToPlayer()));
+            //add controller.setPlayerCard(playerid, player.getCards())
             this.gameState.newHand(startingBet, this.players.size());
             var hand = new HandImpl(this.players, this.gameState);
 
             do {
                 this.gameState.addCommunityCards(this.dealer.giveCardsToTheGame(
                      gameState.getHandPhase().getNumCards()));
-
+                //add controller.setCommunityCard(this.gamestate.getCommunityCards())
                 hand.startPhase();
                 this.players.forEach(p -> this.gameState.addToPot(p.getTotalPhaseBet()));
+                //add controller.setPot(this.gamestate.getPot())
                 this.gameState.nextHandPhase();
                 
             } while (!hand.isHandOver());
 
             hand.determinateWinnerOfTheHand();
+            //add controller.updatePlayerChips(playerid, player.getChips())
+            
         }
         if (this.isWon()) {
             this.statistics.incrementGamesWon(1);            
         }
+        //add controller.goToResultScene(this.isWon())
+        
     }
 
     /**
@@ -134,6 +142,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.smallBlindPlayer.setRole(Role.SMALL_BLIND);
         this.bigBlindPlayer.setRole(Role.BIG_BLIND);
 
+        //add controller.setUpdateRoles(smallBlindId, bigBlindId)
     }
 
     /** 
@@ -142,7 +151,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      */
     private void setInitialPlayers(final int initialChips) {
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
-            this.players.add(this.getAIPlayer(initialChips));
+            this.players.add(this.getAIPlayer(i, initialChips));
         }
         //this.players.add(new UserPlayer(initialChips));
     
@@ -153,7 +162,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      * @param initialChips initial amount of chips of players.
      * @return an AI player.
      */
-    protected abstract Player getAIPlayer(int initialChips);
+    protected abstract Player getAIPlayer(int id, int initialChips);
 
     /**
      * {@inheritDoc}

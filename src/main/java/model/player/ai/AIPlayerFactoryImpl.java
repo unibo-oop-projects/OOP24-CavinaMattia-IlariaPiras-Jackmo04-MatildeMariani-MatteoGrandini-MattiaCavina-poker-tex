@@ -33,29 +33,29 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
      * {@inheritDoc}
      */
     @Override
-    public AIPlayer easy(final int initialChips) {
-        return standard(initialChips, EASY_RAISING_FACTOR, EASY_DIFFICULTY_MODIFIER);
+    public AIPlayer easy(final int id, final int initialChips) {
+        return standard(id, initialChips, EASY_RAISING_FACTOR, EASY_DIFFICULTY_MODIFIER);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public AIPlayer medium(final int initialChips) {
-        return standard(initialChips, MEDIUM_RAISING_FACTOR, MEDIUM_DIFFICULTY_MODIFIER);
+    public AIPlayer medium(final int id, final int initialChips) {
+        return standard(id, initialChips, MEDIUM_RAISING_FACTOR, MEDIUM_DIFFICULTY_MODIFIER);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public AIPlayer hard(final int initialChips) {
-        return standard(initialChips, HARD_RAISING_FACTOR, HARD_DIFFICULTY_MODIFIER);
+    public AIPlayer hard(final int id, final int initialChips) {
+        return standard(id, initialChips, HARD_RAISING_FACTOR, HARD_DIFFICULTY_MODIFIER);
     }
 
-    private AIPlayer standard(final int initialChips,
+    private AIPlayer standard(final int id, final int initialChips,
             final double raisingFactor, final double difficultyModifier) {
-        return custom(initialChips, raisingFactor, difficultyModifier,
+        return custom(id, initialChips, raisingFactor, difficultyModifier,
             type -> switch (type) {
                 case HIGH_CARD -> 0.80;
                 case PAIR -> 0.90;
@@ -82,9 +82,9 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
     }
 
     @Override
-    public AIPlayer custom(int initialChips,  double raisingFactor, double difficultyModifier,
+    public AIPlayer custom(int id, int initialChips,  double raisingFactor, double difficultyModifier,
             Function<CombinationType, Double> callChance, Function<CombinationType, Double> raiseChance) {
-        return new AbstractAIPlayer(initialChips, raisingFactor) {
+        return new AbstractAIPlayer(id, initialChips, raisingFactor) {
 
             private final Random random = new Random();
 

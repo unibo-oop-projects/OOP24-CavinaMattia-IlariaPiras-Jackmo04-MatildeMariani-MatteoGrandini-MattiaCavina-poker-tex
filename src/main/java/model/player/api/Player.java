@@ -6,6 +6,7 @@ import java.util.Set;
 import model.deck.api.Card;
 import model.combination.api.Combination;
 import model.game.api.State;
+
 /**
  * Interface that models a generic player in the game.
  * A player can be either a human or an AI.
@@ -26,6 +27,12 @@ public interface Player {
      * @param role the role to be given to the player.
      */
     void setRole(Role role);
+
+    /**
+     * Returns the player's id.
+     * @return the player's id.
+     */
+    int getId();
 
     /**
      * Returns the amount of chips the player has betted since the beginning of the phase.
