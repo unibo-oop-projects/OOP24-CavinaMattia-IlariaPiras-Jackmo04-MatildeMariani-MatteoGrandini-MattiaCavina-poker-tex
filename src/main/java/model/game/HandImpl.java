@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.google.common.collect.Iterables;
 
+import model.combination.CombinationComparator;
 import model.game.api.Hand;
 import model.game.api.Phase;
 import model.game.api.State;
@@ -19,6 +20,7 @@ public class HandImpl implements Hand {
     private static final Phase FIRST_PHASE = Phase.PREFLOP;
     private static final int MIN_PLAYERS = 2;
 
+    private final CombinationComparator comparator;
     private final List<Player> handPlayers;
     private final State gameState;
     private Phase currentPhase;
@@ -27,6 +29,7 @@ public class HandImpl implements Hand {
         this.currentPhase = FIRST_PHASE;
         this.gameState = gameState;
         this.handPlayers = new LinkedList<>(handPlayers);
+        this.comparator = new CombinationComparator();
         this.sortFromRole(FIRST_ROLE);
     } 
         
@@ -102,16 +105,12 @@ public class HandImpl implements Hand {
                this.currentPhase.equals(FIRST_PHASE);
     }
 
-    /** 
-     * TODO: Change the comparator, (need to wait after Mattia implemented the Combination interface).
-    */
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public void determinateWinnerOfTheHand() {
-        //this.handPlayers.sort();
+    public void determinesWinnerOfTheHand() {
+        this.handPlayers.sort((p1, p2) -> this.comparator.compare(p1.getCombination(), p2.getCombination()));
         this.handPlayers.removeFirst().handWon(this.gameState.getPot());
         if (!this.handPlayers.isEmpty()) {
             this.handPlayers.forEach(p -> p.handLost());

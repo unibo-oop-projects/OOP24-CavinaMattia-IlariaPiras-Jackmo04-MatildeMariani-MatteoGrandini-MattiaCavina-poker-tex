@@ -96,7 +96,7 @@ public class TestHandImpl {
     @Test
     public void testDeterminateWinnnerOfTheHand() {
         gameState.addToPot(INITIAL_CHIPS);
-        hand.determinateWinnerOfTheHand();
+        hand.determinesWinnerOfTheHand();
 
         assertEquals( 1, 
                     (int) players.stream().filter(p -> p.getChips() == (INITIAL_CHIPS + INITIAL_CHIPS)).count());
