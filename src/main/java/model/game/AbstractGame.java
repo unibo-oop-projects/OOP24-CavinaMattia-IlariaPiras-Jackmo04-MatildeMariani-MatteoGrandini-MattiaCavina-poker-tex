@@ -20,6 +20,7 @@ public abstract class AbstractGame implements Game{
 
     private static final int INITIAL_BET_DIVISION_FACT = 100;
     protected static final int NUM_AI_PLAYERS = 3;
+    private static final int USER_PLAYER_ID = NUM_AI_PLAYERS;
 
     private final GameController controller;
     private final Dealer dealer;
@@ -28,8 +29,6 @@ public abstract class AbstractGame implements Game{
     private final List<Player> players = new LinkedList<>();
     private Player smallBlindPlayer;
     private Player bigBlindPlayer;
-
-    //add controller
     
     /**
      * Constructor for the AbstractGame. 
@@ -68,24 +67,28 @@ public abstract class AbstractGame implements Game{
         while (!isOver()) {
             this.setRolesForNewHand();
             this.players.stream().forEachOrdered(p -> p.setCards(this.dealer.giveCardsToPlayer()));
-            //add controller.setPlayerCard(playerid, player.getCards())
             this.gameState.newHand(startingBet, this.players.size());
-            var hand = new HandImpl(this.players, this.gameState);
+            var hand = new HandImpl(this.controller, this.players, this.gameState);
+
+            this.controller.updateForNewHand();
+            this.controller.setPlayerCards(USER_PLAYER_ID, this.players.getLast().getCards());
 
             do {
                 this.gameState.addCommunityCards(this.dealer.giveCardsToTheGame(
                      gameState.getHandPhase().getNumCards()));
-                //add controller.setCommunityCard(this.gamestate.getCommunityCards())
+                this.controller.setCommunityCards(this.gameState.getCommunityCards());
+                
                 hand.startPhase();
-                this.players.forEach(p -> this.gameState.addToPot(p.getTotalPhaseBet()));
-                //add controller.setPot(this.gamestate.getPot())
+                this.players.forEach(p -> {
+                    this.gameState.addToPot(p.getTotalPhaseBet());
+                    this.controller.setPlayerBet(p.getId(), 0);
+                });
+                this.controller.setPot(this.gameState.getPot());
                 this.gameState.nextHandPhase();
                 
             } while (!hand.isHandOver());
 
-            hand.determinesWinnerOfTheHand();
-            //add controller.updatePlayerChips(playerid, player.getChips())
-            
+            hand.determinesWinnerOfTheHand();            
         }
         //add controller.goToResultScene(this.isWon())
         
@@ -96,7 +99,7 @@ public abstract class AbstractGame implements Game{
      */
     @Override
     public List<Player> getPlayers() {
-        return players;
+        return this.players;
     }
 
     /**
@@ -104,7 +107,7 @@ public abstract class AbstractGame implements Game{
      */
     @Override
     public State getGameState() {
-        return gameState;
+        return this.gameState;
     }
 
     /**
@@ -136,7 +139,7 @@ public abstract class AbstractGame implements Game{
         this.smallBlindPlayer.setRole(Role.SMALL_BLIND);
         this.bigBlindPlayer.setRole(Role.BIG_BLIND);
 
-        //add controller.setUpdateRoles(smallBlindId, bigBlindId)
+        this.controller.setRoles(smallBlindPlayer.getId(), bigBlindPlayer.getId());
     }
 
     /** 
@@ -147,7 +150,7 @@ public abstract class AbstractGame implements Game{
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
             this.players.add(this.getAIPlayer(i, initialChips));
         }
-        this.players.add(new UserPlayer(NUM_AI_PLAYERS, initialChips));
+        this.players.add(new UserPlayer(USER_PLAYER_ID, initialChips));
     }
 
     /**

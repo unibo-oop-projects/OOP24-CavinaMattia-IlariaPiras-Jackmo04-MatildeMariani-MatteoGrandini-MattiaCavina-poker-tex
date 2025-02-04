@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.google.common.collect.Iterables;
 
+import controller.game.api.GameController;
 import model.combination.CombinationComparator;
 import model.game.api.Hand;
 import model.game.api.Phase;
@@ -22,13 +23,15 @@ public class HandImpl implements Hand {
     private static final int WAIT_TIME = 5000;
 
     private final CombinationComparator comparator;
+    private final GameController controller;
     private final List<Player> handPlayers;
     private final State gameState;
     private Phase currentPhase;
 
-    public HandImpl(final List<Player> handPlayers, final State gameState) {
+    public HandImpl(final GameController controller, final List<Player> handPlayers, final State gameState) {
         this.currentPhase = FIRST_PHASE;
         this.gameState = gameState;
+        this.controller = controller;
         this.handPlayers = new LinkedList<>(handPlayers);
         this.comparator = new CombinationComparator();
         this.sortFromRole(FIRST_ROLE);
@@ -69,6 +72,9 @@ public class HandImpl implements Hand {
             case CHECK:
                 break;
         }
+        this.controller.setPlayerAction(player.getId(), action);
+        this.controller.setPlayerBet(player.getId(), player.getTotalPhaseBet());
+        this.controller.setPlayerChips(player.getId(), player.getChips());
     }
 
     /**
@@ -117,11 +123,15 @@ public class HandImpl implements Hand {
      */
     @Override
     public void determinesWinnerOfTheHand() {
+        this.handPlayers.forEach(p -> this.controller.setPlayerCards(p.getId(), p.getCards()));
         this.handPlayers.sort((p1, p2) -> this.comparator.compare(p1.getCombination(), p2.getCombination()));
-        this.handPlayers.removeFirst().handWon(this.gameState.getPot());
+        var winner = this.handPlayers.removeFirst();
+        winner.handWon(this.gameState.getPot());
         if (!this.handPlayers.isEmpty()) {
             this.handPlayers.forEach(p -> p.handLost());
         }
+        this.controller.setPot(0);
+        this.controller.setPlayerChips(winner.getId(), winner.getChips());
     }
 
     /**
