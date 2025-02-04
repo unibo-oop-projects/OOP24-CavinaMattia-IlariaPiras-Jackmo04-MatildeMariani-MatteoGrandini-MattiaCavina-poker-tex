@@ -89,5 +89,5 @@ public interface GameController {
      * Goes to the {@link GameOverScene}.
      * @param won boolean indicating whether the user player won.
      */
-    void gotToGameOverScene(boolean won);    
+    void goToGameOverScene(boolean won);    
 }

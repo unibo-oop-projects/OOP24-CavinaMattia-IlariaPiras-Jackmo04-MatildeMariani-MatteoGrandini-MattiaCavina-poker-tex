@@ -154,7 +154,7 @@ public class GameControllerImpl implements GameController{
      * {@inheritDoc}
      */
     @Override
-    public void gotToGameOverScene(boolean won) {
+    public void goToGameOverScene(boolean won) {
         this.mainView.changeScene(new GameOverScene(new GameOverMenuImpl(this.mainView, won)));
     }
 

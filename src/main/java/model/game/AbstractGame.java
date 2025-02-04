@@ -90,7 +90,7 @@ public abstract class AbstractGame implements Game{
 
             hand.determinesWinnerOfTheHand();            
         }
-        //add controller.goToResultScene(this.isWon())
+        this.controller.goToGameOverScene(this.isWon());
         
     }
 
