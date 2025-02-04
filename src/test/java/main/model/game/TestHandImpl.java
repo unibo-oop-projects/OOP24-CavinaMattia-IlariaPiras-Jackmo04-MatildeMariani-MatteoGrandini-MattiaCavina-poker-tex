@@ -20,7 +20,6 @@ import model.game.api.Hand;
 import model.game.api.State;
 import model.player.ai.AIPlayerFactoryImpl;
 import model.player.ai.api.AIPlayerFactory;
-import model.player.api.Action;
 import model.player.api.Player;
 import model.player.api.Role;
 
@@ -110,16 +109,21 @@ public class TestHandImpl {
     public void testManageAction() {
         var iterator = players.iterator();
         var currentPlayer = iterator.next();
-
+        var currentBetBeforePlayerAction = gameState.getCurrentBet();
+        
         hand.manageAction(iterator, currentPlayer);
         switch (currentPlayer.getAction(gameState)) {
-            case Action.FOLD:
+            case FOLD:
                 assertEquals(INITIAL_NUM_PLAYERS - 1, players.size());
                 assertEquals(INITIAL_NUM_PLAYERS - 1, gameState.getRemainingPlayers());
                 break;
-            case Action.RAISE:
+            case RAISE:
                 assertEquals(currentPlayer.getTotalPhaseBet(), gameState.getCurrentBet());
                 break;
+            case ALL_IN:
+                if (currentBetBeforePlayerAction < currentPlayer.getTotalPhaseBet()) {
+                    assertEquals(currentPlayer.getTotalPhaseBet(), gameState.getCurrentBet());
+                }
             default:
                 break;
         }
