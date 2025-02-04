@@ -11,7 +11,7 @@ import model.deck.api.Card;
 /**
  * CardGetterImmage is a class that is used to get the image of the card.
  */
-public class CardGetterImmage {
+public class CardGetterImage {
     private static final String BASE_PATH = "card/";
     private static final String EXTENSION = ".jpg";
     private static final String DIVIDE_SIGN = "_";

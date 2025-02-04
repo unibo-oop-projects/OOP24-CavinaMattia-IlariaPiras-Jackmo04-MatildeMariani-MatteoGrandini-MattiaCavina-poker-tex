@@ -24,4 +24,14 @@ public interface View {
      * @return the height of the screen
      */
     int getScreenHeight();
+
+    /**
+     * Enables the confirmation dialog when trying to close the view.
+     */
+    void enableConfermationOnClose();
+
+    /**
+     * Disables the confirmation dialog when trying to close the view.
+     */
+    void disableConfermationOnClose();
 }

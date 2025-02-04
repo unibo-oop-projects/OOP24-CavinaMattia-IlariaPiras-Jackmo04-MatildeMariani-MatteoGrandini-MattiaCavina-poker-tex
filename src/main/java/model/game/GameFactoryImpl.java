@@ -31,8 +31,8 @@ public class GameFactoryImpl implements GameFactory{
         return new AbstractGame(initialChips) {
 
             @Override
-            protected Player getAIPlayer(final int initialChips) {
-                return playerFactory.easy(initialChips);
+            protected Player getAIPlayer(final int id, final int initialChips) {
+                return playerFactory.easy(id, initialChips);
             }
 
         };
@@ -46,8 +46,8 @@ public class GameFactoryImpl implements GameFactory{
         return new AbstractGame(initialChips) {
 
             @Override
-            protected Player getAIPlayer(int initialChips) {
-                return playerFactory.medium(initialChips);
+            protected Player getAIPlayer(final int id, final int initialChips) {
+                return playerFactory.medium(id, initialChips);
             }
 
         };
@@ -61,8 +61,8 @@ public class GameFactoryImpl implements GameFactory{
         return new AbstractGame(initialChips) {
 
             @Override
-            protected Player getAIPlayer(int initialChips) {
-                return playerFactory.hard(initialChips);
+            protected Player getAIPlayer(final int id, final int initialChips) {
+                return playerFactory.hard(id, initialChips);
             }
 
         };
