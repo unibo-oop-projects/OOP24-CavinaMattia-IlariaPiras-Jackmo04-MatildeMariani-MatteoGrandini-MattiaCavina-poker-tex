@@ -2,7 +2,6 @@ package main.model.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,7 @@ import model.game.api.GameFactory;
 public class TestGame {
 
     private static final int INITIAL_CHIPS = 500;
-    private static final int INITIAL_NUM_PLAYERS = 3;
+    private static final int INITIAL_NUM_PLAYERS = 4;
 
     private static GameFactory gameFactory;
 
@@ -24,8 +23,7 @@ public class TestGame {
     @Test
     public void testCreation() {
         var game = gameFactory.easyGame(INITIAL_CHIPS);
-        //When the UserPlayer is implemented and I can add it then they should both return false.
-        assertTrue(game.isOver());
+        assertFalse(game.isOver());
         assertFalse(game.isWon());
 
         assertEquals(INITIAL_NUM_PLAYERS, game.getPlayers().size());

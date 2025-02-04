@@ -10,6 +10,7 @@ import model.game.api.Game;
 import model.game.api.State;
 import model.player.api.Player;
 import model.player.api.Role;
+import model.player.user.UserPlayer;
 
 /**
  * This class provides an implementation of the Game interface, abstracting the choice of players.
@@ -79,7 +80,7 @@ public abstract class AbstractGame implements Game{
                 
             } while (!hand.isHandOver());
 
-            hand.determinateWinnerOfTheHand();
+            hand.determinesWinnerOfTheHand();
             //add controller.updatePlayerChips(playerid, player.getChips())
             
         }
@@ -143,8 +144,7 @@ public abstract class AbstractGame implements Game{
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
             this.players.add(this.getAIPlayer(i, initialChips));
         }
-        //this.players.add(new UserPlayer(initialChips));
-    
+        this.players.add(new UserPlayer(NUM_AI_PLAYERS, initialChips));
     }
 
     /**
