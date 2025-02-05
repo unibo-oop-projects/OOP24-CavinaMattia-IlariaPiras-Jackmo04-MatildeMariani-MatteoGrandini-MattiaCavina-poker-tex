@@ -27,6 +27,9 @@ public class PauseDialog extends JDialog {
 
     private static final int HEIGHT = 300;
     private static final int WIDTH = 300;
+    private static final int R_BACKGROUND = 220;
+    private static final int G_BACKGROUND = 186;
+    private static final int B_BACKGROUND = 133;
 
     private final PauseController controller;
 
@@ -41,6 +44,7 @@ public class PauseDialog extends JDialog {
         this.getContentPane().add(new PausePanel());
         this.setUndecorated(true);
         this.setSize(new Dimension(WIDTH, HEIGHT));
+        this.getContentPane().setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
         this.controller = controller;
     }
 
@@ -52,10 +56,6 @@ public class PauseDialog extends JDialog {
         private static final int VERTICAL_GAP = 10;
         private static final int TITLE_FONT_SIZE = 40;
         private static final int BUTTON_FONT_SIZE = 20;
-        private static final int R_BACKGROUND = 220;
-        private static final int G_BACKGROUND = 186;
-        private static final int B_BACKGROUND = 133;
-
         /**
          * Creates a new {@link PausePanel}.
          */
@@ -84,18 +84,17 @@ public class PauseDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (((MyButton) e.getSource()).getActionCommand()) {
-                    case "RESUME": 
-                        PauseDialog.this.setVisible(false);
-                        break;
                     case "NEW GAME": 
                         PauseDialog.this.controller.goToDifficultySelectionScene();
                         break;
                     case "MENU":
                         PauseDialog.this.controller.goToMainMenuScene();
                         break;
+                    case "RESUME":
                     default:
                         break;
                 }
+                PauseDialog.this.dispose();
             }
         };
     }
