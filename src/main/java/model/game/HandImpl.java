@@ -12,6 +12,7 @@ import model.combination.CombinationComparator;
 import model.game.api.Hand;
 import model.game.api.Phase;
 import model.game.api.State;
+import model.player.api.Action;
 import model.player.api.Player;
 import model.player.api.Role;
 
@@ -73,8 +74,12 @@ public class HandImpl implements Hand {
                 break;
         }
         this.controller.setPlayerAction(player.getId(), action);
-        this.controller.setPlayerBet(player.getId(), player.getTotalPhaseBet());
-        this.controller.setPlayerChips(player.getId(), player.getChips());
+        if (!action.equals(Action.FOLD) &&  !action.equals(Action.CHECK)) {
+            System.out.println(player.getTotalPhaseBet());
+            System.out.println(gameState.getCurrentBet());
+            this.controller.setPlayerBet(player.getId(), player.getTotalPhaseBet());
+            this.controller.setPlayerChips(player.getId(), player.getChips());
+        }
     }
 
     /**
@@ -83,8 +88,13 @@ public class HandImpl implements Hand {
     @Override
     public void startPhase() {
         var playersIterator = Iterables.cycle(this.handPlayers).iterator();
+        System.out.println("Current bet in Phase: " + gameState.getCurrentBet());
+        System.out.println("First player phaseBet: " + this.handPlayers.getFirst().getTotalPhaseBet() + " id: " + this.handPlayers.getFirst().getId());
+
         while (!this.isPhaseOver() && playersIterator.hasNext()) {
             var currentPlayer = playersIterator.next();
+            System.out.println(currentPlayer.getTotalPhaseBet());
+            System.out.println(gameState.getCurrentBet());
             if (currentPlayer.hasChipsLeft()) {
                 this.manageAction(playersIterator, currentPlayer);
             }
@@ -97,7 +107,7 @@ public class HandImpl implements Hand {
         }
         System.out.println("Phase Over");
         this.currentPhase = this.currentPhase.next();
-        System.out.println("next Phase" + String.valueOf(this.currentPhase));
+        System.out.println("next Phase " + String.valueOf(this.currentPhase));
     }
     
     /**

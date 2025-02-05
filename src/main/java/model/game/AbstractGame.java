@@ -149,9 +149,8 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
             this.players.add(this.getAIPlayer(i, initialChips));
         }
-        //final var userPlayer = this.userPlayer;
-        //this.players.add(userPlayer);
-        //this.statsManager.addContributor(userPlayer);
+        //this.players.add(this.userPlayer);
+        //this.statsManager.addContributor(this.userPlayer);
     }
 
     /**
@@ -195,7 +194,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
                 System.out.println(gameState.getHandNumber());
 
                 controller.updateForNewHand();
-                controller.setPlayerCards(USER_PLAYER_ID -1, players.getLast().getCards());
+                controller.setPlayerCards(USER_PLAYER_ID -1, players.stream().filter(p -> p.getId() == (USER_PLAYER_ID -1)).findAny().get().getCards());
 
                 do {
                     gameState.addCommunityCards(dealer.giveCardsToTheGame(
@@ -207,7 +206,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
                         gameState.addToPot(p.getTotalPhaseBet());
                         controller.setPlayerBet(p.getId(), 0);
                     });
-                    System.out.println(gameState.getPot());
+                    System.out.println("Current Pot after Phase: " + gameState.getPot());
                     controller.setPot(gameState.getPot());
                     gameState.nextHandPhase();
                     try {
@@ -220,6 +219,13 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
                 } while (!hand.isHandOver());
 
                 hand.determinesWinnerOfTheHand();
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 
             }
             updateStatisticsAfterGameEnd();
@@ -227,48 +233,4 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         }
     }
 
-    private class GameLoop extends Thread {
-        public void run() {
-            statistics.incrementGamesPlayed(1);
-            while (!isOver()) {
-                dealer.shuffle();
-                statistics.incrementHandsPlayed(1);
-                setRolesForNewHand();
-                players.stream().forEachOrdered(p -> p.setCards(dealer.giveCardsToPlayer()));
-                gameState.newHand(startingBet, players.size());
-                var hand = new HandImpl(controller, players, gameState);
-                System.out.println(gameState.getHandNumber());
-
-                controller.updateForNewHand();
-                controller.setPlayerCards(USER_PLAYER_ID -1, players.getLast().getCards());
-
-                do {
-                    gameState.addCommunityCards(dealer.giveCardsToTheGame(
-                        gameState.getHandPhase().getNumCards()));
-                        controller.setCommunityCards(gameState.getCommunityCards());
-                    
-                    hand.startPhase();
-                    players.forEach(p -> {
-                        gameState.addToPot(p.getTotalPhaseBet());
-                        controller.setPlayerBet(p.getId(), 0);
-                    });
-                    System.out.println(gameState.getPot());
-                    controller.setPot(gameState.getPot());
-                    gameState.nextHandPhase();
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    
-                } while (!hand.isHandOver());
-
-                hand.determinesWinnerOfTheHand();
-                
-            }
-            updateStatisticsAfterGameEnd();
-            controller.goToGameOverScene(AbstractGame.this.isWon());
-        }
-    }
 }
