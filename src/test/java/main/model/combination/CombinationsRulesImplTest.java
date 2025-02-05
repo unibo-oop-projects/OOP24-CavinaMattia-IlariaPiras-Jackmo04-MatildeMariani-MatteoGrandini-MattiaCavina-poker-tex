@@ -17,7 +17,7 @@ import model.deck.api.SimpleCard;
 /**
  * Test of {@link model.combination.CombinationsRulesImpl}.
  */
-public class CombinationsRulesImplTest { // NOPMD suppressed as it is a false positive
+class CombinationsRulesImplTest {
 
         /**
          * Test for the method isPair.

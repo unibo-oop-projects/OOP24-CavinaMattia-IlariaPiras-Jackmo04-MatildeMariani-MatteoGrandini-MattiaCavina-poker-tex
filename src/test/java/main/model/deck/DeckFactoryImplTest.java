@@ -14,7 +14,7 @@ import model.deck.api.SimpleCard;
 /**
  * Test della factory Deck and the class to generate new Poker's Deck.
  */
-public class DeckFactoryImplTest {  // NOPMD suppressed as it is a false positive
+class DeckFactoryImplTest {
     private static final  int ALL_DECKS = 52;
     private static final int TWO_CARD = 2;
 
@@ -22,7 +22,7 @@ public class DeckFactoryImplTest {  // NOPMD suppressed as it is a false positiv
      * test of simple deck.
      */
     @Test
-    protected void simpleDeck() { // NOPMD suppressed as it is a false positive
+    void simpleDeck() {
         final Deck<Card> t = new DeckFactoryImpl().simplePokerDeck();
         assertEquals(TWO_CARD, t.getSomeCards(TWO_CARD).size());
         assertEquals(ALL_DECKS - TWO_CARD, t.getSomeCards(ALL_DECKS - TWO_CARD).size());
@@ -30,7 +30,7 @@ public class DeckFactoryImplTest {  // NOPMD suppressed as it is a false positiv
             t.getSomeCards(1);
 
         } catch (IllegalAccessError e) {
-            System.out.println("Deck is Empty"); // NOPMD suppressed as it is a false positive
+            System.err.println("Deck is Empty");
         }
         t.shuffled();
         assertEquals(ALL_DECKS, t.getSomeCards(ALL_DECKS).size());

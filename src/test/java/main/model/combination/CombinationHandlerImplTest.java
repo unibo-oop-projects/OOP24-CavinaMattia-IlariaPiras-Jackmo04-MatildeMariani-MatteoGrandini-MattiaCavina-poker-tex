@@ -16,7 +16,7 @@ import model.deck.api.SimpleCard;
 /**
  * Test of {@link model.combination.CombinationHandlerImpl}.
  */
-public class CombinationHandlerImplTest { //NOPMD suppressed as it is a false positive
+class CombinationHandlerImplTest {
 
     /**
      * Test to try if set passed like argument is Pair.
