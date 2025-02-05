@@ -7,7 +7,7 @@ import model.statistics.StatisticsManagerImpl;
 /**
  * Test class used to create a file containing statistics.
  */
-public class CreateStatsFile {
+public final class CreateStatsFile {
 
     private static final String FILE_NAME = "stats.bin";
     private static final int HANDS_PLAYED = 10;
@@ -20,6 +20,10 @@ public class CreateStatsFile {
     private CreateStatsFile() {
     }
 
+    /**
+     * Main
+     * @param args unused
+     */
     public static void main(final String[] args) {
         final var stats = new BasicStatisticsImpl();
         stats.setHandsPlayed(HANDS_PLAYED);

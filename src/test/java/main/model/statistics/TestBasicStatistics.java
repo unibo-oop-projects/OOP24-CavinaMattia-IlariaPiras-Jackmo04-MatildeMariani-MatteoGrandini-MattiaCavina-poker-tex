@@ -34,7 +34,7 @@ public class TestBasicStatistics {
     }
 
     /**
-     * Test that the numeric statistics are initialized to 0 and the best combination is empty
+     * Test that the numeric statistics are initialized to 0 and the best combination is empty.
      */
     @Test
     public void testInitialization() {

@@ -51,10 +51,10 @@ public class TestStatisticsManager {
         }
 
         @Override
-        public void updateStatistics(BasicStatisticsImpl stats) {
+        public void updateStatistics(final BasicStatisticsImpl stats) {
             stats.setGamesPlayed(gamesPlayed);
         }
-    
+
     }
 
     /**
