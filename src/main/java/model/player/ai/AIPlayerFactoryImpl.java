@@ -21,7 +21,7 @@ import model.game.api.State;
  * They're also much more likely to raise if no one has betted yet.
  */
 public class AIPlayerFactoryImpl implements AIPlayerFactory {
-    
+
     // Changes how much the AI player will raise.
     private static final double EASY_RAISING_FACTOR = 0.50;
     private static final double MEDIUM_RAISING_FACTOR = 1.00;
@@ -121,15 +121,18 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public AIPlayer custom(int id, int initialChips,  double raisingFactor, double difficultyModifier,
-            Function<CombinationType, Double> callChance, Function<CombinationType, Double> raiseChance) {
+    public AIPlayer custom(final int id, final int initialChips, final double raisingFactor, final double difficultyModifier,
+            final Function<CombinationType, Double> callChance, final Function<CombinationType, Double> raiseChance) {
         return new AbstractAIPlayer(id, initialChips, raisingFactor) {
 
             private final Random random = new Random();
 
             @Override
-            protected boolean shouldCall(State currentState) {
+            protected boolean shouldCall(final State currentState) {
                 var chance = difficultyModifier * callChance.apply(this.getCombination().type());
                 chance = chance * switch (currentState.getHandPhase()) {
                     case PREFLOP -> PREFLOP_MODIFIER;
@@ -144,7 +147,7 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
             }
 
             @Override
-            protected boolean shouldRaise(State currentState) {
+            protected boolean shouldRaise(final State currentState) {
                 var chance = difficultyModifier * raiseChance.apply(this.getCombination().type());
                 if (requiredBet(currentState) == 0) {
                     chance = chance + FIRST_TO_BET_INCREMENT;

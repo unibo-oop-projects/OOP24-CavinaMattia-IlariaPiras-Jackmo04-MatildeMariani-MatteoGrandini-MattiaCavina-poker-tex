@@ -20,9 +20,9 @@ public class TestStatisticsManager {
     private static final int HANDS_PLAYED = 20;
 
     /**
-     * Class to simulate a StatisticsContributor that manages hands
+     * Class to simulate a StatisticsContributor that manages hands.
      */
-    private class HandManager implements StatisticsContributor<BasicStatisticsImpl> {
+    private final class HandManager implements StatisticsContributor<BasicStatisticsImpl> {
 
         private int handsPlayed = 0;
 
@@ -32,16 +32,16 @@ public class TestStatisticsManager {
         }
 
         @Override
-        public void updateStatistics(BasicStatisticsImpl stats) {
+        public void updateStatistics(final BasicStatisticsImpl stats) {
             stats.setHandsPlayed(handsPlayed);
         }
-    
+
     }
 
     /**
-     * Class to simulate a StatisticsContributor that manages games
+     * Class to simulate a StatisticsContributor that manages games.
      */
-    private class GameManager implements StatisticsContributor<BasicStatisticsImpl> {
+    private final class GameManager implements StatisticsContributor<BasicStatisticsImpl> {
 
         private int gamesPlayed = 0;
 

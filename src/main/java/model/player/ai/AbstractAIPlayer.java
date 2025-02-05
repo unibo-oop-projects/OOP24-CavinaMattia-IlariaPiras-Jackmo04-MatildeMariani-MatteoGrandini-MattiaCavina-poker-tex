@@ -18,19 +18,20 @@ import model.game.api.State;
  */
 public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
-    private static final int BASIC_BET = 1000; // TODO: change this value if needed
     private final double raisingFactor;
+    private final int standardRaise;
     private boolean paidBlind;
 
     /**
      * Creates a new AI player with the given initial amount of chips, role and raising factor.
+     * @param id the id of the player.
      * @param initialChips the initial amount of chips of the player.
-     * @param initialRole the initial role of the player.
      * @param raisingFactor a double determining by how much the player will raise.
      */
     AbstractAIPlayer(final int id, final int initialChips, final double raisingFactor) {
         super(id, initialChips);
         this.raisingFactor = raisingFactor;
+        this.standardRaise = initialChips / 10;
         this.paidBlind = false;
     }
 
@@ -49,10 +50,10 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         this.paidBlind = this.getRole().isEmpty() || this.getTotalPhaseBet() > 0;
         if (!paidBlind) {
             this.makeBet(requiredBet(currentState));
-            return this.actionOrAllIn(Action.CALL);         
+            return this.actionOrAllIn(Action.CALL);
         }
         if (shouldRaise(currentState)) {
-            this.makeBet((int) (currentState.getCurrentBet() + BASIC_BET * raisingFactor));
+            this.makeBet((int) (currentState.getCurrentBet() + this.standardRaise * raisingFactor));
             return this.actionOrAllIn(Action.RAISE);
         }
         if (canCheck(currentState)) {

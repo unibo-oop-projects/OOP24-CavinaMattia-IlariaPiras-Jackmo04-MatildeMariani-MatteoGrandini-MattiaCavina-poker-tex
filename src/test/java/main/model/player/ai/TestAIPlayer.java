@@ -176,7 +176,7 @@ public class TestAIPlayer {
      */
     @Test
     public void testLosing() {
-        var player = factory.hard(PLAYER_ID,STARTING_CHIPS);
+        var player = factory.hard(PLAYER_ID, STARTING_CHIPS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         var state = new StateImpl(0, NUM_OF_PLAYERS);
         state.addToPot(POT_2000);
