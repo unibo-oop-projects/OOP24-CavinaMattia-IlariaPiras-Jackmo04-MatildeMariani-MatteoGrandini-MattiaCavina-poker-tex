@@ -21,7 +21,7 @@ public final class CreateStatsFile {
     }
 
     /**
-     * Main
+     * Main.
      * @param args unused
      */
     public static void main(final String[] args) {

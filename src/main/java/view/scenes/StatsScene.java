@@ -66,7 +66,7 @@ public class StatsScene extends JPanel implements Scene {
     }
 
     private void updateStats() {
-        var statsMap = this.controller.getStatistics();
+        final var statsMap = this.controller.getStatistics();
         this.statsContainer.removeAll();
         var count = 0;
         for (final var stat : statsMap) {

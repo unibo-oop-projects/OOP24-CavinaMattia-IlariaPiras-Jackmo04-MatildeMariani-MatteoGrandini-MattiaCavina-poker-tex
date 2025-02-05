@@ -34,7 +34,7 @@ public class BasicStatisticsControllerImpl implements StatsController {
      */
     @Override
     public List<Pair<String, String>> getStatistics() {
-        var statsManager = new StatisticsManagerImpl<>(new BasicStatisticsImpl());
+        final var statsManager = new StatisticsManagerImpl<>(new BasicStatisticsImpl());
         try {
             statsManager.loadStatistics(STATS_FILE_NAME);
         } catch (Exception e) {
