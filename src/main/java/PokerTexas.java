@@ -3,7 +3,7 @@ import view.ViewImpl;
 /**
  * Main class of the application.
  */
-public final class PokerTexas {
+public final class PokerTexas { // TODO: create a package for this class
 
     private PokerTexas() {
     }
