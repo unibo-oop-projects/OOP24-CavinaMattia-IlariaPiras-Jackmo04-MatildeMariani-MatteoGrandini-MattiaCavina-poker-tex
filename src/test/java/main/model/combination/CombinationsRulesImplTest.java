@@ -15,7 +15,7 @@ import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Test class for is used to test all combination rules with differet cards.
+ * Test of {@link model.combination.CombinationsRulesImpl}.
  */
 public class CombinationsRulesImplTest { // NOPMD suppressed as it is a false positive
 

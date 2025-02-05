@@ -1,18 +1,18 @@
 package view;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
-import controller.menu.MainMenuControllerImpl;
-import view.scenes.MainMenuScene;
-import view.scenes.api.Scene;
-
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import controller.start.StartControllerImpl;
+import view.scenes.StartScene;
+import view.scenes.api.Scene;
 
 /**
  * The main view of the application.
@@ -49,8 +49,8 @@ public class ViewImpl extends JFrame implements View {
         this.mainPanel = new JPanel(cardLayout);
         this.setContentPane(this.mainPanel);
 
-        // Always start with the main menu scene
-        this.changeScene(new MainMenuScene(new MainMenuControllerImpl(this)));
+        // Always start with the start scene
+        this.changeScene(new StartScene(new StartControllerImpl(this)));
 
         this.setLocationByPlatform(true);
         this.setVisible(true);

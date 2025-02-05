@@ -20,7 +20,9 @@ import controller.gameover.GameOverMenu;
 import view.scenes.api.Scene;
 
 /**
- * The {@link Scene} that represents the end menu of the game.
+ * Class to create Game Over pannel.
+ * It have different configuration if the player is winner or loser.
+ * Extend {@link Jpannel} and implement {@link view.scenes.api.Scene}
  * 
  */
 public class GameOverScene extends JPanel implements Scene {
@@ -29,6 +31,8 @@ public class GameOverScene extends JPanel implements Scene {
     private static final String RESOURCE_PATH = "endgame/";
     private static final int TEXT_DIMENSION_BUTTON = 20;
     private static final int TEXT_DIMENSION_RESULT = 50;
+    private static final String VICTORY_STRING = "YOU WIN!";
+    private static final String LOSE_STRING = "YOU LOSE!";
 
     private final GameOverMenu controller;
 
@@ -41,7 +45,7 @@ public class GameOverScene extends JPanel implements Scene {
      * Creates a new {@link GameOverScene}.
      * 
      * @param controller
-     *                   the controller for the main menu
+     *                   the controller of the game over menu.
      */
     public GameOverScene(final GameOverMenu controller) {
         this.controller = controller;
@@ -54,7 +58,7 @@ public class GameOverScene extends JPanel implements Scene {
         textFinalResult.setFont(stringResultFont);
         textFinalResult.setHorizontalAlignment(JLabel.CENTER);
 
-        getFinalPannel(controller.isEndGameStatus());
+        setFinalPannel(controller.isEndGameStatus());
 
         final JButton goToStats = getButtomFeuture("Statistics", Color.GRAY, Color.BLACK, buttonFont,
                 e -> this.controller.goToStatsScene());
@@ -65,12 +69,13 @@ public class GameOverScene extends JPanel implements Scene {
         final JButton goToMainMenu = getButtomFeuture("Main Menu", Color.LIGHT_GRAY, Color.BLACK, buttonFont,
                 e -> this.controller.goToMainScene());
 
-        // To change Pannel from win to lose
+        // To change Pannel from win to lose from keyboard.
         final String key = "Tab";
         KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0);
         this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, key);
         this.getActionMap().put(key, getChangePannelAction());
 
+        // Add botton at game over pannel.
         this.add(goToExitGame, BorderLayout.EAST);
         this.add(goToMainMenu, BorderLayout.WEST);
         this.add(endImmage, BorderLayout.CENTER);
@@ -95,16 +100,16 @@ public class GameOverScene extends JPanel implements Scene {
         return SCENE_NAME;
     }
 
-    private void getFinalPannel(final Boolean status) {
+    private void setFinalPannel(final Boolean status) {
         if (status) {
             this.setBackground(Color.GREEN);
             endImmage.setIcon(new ImageIcon(ClassLoader.getSystemResource(RESOURCE_PATH + "Victory.jpg")));
-            textFinalResult.setText("YOU WIN!");
+            textFinalResult.setText(VICTORY_STRING);
             textFinalResult.setForeground(Color.BLACK);
         } else {
             this.setBackground(Color.BLACK);
             endImmage.setIcon(new ImageIcon(ClassLoader.getSystemResource(RESOURCE_PATH + "Lose.jpg")));
-            textFinalResult.setText("YOU LOSE!");
+            textFinalResult.setText(LOSE_STRING);
             textFinalResult.setForeground(Color.WHITE);
         }
     }
@@ -114,7 +119,7 @@ public class GameOverScene extends JPanel implements Scene {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controller.changeResultPannel();
-                getFinalPannel(controller.isEndGameStatus());
+                setFinalPannel(controller.isEndGameStatus());
             }
         };
     }

@@ -38,7 +38,8 @@ public class MyButton extends  JButton {
         this.setBackground(new Color(R_BUTTONS_PANEL, G_BUTTONS_PANEL, B_BUTTONS_PANEL));
         this.setForeground(Color.BLACK);
         this.setFont(new Font("Dosis", Font.BOLD, FONT_SIZE));
-        this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
+        this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
+            BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
         this.setOpaque(true);
         this.setContentAreaFilled(true);
         this.setActionCommand(command);

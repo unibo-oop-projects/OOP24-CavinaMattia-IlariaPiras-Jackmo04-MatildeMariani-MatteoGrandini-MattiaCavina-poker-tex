@@ -14,12 +14,12 @@ import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Test of CombinationHandlerImpl.
+ * Test of {@link model.combination.CombinationHandlerImpl}.
  */
 public class CombinationHandlerImplTest { //NOPMD suppressed as it is a false positive
 
     /**
-     * Test of Pair.
+     * Test to try if set passed like argument is Pair.
      */
     @Test
     void testPair() {
@@ -39,7 +39,7 @@ public class CombinationHandlerImplTest { //NOPMD suppressed as it is a false po
     }
 
     /**
-     * Test of straight.
+     * Test to try if set passed like argument is straight.
      */
     @Test
     void testStraight() {
@@ -57,7 +57,7 @@ public class CombinationHandlerImplTest { //NOPMD suppressed as it is a false po
     }
 
     /**
-     * Test of Pair.
+     * Test to try if set passed like argument is Hight Card.
      */
     @Test
     void testHightCard() {

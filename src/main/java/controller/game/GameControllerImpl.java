@@ -159,7 +159,20 @@ public class GameControllerImpl implements GameController{
         this.mainView.changeScene(new GameOverScene(new GameOverMenuImpl(this.mainView, won)));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void goToMainMenuScene() {
         this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public View getMainView() {
+        return mainView;
+    }
+    
 }

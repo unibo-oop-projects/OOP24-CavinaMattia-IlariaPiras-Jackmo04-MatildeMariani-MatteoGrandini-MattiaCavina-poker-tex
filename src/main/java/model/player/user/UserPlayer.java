@@ -27,6 +27,7 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
 
     /**
      * Constructor for the UserPlayer class.
+     * @param id the identifier for the player.
      * @param initialChips the initial amount of chips that the player has.
      */
     public UserPlayer(final int id, final int initialChips) {
@@ -56,7 +57,6 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
             this.setChips(this.getChips() - bet);
             this.setTotalPhaseBet(this.getTotalPhaseBet() + bet);
         }
-        this.controller.updateUserChips(this.getChips());
         return this.action;
     }
 
@@ -91,10 +91,11 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
             case Action.ALL_IN -> {
                 return this.getChips();
             }
-            default -> {
+            case Action.FOLD, Action.CHECK -> {
                 return 0;
             }
         }
+        return 0;
     }
 
     /**

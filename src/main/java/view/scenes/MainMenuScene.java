@@ -30,7 +30,8 @@ public class MainMenuScene extends JPanel implements Scene {
     private static final int G_BORDER = 0;
     private static final int B_BORDER = 0;
     private static final int A_BORDER = 50;
-    private static final int FONT_SIZE = 30; 
+    private static final int FONT_SIZE = 30;
+    private static final int FONT_SIZE_TITLE = 50;
     private static final int THICKNESS = 4;
     private static final int R_BACKGROUND = 220;
     private static final int G_BACKGROUND = 186;
@@ -52,7 +53,7 @@ public class MainMenuScene extends JPanel implements Scene {
         titlePanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
 
         JLabel title = new JLabel("MENU", SwingConstants.CENTER);
-        title.setFont(new Font("Roboto", Font.BOLD, 50));
+        title.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE_TITLE));
 
         titlePanel.add(title);
 
@@ -105,7 +106,12 @@ public class MainMenuScene extends JPanel implements Scene {
         return SCENE_NAME;
     }
 
+    /**
+     * Custom button class for the MainMenuScene.
+     * This class extends JButton and provides a style for buttons in this scene.
+     */
     private class MenuButton extends JButton {
+
         public MenuButton(String text) {
             super(text);
             this.setBackground(new Color(R_BUTTONS_PANEL, G_BUTTONS_PANEL, B_BUTTONS_PANEL));
@@ -118,5 +124,4 @@ public class MainMenuScene extends JPanel implements Scene {
             this.setPreferredSize(new Dimension(250, 60));
         }
     }
-
 }

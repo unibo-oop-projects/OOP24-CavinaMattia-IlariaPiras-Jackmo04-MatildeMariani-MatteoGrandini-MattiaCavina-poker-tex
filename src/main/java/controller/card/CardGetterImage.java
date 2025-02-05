@@ -8,11 +8,13 @@ import javax.swing.ImageIcon;
 import model.deck.api.Card;
 
 /**
- * Inteface to trafrom set of card in its respective Immage to be showed.
+ * Inteface to transfom {@link Set} of {@link model.deck.api.Card} in its
+ * respective Immage to be showed.
  */
 public interface CardGetterImage {
     /**
-     * This method is used to get the image of the card.
+     * This method is used to get the image of the card from its class
+     * {@link model.deck.api.Card}.
      * 
      * @param card
      *             Set of {@link model.deck.api.Card} to be showed.
@@ -22,7 +24,8 @@ public interface CardGetterImage {
     List<ImageIcon> getCardImage(Set<Card> card);
 
     /**
-     * This method is used to get the image of the back card.
+     * This method is used to get the image of the card back.
+     * Is used to show hiden card.
      * 
      * @param numerOfBack
      *                    Number of back card to be showed.
@@ -40,7 +43,8 @@ public interface CardGetterImage {
      * @return
      *         List of {@link javax.swing.ImageIcon} of the card and the back card.
      * @throws IllegalArgumentException
-     *                                  If the number of {@link model.deck.api.Card} is over the limit.
+     *                                  If the number of {@link model.deck.api.Card}
+     *                                  is over the limit.
      */
     List<ImageIcon> getTableCardImage(Set<Card> card);
 

@@ -12,7 +12,7 @@ import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Test of CombinationComparator.
+ * Test of {@link model.combination.CombinationComparator}.
  */
 public class CombinationComparatorTest { // NOPMD suppressed as it is a false positive
 

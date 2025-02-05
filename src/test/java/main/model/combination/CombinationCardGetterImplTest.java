@@ -15,9 +15,9 @@ import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Test of CombinationCardGetter.
+ * Test of {@link model.combination.CombinationsCardGetterImpl}.
  */
-public class CombinationCardGetterTest { //NOPMD suppressed as it is a false positive
+public class CombinationCardGetterImplTest { // NOPMD suppressed as it is a false positive
 
         /**
          * Empty test.
@@ -25,8 +25,9 @@ public class CombinationCardGetterTest { //NOPMD suppressed as it is a false pos
          */
         @Test
         void testEmpty() {
-               final Set<Card> totalCardList = Sets.newHashSet();
-                assertThrows(IllegalArgumentException.class, () -> new CombinationsCardGetterImpl(totalCardList).getPair());
+                final Set<Card> totalCardList = Sets.newHashSet();
+                assertThrows(IllegalArgumentException.class,
+                                () -> new CombinationsCardGetterImpl(totalCardList).getPair());
         }
 
         /**
@@ -55,7 +56,7 @@ public class CombinationCardGetterTest { //NOPMD suppressed as it is a false pos
          */
         @Test
         void testTwoPairs() {
-               final Set<Card> totalCardList = Set.of(
+                final Set<Card> totalCardList = Set.of(
                                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND),
                                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
