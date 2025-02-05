@@ -15,11 +15,13 @@ import javax.swing.SwingUtilities;
 
 import controller.game.PauseControllerImpl;
 import controller.game.api.GameController;
+import controller.player.user.UserPlayerController;
 import view.gameScenePanels.AIPlayerPanel;
 import view.gameScenePanels.PauseDialog;
 import view.gameScenePanels.PlayerPanelImpl;
 import view.gameScenePanels.TablePanel;
 import view.player.user.MyButton;
+import view.player.user.UserPanel;
 import view.scenes.api.Scene;
 
 /**
@@ -44,30 +46,30 @@ public class GameScene extends JPanel implements Scene {
 
         this.controller = controller;
         this.setLayout(new BorderLayout());
-        this.setBackground(Color.DARK_GRAY);
-        this.setOpaque(true);
 
         /*Sets the panels for the player and for the table*/
         this.westPlayerPanel = new AIPlayerPanel();
         this.northPlayerPanel = new AIPlayerPanel();
         this.eastPlayerPanel = new AIPlayerPanel();
         /*To change with a UserPlayerPanel */
-        this.southPlayerPanel = new AIPlayerPanel();  
+        this.southPlayerPanel = new UserPanel(this.controller.getUserPlayerController());  
         this.table = new TablePanel();
 
-        /*Sets background color*/
-        westPlayerPanel.setBackground(Color.DARK_GRAY);
-        northPlayerPanel.setBackground(Color.DARK_GRAY);
-        eastPlayerPanel.setBackground(Color.DARK_GRAY);
-        southPlayerPanel.setBackground(Color.DARK_GRAY);
-
+        /*Creates the south panel with the southPlayerPanel and a buttonPanel*/
         JPanel southJPanel = new JPanel(new BorderLayout());
         JPanel buttonsPanel = new JPanel(new GridLayout(2, 1, 0, 10));
+        buttonsPanel.setBackground(southPlayerPanel.getBackground());
         MyButton pause = new MyButton("Pause", "PAUSE", pauseActionListener, buttonsPanel);
         MyButton menu = new MyButton("Menu", "MENU", menuActionListener, buttonsPanel);
         
         southJPanel.add(southPlayerPanel, BorderLayout.CENTER);
         southJPanel.add(buttonsPanel, BorderLayout.EAST);
+
+        /*Sets background color*/
+        westPlayerPanel.setBackground(Color.DARK_GRAY);
+        northPlayerPanel.setBackground(Color.DARK_GRAY);
+        eastPlayerPanel.setBackground(Color.DARK_GRAY);
+        southJPanel.setBackground(southPlayerPanel.getBackground());
 
         /*Adds the panels*/
         this.add(northPlayerPanel, BorderLayout.NORTH);
@@ -75,8 +77,6 @@ public class GameScene extends JPanel implements Scene {
         this.add(eastPlayerPanel, BorderLayout.EAST);
         this.add(southJPanel, BorderLayout.SOUTH);
         this.add(table, BorderLayout.CENTER);
-
-        //TODO: add userPlayer panel and button to exit and pause the game.
 
         this.controller.setGameScene(this);
         this.controller.startGame();
