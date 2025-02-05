@@ -10,6 +10,7 @@ import model.player.api.Player;
 import controller.card.CardGetterImage;
 import view.scenes.GameScene;
 import view.scenes.GameOverScene;
+import view.scenes.MainMenuScene;
 import view.View;
 
 /**
@@ -89,5 +90,16 @@ public interface GameController {
      * Goes to the {@link GameOverScene}.
      * @param won boolean indicating whether the user player won.
      */
-    void goToGameOverScene(boolean won);    
+    void goToGameOverScene(boolean won);
+
+    /**
+     * Goes to the {@link MainMenuScene}.
+     */
+    void goToMainMenuScene();
+
+    /**
+     * Returns the mainView.
+     * @return the mainView.
+     */
+    View getMainView();
 }
