@@ -9,7 +9,7 @@ package model.player.api;
  * and the big blind 10 chips.
  */
 public enum Role {
-    
+
     /**
      * The big blind role.
      */
