@@ -9,10 +9,15 @@ package model.player.api;
  * and the big blind 10 chips.
  */
 public enum Role {
-    // CHECKSTYLE: JavadocVariable OFF
+    
+    /**
+     * The big blind role.
+     */
     BIG_BLIND(1.0), 
+    /**
+     * The small blind role.
+     */
     SMALL_BLIND(0.5);
-    // CHECKSTYLE: JavadocVariable ON
 
     private final double multiplier;
     Role(final double multiplier) {
