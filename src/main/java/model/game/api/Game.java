@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.dealer.api.Dealer;
 import model.player.api.Player;
+import model.player.user.UserPlayer;
 
 /**
  * Interface that models a generic a Game.
@@ -42,5 +43,11 @@ public interface Game {
      * @return the game State.
      */
     public State getGameState();
+
+    /**
+     * Returns the {@link UserPlayer}.
+     * @return the user player.
+     */
+    public UserPlayer getUserPlayer();
 
 }

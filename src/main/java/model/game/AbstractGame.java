@@ -33,6 +33,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
     private final State gameState;
     private final int startingBet;
     private final List<Player> players = new LinkedList<>();
+    private final Player userPlayer;
     private Player smallBlindPlayer;
     private Player bigBlindPlayer;
     private final BasicStatistics statistics;
@@ -46,6 +47,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.controller = controller;
         this.startingBet = (int) initialChips / INITIAL_BET_DIVISION_FACT;
         this.dealer = new DealerImpl();
+        this.userPlayer = new UserPlayer(USER_PLAYER_ID, initialChips);
         this.setInitialPlayers(initialChips);
         this.gameState = new StateImpl(startingBet, this.players.size());
         this.statistics = new BasicStatisticsImpl();
@@ -84,7 +86,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
             var hand = new HandImpl(this.controller, this.players, this.gameState);
 
             this.controller.updateForNewHand();
-            this.controller.setPlayerCards(USER_PLAYER_ID, this.players.getLast().getCards());
+            this.controller.setPlayerCards(USER_PLAYER_ID, userPlayer.getCards());
 
             do {
                 this.gameState.addCommunityCards(this.dealer.giveCardsToTheGame(
@@ -123,6 +125,14 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
     @Override
     public State getGameState() {
         return this.gameState;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UserPlayer getUserPlayer() {
+        return (UserPlayer) this.userPlayer;
     }
 
     /**
@@ -165,7 +175,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
             this.players.add(this.getAIPlayer(i, initialChips));
         }
-        this.players.add(new UserPlayer(USER_PLAYER_ID, initialChips));
+        this.players.add(this.userPlayer);
     }
 
     /**
