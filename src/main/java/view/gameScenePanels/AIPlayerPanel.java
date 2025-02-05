@@ -24,6 +24,7 @@ public class AIPlayerPanel extends PlayerPanelImpl{
      * Constructor for the AIPlayerPanel class.
      */
     public AIPlayerPanel() {
+        super();
 
         /*Sets the cardsPanel background*/
         this.getCardsPanel().setBackground(Color.LIGHT_GRAY);
