@@ -91,8 +91,10 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
             case Action.ALL_IN -> {
                 return this.getChips();
             }
+            default -> {
+                return 0;
+            }
         }
-        return 0;
     }
 
     /**
