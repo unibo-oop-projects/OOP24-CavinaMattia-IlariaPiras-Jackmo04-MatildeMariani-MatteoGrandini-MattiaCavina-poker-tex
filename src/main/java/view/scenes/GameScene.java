@@ -3,12 +3,23 @@ package view.scenes;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import javax.swing.JPanel;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JPanel;
+import javax.swing.RootPaneContainer;
+import javax.swing.SwingUtilities;
+
+import controller.game.PauseControllerImpl;
 import controller.game.api.GameController;
 import view.gameScenePanels.AIPlayerPanel;
+import view.gameScenePanels.PauseDialog;
 import view.gameScenePanels.PlayerPanelImpl;
 import view.gameScenePanels.TablePanel;
+import view.player.user.MyButton;
 import view.scenes.api.Scene;
 
 /**
@@ -20,10 +31,10 @@ public class GameScene extends JPanel implements Scene {
     
     private final GameController controller;
     private final TablePanel table;
-    private final PlayerPanelImpl west;
-    private final PlayerPanelImpl north;
-    private final PlayerPanelImpl east;
-    private final PlayerPanelImpl south;
+    private final PlayerPanelImpl westPlayerPanel;
+    private final PlayerPanelImpl northPlayerPanel;
+    private final PlayerPanelImpl eastPlayerPanel;
+    private final PlayerPanelImpl southPlayerPanel;
 
     /**
      * Creates a new {@link GameScene}.
@@ -37,24 +48,32 @@ public class GameScene extends JPanel implements Scene {
         this.setOpaque(true);
 
         /*Sets the panels for the player and for the table*/
-        this.west = new AIPlayerPanel();
-        this.north = new AIPlayerPanel();
-        this.east = new AIPlayerPanel();
+        this.westPlayerPanel = new AIPlayerPanel();
+        this.northPlayerPanel = new AIPlayerPanel();
+        this.eastPlayerPanel = new AIPlayerPanel();
         /*To change with a UserPlayerPanel */
-        this.south = new AIPlayerPanel();  
+        this.southPlayerPanel = new AIPlayerPanel();  
         this.table = new TablePanel();
 
         /*Sets background color*/
-        west.setBackground(Color.DARK_GRAY);
-        north.setBackground(Color.DARK_GRAY);
-        east.setBackground(Color.DARK_GRAY);
-        south.setBackground(Color.DARK_GRAY);
+        westPlayerPanel.setBackground(Color.DARK_GRAY);
+        northPlayerPanel.setBackground(Color.DARK_GRAY);
+        eastPlayerPanel.setBackground(Color.DARK_GRAY);
+        southPlayerPanel.setBackground(Color.DARK_GRAY);
+
+        JPanel southJPanel = new JPanel(new BorderLayout());
+        JPanel buttonsPanel = new JPanel(new GridLayout(2, 1, 0, 10));
+        MyButton pause = new MyButton("Pause", "PAUSE", pauseActionListener, buttonsPanel);
+        MyButton menu = new MyButton("Menu", "MENU", menuActionListener, buttonsPanel);
+        
+        southJPanel.add(southPlayerPanel, BorderLayout.CENTER);
+        southJPanel.add(buttonsPanel, BorderLayout.EAST);
 
         /*Adds the panels*/
-        this.add(north, BorderLayout.NORTH);
-        this.add(west, BorderLayout.WEST);
-        this.add(east, BorderLayout.EAST);
-        this.add(south, BorderLayout.SOUTH);
+        this.add(northPlayerPanel, BorderLayout.NORTH);
+        this.add(westPlayerPanel, BorderLayout.WEST);
+        this.add(eastPlayerPanel, BorderLayout.EAST);
+        this.add(southJPanel, BorderLayout.SOUTH);
         this.add(table, BorderLayout.CENTER);
 
         //TODO: add userPlayer panel and button to exit and pause the game.
@@ -86,10 +105,10 @@ public class GameScene extends JPanel implements Scene {
      */
     public PlayerPanelImpl getPlayerPanel(final int id) {
         return switch(id) {
-            case 0 -> this.west;
-            case 1 -> this.north;
-            case 2 -> this.east;
-            case 3 -> this.south;
+            case 0 -> this.westPlayerPanel;
+            case 1 -> this.northPlayerPanel;
+            case 2 -> this.eastPlayerPanel;
+            case 3 -> this.southPlayerPanel;
             default -> null;
         };
     }
@@ -102,5 +121,44 @@ public class GameScene extends JPanel implements Scene {
         return this.table;
     }
 
+    private ActionListener pauseActionListener = new ActionListener() {
+
+        private static final int TRASPARENCY = 170;
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JPanel glassPane = new JPanel() {
+
+                @Override
+                protected void paintComponent(Graphics g) {
+                    g.setColor(getBackground());
+                    g.fillRect(0, 0, getWidth(), getHeight());
+                    super.paintComponent(g);
+                }
+            };
+            glassPane.setOpaque(false);
+            glassPane.setBackground(new Color(0, 0, 0, TRASPARENCY));
+
+            RootPaneContainer frame = (RootPaneContainer) SwingUtilities.getWindowAncestor(GameScene.this);
+            frame.setGlassPane(glassPane);
+            glassPane.setVisible(true);
+
+            PauseDialog pauseDialog = new PauseDialog((Window) frame, 
+                                      new PauseControllerImpl(GameScene.this.controller.getMainView()));
+            pauseDialog.setLocationRelativeTo((Window) frame);
+            pauseDialog.setVisible(true);
+
+            glassPane.setVisible(false);
+        }
+    };
+
+    private ActionListener menuActionListener = new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            GameScene.this.controller.goToMainMenuScene();
+        }
+        
+    };
 
 }
