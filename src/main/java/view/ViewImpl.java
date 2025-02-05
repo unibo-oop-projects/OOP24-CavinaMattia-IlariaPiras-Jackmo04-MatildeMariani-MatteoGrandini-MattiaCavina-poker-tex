@@ -87,12 +87,12 @@ public class ViewImpl extends JFrame implements View {
     @Override
     public void enableConfermationOnClose() {
         if (this.isConfirmationOnCloseEnabled()) {
-            return;            
+            return;
         }
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(final WindowEvent e) {
                 int confirm = JOptionPane.showOptionDialog(
                     ViewImpl.this, 
                     """
@@ -119,10 +119,10 @@ public class ViewImpl extends JFrame implements View {
     @Override
     public void disableConfermationOnClose() {
         if (!this.isConfirmationOnCloseEnabled()) {
-            return;            
+            return;
         }
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.removeWindowListener(this.getWindowListeners()[0]);            
+        this.removeWindowListener(this.getWindowListeners()[0]);
     }
 
     private boolean isConfirmationOnCloseEnabled() {

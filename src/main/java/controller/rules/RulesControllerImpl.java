@@ -53,16 +53,8 @@ public class RulesControllerImpl implements RulesController {
         }
     }
 
-    private String correctImagesURLs(String html) {
+    private String correctImagesURLs(final String html) {
         return html.replaceAll("images/", ClassLoader.getSystemResource("rules/images/").toString());
-    }
-
-    @Override
-    public String getRulesIntro() {
-        return """
-                Welcome to the game of Poker Texas Hold'em!
-                The game is played with a deck of 52 cards and the goal is to win the pot by having the best hand.
-        """;
     }
 
 }

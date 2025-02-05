@@ -11,6 +11,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import controller.statistics.StatsController;
 import view.scenes.api.Scene;
@@ -21,11 +22,17 @@ import view.scenes.api.Scene;
 public class StatsScene extends JPanel implements Scene {
 
     private static final String SCENE_NAME = "stats";
+    private static final Border TITLE_BORDER = BorderFactory.createEmptyBorder(20, 0, 10, 0);
+    private static final Border STATS_CONTAINER_BORDER = BorderFactory.createEmptyBorder(10, 100, 10, 100);
+    private static final Dimension STAT_PANEL_DIMENSION = new Dimension(200, 50);
+    private static final int TITLE_FONT_SIZE = 30;
+    private static final int STATS_FONT_SIZE = 20;
+    private static final int BACK_BTN_FONT_SIZE = 18;
     private static final int LIGHT_GREEN_HEX = 0x88e378;
     private static final int DARK_GREEN_HEX = 0x0cac64;
     private static final int DARKER_GREEN_HEX = 0x2e603f;
 
-    private final JPanel statsPanel;
+    private final JPanel statsContainer;
     private final StatsController controller;
 
     /**
@@ -38,46 +45,47 @@ public class StatsScene extends JPanel implements Scene {
         this.setBackground(new Color(DARKER_GREEN_HEX));
         this.setLayout(new BorderLayout());
         JLabel title = new JLabel("Statistics", JLabel.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 30));
-        title.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
+        title.setFont(new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
+        title.setBorder(TITLE_BORDER);
         title.setForeground(Color.WHITE);
         this.add(title, BorderLayout.NORTH);
 
-        this.statsPanel = new JPanel();
-        statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
-        statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 100, 10, 100));
-        statsPanel.setBackground(new Color(DARKER_GREEN_HEX));
+        this.statsContainer = new JPanel();
+        statsContainer.setLayout(new BoxLayout(statsContainer, BoxLayout.Y_AXIS));
+        statsContainer.setBorder(STATS_CONTAINER_BORDER);
+        statsContainer.setBackground(new Color(DARKER_GREEN_HEX));
 
         this.updateStats();
 
-        this.add(statsPanel, BorderLayout.CENTER);
+        this.add(statsContainer, BorderLayout.CENTER);
 
         JButton backButton = new JButton("Back to Menu");
-        backButton.setFont(new Font("Arial", Font.BOLD, 18));
+        backButton.setFont(new Font("Arial", Font.BOLD, BACK_BTN_FONT_SIZE));
         backButton.addActionListener(e -> this.controller.goToMainMenuScene());
         this.add(backButton, BorderLayout.SOUTH);
     }
 
     private void updateStats() {
         var statsMap = this.controller.getStatistics();
-        this.statsPanel.removeAll();
+        this.statsContainer.removeAll();
         var count = 0;
         for (final var stat : statsMap) {
             var panel = new StatPanel(stat.elem1(), stat.elem2());
             panel.setBackground(count++ % 2 == 0 ? new Color(LIGHT_GREEN_HEX) : new Color(DARK_GREEN_HEX));
-            this.statsPanel.add(panel);
+            this.statsContainer.add(panel);
         }
-        this.statsPanel.add(Box.createVerticalStrut(20));
+        this.statsContainer.add(Box.createVerticalStrut(20));
     }
 
     // Inner class to create a panel for each statistic
     private class StatPanel extends JPanel {
+
         StatPanel(final String name, final String value) {
             JLabel label = new JLabel(name + ": " + value, JLabel.CENTER);
-            label.setFont(new Font("Arial", Font.BOLD, 20));
+            label.setFont(new Font("Arial", Font.BOLD, STATS_FONT_SIZE));
             this.setLayout(new BorderLayout());
             this.add(label, BorderLayout.CENTER);
-            this.setPreferredSize(new Dimension(200, 50));
+            this.setPreferredSize(STAT_PANEL_DIMENSION);
         }
     }
 

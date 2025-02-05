@@ -19,6 +19,8 @@ import view.scenes.api.Scene;
 public class RulesScene extends JPanel implements Scene {
 
     private static final String SCENE_NAME = "rules";
+    private static final int SCROLL_INCREMENT = 16;
+    private static final int BACK_BTN_FONT_SIZE = 18;
     private static final int BG_COLOR_HEX = 0xDCBA85;
 
     private final RulesController controller;
@@ -30,7 +32,7 @@ public class RulesScene extends JPanel implements Scene {
     public RulesScene(final RulesController controller) {
         this.controller = controller;
         this.setLayout(new BorderLayout());
-        
+
         // Editor pane for displaying the rules loaded from an HTML file (Decidere su usare o no)
         JEditorPane container = htmlEditorPane(this.controller.getRulesHtml());
         container.setFocusable(false);
@@ -38,19 +40,19 @@ public class RulesScene extends JPanel implements Scene {
 
         // Add a scroll bar to the rules editor pane
         JScrollPane scrollPane = new JScrollPane(container);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLL_INCREMENT);
         // Always start at the top of the pane
         SwingUtilities.invokeLater(() -> scrollPane.getVerticalScrollBar().setValue(0));
         this.add(scrollPane, BorderLayout.CENTER);
 
         // Back to menu button, TODO change style to match other buttons
         JButton backButton = new JButton("Back to Menu");
-        backButton.setFont(new Font("Arial", Font.BOLD, 18));
+        backButton.setFont(new Font("Arial", Font.BOLD, BACK_BTN_FONT_SIZE));
         backButton.addActionListener(e -> this.controller.goToMainMenuScene());
         this.add(backButton, BorderLayout.SOUTH);
     }
 
-    private JEditorPane htmlEditorPane(String html) {
+    private JEditorPane htmlEditorPane(final String html) {
         JEditorPane editorPane = new JEditorPane();
         editorPane.setContentType("text/html");
         editorPane.setEditable(false);
