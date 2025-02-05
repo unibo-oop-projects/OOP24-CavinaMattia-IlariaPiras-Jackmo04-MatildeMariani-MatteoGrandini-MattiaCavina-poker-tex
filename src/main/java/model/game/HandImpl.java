@@ -83,7 +83,7 @@ public class HandImpl implements Hand {
     @Override
     public void startPhase() {
         var playersIterator = Iterables.cycle(this.handPlayers).iterator();
-        while (playersIterator.hasNext() || this.isPhaseOver()) {
+        while (!this.isPhaseOver() && playersIterator.hasNext()) {
             var currentPlayer = playersIterator.next();
             if (currentPlayer.hasChipsLeft()) {
                 this.manageAction(playersIterator, currentPlayer);
@@ -95,7 +95,9 @@ public class HandImpl implements Hand {
 
             }
         }
+        System.out.println("Phase Over");
         this.currentPhase = this.currentPhase.next();
+        System.out.println("next Phase" + String.valueOf(this.currentPhase));
     }
     
     /**
