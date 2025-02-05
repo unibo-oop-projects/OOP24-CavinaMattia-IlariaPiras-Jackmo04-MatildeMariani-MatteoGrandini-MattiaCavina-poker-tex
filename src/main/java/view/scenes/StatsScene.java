@@ -44,7 +44,7 @@ public class StatsScene extends JPanel implements Scene {
 
         this.setBackground(new Color(DARKER_GREEN_HEX));
         this.setLayout(new BorderLayout());
-        JLabel title = new JLabel("Statistics", JLabel.CENTER);
+        final JLabel title = new JLabel("Statistics", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
         title.setBorder(TITLE_BORDER);
         title.setForeground(Color.WHITE);
@@ -59,7 +59,7 @@ public class StatsScene extends JPanel implements Scene {
 
         this.add(statsContainer, BorderLayout.CENTER);
 
-        JButton backButton = new JButton("Back to Menu");
+        final JButton backButton = new JButton("Back to Menu");
         backButton.setFont(new Font("Arial", Font.BOLD, BACK_BTN_FONT_SIZE));
         backButton.addActionListener(e -> this.controller.goToMainMenuScene());
         this.add(backButton, BorderLayout.SOUTH);
@@ -70,7 +70,7 @@ public class StatsScene extends JPanel implements Scene {
         this.statsContainer.removeAll();
         var count = 0;
         for (final var stat : statsMap) {
-            var panel = new StatPanel(stat.elem1(), stat.elem2());
+            final var panel = new StatPanel(stat.elem1(), stat.elem2());
             panel.setBackground(count++ % 2 == 0 ? new Color(LIGHT_GREEN_HEX) : new Color(DARK_GREEN_HEX));
             this.statsContainer.add(panel);
         }
@@ -81,7 +81,7 @@ public class StatsScene extends JPanel implements Scene {
     private class StatPanel extends JPanel {
 
         StatPanel(final String name, final String value) {
-            JLabel label = new JLabel(name + ": " + value, JLabel.CENTER);
+            final JLabel label = new JLabel(name + ": " + value, JLabel.CENTER);
             label.setFont(new Font("Arial", Font.BOLD, STATS_FONT_SIZE));
             this.setLayout(new BorderLayout());
             this.add(label, BorderLayout.CENTER);

@@ -34,29 +34,29 @@ public class RulesScene extends JPanel implements Scene {
         this.setLayout(new BorderLayout());
 
         // Editor pane for displaying the rules loaded from an HTML file (Decidere su usare o no)
-        JEditorPane container = htmlEditorPane(this.controller.getRulesHtml());
+        final JEditorPane container = htmlEditorPane(this.controller.getRulesHtml());
         container.setFocusable(false);
         container.setBackground(new Color(BG_COLOR_HEX));
 
         // Add a scroll bar to the rules editor pane
-        JScrollPane scrollPane = new JScrollPane(container);
+        final JScrollPane scrollPane = new JScrollPane(container);
         scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLL_INCREMENT);
         // Always start at the top of the pane
         SwingUtilities.invokeLater(() -> scrollPane.getVerticalScrollBar().setValue(0));
         this.add(scrollPane, BorderLayout.CENTER);
 
         // Back to menu button, TODO change style to match other buttons
-        JButton backButton = new JButton("Back to Menu");
+        final JButton backButton = new JButton("Back to Menu");
         backButton.setFont(new Font("Arial", Font.BOLD, BACK_BTN_FONT_SIZE));
         backButton.addActionListener(e -> this.controller.goToMainMenuScene());
         this.add(backButton, BorderLayout.SOUTH);
     }
 
     private JEditorPane htmlEditorPane(final String html) {
-        JEditorPane editorPane = new JEditorPane();
+        final JEditorPane editorPane = new JEditorPane();
         editorPane.setContentType("text/html");
         editorPane.setEditable(false);
-        editorPane.setText(this.controller.getRulesHtml());
+        editorPane.setText(html);
         return editorPane;
     }
 

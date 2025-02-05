@@ -35,12 +35,12 @@ public class ViewImpl extends JFrame implements View {
      */
     public ViewImpl() {
         super("Poker Texas Hold'em");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        var initWidth = (int) (screenSize.width * INIT_FRAME_SIZE_FACTOR);
-        var initHeight = (int) (screenSize.height * INIT_FRAME_SIZE_FACTOR);
-        var minWidth = (int) (screenSize.width * MIN_FRAME_SIZE_FACTOR);
-        var minHeight = (int) (screenSize.height * MIN_FRAME_SIZE_FACTOR);
+        final var initWidth = (int) (screenSize.width * INIT_FRAME_SIZE_FACTOR);
+        final var initHeight = (int) (screenSize.height * INIT_FRAME_SIZE_FACTOR);
+        final var minWidth = (int) (screenSize.width * MIN_FRAME_SIZE_FACTOR);
+        final var minHeight = (int) (screenSize.height * MIN_FRAME_SIZE_FACTOR);
         this.setSize(new Dimension(initWidth, initHeight));
         this.setMinimumSize(new Dimension(minWidth, minHeight));
 
@@ -93,7 +93,7 @@ public class ViewImpl extends JFrame implements View {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent e) {
-                int confirm = JOptionPane.showOptionDialog(
+                final int confirm = JOptionPane.showOptionDialog(
                     ViewImpl.this, 
                     """
                         Are you sure you want to exit the game?
