@@ -95,6 +95,7 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
                 return 0;
             }
         }
+        return 0;
     }
 
     /**
