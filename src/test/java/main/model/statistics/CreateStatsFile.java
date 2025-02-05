@@ -1,5 +1,10 @@
 package main.model.statistics;
 
+import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import model.combination.api.CombinationType;
 import model.statistics.BasicStatisticsImpl;
 import model.statistics.StatisticsManagerImpl;
@@ -16,6 +21,7 @@ public final class CreateStatsFile {
     private static final int GAMES_WON = 1;
     private static final int BEST_WINNINGS = 1000;
     private static final CombinationType BEST_COMBINATION = CombinationType.HIGH_CARD;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateStatsFile.class);
 
     private CreateStatsFile() {
     }
@@ -37,8 +43,8 @@ public final class CreateStatsFile {
         // Save the statistics
         try {
             statsManager.saveStatistics(fileName);
-        } catch (Exception e) {
-            System.err.println("Failed to save statistics to file");
+        } catch (IOException e) {
+            LOGGER.error("Failed to save statistics", e);
         }
     }
 }

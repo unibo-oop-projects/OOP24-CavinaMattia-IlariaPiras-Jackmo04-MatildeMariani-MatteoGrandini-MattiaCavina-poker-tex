@@ -34,12 +34,7 @@ public class BasicStatisticsControllerImpl implements StatsController {
      */
     @Override
     public List<Pair<String, String>> getStatistics() {
-        final var statsManager = new StatisticsManagerImpl<>(new BasicStatisticsImpl());
-        try {
-            statsManager.loadStatistics(STATS_FILE_NAME);
-        } catch (Exception e) {
-            System.err.println("Failed to load statistics from file");
-        }
+        final var statsManager = new StatisticsManagerImpl<>(STATS_FILE_NAME, new BasicStatisticsImpl());
         return this.getAsList(statsManager.getTotalStatistics());
     }
 

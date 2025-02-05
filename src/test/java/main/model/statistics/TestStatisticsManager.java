@@ -3,6 +3,7 @@ package main.model.statistics;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.IOException;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -116,7 +117,7 @@ class TestStatisticsManager {
         // Save the statistics
         try {
             statsManager.saveStatistics(fileName);
-        } catch (Exception e) {
+        } catch (IOException e) {
             fail(e);
         }
         // Create a new statistics manager with a new statistics object (as if the program was restarted)
@@ -125,7 +126,7 @@ class TestStatisticsManager {
         // Load the old statistics from file to the new statistics manager
         try {
             newStatsManager.loadStatistics(fileName);
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
             fail(e);
         }
         // After loading the statistics
