@@ -133,14 +133,6 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
         this.setCards(Set.of());
     }
 
-    /**
-     * Gets the controller associated with this user player.
-     * @return the UserPlayerController associated with this user player.
-     */
-    public UserPlayerController getController() {
-        return this.controller;
-    }
-
     @Override
     public void updateStatistics(final BasicStatistics stats) {
         stats.append(this.statistics);
