@@ -52,7 +52,7 @@ public class GameScene extends JPanel implements Scene {
         this.northPlayerPanel = new AIPlayerPanel();
         this.eastPlayerPanel = new AIPlayerPanel();
         /*To change with a UserPlayerPanel */
-        this.southPlayerPanel = new UserPanel(this.controller.getUserPlayerController());  
+        this.southPlayerPanel = new AIPlayerPanel();//new UserPanel(this.controller.getUserPlayerController());  
         this.table = new TablePanel();
 
         /*Creates the south panel with the southPlayerPanel and a buttonPanel*/
