@@ -107,7 +107,7 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      * <i>poker_tex</i> directory.
      */
     @SuppressWarnings("unchecked")
-    @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "The return value is unimportant")
+    @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "The returned value is unimportant")
     @Override
     public final void loadStatistics(final String fileName) throws Exception {
         final File file = getFileInProjectDir(fileName);
@@ -117,7 +117,7 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
         }
     }
 
-    @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "The return value is unimportant")
+    @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "The returned value is unimportant")
     private File getFileInProjectDir(final String fileName) {
         final String userHome = System.getProperty("user.home");
         final File pokerDir = new File(userHome, PROJECT_DIR_NAME);

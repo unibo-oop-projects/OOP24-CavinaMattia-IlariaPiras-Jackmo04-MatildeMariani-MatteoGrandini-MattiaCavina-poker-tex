@@ -14,7 +14,7 @@ public final class CreateStatsFile {
     private static final int HANDS_WON = 5;
     private static final int GAMES_PLAYED = 3;
     private static final int GAMES_WON = 1;
-    private static final int BEST_WINNINGS = 0;
+    private static final int BEST_WINNINGS = 1000;
     private static final CombinationType BEST_COMBINATION = CombinationType.HIGH_CARD;
 
     private CreateStatsFile() {

@@ -57,7 +57,7 @@ public class BasicStatisticsControllerImpl implements StatsController {
             new Pair<>("Hands won", String.valueOf(stats.getNumOfHandsWon())),
             new Pair<>("Games played", String.valueOf(stats.getNumOfGamesPlayed())),
             new Pair<>("Games won", String.valueOf(stats.getNumOfGamesWon())),
-            new Pair<>("Best Combination", stats.getBestCombination().map(CombinationType::name).orElse("None")),
+            new Pair<>("Best Combination", stats.getBestCombination().map(CombinationType::getName).orElse("None")),
             new Pair<>("Biggest win", stats.getBiggestWin() + " chips"),
             new Pair<>("Hands win rate", String.format("%.2f%%", stats.getHandWinRate())),
             new Pair<>("Games win rate", String.format("%.2f%%", stats.getGameWinRate()))
