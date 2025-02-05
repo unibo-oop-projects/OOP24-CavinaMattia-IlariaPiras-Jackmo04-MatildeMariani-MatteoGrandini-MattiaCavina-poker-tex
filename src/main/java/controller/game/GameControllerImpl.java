@@ -72,7 +72,7 @@ public class GameControllerImpl implements GameController{
             this.gameScene.getPlayerPanel(p.getId()).reset(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD));
         });
         this.setCommunityCards(Set.of());
-        //this.game.start();
+        this.game.start();
     }
 
     /**
@@ -129,7 +129,7 @@ public class GameControllerImpl implements GameController{
      */
     @Override
     public void setPlayerBet(final int id, final int bet) {
-        this.gameScene.getTable().setPlayerBet(id, String.valueOf(bet));
+        this.gameScene.getTable().setPlayerBet(id, bet != 0 ? String.valueOf(bet) : "");
     }
 
     /**
