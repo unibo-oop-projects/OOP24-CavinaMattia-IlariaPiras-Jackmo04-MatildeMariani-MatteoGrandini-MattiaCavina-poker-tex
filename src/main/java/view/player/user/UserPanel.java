@@ -59,9 +59,8 @@ public class UserPanel extends PlayerPanelImpl{
      */
     private void createUserPanel() {
 
-        JPanel mainPanel = new JPanel();
-        mainPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
-        mainPanel.setLayout(new FlowLayout());
+        this.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        this.setLayout(new FlowLayout());
 
         JPanel userPanel = new JPanel();
         userPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
@@ -114,7 +113,7 @@ public class UserPanel extends PlayerPanelImpl{
         userPanel.add(inputPanel);
         userPanel.add(this.getCardsPanel());
 
-        mainPanel.add(userPanel);
+        this.add(userPanel);
     }
 
     /**
@@ -207,7 +206,6 @@ public class UserPanel extends PlayerPanelImpl{
         } else {
             this.getPlayerRole().setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
                 BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
-            super.setRole(role);
         }
        super.setRole(role);
     }

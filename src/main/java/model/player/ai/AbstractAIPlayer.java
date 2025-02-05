@@ -141,6 +141,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     private void endhand() {
         this.setCards(Set.of());
         this.setRole(null);
+        this.setTotalPhaseBet(0);
     }
 
     private void updateCombination(final State currentState) {
