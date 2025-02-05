@@ -20,6 +20,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
 
     private final double raisingFactor;
     private final int standardRaise;
+    private Phase currentPhase;
 
     /**
      * Creates a new AI player with the given initial amount of chips, role and raising factor.
@@ -31,6 +32,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         super(id, initialChips);
         this.raisingFactor = raisingFactor;
         this.standardRaise = initialChips / 10;
+        this.currentPhase = Phase.PREFLOP;
     }
 
     /**
@@ -42,6 +44,10 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
             throw new IllegalStateException("Player must have 2 cards to play");
         }
         this.updateCombination(currentState);
+        if (currentState.getHandPhase() != this.currentPhase) {
+            this.currentPhase = currentState.getHandPhase();
+            this.setTotalPhaseBet(0);
+        }
         if (!this.hasChipsLeft()) {
             return Action.CHECK;
         }
