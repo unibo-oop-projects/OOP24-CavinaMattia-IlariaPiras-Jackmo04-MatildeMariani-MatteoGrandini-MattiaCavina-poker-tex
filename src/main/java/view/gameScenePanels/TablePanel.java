@@ -33,6 +33,8 @@ public class TablePanel extends JPanel {
     */
     public TablePanel() {
 
+        super();
+
         /*Creation of the table cardsPanel, with the cards initially covered*/
         this.cardsPanel = new CardsPanel(NUM_CARDS, GAP);
         //this.cardsPanel.setCards(cardsPanel.getCardGetterImage().getTableCardImage(Set.of()));
@@ -93,24 +95,26 @@ public class TablePanel extends JPanel {
      */
     public void setPlayerBet(final int id, final String bet) {
         var playerBet = switch(id) {
-            case 1 -> westPlayerBet;
-            case 2 -> northPlayerBet;
-            case 3 -> eastPlayerBet;
-            case 4 -> southPlayerBet;
+            case 0 -> westPlayerBet;
+            case 1 -> northPlayerBet;
+            case 2 -> eastPlayerBet;
+            case 3 -> southPlayerBet;
             default -> null;
         };
-        playerBet.setText(bet);
-        playerBet.setEnabled(true);
+        if (playerBet != null) {
+            playerBet.setText(bet);
+            playerBet.setVisible(true);
+        }
     }
 
     /**
      * Disables all the PlayerBetLabels.
      */
     public void resetPlayersBet() {
-        this.westPlayerBet.setEnabled(false);
-        this.northPlayerBet.setEnabled(false);
-        this.eastPlayerBet.setEnabled(false);
-        this.southPlayerBet.setEnabled(false);
+        this.westPlayerBet.setVisible(false);
+        this.northPlayerBet.setVisible(false);
+        this.eastPlayerBet.setVisible(false);
+        this.southPlayerBet.setVisible(false);
     }
 
     /**
@@ -132,7 +136,7 @@ public class TablePanel extends JPanel {
             this.setImageFromPath(PATH_FISCHES);
             this.setVerticalTextPosition(JLabel.CENTER);
             this.setHorizontalTextPosition(JLabel.RIGHT);
-            this.setEnabled(false);
+            this.setVisible(false);
         }
     }
 }
