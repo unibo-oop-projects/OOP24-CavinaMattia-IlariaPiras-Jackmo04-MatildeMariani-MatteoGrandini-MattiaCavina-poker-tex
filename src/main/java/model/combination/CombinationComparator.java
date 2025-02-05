@@ -77,8 +77,8 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
      *                                not conteins tris combination.
      */
     private Set<Card> getTrisFromCombination(final Combination<Card> combination) throws IllegalAccessException {
-        if (new CombinationsRulesImpl(combination.combinationCard()).isTris()) {
-            return new CombinationsCardGetterImpl(combination.combinationCard()).getTris();
+        if (new CombinationRulesImpl(combination.combinationCard()).isTris()) {
+            return new CombinationCardGetterImpl(combination.combinationCard()).getTris();
         } else {
             throw new IllegalAccessException();
         }

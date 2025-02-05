@@ -11,17 +11,17 @@ import com.google.common.collect.TreeMultiset;
 import com.google.common.collect.Multiset.Entry;
 
 import model.combination.api.CombinationDimension;
-import model.combination.api.CombinationRulesUtilities;
+import model.combination.api.CombinationUtilities;
 import model.deck.api.Card;
 import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
  * Class whith method to support method of
- * {@link model.combination.CombinationsRulesImpl}
- * and {@link model.combination.CombinationsCardGetterImpl} classes.
+ * {@link model.combination.CombinationRulesImpl}
+ * and {@link model.combination.CombinationCardGetterImpl} classes.
  */
-public final class CombinationRulesUtilitiesImpl implements CombinationRulesUtilities {
+public final class CombinationUtilitiesImpl implements CombinationUtilities {
 
     /**
      * {@inheritDoc}
@@ -73,9 +73,12 @@ public final class CombinationRulesUtilitiesImpl implements CombinationRulesUtil
     private List<Card> filteredSameValueCard(final List<Card> cardList) {
         final SeedCard mustUsedSeedCard;
         if (!cardList.isEmpty()) {
-            mustUsedSeedCard = getSumOfSameSeedCard(cardList).entrySet().stream()
+            mustUsedSeedCard = getSumOfSameSeedCard(cardList)
+                    .entrySet()
+                    .stream()
                     .max(Comparator.comparing(Entry::getCount))
-                    .get().getElement();
+                    .map(Entry::getElement)
+                    .get();
 
             final var straightList = cardList.stream()
                     .sorted(Comparator.comparing(Card::valueOfCard))

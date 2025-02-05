@@ -9,13 +9,13 @@ import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Sets;
 
-import model.combination.CombinationsCardGetterImpl;
+import model.combination.CombinationCardGetterImpl;
 import model.deck.api.Card;
 import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Test of {@link model.combination.CombinationsCardGetterImpl}.
+ * Test of {@link model.combination.CombinationCardGetterImpl}.
  */
 class CombinationCardGetterImplTest {
 
@@ -27,7 +27,7 @@ class CombinationCardGetterImplTest {
     void testEmpty() {
         final Set<Card> totalCardList = Sets.newHashSet();
         assertThrows(IllegalArgumentException.class,
-            () -> new CombinationsCardGetterImpl(totalCardList).getPair());
+            () -> new CombinationCardGetterImpl(totalCardList).getPair());
     }
 
     /**
@@ -49,7 +49,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND)
             ),
-            new CombinationsCardGetterImpl(totalCardList).getPair()
+            new CombinationCardGetterImpl(totalCardList).getPair()
         );
     }
 
@@ -74,7 +74,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND)
             ),
-            new CombinationsCardGetterImpl(totalCardList).getTwoPairs()
+            new CombinationCardGetterImpl(totalCardList).getTwoPairs()
         );
     }
 
@@ -98,7 +98,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH)
             ),
-            new CombinationsCardGetterImpl(totalCardList).getTris()
+            new CombinationCardGetterImpl(totalCardList).getTris()
         );
     }
 
@@ -123,7 +123,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.SPADES),
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH)
             ),
-            new CombinationsCardGetterImpl(totalCardList).getPoker()
+            new CombinationCardGetterImpl(totalCardList).getPoker()
         );
     }
 
@@ -149,7 +149,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.CLUBS),
                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS)
             ),
-            new CombinationsCardGetterImpl(totalCardList).getFlush()
+            new CombinationCardGetterImpl(totalCardList).getFlush()
         );
     }
 
@@ -175,7 +175,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH),
                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.DIAMOND)
             ),
-            new CombinationsCardGetterImpl(totalCardList).getFullHouse()
+            new CombinationCardGetterImpl(totalCardList).getFullHouse()
         );
     }
 
@@ -201,7 +201,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
                 new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.DIAMOND)
             ),
-            new CombinationsCardGetterImpl(totalCardList).getStraight()
+            new CombinationCardGetterImpl(totalCardList).getStraight()
         );
 
     }
@@ -228,7 +228,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND)
             ),
-            new CombinationsCardGetterImpl(totalCardList).getRoyalFlush()
+            new CombinationCardGetterImpl(totalCardList).getRoyalFlush()
         );
     }
 

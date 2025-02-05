@@ -11,7 +11,7 @@ import model.deck.api.SimpleCard;
 /**
  * Inteface to implement method useful to find correct {@link Combination}.
  */
-public interface CombinationRulesUtilities {
+public interface CombinationUtilities {
 
     /**
      * Method to get a possible combination of RoyalFlush , if it is present. Can
