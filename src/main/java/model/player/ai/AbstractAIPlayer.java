@@ -20,7 +20,6 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
 
     private final double raisingFactor;
     private final int standardRaise;
-    private boolean paidBlind;
 
     /**
      * Creates a new AI player with the given initial amount of chips, role and raising factor.
@@ -32,7 +31,6 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         super(id, initialChips);
         this.raisingFactor = raisingFactor;
         this.standardRaise = initialChips / 10;
-        this.paidBlind = false;
     }
 
     /**
@@ -47,8 +45,8 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         if (!this.hasChipsLeft()) {
             return Action.CHECK;
         }
-        this.paidBlind = this.getRole().isEmpty() || this.getTotalPhaseBet() > 0;
-        if (!paidBlind) {
+        final var hasToPayBlind = this.getRole().isPresent() && this.getTotalPhaseBet() == 0;
+        if (hasToPayBlind) {
             this.makeBet(requiredBet(currentState));
             return this.actionOrAllIn(Action.CALL);
         }
@@ -120,7 +118,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     }
 
     private int maxBetToReach(final int amount) {
-        return (int) Math.min(getChips(), amount);
+        return Math.min(getChips(), amount);
     }
 
     private boolean canCheck(final State currentState) {
@@ -128,8 +126,8 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     }
 
     private void makeBet(final int amount) {
-        var diff = amount - this.getTotalPhaseBet();
-        var actualBet = maxBetToReach(diff);
+        final var diff = amount - this.getTotalPhaseBet();
+        final var actualBet = maxBetToReach(diff);
         this.setTotalPhaseBet(this.getTotalPhaseBet() + actualBet);
         this.setChips(getChips() - actualBet);
     }
@@ -137,11 +135,10 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     private void endhand() {
         this.setCards(Set.of());
         this.setRole(null);
-        this.paidBlind = false;
     }
 
     private void updateCombination(final State currentState) {
-        var usableCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream())
+        final var usableCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream())
             .collect(Collectors.toSet());
         this.setCombination(new CombinationHandlerImpl().getBestCombination(usableCards));
     }
