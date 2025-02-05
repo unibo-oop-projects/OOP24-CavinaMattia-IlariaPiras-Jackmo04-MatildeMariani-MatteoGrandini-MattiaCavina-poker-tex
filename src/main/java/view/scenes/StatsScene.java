@@ -19,7 +19,7 @@ import view.scenes.api.Scene;
 /**
  * The {@link Scene} that displays the statistics of the game.
  */
-public class StatsScene extends JPanel implements Scene {
+public class StatsScene implements Scene {
 
     private static final String SCENE_NAME = "stats";
     private static final Border TITLE_BORDER = BorderFactory.createEmptyBorder(20, 0, 10, 0);
@@ -28,10 +28,12 @@ public class StatsScene extends JPanel implements Scene {
     private static final int TITLE_FONT_SIZE = 30;
     private static final int STATS_FONT_SIZE = 20;
     private static final int BACK_BTN_FONT_SIZE = 18;
+    private static final int BOTTOM_SPACING = 20;
     private static final int LIGHT_GREEN_HEX = 0x88e378;
     private static final int DARK_GREEN_HEX = 0x0cac64;
     private static final int DARKER_GREEN_HEX = 0x2e603f;
 
+    private final JPanel panel;
     private final JPanel statsContainer;
     private final StatsController controller;
 
@@ -40,15 +42,16 @@ public class StatsScene extends JPanel implements Scene {
      * @param statsController the controller for the statistics
      */
     public StatsScene(final StatsController statsController) {
+        this.panel = new JPanel();
         this.controller = statsController;
 
-        this.setBackground(new Color(DARKER_GREEN_HEX));
-        this.setLayout(new BorderLayout());
+        this.panel.setBackground(new Color(DARKER_GREEN_HEX));
+        this.panel.setLayout(new BorderLayout());
         final JLabel title = new JLabel("Statistics", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
         title.setBorder(TITLE_BORDER);
         title.setForeground(Color.WHITE);
-        this.add(title, BorderLayout.NORTH);
+        this.panel.add(title, BorderLayout.NORTH);
 
         this.statsContainer = new JPanel();
         statsContainer.setLayout(new BoxLayout(statsContainer, BoxLayout.Y_AXIS));
@@ -57,12 +60,12 @@ public class StatsScene extends JPanel implements Scene {
 
         this.updateStats();
 
-        this.add(statsContainer, BorderLayout.CENTER);
+        this.panel.add(statsContainer, BorderLayout.CENTER);
 
         final JButton backButton = new JButton("Back to Menu");
         backButton.setFont(new Font("Arial", Font.BOLD, BACK_BTN_FONT_SIZE));
         backButton.addActionListener(e -> this.controller.goToMainMenuScene());
-        this.add(backButton, BorderLayout.SOUTH);
+        this.panel.add(backButton, BorderLayout.SOUTH);
     }
 
     private void updateStats() {
@@ -70,23 +73,21 @@ public class StatsScene extends JPanel implements Scene {
         this.statsContainer.removeAll();
         var count = 0;
         for (final var stat : statsMap) {
-            final var panel = new StatPanel(stat.elem1(), stat.elem2());
+            final var panel = this.getStatJPanel(stat.elem1(), stat.elem2());
             panel.setBackground(count++ % 2 == 0 ? new Color(LIGHT_GREEN_HEX) : new Color(DARK_GREEN_HEX));
             this.statsContainer.add(panel);
         }
-        this.statsContainer.add(Box.createVerticalStrut(20));
+        this.statsContainer.add(Box.createVerticalStrut(BOTTOM_SPACING));
     }
 
-    // Inner class to create a panel for each statistic
-    private class StatPanel extends JPanel {
-
-        StatPanel(final String name, final String value) {
-            final JLabel label = new JLabel(name + ": " + value, JLabel.CENTER);
-            label.setFont(new Font("Arial", Font.BOLD, STATS_FONT_SIZE));
-            this.setLayout(new BorderLayout());
-            this.add(label, BorderLayout.CENTER);
-            this.setPreferredSize(STAT_PANEL_DIMENSION);
-        }
+    private JPanel getStatJPanel(final String name, final String value) {
+        final JPanel panel = new JPanel();
+        final JLabel label = new JLabel(name + ": " + value, JLabel.CENTER);
+        label.setFont(new Font("Arial", Font.BOLD, STATS_FONT_SIZE));
+        panel.setLayout(new BorderLayout());
+        panel.add(label, BorderLayout.CENTER);
+        panel.setPreferredSize(STAT_PANEL_DIMENSION);
+        return panel;
     }
 
     /**
@@ -94,7 +95,9 @@ public class StatsScene extends JPanel implements Scene {
      */
     @Override
     public JPanel getPanel() {
-        return this;
+        final var wrapper = new JPanel(new BorderLayout());
+        wrapper.add(this.panel, BorderLayout.CENTER);
+        return wrapper;
     }
 
     /**
