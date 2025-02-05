@@ -1,8 +1,12 @@
 package model.game;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import controller.game.api.GameController;
 import model.dealer.DealerImpl;
@@ -27,6 +31,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
     protected static final int NUM_AI_PLAYERS = 4;
     private static final int USER_PLAYER_ID = NUM_AI_PLAYERS;
     private static final String STATISTICS_FILE_NAME = "stats.bin";
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGame.class);
 
     private final GameController controller;
     private final Dealer dealer;
@@ -144,7 +149,9 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
             this.players.add(this.getAIPlayer(i, initialChips));
         }
-        //this.players.add(this.userPlayer);
+        //final var userPlayer = this.userPlayer;
+        //this.players.add(userPlayer);
+        //this.statsManager.addContributor(userPlayer);
     }
 
     /**
@@ -170,8 +177,53 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.statsManager.updateTotalStatistics();
         try {
             this.statsManager.saveStatistics(STATISTICS_FILE_NAME);
-        } catch (Exception e) {
-            System.err.println("Failed to save statistics");
+        } catch (IOException e) {
+            LOGGER.error("Error while saving statistics: ", e);
+        }
+    }
+
+    private class GameLoop extends Thread {
+        public void run() {
+            statistics.incrementGamesPlayed(1);
+            while (!isOver()) {
+                dealer.shuffle();
+                statistics.incrementHandsPlayed(1);
+                setRolesForNewHand();
+                players.stream().forEachOrdered(p -> p.setCards(dealer.giveCardsToPlayer()));
+                gameState.newHand(startingBet, players.size());
+                var hand = new HandImpl(controller, players, gameState);
+                System.out.println(gameState.getHandNumber());
+
+                controller.updateForNewHand();
+                controller.setPlayerCards(USER_PLAYER_ID -1, players.getLast().getCards());
+
+                do {
+                    gameState.addCommunityCards(dealer.giveCardsToTheGame(
+                        gameState.getHandPhase().getNumCards()));
+                        controller.setCommunityCards(gameState.getCommunityCards());
+                    
+                    hand.startPhase();
+                    players.forEach(p -> {
+                        gameState.addToPot(p.getTotalPhaseBet());
+                        controller.setPlayerBet(p.getId(), 0);
+                    });
+                    System.out.println(gameState.getPot());
+                    controller.setPot(gameState.getPot());
+                    gameState.nextHandPhase();
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    
+                } while (!hand.isHandOver());
+
+                hand.determinesWinnerOfTheHand();
+                
+            }
+            updateStatisticsAfterGameEnd();
+            controller.goToGameOverScene(AbstractGame.this.isWon());
         }
     }
 

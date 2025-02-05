@@ -2,7 +2,7 @@ package model.player.ai.api;
 
 import java.util.function.Function;
 
-import model.combination.api.CombinationType;;
+import model.combination.api.CombinationType;
 
 /**
  * Factory for creating AI players.

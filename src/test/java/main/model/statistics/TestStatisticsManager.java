@@ -3,6 +3,7 @@ package main.model.statistics;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.IOException;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -14,17 +15,17 @@ import model.statistics.api.StatisticsContributor;
 /**
  * Tests for a StatisticsManager managing BasicStatistics.
  */
-public class TestStatisticsManager {
+class TestStatisticsManager {
 
     private static final int GAMES_PLAYED = 1;
     private static final int HANDS_PLAYED = 20;
 
     /**
-     * Class to simulate a StatisticsContributor that manages hands
+     * Class to simulate a StatisticsContributor that manages hands.
      */
-    private class HandManager implements StatisticsContributor<BasicStatisticsImpl> {
+    private final class HandManager implements StatisticsContributor<BasicStatisticsImpl> {
 
-        private int handsPlayed = 0;
+        private int handsPlayed;
 
         public void playHand() {
             // Logic to play a hand
@@ -32,18 +33,18 @@ public class TestStatisticsManager {
         }
 
         @Override
-        public void updateStatistics(BasicStatisticsImpl stats) {
+        public void updateStatistics(final BasicStatisticsImpl stats) {
             stats.setHandsPlayed(handsPlayed);
         }
-    
+
     }
 
     /**
-     * Class to simulate a StatisticsContributor that manages games
+     * Class to simulate a StatisticsContributor that manages games.
      */
-    private class GameManager implements StatisticsContributor<BasicStatisticsImpl> {
+    private final class GameManager implements StatisticsContributor<BasicStatisticsImpl> {
 
-        private int gamesPlayed = 0;
+        private int gamesPlayed;
 
         public void playGame() {
             // Logic to play a game
@@ -51,17 +52,17 @@ public class TestStatisticsManager {
         }
 
         @Override
-        public void updateStatistics(BasicStatisticsImpl stats) {
+        public void updateStatistics(final BasicStatisticsImpl stats) {
             stats.setGamesPlayed(gamesPlayed);
         }
-    
+
     }
 
     /**
      * Test a single contributor updating the statistics.
      */
     @Test
-    public void testSingleContributor() {
+    void testSingleContributor() {
         final var stats = new BasicStatisticsImpl();
         final var statsManager = new StatisticsManagerImpl<BasicStatisticsImpl>(stats);
         final var handManager = new HandManager();
@@ -80,7 +81,7 @@ public class TestStatisticsManager {
      * Test multiple contributors updating the statistics.
      */
     @Test
-    public void testMultipleContributors() {
+    void testMultipleContributors() {
         final var stats = new BasicStatisticsImpl();
         final var statsManager = new StatisticsManagerImpl<BasicStatisticsImpl>(stats);
         final var handManager = new HandManager();
@@ -106,7 +107,7 @@ public class TestStatisticsManager {
      * Test saving and loading the statistics.
      */
     @Test
-    public void testSaveAndLoad() {
+    void testSaveAndLoad() {
         final var stats = new BasicStatisticsImpl();
         final var statsManager = new StatisticsManagerImpl<BasicStatisticsImpl>(stats);
         statsManager.addContributor(s -> s.setHandsPlayed(HANDS_PLAYED));
@@ -116,7 +117,7 @@ public class TestStatisticsManager {
         // Save the statistics
         try {
             statsManager.saveStatistics(fileName);
-        } catch (Exception e) {
+        } catch (IOException e) {
             fail(e);
         }
         // Create a new statistics manager with a new statistics object (as if the program was restarted)
@@ -125,7 +126,7 @@ public class TestStatisticsManager {
         // Load the old statistics from file to the new statistics manager
         try {
             newStatsManager.loadStatistics(fileName);
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
             fail(e);
         }
         // After loading the statistics

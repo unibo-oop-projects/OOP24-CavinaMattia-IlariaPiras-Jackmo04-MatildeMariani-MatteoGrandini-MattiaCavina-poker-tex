@@ -14,7 +14,7 @@ import model.combination.api.CombinationType;
 /**
  * Tests for the BasicStatistics implementation.
  */
-public class TestBasicStatistics {
+class TestBasicStatistics {
 
     private static final int GAMES_WON_8 = 8;
     private static final int GAMES_PLAYED_10 = 10;
@@ -34,10 +34,10 @@ public class TestBasicStatistics {
     }
 
     /**
-     * Test that the numeric statistics are initialized to 0 and the best combination is empty
+     * Test that the numeric statistics are initialized to 0 and the best combination is empty.
      */
     @Test
-    public void testInitialization() {
+    void testInitialization() {
         assertEquals(0, stats.getNumOfHandsPlayed());
         assertEquals(0, stats.getNumOfHandsWon());
         assertEquals(0, stats.getNumOfGamesPlayed());
@@ -52,7 +52,7 @@ public class TestBasicStatistics {
      * Test that incrementing statistics are updated correctly.
      */
     @Test
-    public void testIncrementingStats() {
+    void testIncrementingStats() {
         stats.setHandsPlayed(1);
         stats.setHandsWon(2);
         stats.setGamesPlayed(3);
@@ -75,7 +75,7 @@ public class TestBasicStatistics {
      * Test that the best combination is updated correctly.
      */
     @Test
-    public void testBestCombination() {
+    void testBestCombination() {
         stats.setBestCombinationIfSo(CombinationType.TWO_PAIRS);
         assertEquals(Optional.of(CombinationType.TWO_PAIRS), stats.getBestCombination());
         // worse combination -> should not change
@@ -90,7 +90,7 @@ public class TestBasicStatistics {
      * Test that the biggest win is updated correctly.
      */
     @Test
-    public void testBiggestWin() {
+    void testBiggestWin() {
         stats.setBiggestWinIfSo(WIN_1000);
         assertEquals(WIN_1000, stats.getBiggestWin());
         // smaller win -> should not change
@@ -105,7 +105,7 @@ public class TestBasicStatistics {
      * Test that the ratioes are calculated correctly.
      */
     @Test
-    public void testRatioes() {
+    void testRatioes() {
         stats.setHandsPlayed(HANDS_PLAYED_10);
         stats.setHandsWon(HANDS_WON_5);
         stats.setGamesPlayed(GAMES_PLAYED_10);
@@ -118,7 +118,7 @@ public class TestBasicStatistics {
      * Test that the statistics are reset correctly.
      */
     @Test
-    public void testReset() {
+    void testReset() {
         stats.setHandsPlayed(HANDS_PLAYED_10);
         stats.setHandsWon(HANDS_WON_5);
         stats.setGamesPlayed(GAMES_PLAYED_10);

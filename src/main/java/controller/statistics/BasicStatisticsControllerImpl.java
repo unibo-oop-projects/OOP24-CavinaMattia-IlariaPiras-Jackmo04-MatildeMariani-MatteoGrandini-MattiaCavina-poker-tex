@@ -34,12 +34,7 @@ public class BasicStatisticsControllerImpl implements StatsController {
      */
     @Override
     public List<Pair<String, String>> getStatistics() {
-        var statsManager = new StatisticsManagerImpl<>(new BasicStatisticsImpl());
-        try {
-            statsManager.loadStatistics(STATS_FILE_NAME);
-        } catch (Exception e) {
-            System.err.println("Failed to load statistics from file");
-        }
+        final var statsManager = new StatisticsManagerImpl<>(STATS_FILE_NAME, new BasicStatisticsImpl());
         return this.getAsList(statsManager.getTotalStatistics());
     }
 
@@ -57,8 +52,8 @@ public class BasicStatisticsControllerImpl implements StatsController {
             new Pair<>("Hands won", String.valueOf(stats.getNumOfHandsWon())),
             new Pair<>("Games played", String.valueOf(stats.getNumOfGamesPlayed())),
             new Pair<>("Games won", String.valueOf(stats.getNumOfGamesWon())),
-            new Pair<>("Best Combination", stats.getBestCombination().map(CombinationType::name).orElse("None")),
-            new Pair<>("Biggest win", String.valueOf(stats.getBiggestWin()) + " chips"),
+            new Pair<>("Best Combination", stats.getBestCombination().map(CombinationType::getName).orElse("None")),
+            new Pair<>("Biggest win", stats.getBiggestWin() + " chips"),
             new Pair<>("Hands win rate", String.format("%.2f%%", stats.getHandWinRate())),
             new Pair<>("Games win rate", String.format("%.2f%%", stats.getGameWinRate()))
         );

@@ -142,7 +142,7 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
     }
 
     @Override
-    public void updateStatistics(BasicStatistics stats) {
+    public void updateStatistics(final BasicStatistics stats) {
         stats.append(this.statistics);
         this.statistics.reset();
     }

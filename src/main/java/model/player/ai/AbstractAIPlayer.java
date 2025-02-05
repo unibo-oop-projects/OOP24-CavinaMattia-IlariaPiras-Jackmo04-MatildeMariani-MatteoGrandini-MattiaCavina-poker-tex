@@ -18,20 +18,21 @@ import model.game.api.State;
  */
 public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
-    private static final int BASIC_BET = 1000; // TODO: change this value if needed
     private final double raisingFactor;
-    private boolean paidBlind;
+    private final int standardRaise;
+    private Phase currentPhase;
 
     /**
      * Creates a new AI player with the given initial amount of chips, role and raising factor.
+     * @param id the id of the player.
      * @param initialChips the initial amount of chips of the player.
-     * @param initialRole the initial role of the player.
      * @param raisingFactor a double determining by how much the player will raise.
      */
     AbstractAIPlayer(final int id, final int initialChips, final double raisingFactor) {
         super(id, initialChips);
         this.raisingFactor = raisingFactor;
-        this.paidBlind = false;
+        this.standardRaise = initialChips / 10;
+        this.currentPhase = Phase.PREFLOP;
     }
 
     /**
@@ -43,16 +44,20 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
             throw new IllegalStateException("Player must have 2 cards to play");
         }
         this.updateCombination(currentState);
+        if (currentState.getHandPhase() != this.currentPhase) {
+            this.currentPhase = currentState.getHandPhase();
+            this.setTotalPhaseBet(0);
+        }
         if (!this.hasChipsLeft()) {
             return Action.CHECK;
         }
-        this.paidBlind = this.getRole().isEmpty() || this.getTotalPhaseBet() > 0;
-        if (!paidBlind) {
+        final var hasToPayBlind = this.getRole().isPresent() && this.getTotalPhaseBet() == 0;
+        if (hasToPayBlind) {
             this.makeBet(requiredBet(currentState));
-            return this.actionOrAllIn(Action.CALL);         
+            return this.actionOrAllIn(Action.CALL);
         }
         if (shouldRaise(currentState)) {
-            this.makeBet((int) (currentState.getCurrentBet() + BASIC_BET * raisingFactor));
+            this.makeBet((int) (currentState.getCurrentBet() + this.standardRaise * raisingFactor));
             return this.actionOrAllIn(Action.RAISE);
         }
         if (canCheck(currentState)) {
@@ -119,7 +124,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     }
 
     private int maxBetToReach(final int amount) {
-        return (int) Math.min(getChips(), amount);
+        return Math.min(getChips(), amount);
     }
 
     private boolean canCheck(final State currentState) {
@@ -127,8 +132,8 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     }
 
     private void makeBet(final int amount) {
-        var diff = amount - this.getTotalPhaseBet();
-        var actualBet = maxBetToReach(diff);
+        final var diff = amount - this.getTotalPhaseBet();
+        final var actualBet = maxBetToReach(diff);
         this.setTotalPhaseBet(this.getTotalPhaseBet() + actualBet);
         this.setChips(getChips() - actualBet);
     }
@@ -136,11 +141,10 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     private void endhand() {
         this.setCards(Set.of());
         this.setRole(null);
-        this.paidBlind = false;
     }
 
     private void updateCombination(final State currentState) {
-        var usableCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream())
+        final var usableCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream())
             .collect(Collectors.toSet());
         this.setCombination(new CombinationHandlerImpl().getBestCombination(usableCards));
     }
