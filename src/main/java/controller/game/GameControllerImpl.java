@@ -9,6 +9,7 @@ import controller.game.api.Difficulty;
 import controller.game.api.GameController;
 import controller.gameover.GameOverMenuImpl;
 import controller.menu.MainMenuControllerImpl;
+import controller.player.user.UserPlayerController;
 import model.deck.api.Card;
 import model.game.GameFactoryImpl;
 import model.game.api.Game;
@@ -71,7 +72,7 @@ public class GameControllerImpl implements GameController{
             this.gameScene.getPlayerPanel(p.getId()).reset(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD));
         });
         this.setCommunityCards(Set.of());
-        this.game.start();
+        //this.game.start();
     }
 
     /**
@@ -173,6 +174,14 @@ public class GameControllerImpl implements GameController{
     @Override
     public View getMainView() {
         return mainView;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UserPlayerController getUserPlayerController() {
+        return new UserPlayerController(this.game.getUserPlayer());
     }
     
 }

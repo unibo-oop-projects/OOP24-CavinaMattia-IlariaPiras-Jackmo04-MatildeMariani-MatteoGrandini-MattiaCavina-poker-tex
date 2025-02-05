@@ -8,6 +8,7 @@ import model.game.api.Hand;
 import model.player.api.Action;
 import model.player.api.Player;
 import controller.card.CardGetterImage;
+import controller.player.user.UserPlayerController;
 import view.scenes.GameScene;
 import view.scenes.GameOverScene;
 import view.scenes.MainMenuScene;
@@ -102,4 +103,10 @@ public interface GameController {
      * @return the mainView.
      */
     View getMainView();
+
+    /**
+     * Returns a new {@link UserPlayerController}.
+     * @return a new user player controller.
+     */
+    UserPlayerController getUserPlayerController();
 }
