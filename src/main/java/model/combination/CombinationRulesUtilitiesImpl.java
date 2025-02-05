@@ -3,6 +3,7 @@ package model.combination;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multiset;
@@ -28,23 +29,17 @@ public final class CombinationRulesUtilitiesImpl implements CombinationRulesUtil
     @Override
     public List<Card> getRoyalFlush(final List<Card> cardList) {
         final var straightList = filteredSameValueCard(addAceOneValue(cardList)).reversed();
-        Boolean checkStraight = false;
 
-        while (straightList.size() >= CombinationDimension.STRAIGHT.getDimension() && !checkStraight) {
-            final List<Integer> controList = Lists.newLinkedList();
-            for (int i = 0; i < CombinationDimension.STRAIGHT.getDimension(); i++) {
-                controList.add(straightList.get(i).valueOfCard() + i);
-            }
-            if (controList.stream().allMatch(t -> t.equals(controList.getFirst()))) {
-                checkStraight = true;
-            } else {
-                straightList.removeFirst();
-            }
+        while (straightList.size() >= CombinationDimension.STRAIGHT.getDimension()
+                && !Stream.iterate(0, t -> t + 1)
+                        .limit(CombinationDimension.STRAIGHT.getDimension())
+                        .map(t -> t + straightList.get(t).valueOfCard())
+                        .allMatch(t -> t == straightList.getFirst().valueOfCard())) {
+            straightList.removeFirst();
         }
-        while (checkStraight && straightList.size() > CombinationDimension.STRAIGHT.getDimension()) {
-            straightList.removeLast();
-        }
-        return straightList;
+        return straightList.stream()
+                .limit(CombinationDimension.STRAIGHT.getDimension())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -52,7 +47,7 @@ public final class CombinationRulesUtilitiesImpl implements CombinationRulesUtil
      */
     @Override
     public Multiset<SimpleCard> getSumOfSameNameCard(final List<Card> cardList) {
-       final Multiset<SimpleCard> nameCardMultiset = TreeMultiset.create();
+        final Multiset<SimpleCard> nameCardMultiset = TreeMultiset.create();
         nameCardMultiset.addAll(cardList.stream().map(Card::cardName).toList());
         return nameCardMultiset;
     }

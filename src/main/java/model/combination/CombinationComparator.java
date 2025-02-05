@@ -42,7 +42,7 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
                         return Integer.compare(sumValueCard(getTrisFromCombination(firstCombination)),
                                 sumValueCard(getTrisFromCombination(secondCombination)));
                     } catch (IllegalAccessException e) {
-                        System.out.println("Tris not present in combination"); // NOPDM suppresed error.
+                        System.out.println("Tris not present in combination"); // NOPMD suppressed as it is a false positive
                     }
                 default:
                     return Integer.compare(sumValueCard(firstCombination.combinationCard()),

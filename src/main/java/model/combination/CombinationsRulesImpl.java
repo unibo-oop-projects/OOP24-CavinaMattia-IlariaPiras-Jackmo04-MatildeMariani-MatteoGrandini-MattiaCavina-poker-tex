@@ -135,7 +135,7 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
                 return Lists.newLinkedList(this.totalCardList);
         }
 
-        private boolean isLongEnough(Integer combinationDimansion) {
-                return getSafetyList().size() >= combinationDimansion;
+        private boolean isLongEnough(final Integer combinationDimension) {
+                return getSafetyList().size() >= combinationDimension;
         }
 }

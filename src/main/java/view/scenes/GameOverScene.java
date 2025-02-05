@@ -72,7 +72,7 @@ public class GameOverScene extends JPanel implements Scene {
         // To change Pannel from win to lose from keyboard.
         final String key = "Tab";
         KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0);
-        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, key);
+        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(keyStroke, key);
         this.getActionMap().put(key, getChangePannelAction());
 
         // Add botton at game over pannel.
@@ -126,7 +126,8 @@ public class GameOverScene extends JPanel implements Scene {
 
     private JButton getButtomFeuture(final String name, final Color backgroud, final Color foreGround,
             final Font font, final ActionListener action) {
-        JButton button = new JButton(name);
+
+        final JButton button = new JButton(name);
         button.setBackground(backgroud);
         button.setForeground(foreGround);
         button.setFont(font);
