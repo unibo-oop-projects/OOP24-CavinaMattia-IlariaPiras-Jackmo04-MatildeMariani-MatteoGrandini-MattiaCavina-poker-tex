@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.statistics.api.Statistics;
 import model.statistics.api.StatisticsContributor;
 import model.statistics.api.StatisticsManager;
@@ -94,10 +95,10 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      */
     @Override
     public void saveStatistics(final String fileName) throws Exception {
-        File file = getFileInProjectDir(fileName);
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
-        oos.writeObject(globalStatistics);
-        oos.close();
+        final File file = getFileInProjectDir(fileName);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(globalStatistics);
+        }
     }
 
     /**
@@ -106,18 +107,20 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      * <i>poker_tex</i> directory.
      */
     @SuppressWarnings("unchecked")
+    @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "The return value is unimportant")
     @Override
-    public void loadStatistics(final String fileName) throws Exception {
-        File file = getFileInProjectDir(fileName);
-        file.createNewFile();
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-        this.globalStatistics = (S) ois.readObject();
-        ois.close();
+    public final void loadStatistics(final String fileName) throws Exception {
+        final File file = getFileInProjectDir(fileName);
+        file.createNewFile(); 
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            this.globalStatistics = (S) ois.readObject();
+        }
     }
 
+    @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "The return value is unimportant")
     private File getFileInProjectDir(final String fileName) {
-        String userHome = System.getProperty("user.home");
-        File pokerDir = new File(userHome, PROJECT_DIR_NAME);
+        final String userHome = System.getProperty("user.home");
+        final File pokerDir = new File(userHome, PROJECT_DIR_NAME);
         if (!pokerDir.exists()) {
             pokerDir.mkdirs();
         }
