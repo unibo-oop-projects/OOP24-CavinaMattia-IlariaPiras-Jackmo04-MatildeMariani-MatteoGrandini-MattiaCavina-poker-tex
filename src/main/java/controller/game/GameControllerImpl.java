@@ -81,7 +81,7 @@ public class GameControllerImpl implements GameController{
     @Override
     public void updateForNewHand() {
         Stream.iterate(0, i -> i < 4, i -> i + 1)
-              .filter(id -> !this.gameScene.getPlayerPanel(id).isEnabled())
+              .filter(id -> this.gameScene.getPlayerPanel(id).isEnabled())
               .forEach(id -> this.gameScene.getPlayerPanel(id).reset(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD)));
         
         this.setCommunityCards(Set.of());
