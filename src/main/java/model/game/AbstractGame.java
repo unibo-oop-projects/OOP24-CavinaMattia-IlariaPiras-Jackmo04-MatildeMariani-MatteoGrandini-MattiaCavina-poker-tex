@@ -1,8 +1,12 @@
 package model.game;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import controller.game.api.GameController;
 import model.dealer.DealerImpl;
@@ -27,6 +31,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
     protected static final int NUM_AI_PLAYERS = 3;
     private static final int USER_PLAYER_ID = NUM_AI_PLAYERS;
     private static final String STATISTICS_FILE_NAME = "stats.bin";
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGame.class);
 
     private final GameController controller;
     private final Dealer dealer;
@@ -165,7 +170,9 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
             this.players.add(this.getAIPlayer(i, initialChips));
         }
-        this.players.add(new UserPlayer(USER_PLAYER_ID, initialChips));
+        final var userPlayer = new UserPlayer(USER_PLAYER_ID, initialChips);
+        this.players.add(userPlayer);
+        this.statsManager.addContributor(userPlayer);
     }
 
     /**
@@ -191,8 +198,8 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.statsManager.updateTotalStatistics();
         try {
             this.statsManager.saveStatistics(STATISTICS_FILE_NAME);
-        } catch (Exception e) {
-            System.err.println("Failed to save statistics");
+        } catch (IOException e) {
+            LOGGER.error("Error while saving statistics: ", e);
         }
     }
 }
