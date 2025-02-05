@@ -37,7 +37,7 @@ class TestAIPlayer {
     private static final int BET_1000 = 1000;
     private static final int STARTING_CHIPS = 10_000;
     private static AIPlayerFactory factory;
-    private static Deck<Card> deck;
+    private Deck<Card> deck;
 
     /**
      * Set up the factory for the tests.
