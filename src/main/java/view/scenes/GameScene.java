@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.RootPaneContainer;
 import javax.swing.SwingUtilities;
 
-import controller.game.PauseControllerImpl;
 import controller.game.api.GameController;
 import view.gameScenePanels.AIPlayerPanel;
 import view.gameScenePanels.PauseDialog;
@@ -142,12 +141,19 @@ public class GameScene extends JPanel implements Scene {
             frame.setGlassPane(glassPane);
             glassPane.setVisible(true);
 
-            PauseDialog pauseDialog = new PauseDialog((Window) frame, 
-                                      new PauseControllerImpl(GameScene.this.controller.getMainView()));
-            pauseDialog.setLocationRelativeTo((Window) frame);
-            pauseDialog.setVisible(true);
+            controller.pauseGame();
+            SwingUtilities.invokeLater(new Runnable() {
 
-            glassPane.setVisible(false);
+                @Override
+                public void run() {
+                    PauseDialog pauseDialog = new PauseDialog((Window) frame, controller);
+                    pauseDialog.setLocationRelativeTo((Window) frame);
+                    pauseDialog.setVisible(true);
+
+                    glassPane.setVisible(false);
+                }
+                
+            });
         }
     };
 
