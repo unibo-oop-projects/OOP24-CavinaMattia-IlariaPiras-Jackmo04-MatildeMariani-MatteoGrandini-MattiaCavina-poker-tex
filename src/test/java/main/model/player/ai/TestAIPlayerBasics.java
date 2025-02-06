@@ -27,9 +27,9 @@ import model.player.api.Role;
 /**
  * Tests for the AIPlayer implementation.
  */
-class TestAIPlayer {
+class TestAIPlayerBasics {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestAIPlayer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestAIPlayerBasics.class);
     private static final int PLAYER_ID = 1;
     private static final int REPEAT_TESTS = 15;
     private static final int POT_2000 = 2000;
