@@ -66,9 +66,16 @@ public class PauseDialog extends JDialog {
             this.setLayout(new GridLayout(4, 1, 0, VERTICAL_GAP));
             this.add(title);
 
-            MyButton resumeButton = new MyButton("RESUME", "RESUME", actionListener, this);
-            MyButton restartButton = new MyButton("NEW GAME", "NEW GAME", actionListener, this);
-            MyButton menuButton = new MyButton("MENU", "MENU", actionListener, this);
+            /*MyButton resumeButton = new MyButton("RESUME", "RESUME", actionListener, this);
+              MyButton restartButton = new MyButton("NEW GAME", "NEW GAME", actionListener, this);
+              MyButton menuButton = new MyButton("MENU", "MENU", actionListener, this);*/ 
+              
+            MyButton resumeButton = new MyButton("RESUME");
+            resumeButton.initializeButton("RESUME", actionListener, this);
+            MyButton restartButton = new MyButton("NEW GAME");
+            restartButton.initializeButton("NEW GAME", actionListener, this);
+            MyButton menuButton = new MyButton("MENU");
+            menuButton.initializeButton(TOOL_TIP_TEXT_KEY, actionListener, this);
 
             resumeButton.setFont(new Font("Roboto", Font.BOLD, BUTTON_FONT_SIZE));
             restartButton.setFont(new Font("Roboto", Font.BOLD, BUTTON_FONT_SIZE));
