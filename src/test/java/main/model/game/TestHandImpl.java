@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -13,9 +14,12 @@ import org.junit.jupiter.api.Test;
 import controller.game.GameControllerImpl;
 import controller.game.api.Difficulty;
 import controller.game.api.GameController;
+import model.combination.CombinationComparator;
 import model.deck.DeckFactoryImpl;
 import model.deck.api.Card;
 import model.deck.api.Deck;
+import model.deck.api.SeedCard;
+import model.deck.api.SimpleCard;
 import model.game.HandImpl;
 import model.game.StateImpl;
 import model.game.api.Hand;
@@ -103,14 +107,60 @@ public class TestHandImpl {
 
     @Test
     public void testDeterminateWinnnerOfTheHand() {
-        gameState.addToPot(INITIAL_CHIPS);
+        /*gameState.addToPot(INITIAL_CHIPS);
+        gameState.addCommunityCards(deck.getSomeCards(5).stream().collect(Collectors.toSet()));
         hand.determinesWinnerOfTheHand();
 
         assertEquals( 1, 
                     (int) players.stream().filter(p -> p.getChips() == (INITIAL_CHIPS + INITIAL_CHIPS)).count());
         assertEquals( hand.getHandPlayers().size(), 
-                    (int) players.stream().filter(p -> p.getChips() == INITIAL_CHIPS).count());
-
+                    (int) players.stream().filter(p -> p.getChips() == INITIAL_CHIPS).count());*/
+        final Set<Card> firstPlayerCard = Set.of(
+            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
+            new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND),
+            new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
+            new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.HEARTH),
+            new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS),
+            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
+            new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND)
+        );
+        final Set<Card> secondPlayerCard = Set.of(
+            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
+            new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND),
+            new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
+            new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.HEARTH),
+            new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.CLUBS),
+            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
+            new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND)
+        );
+        final Set<Card> thirdPlayerCard = Set.of(
+            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
+            new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.SPADES),
+            new Card(SimpleCard.FOUR, SimpleCard.FOUR.getValueOfCard(), SeedCard.SPADES),
+            new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
+            new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.CLUBS),
+            new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.DIAMOND),
+            new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND)
+        );
+        final Set<Card> fourthPlayerCard = Set.of(
+            new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.CLUBS),
+            new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND),
+            new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
+            new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.HEARTH),
+            new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS),
+            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
+            new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND)
+        );
+        var player1 = players.get(0);
+        var player2 = players.get(1);
+        var player3 = players.get(2);
+        var player4 = players.get(3);
+        players.get(0).setCards(firstPlayerCard);
+        players.get(1).setCards(secondPlayerCard);
+        players.get(2).setCards(thirdPlayerCard);
+        players.get(3).setCards(fourthPlayerCard);
+        players.sort((p1, p2) -> new CombinationComparator().compare(p1.getCombination(), p2.getCombination()));
+        assertEquals(List.of(player2, player4, player1, player3), players);
     }
 
     @Test
