@@ -20,7 +20,6 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
 
     private final double raisingFactor;
     private final int standardRaise;
-    private Phase currentPhase;
 
     /**
      * Creates a new AI player with the given initial amount of chips, role and raising factor.
@@ -32,7 +31,6 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         super(id, initialChips);
         this.raisingFactor = raisingFactor;
         this.standardRaise = initialChips / 10;
-        this.currentPhase = Phase.PREFLOP;
     }
 
     /**
@@ -46,9 +44,6 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         this.updateCombination(currentState);
         final var currentHandPhase = currentState.getHandPhase();
         final var currentBet = currentState.getCurrentBet();
-        if (this.isNewPhase(currentHandPhase)) {
-            this.endPhase(currentHandPhase);
-        }
         if (!this.hasChipsLeft()) {
             return this.check(); // TODO maybe change this to all in
         }
@@ -143,10 +138,6 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         return this.getCards().size() == 2;
     }
 
-    private boolean isNewPhase(final Phase currentHandPhase) {
-        return currentHandPhase != this.currentPhase;
-    }
-
     private boolean hasToPayBlind(final Phase currentHandPhase) {
         return this.getRole()
             .filter(r -> this.getTotalPhaseBet() == 0 && currentHandPhase == Phase.PREFLOP)
@@ -176,11 +167,6 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         final var actualBet = maxBetToReach(diff);
         this.setTotalPhaseBet(this.getTotalPhaseBet() + actualBet);
         this.setChips(getChips() - actualBet);
-    }
-
-    private void endPhase(final Phase currentHandPhase) {
-        this.currentPhase = currentHandPhase;
-        this.setTotalPhaseBet(0);
     }
 
     private void endhand() {

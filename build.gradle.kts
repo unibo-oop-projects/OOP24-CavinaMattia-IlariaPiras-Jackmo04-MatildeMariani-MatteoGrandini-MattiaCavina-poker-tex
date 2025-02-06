@@ -26,6 +26,7 @@ dependencies {
     // Maven dependencies are composed by a group name, a name and a version, separated by colons
     implementation("com.google.guava:guava:33.4.0-jre")
     implementation("org.apache.commons:commons-collections4:4.4")
+    implementation("org.apache.commons:commons-lang3:3.17.0")
 
     /*
      * Simple Logging Facade for Java (SLF4J) with Apache Log4j

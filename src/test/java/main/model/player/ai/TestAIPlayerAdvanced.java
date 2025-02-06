@@ -187,6 +187,7 @@ class TestAIPlayerAdvanced {
         final var bet1 = player.getTotalPhaseBet();
         LOGGER.info("Bet PRE-FLOP: " + bet1);
         state.nextHandPhase();
+        player.nextPhase();
         state.setCurrentBet(BET_1000);
         action = Action.FOLD;
         while (action == Action.FOLD) {

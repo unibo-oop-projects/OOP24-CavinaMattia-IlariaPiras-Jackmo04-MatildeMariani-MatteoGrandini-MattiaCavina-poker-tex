@@ -159,4 +159,12 @@ public abstract class AbstractPlayer implements Player {
         this.totalPhaseBet = totalPhaseBet;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void nextPhase() {
+        this.totalPhaseBet = 0;
+    }
+
 }
