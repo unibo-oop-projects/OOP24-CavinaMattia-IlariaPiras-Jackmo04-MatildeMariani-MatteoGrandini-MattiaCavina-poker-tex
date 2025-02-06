@@ -1,5 +1,8 @@
 package controller.start;
 
+/**
+ * Interface for the start controller.
+ */
 public interface StartController {
 
     /**
