@@ -47,7 +47,7 @@ public class RulesScene implements Scene {
         SwingUtilities.invokeLater(() -> scrollPane.getVerticalScrollBar().setValue(0));
         this.panel.add(scrollPane, BorderLayout.CENTER);
 
-        // Back to menu button, TODO change style to match other buttons
+        // Back to menu button
         final JButton backButton = new JButton("Back to Menu");
         backButton.setFont(new Font("Arial", Font.BOLD, BACK_BTN_FONT_SIZE));
         backButton.addActionListener(e -> this.controller.goToMainMenuScene());
