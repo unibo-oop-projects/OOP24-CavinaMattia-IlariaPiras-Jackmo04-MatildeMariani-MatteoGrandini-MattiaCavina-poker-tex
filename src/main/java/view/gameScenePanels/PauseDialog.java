@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import controller.game.api.PauseController;
+import controller.game.api.GameController;
 import model.game.api.Game;
 import view.gameScenePanels.api.MyLabel;
 import view.player.user.MyButton;
@@ -31,13 +31,13 @@ public class PauseDialog extends JDialog {
     private static final int G_BACKGROUND = 186;
     private static final int B_BACKGROUND = 133;
 
-    private final PauseController controller;
+    private final GameController controller;
 
     /**
      * Creates a new {@link PauseDialog}.
      * @param owner the owner of the PauseDialog
      */
-    public PauseDialog(Window owner, PauseController controller) {
+    public PauseDialog(Window owner, GameController controller) {
         super(owner);
         this.setModal(true);
         this.setLayout(new GridBagLayout());
@@ -84,13 +84,14 @@ public class PauseDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (((MyButton) e.getSource()).getActionCommand()) {
-                    case "NEW GAME": 
-                        PauseDialog.this.controller.goToDifficultySelectionScene();
+                    case "NEW GAME":
+                        controller.goToDifficultySelectionScene();
                         break;
                     case "MENU":
-                        PauseDialog.this.controller.goToMainMenuScene();
+                        controller.goToMainMenuScene();
                         break;
                     case "RESUME":
+                        controller.resumeGame();
                     default:
                         break;
                 }
