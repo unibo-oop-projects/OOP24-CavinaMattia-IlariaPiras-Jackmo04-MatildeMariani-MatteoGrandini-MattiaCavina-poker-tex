@@ -15,7 +15,6 @@ import javax.swing.SwingUtilities;
 
 import controller.game.PauseControllerImpl;
 import controller.game.api.GameController;
-import controller.player.user.UserPlayerController;
 import view.gameScenePanels.AIPlayerPanel;
 import view.gameScenePanels.PauseDialog;
 import view.gameScenePanels.PlayerPanelImpl;
@@ -52,15 +51,15 @@ public class GameScene extends JPanel implements Scene {
         this.northPlayerPanel = new AIPlayerPanel();
         this.eastPlayerPanel = new AIPlayerPanel();
         /*To change with a UserPlayerPanel */
-        this.southPlayerPanel = new AIPlayerPanel();//new UserPanel(this.controller.getUserPlayerController());  
+        this.southPlayerPanel = new UserPanel(this.controller.getUserPlayerController());  
         this.table = new TablePanel();
 
         /*Creates the south panel with the southPlayerPanel and a buttonPanel*/
         JPanel southJPanel = new JPanel(new BorderLayout());
         JPanel buttonsPanel = new JPanel(new GridLayout(2, 1, 0, 10));
         buttonsPanel.setBackground(southPlayerPanel.getBackground());
-        MyButton pause = new MyButton("Pause", "PAUSE", pauseActionListener, buttonsPanel);
-        MyButton menu = new MyButton("Menu", "MENU", menuActionListener, buttonsPanel);
+        MyButton pause = new MyButton(" Pause ", "PAUSE", pauseActionListener, buttonsPanel);
+        MyButton menu = new MyButton(" Menu ", "MENU", menuActionListener, buttonsPanel);
         
         southJPanel.add(southPlayerPanel, BorderLayout.CENTER);
         southJPanel.add(buttonsPanel, BorderLayout.EAST);
@@ -109,7 +108,7 @@ public class GameScene extends JPanel implements Scene {
             case 1 -> this.northPlayerPanel;
             case 2 -> this.eastPlayerPanel;
             case 3 -> this.southPlayerPanel;
-            default -> null;
+            default -> throw new IllegalArgumentException();
         };
     }
 
