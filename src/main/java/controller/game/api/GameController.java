@@ -143,7 +143,19 @@ public interface GameController {
     void resumeGame();
 
     /**
+     * Synchronized method that sets the gameTerminated boolean value to true and calls the
+     * resumeGame method.
+     */
+    void endGame();
+
+    /**
      * Synchronized method that calls the wait() method if paused is true.
      */
     void waitIfPaused();
+
+    /**
+     * Returns whether the game is terminated.
+     * @return whether the game is terminated.
+     */
+    boolean isTerminated();
 }

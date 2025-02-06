@@ -31,7 +31,9 @@ public class GameControllerImpl implements GameController{
     private GameScene gameScene;
 
     private boolean isPaused = false;
+    private boolean gameTerminated = false;
     private final Object pauseLock = new Object();
+    private final Object endLock = new Object();
 
     /**
      * Creates a new {@link GameController}.
@@ -198,7 +200,7 @@ public class GameControllerImpl implements GameController{
      */
     @Override
     public void goToMainMenuScene() {
-        this.game.end();
+        this.endGame();
         this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
     }
 
@@ -207,7 +209,7 @@ public class GameControllerImpl implements GameController{
      */
     @Override
     public void goToDifficultySelectionScene() {
-        this.game.end();
+        this.endGame();
         this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
     }
 
@@ -244,6 +246,17 @@ public class GameControllerImpl implements GameController{
      * {@inheritDoc}
      */
     @Override
+    public void endGame() {
+        synchronized (endLock) {
+            this.gameTerminated = true;
+        }
+        this.resumeGame();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void waitIfPaused() {
         synchronized (pauseLock) {
             while (this.isPaused) {
@@ -254,5 +267,15 @@ public class GameControllerImpl implements GameController{
                 }
             }
         }
-    }    
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isTerminated() {
+        synchronized (endLock) {
+            return this.gameTerminated;
+        }
+    } 
 }
