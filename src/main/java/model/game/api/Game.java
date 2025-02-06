@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.dealer.api.Dealer;
 import model.player.api.Player;
+import model.player.api.Role;
 import model.player.user.UserPlayer;
 
 /**
@@ -17,12 +18,12 @@ public interface Game {
      * @return true if the user Player is the only one still in the game or if he lost, 
      * false otherwise. 
     */
-    public boolean isOver();
+    boolean isOver();
 
     /**
      * @return whether the User Player won. 
     */
-    public boolean isWon();
+    boolean isWon();
 
     /**
      * A new hand begins until isOver returns true, updating the list of {@link Player}s (checking which ones
@@ -30,24 +31,29 @@ public interface Game {
      * It then goes through each {@link Phase} of the hand until it ends. 
      * The winner of the hand is then declared. 
     */
-    public void start();
+    void start();
+
+    /**
+     * Sets the {@link GameLoop} gameTerminated boolean to true.
+     */
+    void end();
     
     /**
      * Returns the list of players in the game.
      * @return the list of players in the game.
      */
-    public List<Player> getPlayers();
+    List<Player> getPlayers();
 
     /**
      * Returns the game {@link State}.
      * @return the game State.
      */
-    public State getGameState();
+    State getGameState();
 
     /**
      * Returns the {@link UserPlayer}.
      * @return the user player.
      */
-    public UserPlayer getUserPlayer();
+    UserPlayer getUserPlayer();
 
 }
