@@ -6,8 +6,8 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multiset.Entry;
 import model.combination.api.CombinationDimension;
-import model.combination.api.CombinationRulesUtilities;
-import model.combination.api.CombinationsRules;
+import model.combination.api.CombinationUtilities;
+import model.combination.api.CombinationRules;
 import model.deck.api.Card;
 import model.deck.api.SimpleCard;
 
@@ -16,10 +16,10 @@ import model.deck.api.SimpleCard;
  * All the methods are used to check how
  * {@link model.combination.api.CombinationType} is it.
  */
-public class CombinationsRulesImpl implements CombinationsRules<Card> {
+public class CombinationRulesImpl implements CombinationRules<Card> {
 
         private final List<Card> totalCardList = Lists.newLinkedList();
-        private final CombinationRulesUtilities rulesUtilities = new CombinationRulesUtilitiesImpl();
+        private final CombinationUtilities rulesUtilities = new CombinationUtilitiesImpl();
 
         /**
          * Constructor for CombinationsRulesImpl.
@@ -27,7 +27,7 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
          * @param totalCardList
          *                      list of cards.
          */
-        public CombinationsRulesImpl(final Set<Card> totalCardList) {
+        public CombinationRulesImpl(final Set<Card> totalCardList) {
                 totalCardList.forEach(this.totalCardList::add);
         }
 
@@ -135,7 +135,7 @@ public class CombinationsRulesImpl implements CombinationsRules<Card> {
                 return Lists.newLinkedList(this.totalCardList);
         }
 
-        private boolean isLongEnough(Integer combinationDimansion) {
-                return getSafetyList().size() >= combinationDimansion;
+        private boolean isLongEnough(final Integer combinationDimension) {
+                return getSafetyList().size() >= combinationDimension;
         }
 }

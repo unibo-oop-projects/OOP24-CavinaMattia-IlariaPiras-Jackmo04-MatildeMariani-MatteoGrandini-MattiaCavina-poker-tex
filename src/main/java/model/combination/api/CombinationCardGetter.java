@@ -5,12 +5,12 @@ import java.util.Set;
 /**
  * Interface to get various poker combination card.
  * To know how that combination are formed can be read
- * {@link model.combination.api.CombinationsRules}.
+ * {@link model.combination.api.CombinationRules}.
  * 
  * @param <X>
  *            Generic type to reuse in differt type of card.
  */
-public interface CombinationsCardGetter<X> {
+public interface CombinationCardGetter<X> {
 
     /**
      * Get the pairs combination from card Set.

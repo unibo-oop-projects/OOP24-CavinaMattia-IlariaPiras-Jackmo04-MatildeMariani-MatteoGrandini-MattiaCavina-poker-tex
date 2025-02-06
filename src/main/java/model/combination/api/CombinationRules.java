@@ -7,7 +7,7 @@ package model.combination.api;
  * @param <X>
  * Generic type to reuse in differt type of card.
  */
-public interface CombinationsRules<X> {
+public interface CombinationRules<X> {
 
     /**
      * Check if the combination is a pair.

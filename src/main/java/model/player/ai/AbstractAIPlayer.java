@@ -40,34 +40,31 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
      */
     @Override
     public Action getAction(final State currentState) {
-        if (this.getCards().size() != 2) {
+        if (!this.hasEnoughCards()) {
             throw new IllegalStateException("Player must have 2 cards to play");
         }
         this.updateCombination(currentState);
-        if (currentState.getHandPhase() != this.currentPhase) {
-            this.currentPhase = currentState.getHandPhase();
-            this.setTotalPhaseBet(0);
+        final var currentHandPhase = currentState.getHandPhase();
+        final var currentBet = currentState.getCurrentBet();
+        if (this.isNewPhase(currentHandPhase)) {
+            this.endPhase(currentHandPhase);
         }
         if (!this.hasChipsLeft()) {
-            return Action.CHECK;
+            return this.check(); // TODO maybe change this to all in
         }
-        final var hasToPayBlind = this.getRole().isPresent() && this.getTotalPhaseBet() == 0;
-        if (hasToPayBlind) {
-            this.makeBet(requiredBet(currentState));
-            return this.actionOrAllIn(Action.CALL);
+        if (this.hasToPayBlind(currentHandPhase)) {
+            return this.call(currentBet, currentHandPhase);
         }
-        if (shouldRaise(currentState)) {
-            this.makeBet((int) (currentState.getCurrentBet() + this.standardRaise * raisingFactor));
-            return this.actionOrAllIn(Action.RAISE);
+        if (this.shouldRaise(currentState)) {
+            return this.raise(currentBet, currentHandPhase);
         }
-        if (canCheck(currentState)) {
-            return Action.CHECK;
+        if (this.canCheck(currentBet)) {
+            return this.check();
         }
-        if (shouldCall(currentState)) {
-            this.makeBet(currentState.getCurrentBet());
-            return this.actionOrAllIn(Action.CALL);
+        if (this.shouldCall(currentState)) {
+            return this.call(currentBet, currentHandPhase);
         }
-        return Action.FOLD;
+        return this.fold();
     }
 
     /**
@@ -96,6 +93,21 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
     }
 
     /**
+     * Returns the amount of chips the player is required to call in the current state.
+     * This amount is adjusted considering blinds.
+     * @param currentBet the current bet.
+     * @param currentHandPhase the current phase of the hand.
+     * @return the amount of chips that the player is required to call.
+     */
+    protected int requiredBet(final int currentBet, final Phase currentHandPhase) {
+        return (int) (currentBet * this.getRole()
+            .filter(r -> this.hasToPayBlind(currentHandPhase))
+            .map(Role::getMultiplier)
+            .orElse(1.0)
+        );
+    }
+
+    /**
      * Returns whether the player should call in the current state.
      * @param currentState the current state of the game.
      * @return whether the player should call in the current state.
@@ -109,26 +121,54 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
      */
     protected abstract boolean shouldRaise(State currentState);
 
-    /**
-     * Returns the amount of chips required to call or raise in the current state.
-     * This amount is multiplied by the role's multiplier if the hand phase is preflop.
-     * @param currentState the current state of the game.
-     * @return the amount of chips required to call or raise in the current state.
-     */
-    protected int requiredBet(final State currentState) {
-        return (int) (currentState.getCurrentBet() * this.getRole()
-            .filter(r -> currentState.getHandPhase() == Phase.PREFLOP)
-            .map(Role::getMultiplier)
-            .orElse(1.0)
-        );
+    private Action call(final int currentBet, final Phase currentHandPhase) {
+        this.makeBet(requiredBet(currentBet, currentHandPhase));
+        return this.actionOrAllIn(Action.CALL);
+    }
+
+    private Action raise(final int currentBet, final Phase currentHandPhase) {
+        this.makeBet((int) (requiredBet(currentBet, currentHandPhase) + this.standardRaise * raisingFactor));
+        return this.actionOrAllIn(Action.RAISE);
+    }
+
+    private Action check() {
+        return Action.CHECK;
+    }
+
+    private Action fold() {
+        return Action.FOLD;
+    }
+
+    private boolean hasEnoughCards() {
+        return this.getCards().size() == 2;
+    }
+
+    private boolean isNewPhase(final Phase currentHandPhase) {
+        return currentHandPhase != this.currentPhase;
+    }
+
+    private boolean hasToPayBlind(final Phase currentHandPhase) {
+        return this.getRole()
+            .filter(r -> this.getTotalPhaseBet() == 0 && currentHandPhase == Phase.PREFLOP)
+            .isPresent();
+    }
+
+    private boolean canCheck(final int currentBet) {
+        return currentBet == this.getTotalPhaseBet();
     }
 
     private int maxBetToReach(final int amount) {
         return Math.min(getChips(), amount);
     }
 
-    private boolean canCheck(final State currentState) {
-        return currentState.getCurrentBet() == this.getTotalPhaseBet();
+    private Action actionOrAllIn(final Action action) {
+        return this.getChips() == 0 ? Action.ALL_IN : action;
+    }
+
+    private void updateCombination(final State currentState) {
+        final var usableCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream())
+            .collect(Collectors.toSet());
+        this.setCombination(new CombinationHandlerImpl().getBestCombination(usableCards));
     }
 
     private void makeBet(final int amount) {
@@ -138,20 +178,15 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlaye
         this.setChips(getChips() - actualBet);
     }
 
+    private void endPhase(final Phase currentHandPhase) {
+        this.currentPhase = currentHandPhase;
+        this.setTotalPhaseBet(0);
+    }
+
     private void endhand() {
         this.setCards(Set.of());
         this.setRole(null);
         this.setTotalPhaseBet(0);
-    }
-
-    private void updateCombination(final State currentState) {
-        final var usableCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream())
-            .collect(Collectors.toSet());
-        this.setCombination(new CombinationHandlerImpl().getBestCombination(usableCards));
-    }
-
-    private Action actionOrAllIn(final Action action) {
-        return this.getChips() == 0 ? Action.ALL_IN : action;
     }
 
 }

@@ -27,15 +27,16 @@ import model.player.api.Role;
 /**
  * Tests for the AIPlayer implementation.
  */
-class TestAIPlayer {
+class TestAIPlayerBasics {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestAIPlayer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestAIPlayerBasics.class);
     private static final int PLAYER_ID = 1;
     private static final int REPEAT_TESTS = 15;
     private static final int POT_2000 = 2000;
     private static final int NUM_OF_PLAYERS = 4;
     private static final int BET_1000 = 1000;
     private static final int STARTING_CHIPS = 10_000;
+
     private static AIPlayerFactory factory;
     private Deck<Card> deck;
 
@@ -170,6 +171,7 @@ class TestAIPlayer {
         player.handWon(BET_1000);
         assertEquals(STARTING_CHIPS + BET_1000, player.getChips());
         assertEquals(Set.of(), player.getCards());
+        assertEquals(0, player.getTotalPhaseBet());
     }
 
     /**
@@ -185,8 +187,10 @@ class TestAIPlayer {
         while (action != Action.RAISE) {
             action = player.getAction(state);
         }
+        final var bet = player.getTotalPhaseBet();
         player.handLost();
-        assertEquals(STARTING_CHIPS - player.getTotalPhaseBet(), player.getChips());
+        assertEquals(STARTING_CHIPS - bet, player.getChips());
         assertEquals(Set.of(), player.getCards());
+        assertEquals(0, player.getTotalPhaseBet());
     }
 }

@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.google.common.collect.Lists;
-
 import model.deck.api.Deck;
 import model.deck.api.DeckBuild;
 
@@ -19,7 +17,7 @@ import model.deck.api.DeckBuild;
 public class DeckImpl<X> implements Deck<X> {
 
     private final DeckBuild<X> deckBuilder;
-    private List<X> deck = Lists.newLinkedList();
+    private List<X> deck;
 
     /**
      * Create and shuffle new deck.

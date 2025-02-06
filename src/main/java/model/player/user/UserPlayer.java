@@ -139,8 +139,11 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
         this.statistics.reset();
     }
 
+    /**
+     * Gets the controller associated with this user player.
+     * @return the controller associated with this user player.
+     */
     public UserPlayerController getController() {
-        return controller;
+        return this.controller;
     }
-    
 }

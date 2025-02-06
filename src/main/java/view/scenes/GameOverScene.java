@@ -11,7 +11,6 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.Action;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
@@ -33,8 +32,14 @@ public class GameOverScene extends JPanel implements Scene {
     private static final int TEXT_DIMENSION_RESULT = 50;
     private static final String VICTORY_STRING = "YOU WIN!";
     private static final String LOSE_STRING = "YOU LOSE!";
+    private static final String KEY_BORD_SWITCH = "Tab";
+    private static final String VICTORY_IMG_NAME = "Victory";
+    private static final String LOSE_IMG_NAME = "Lose";
+    private static final String IMG_EXTENSION = ".jpg";
 
     private final GameOverMenu controller;
+
+    private final JPanel labelPannel = new JPanel(new BorderLayout());
 
     private final JLabel endImmage = new JLabel();
     private final JLabel textFinalResult = new JLabel();
@@ -58,8 +63,6 @@ public class GameOverScene extends JPanel implements Scene {
         textFinalResult.setFont(stringResultFont);
         textFinalResult.setHorizontalAlignment(JLabel.CENTER);
 
-        setFinalPannel(controller.isEndGameStatus());
-
         final JButton goToStats = getButtomFeuture("Statistics", Color.GRAY, Color.BLACK, buttonFont,
                 e -> this.controller.goToStatsScene());
 
@@ -70,17 +73,22 @@ public class GameOverScene extends JPanel implements Scene {
                 e -> this.controller.goToMainScene());
 
         // To change Pannel from win to lose from keyboard.
-        final String key = "Tab";
         KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0);
-        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, key);
-        this.getActionMap().put(key, getChangePannelAction());
+        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(keyStroke, KEY_BORD_SWITCH);
+        this.getActionMap().put(KEY_BORD_SWITCH, getChangePannelAction());
 
         // Add botton at game over pannel.
         this.add(goToExitGame, BorderLayout.EAST);
         this.add(goToMainMenu, BorderLayout.WEST);
         this.add(endImmage, BorderLayout.CENTER);
-        this.add(textFinalResult, BorderLayout.NORTH);
+        this.add(labelPannel, BorderLayout.NORTH);
         this.add(goToStats, BorderLayout.SOUTH);
+
+        // add north pannel.
+        labelPannel.add(textFinalResult, BorderLayout.CENTER);
+        labelPannel.setBackground(Color.GRAY);
+
+        setFinalPannel(controller.isEndGameStatus());
 
     }
 
@@ -103,14 +111,16 @@ public class GameOverScene extends JPanel implements Scene {
     private void setFinalPannel(final Boolean status) {
         if (status) {
             this.setBackground(Color.GREEN);
-            endImmage.setIcon(new ImageIcon(ClassLoader.getSystemResource(RESOURCE_PATH + "Victory.jpg")));
+            endImmage.setIcon(
+                    new ImageIcon(ClassLoader.getSystemResource(RESOURCE_PATH + VICTORY_IMG_NAME + IMG_EXTENSION)));
             textFinalResult.setText(VICTORY_STRING);
             textFinalResult.setForeground(Color.BLACK);
         } else {
             this.setBackground(Color.BLACK);
-            endImmage.setIcon(new ImageIcon(ClassLoader.getSystemResource(RESOURCE_PATH + "Lose.jpg")));
+            endImmage.setIcon(
+                    new ImageIcon(ClassLoader.getSystemResource(RESOURCE_PATH + LOSE_IMG_NAME + IMG_EXTENSION)));
             textFinalResult.setText(LOSE_STRING);
-            textFinalResult.setForeground(Color.WHITE);
+            textFinalResult.setForeground(Color.RED);
         }
     }
 
@@ -126,7 +136,8 @@ public class GameOverScene extends JPanel implements Scene {
 
     private JButton getButtomFeuture(final String name, final Color backgroud, final Color foreGround,
             final Font font, final ActionListener action) {
-        JButton button = new JButton(name);
+
+        final JButton button = new JButton(name);
         button.setBackground(backgroud);
         button.setForeground(foreGround);
         button.setFont(font);
