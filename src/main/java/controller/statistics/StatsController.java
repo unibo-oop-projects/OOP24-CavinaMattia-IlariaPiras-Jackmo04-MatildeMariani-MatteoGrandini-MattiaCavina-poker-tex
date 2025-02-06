@@ -2,7 +2,7 @@ package controller.statistics;
 
 import java.util.List;
 
-import commons.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 /**
  * Interface for the statistics controller.
@@ -14,7 +14,7 @@ public interface StatsController {
      * statistic and the second string is the value of the statistic.
      * @return the list of statistics
      */
-    List<Pair<String, String>> getStatistics();
+    List<ImmutablePair<String, String>> getStatistics();
 
     /**
      * Goes back to the main menu scene.

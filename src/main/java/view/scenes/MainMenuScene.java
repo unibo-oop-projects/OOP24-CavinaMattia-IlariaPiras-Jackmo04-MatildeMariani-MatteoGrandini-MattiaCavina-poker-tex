@@ -69,7 +69,7 @@ public class MainMenuScene extends JPanel implements Scene {
         menuPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
 
         MenuButton goToStats = new MenuButton("Statistics");
-        MenuButton goToRules = new MenuButton("Rules");
+        MenuButton goToRules = new MenuButton("How to play");
         MenuButton goToDifficultySelection = new MenuButton("New game");
         MenuButton exit = new MenuButton("Exit");
        

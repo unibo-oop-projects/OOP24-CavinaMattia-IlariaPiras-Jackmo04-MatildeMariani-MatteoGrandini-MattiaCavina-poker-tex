@@ -100,4 +100,9 @@ public interface Player {
      * Informs the player that they have lost the current hand.
      */
     void handLost();
+
+    /**
+     * Informs the player that the current phase has ended.
+     */
+    void nextPhase();
 }

@@ -52,14 +52,14 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      */
     public AbstractGame(final GameController controller, final int initialChips) {
         this.controller = controller;
+        this.statistics = new BasicStatisticsImpl();
+        this.statsManager = new StatisticsManagerImpl<>(STATISTICS_FILE_NAME, new BasicStatisticsImpl());
+        this.statsManager.addContributor(this);
         this.startingBet = (int) initialChips / INITIAL_BET_DIVISION_FACT;
         this.dealer = new DealerImpl();
         this.userPlayer = new UserPlayer(USER_PLAYER_ID, initialChips);
         this.setInitialPlayers(initialChips);
         this.gameState = new StateImpl(startingBet, this.players.size());
-        this.statistics = new BasicStatisticsImpl();
-        this.statsManager = new StatisticsManagerImpl<>(STATISTICS_FILE_NAME, new BasicStatisticsImpl());
-        this.statsManager.addContributor(this);
     }
 
     /**

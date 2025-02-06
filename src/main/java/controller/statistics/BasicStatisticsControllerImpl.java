@@ -1,8 +1,8 @@
 package controller.statistics;
 
 import java.util.List;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import commons.Pair;
 import controller.menu.MainMenuControllerImpl;
 import model.combination.api.CombinationType;
 import model.statistics.BasicStatisticsImpl;
@@ -33,7 +33,7 @@ public class BasicStatisticsControllerImpl implements StatsController {
      * {@inheritDoc}
      */
     @Override
-    public List<Pair<String, String>> getStatistics() {
+    public List<ImmutablePair<String, String>> getStatistics() {
         final var statsManager = new StatisticsManagerImpl<>(STATS_FILE_NAME, new BasicStatisticsImpl());
         return this.getAsList(statsManager.getTotalStatistics());
     }
@@ -46,16 +46,16 @@ public class BasicStatisticsControllerImpl implements StatsController {
         this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
     }
 
-    private List<Pair<String, String>> getAsList(final BasicStatistics stats) {
+    private List<ImmutablePair<String, String>> getAsList(final BasicStatistics stats) {
         return List.of(
-            new Pair<>("Hands played", String.valueOf(stats.getNumOfHandsPlayed())),
-            new Pair<>("Hands won", String.valueOf(stats.getNumOfHandsWon())),
-            new Pair<>("Games played", String.valueOf(stats.getNumOfGamesPlayed())),
-            new Pair<>("Games won", String.valueOf(stats.getNumOfGamesWon())),
-            new Pair<>("Best Combination", stats.getBestCombination().map(CombinationType::getName).orElse("None")),
-            new Pair<>("Biggest win", stats.getBiggestWin() + " chips"),
-            new Pair<>("Hands win rate", String.format("%.2f%%", stats.getHandWinRate())),
-            new Pair<>("Games win rate", String.format("%.2f%%", stats.getGameWinRate()))
+            new ImmutablePair<>("Hands played", String.valueOf(stats.getNumOfHandsPlayed())),
+            new ImmutablePair<>("Hands won", String.valueOf(stats.getNumOfHandsWon())),
+            new ImmutablePair<>("Games played", String.valueOf(stats.getNumOfGamesPlayed())),
+            new ImmutablePair<>("Games won", String.valueOf(stats.getNumOfGamesWon())),
+            new ImmutablePair<>("Best Combination", stats.getBestCombination().map(CombinationType::getName).orElse("None")),
+            new ImmutablePair<>("Biggest win", stats.getBiggestWin() + " chips"),
+            new ImmutablePair<>("Hands win rate", String.format("%.2f%%", stats.getHandWinRate())),
+            new ImmutablePair<>("Games win rate", String.format("%.2f%%", stats.getGameWinRate()))
         );
     }
 }
