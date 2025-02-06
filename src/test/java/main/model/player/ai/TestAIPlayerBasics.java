@@ -36,6 +36,7 @@ class TestAIPlayerBasics {
     private static final int NUM_OF_PLAYERS = 4;
     private static final int BET_1000 = 1000;
     private static final int STARTING_CHIPS = 10_000;
+    
     private static AIPlayerFactory factory;
     private Deck<Card> deck;
 
