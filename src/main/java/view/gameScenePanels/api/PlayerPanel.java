@@ -18,19 +18,19 @@ import view.gameScenePanels.CardsPanel;
 public interface PlayerPanel {
 
     /**
-     * Sets the label of the player's {@link Action}.
+     * Sets the player's {@link Action} label.
      * @param action the player's action.
      */
     void setAction(String action);
 
     /**
-     * Sets the label of the player's remaining chips.
+     * Sets the player's remaining chips label.
      * @param chips the player's remaining chips.
      */
     void setChips(String chips);
 
     /**
-     * Sets the label of the player's {@link Role}.
+     * Sets the player's {@link Role} label.
      * @param role the player's role.
      */
     void setRole(String role);
@@ -39,7 +39,13 @@ public interface PlayerPanel {
      * Resets the player's card image and action.
      * @param cardsback the list of card back image icons.
      */
-    void reset(final List<ImageIcon> cardsback);
+    void resetForNewHand(final List<ImageIcon> cardsback);
+
+    /**
+     * Sets the player's {@link Action} label to an empty string if he can perform
+     * other actions in the next phase.
+     */
+    void resetActionForNewPhase();
 
     /**
      * Informs the PlayerPanel that the player has lost and is no longer in the game.

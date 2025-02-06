@@ -58,7 +58,7 @@ public class PlayerPanelImpl extends JPanel implements PlayerPanel{
      * {@inheritDoc}
      */
     @Override
-    public void reset(final List<ImageIcon> cardsback) {
+    public void resetForNewHand(final List<ImageIcon> cardsback) {
         this.cardsPanel.setCards(cardsback);
         this.playerAction.setText("");
     }
@@ -101,6 +101,22 @@ public class PlayerPanelImpl extends JPanel implements PlayerPanel{
     @Override
     public MyLabel getPlayerRole() {
         return this.playerRole;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resetActionForNewPhase() {
+        switch (this.playerAction.getText()) {
+            case "CALL":
+            case "RAISE":
+            case "CHECK":
+                this.setAction("");                
+                break;
+            default:
+                break;
+        }
     }
 
 }
