@@ -70,12 +70,12 @@ public class MainMenuScene extends JPanel implements Scene {
 
         MenuButton goToStats = new MenuButton("Statistics");
         MenuButton goToRules = new MenuButton("Rules");
-        MenuButton goToDifficultySelection = new MenuButton("Select difficulty");
+        MenuButton goToDifficultySelection = new MenuButton("New game");
         MenuButton exit = new MenuButton("Exit");
        
-        menuPanel.add(goToStats);
-        menuPanel.add(goToRules);
         menuPanel.add(goToDifficultySelection);
+        menuPanel.add(goToRules);
+        menuPanel.add(goToStats);
         menuPanel.add(exit);
 
         centerPanel.add(titlePanel);
