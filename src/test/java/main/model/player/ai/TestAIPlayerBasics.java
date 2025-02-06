@@ -171,6 +171,7 @@ class TestAIPlayerBasics {
         player.handWon(BET_1000);
         assertEquals(STARTING_CHIPS + BET_1000, player.getChips());
         assertEquals(Set.of(), player.getCards());
+        assertEquals(0, player.getTotalPhaseBet());
     }
 
     /**
@@ -190,5 +191,6 @@ class TestAIPlayerBasics {
         player.handLost();
         assertEquals(STARTING_CHIPS - bet, player.getChips());
         assertEquals(Set.of(), player.getCards());
+        assertEquals(0, player.getTotalPhaseBet());
     }
 }
