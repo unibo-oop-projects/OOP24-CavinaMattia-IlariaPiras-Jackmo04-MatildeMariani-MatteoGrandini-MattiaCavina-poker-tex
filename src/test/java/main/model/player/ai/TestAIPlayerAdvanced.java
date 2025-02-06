@@ -113,6 +113,9 @@ class TestAIPlayerAdvanced {
                 case FOLD:
                     assertEquals(0, player.getTotalPhaseBet());
                     break;
+                case ALL_IN:
+                    assertEquals(player.getChips(), player.getTotalPhaseBet());
+                    break;
                 default:
                     fail("Unknown action");
                     break;
@@ -136,6 +139,9 @@ class TestAIPlayerAdvanced {
                 case FOLD:
                     assertEquals(bet1, player.getTotalPhaseBet());
                     break;
+                case ALL_IN:
+                    assertEquals(player.getChips(), player.getTotalPhaseBet());
+                    break;
                 default:
                     fail("Unknown action");
                     break;
@@ -144,5 +150,70 @@ class TestAIPlayerAdvanced {
         final var bet2 = player.getTotalPhaseBet();
         LOGGER.info("Next bet: " + bet2);
         assertTrue(bet2 >= bet1 + BET_1000);
+    }
+
+    /**
+     * Test the AI player when the phase changes
+     */
+    @RepeatedTest(REPEAT_TESTS)
+    void testPhaseChange() {
+        LOGGER.info("Testing changing phase");
+        final var player = factory.hard(STD_ID, CHIPS_10000);
+        player.setCards(deck.getSomeCards(2).stream().collect(Collectors.toSet()));
+        final var state = new StateImpl(BET_1000, NUM_OF_PLAYERS);
+        var action = Action.FOLD;
+        while (action == Action.FOLD) {
+            action = player.getAction(state);
+            LOGGER.info("Action at PRE-FLOP: " + action);
+            switch (action) {
+                case CHECK:
+                    fail("Cannot check");
+                    break;
+                case CALL:
+                case RAISE:
+                    break;
+                case FOLD:
+                    assertEquals(0, player.getTotalPhaseBet());
+                    break;
+                case ALL_IN:
+                    assertEquals(player.getChips(), player.getTotalPhaseBet());
+                    break;
+                default:
+                    fail("Unknown action");
+                    break;
+            }
+        }
+        final var bet1 = player.getTotalPhaseBet();
+        LOGGER.info("Bet PRE-FLOP: " + bet1);
+        state.nextHandPhase();
+        state.setCurrentBet(BET_1000);
+        action = Action.FOLD;
+        while (action == Action.FOLD) {
+            action = player.getAction(state);
+            LOGGER.info("Action at FLOP: " + action);
+            switch (action) {
+                case CHECK:
+                    fail("Cannot check");
+                    break;
+                case CALL:
+                    assertEquals(BET_1000, player.getTotalPhaseBet());
+                    break;
+                case RAISE:
+                    assertTrue(player.getTotalPhaseBet() > BET_1000);
+                    break;
+                case FOLD:
+                    assertEquals(0, player.getTotalPhaseBet());
+                    break;
+                case ALL_IN:
+                    assertEquals(player.getChips(), player.getTotalPhaseBet());
+                    break;
+                default:
+                    fail("Unknown action");
+                    break;
+            }
+        }
+        final var bet2 = player.getTotalPhaseBet();
+        LOGGER.info("Bet FLOP: " + bet2);
+        assertTrue(bet2 >= BET_1000);
     }
 }
