@@ -5,7 +5,7 @@ import java.util.Set;
 import model.deck.api.Card;
 import model.game.api.Game;
 import model.game.api.Hand;
-import model.player.api.Action;
+import model.game.api.Phase;
 import model.player.api.Player;
 import controller.card.CardGetterImage;
 import controller.player.user.UserPlayerController;
@@ -31,6 +31,11 @@ public interface GameController {
      * Calls {@link GameScene} methods to update it at the start of a new {@link Hand}.
      */
     void updateForNewHand();
+
+    /**
+     * Calls {@link GameScene} methods to update it at the start of a new {@link Phase}.
+     */
+    void updateForNewPhase(int pot);
 
     /**
      * Starts the game.
@@ -63,7 +68,7 @@ public interface GameController {
      * @param id the player's id.
      * @param action the player's action.
      */
-    void setPlayerAction(int id, Action action);
+    void setPlayerAction(int id, String action);
 
     /**
      * Calls the setPlayerBet method in its {@link GameScene}.
@@ -86,6 +91,22 @@ public interface GameController {
      * @param bigBlindId the big blind player's id.
      */
     void setRoles(int smallBlindId, int bigBlindId);
+
+    /**
+     * Calls the setPot and the setPlayerBet methods so that the view shows the fact that the pot is 
+     * been assigned to the winner. 
+     * @param winnerId the winner's id.
+     * @param winnerChips the winner's chips.
+     * @param pot the pot.
+     */
+    void showWinner(int winnerId, int winnerChips, int pot);
+
+    /**
+     * Calls the setPlayerChips and the setPlayerBet methods to update the winner's data.
+     * @param winnerId the winner's id.
+     * @param winnerChips the winner's chips.
+     */
+    void setWinnerData(int winnerId, int winnerChips);
 
     /**
      * Goes to the {@link GameOverScene}.
