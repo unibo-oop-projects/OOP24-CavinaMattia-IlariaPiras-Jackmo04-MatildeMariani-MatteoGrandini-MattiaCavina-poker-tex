@@ -21,12 +21,12 @@ import view.scenes.api.Scene;
 /**
  * The {@link Scene} that represents the main menu of the game.
  */
-public class MainMenuScene extends JPanel implements Scene {
+public class MainMenuScene implements Scene {
 
     private static final int R_BUTTONS_PANEL = 236;
     private static final int G_BUTTONS_PANEL = 205;
     private static final int B_BUTTONS_PANEL = 153;
-    private static final int R_BORDER = 0;  
+    private static final int R_BORDER = 0;
     private static final int G_BORDER = 0;
     private static final int B_BORDER = 0;
     private static final int A_BORDER = 50;
@@ -36,9 +36,13 @@ public class MainMenuScene extends JPanel implements Scene {
     private static final int R_BACKGROUND = 220;
     private static final int G_BACKGROUND = 186;
     private static final int B_BACKGROUND = 133;
+    private static final int V_GAP = 5;
+    private static final int BUTTON_WIDTH = 250;
+    private static final int BUTTON_HEIGHT = 60;
     private static final String SCENE_NAME = "menu";
 
     private final MainMenuController controller;
+    private final JPanel mainMenuPanel;
 
     /**
      * Creates a new {@link MainMenuScene}.
@@ -46,48 +50,51 @@ public class MainMenuScene extends JPanel implements Scene {
      */
     public MainMenuScene(final MainMenuController controller) {
         this.controller = controller;
-        this.setLayout(new BorderLayout());
+        this.mainMenuPanel = new JPanel(new BorderLayout());
+        initialize();
+    }
 
-        JPanel titlePanel = new JPanel();
+    private void initialize() {
+        final JPanel titlePanel = new JPanel();
         titlePanel.setLayout(new FlowLayout());
         titlePanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
 
-        JLabel title = new JLabel("MENU", SwingConstants.CENTER);
+        final JLabel title = new JLabel("MENU", SwingConstants.CENTER);
         title.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE_TITLE));
 
         titlePanel.add(title);
 
-        JPanel mainPanel = new JPanel();
+        final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         mainPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
-        
-        JPanel centerPanel = new JPanel();
+
+        final JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
-        JPanel menuPanel = new JPanel();
-        menuPanel.setLayout(new GridLayout(4,1,0,5));
+        final JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new GridLayout(4, 1, 0, V_GAP));
         menuPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
 
-        MenuButton goToStats = new MenuButton("Statistics");
-        MenuButton goToRules = new MenuButton("Rules");
-        MenuButton goToDifficultySelection = new MenuButton("New game");
-        MenuButton exit = new MenuButton("Exit");
-       
-        menuPanel.add(goToDifficultySelection);
-        menuPanel.add(goToRules);
-        menuPanel.add(goToStats);
-        menuPanel.add(exit);
+        final MenuButton goToStats = new MenuButton("Statistics");
+        final MenuButton goToRules = new MenuButton("Rules");
+        final MenuButton goToDifficultySelection = new MenuButton("New game");
+        final MenuButton exit = new MenuButton("Exit");
+
+        menuPanel.add(goToDifficultySelection.getButton());
+        menuPanel.add(goToRules.getButton());
+        menuPanel.add(goToStats.getButton());
+        menuPanel.add(exit.getButton());
 
         centerPanel.add(titlePanel);
         centerPanel.add(menuPanel);
         mainPanel.add(centerPanel);
 
-        this.add(mainPanel, BorderLayout.CENTER);
+        this.mainMenuPanel.add(mainPanel, BorderLayout.CENTER);
 
-        goToStats.addActionListener(e -> this.controller.goToStatsScene());
-        goToRules.addActionListener(e -> this.controller.goToRulesScene());
-        goToDifficultySelection.addActionListener(e -> this.controller.goToDifficultySelectionScene());
-        exit.addActionListener(e -> this.controller.exitGame());
+        goToStats.getButton().addActionListener(e -> this.controller.goToStatsScene());
+        goToRules.getButton().addActionListener(e -> this.controller.goToRulesScene());
+        goToDifficultySelection.getButton().addActionListener(e -> this.controller.goToDifficultySelectionScene());
+        exit.getButton().addActionListener(e -> this.controller.exitGame());
     }
 
     /**
@@ -95,7 +102,9 @@ public class MainMenuScene extends JPanel implements Scene {
      */
     @Override
     public JPanel getPanel() {
-        return this;
+        final var wrapper = new JPanel(new BorderLayout());
+        wrapper.add(this.mainMenuPanel, BorderLayout.CENTER);
+        return wrapper;
     }
 
     /**
@@ -110,18 +119,28 @@ public class MainMenuScene extends JPanel implements Scene {
      * Custom button class for the MainMenuScene.
      * This class extends JButton and provides a style for buttons in this scene.
      */
-    private class MenuButton extends JButton {
+    private class MenuButton {
 
-        public MenuButton(String text) {
-            super(text);
-            this.setBackground(new Color(R_BUTTONS_PANEL, G_BUTTONS_PANEL, B_BUTTONS_PANEL));
-            this.setForeground(Color.BLACK);
-            this.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
-            this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
+        private final JButton button;
+
+        MenuButton(final String text) {
+            button = new JButton(text);
+            initializeButton();
+        }
+
+        private void initializeButton() {
+            this.button.setBackground(new Color(R_BUTTONS_PANEL, G_BUTTONS_PANEL, B_BUTTONS_PANEL));
+            this.button.setForeground(Color.BLACK);
+            this.button.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
+            this.button.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
                             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
-            this.setOpaque(true);
-            this.setContentAreaFilled(true);
-            this.setPreferredSize(new Dimension(250, 60));
+            this.button.setOpaque(true);
+            this.button.setContentAreaFilled(true);
+            this.button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+        }
+
+        public JButton getButton() {
+            return this.button;
         }
     }
 }

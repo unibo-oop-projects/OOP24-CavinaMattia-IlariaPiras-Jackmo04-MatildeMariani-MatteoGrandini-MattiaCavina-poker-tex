@@ -58,8 +58,7 @@ public class MainMenuControllerImpl implements MainMenuController {
 
     /**
      * Method to get mainView.
-     * @return
-     *          the main view of the application   
+     * @return the main view of the application.
      */
     protected View getView() {
         return this.mainView;
