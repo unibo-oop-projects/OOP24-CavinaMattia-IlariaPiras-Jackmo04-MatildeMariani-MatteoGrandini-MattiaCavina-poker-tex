@@ -13,7 +13,6 @@ import controller.player.user.UserPlayerController;
 import model.deck.api.Card;
 import model.game.GameFactoryImpl;
 import model.game.api.Game;
-import model.player.api.Action;
 import view.View;
 import view.scenes.GameOverScene;
 import view.scenes.GameScene;
@@ -24,6 +23,7 @@ import view.scenes.MainMenuScene;
  */
 public class GameControllerImpl implements GameController{
 
+    private static final int MAX_PLAYERS = 4;
     private static final int NUM_PLAYER_CARD = 2;
     private final CardGetterImage cardGetterImage;
     private final View mainView;
@@ -69,7 +69,7 @@ public class GameControllerImpl implements GameController{
     public void startGame() {
         this.game.getPlayers().forEach(p -> {
             this.setPlayerChips(p.getId(), p.getChips());
-            this.gameScene.getPlayerPanel(p.getId()).reset(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD));
+            this.gameScene.getPlayerPanel(p.getId()).resetForNewHand(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD));
         });
         this.setCommunityCards(Set.of());
         this.game.start();
@@ -80,15 +80,27 @@ public class GameControllerImpl implements GameController{
      */
     @Override
     public void updateForNewHand() {
-        Stream.iterate(0, i -> i < 4, i -> i + 1)
+        Stream.iterate(0, i -> i < MAX_PLAYERS, i -> i + 1)
               .filter(id -> this.gameScene.getPlayerPanel(id).isEnabled())
-              .forEach(id -> this.gameScene.getPlayerPanel(id).reset(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD)));
+              .forEach(id -> this.gameScene.getPlayerPanel(id).resetForNewHand(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD)));
         
         this.setCommunityCards(Set.of());
         
-        Stream.iterate(0, i -> i < 4, i -> i + 1)
+        Stream.iterate(0, i -> i < MAX_PLAYERS, i -> i + 1)
               .filter(id -> this.game.getPlayers().stream().noneMatch(p -> p.getId() == id))
               .forEach(id -> this.gameScene.getPlayerPanel(id).lost());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateForNewPhase(final int pot) {
+        this.game.getPlayers().forEach(p -> {
+            this.setPlayerBet(p.getId(), 0);
+            this.gameScene.getPlayerPanel(p.getId()).resetActionForNewPhase();
+        });
+        this.setPot(pot);
     }
 
     /**
@@ -120,8 +132,8 @@ public class GameControllerImpl implements GameController{
      * {@inheritDoc}
      */
     @Override
-    public void setPlayerAction(final int id, final Action action) {
-        this.gameScene.getPlayerPanel(id).setAction(String.valueOf(action));
+    public void setPlayerAction(final int id, final String action) {
+        this.gameScene.getPlayerPanel(id).setAction(action);
     }
 
     /**
@@ -145,11 +157,29 @@ public class GameControllerImpl implements GameController{
      */
     @Override
     public void setRoles(final int smallBlindId, final int bigBlindId) {
-        Stream.iterate(0, i -> i < 4, i -> i + 1)
+        Stream.iterate(0, i -> i < MAX_PLAYERS, i -> i + 1)
               .filter(id -> this.game.getPlayers().stream().anyMatch(p -> p.getId() == id))
               .forEach(id -> this.gameScene.getPlayerPanel(id).setRole(
                     id == smallBlindId ? "SB" : 
                     id == bigBlindId ? "BB" : ""));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void showWinner(final int winnerId, final int winnerChips, final int pot) {
+        this.setPot(0);
+        this.setPlayerBet(winnerId, pot);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setWinnerData(final int winnerId, final int winnerChips) {
+        this.setPlayerBet(winnerId, 0);
+        this.setPlayerChips(winnerId, winnerChips);
     }
 
     /**
