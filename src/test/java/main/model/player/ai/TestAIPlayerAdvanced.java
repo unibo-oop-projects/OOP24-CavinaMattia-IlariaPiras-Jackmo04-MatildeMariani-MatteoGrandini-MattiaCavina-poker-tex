@@ -1,9 +1,9 @@
 package main.model.player.ai;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -28,8 +28,10 @@ class TestAIPlayerAdvanced {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestAIPlayerAdvanced.class);
     private static final int REPEAT_TESTS = 15;
-    private static final int CHIPS_800 = 800;
     private static final int STD_ID = 1;
+    private static final int NUM_OF_PLAYERS = 4;
+    private static final int CHIPS_800 = 800;
+    private static final int CHIPS_10000 = 10000;
     private static final int BET_1000 = 1000;
     
     private static AIPlayerFactory factory;
@@ -59,7 +61,7 @@ class TestAIPlayerAdvanced {
         LOGGER.info("Testing all in");
         final var player = factory.hard(STD_ID, CHIPS_800);
         player.setCards(deck.getSomeCards(2).stream().collect(Collectors.toSet()));
-        final var state = new StateImpl(BET_1000, 4);
+        final var state = new StateImpl(BET_1000, NUM_OF_PLAYERS);
         var action = Action.FOLD;
         while (action == Action.FOLD) {
             action = player.getAction(state);
@@ -86,5 +88,61 @@ class TestAIPlayerAdvanced {
         assertEquals(CHIPS_800, player.getTotalPhaseBet());
         player.handWon(BET_1000);
         assertEquals(BET_1000, player.getChips());
+    }
+
+    /**
+     * Test an update in the current bet.
+     */
+    @RepeatedTest(REPEAT_TESTS)
+    void testChangingBet() {
+        LOGGER.info("Testing changing bet");
+        final var player = factory.hard(STD_ID, CHIPS_10000);
+        player.setCards(deck.getSomeCards(2).stream().collect(Collectors.toSet()));
+        final var state = new StateImpl(BET_1000, NUM_OF_PLAYERS);
+        var action = Action.FOLD;
+        while (action == Action.FOLD) {
+            action = player.getAction(state);
+            LOGGER.info("Action: " + action);
+            switch (action) {
+                case CHECK:
+                    fail("Cannot check");
+                    break;
+                case CALL:
+                case RAISE:
+                    break;
+                case FOLD:
+                    assertEquals(0, player.getTotalPhaseBet());
+                    break;
+                default:
+                    fail("Unknown action");
+                    break;
+            }
+        }
+        final var bet1 = player.getTotalPhaseBet();
+        LOGGER.info("Bet: " + bet1);
+        assertTrue(bet1 >= BET_1000);
+        state.setCurrentBet(bet1 + BET_1000);
+        action = Action.FOLD;
+        while (action == Action.FOLD) {
+            action = player.getAction(state);
+            LOGGER.info("Next action: " + action);
+            switch (action) {
+                case CHECK:
+                    fail("Cannot check");
+                    break;
+                case CALL:
+                case RAISE:
+                    break;
+                case FOLD:
+                    assertEquals(bet1, player.getTotalPhaseBet());
+                    break;
+                default:
+                    fail("Unknown action");
+                    break;
+            }
+        }
+        final var bet2 = player.getTotalPhaseBet();
+        LOGGER.info("Next bet: " + bet2);
+        assertTrue(bet2 >= bet1 + BET_1000);
     }
 }
