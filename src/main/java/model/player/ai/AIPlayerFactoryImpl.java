@@ -142,7 +142,8 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                     case TURN -> TURN_MODIFIER;
                     case RIVER -> RIVER_MODIFIER;
                 };
-                if (this.getTotalPhaseBet() != 0 && requiredBet(currentBet, currentHandPhase) > this.getTotalPhaseBet() * HIGH_BET_THRESHOLD) {
+                if (this.getTotalPhaseBet() != 0
+                        && requiredBet(currentBet, currentHandPhase) > this.getTotalPhaseBet() * HIGH_BET_THRESHOLD) {
                     chance = chance * HIGH_BET_MODIFIER;
                 }
                 return random.nextDouble() < chance;

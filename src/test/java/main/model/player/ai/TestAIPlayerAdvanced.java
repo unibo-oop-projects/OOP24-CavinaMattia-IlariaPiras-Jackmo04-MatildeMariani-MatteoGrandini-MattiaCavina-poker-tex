@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,9 +30,11 @@ class TestAIPlayerAdvanced {
     private static final int STD_ID = 1;
     private static final int NUM_OF_PLAYERS = 4;
     private static final int CHIPS_800 = 800;
-    private static final int CHIPS_10000 = 10000;
+    private static final int CHIPS_10000 = 10_000;
     private static final int BET_1000 = 1000;
-    
+    private static final String CANNOT_CHECK = "Cannot check";
+    private static final String UNKNOWN_ACTION = "Unknown action";
+
     private static AIPlayerFactory factory;
     private Deck<Card> deck;
 
@@ -68,7 +69,7 @@ class TestAIPlayerAdvanced {
             LOGGER.info("Action: " + action);
             switch (action) {
                 case CHECK:
-                    fail("Cannot check");
+                    fail(CANNOT_CHECK);
                     break;
                 case CALL:
                     fail("Cannot call, has to go all in");
@@ -80,7 +81,7 @@ class TestAIPlayerAdvanced {
                 case ALL_IN:
                     break;
                 default:
-                    fail("Unknown action");
+                    fail(UNKNOWN_ACTION);
                     break;
             }
         }
@@ -105,7 +106,7 @@ class TestAIPlayerAdvanced {
             LOGGER.info("Action: " + action);
             switch (action) {
                 case CHECK:
-                    fail("Cannot check");
+                    fail(CANNOT_CHECK);
                     break;
                 case CALL:
                 case RAISE:
@@ -117,7 +118,7 @@ class TestAIPlayerAdvanced {
                     assertEquals(player.getChips(), player.getTotalPhaseBet());
                     break;
                 default:
-                    fail("Unknown action");
+                    fail(UNKNOWN_ACTION);
                     break;
             }
         }
@@ -131,7 +132,7 @@ class TestAIPlayerAdvanced {
             LOGGER.info("Next action: " + action);
             switch (action) {
                 case CHECK:
-                    fail("Cannot check");
+                    fail(CANNOT_CHECK);
                     break;
                 case CALL:
                 case RAISE:
@@ -143,7 +144,7 @@ class TestAIPlayerAdvanced {
                     assertEquals(player.getChips(), player.getTotalPhaseBet());
                     break;
                 default:
-                    fail("Unknown action");
+                    fail(UNKNOWN_ACTION);
                     break;
             }
         }
@@ -153,7 +154,7 @@ class TestAIPlayerAdvanced {
     }
 
     /**
-     * Test the AI player when the phase changes
+     * Test the AI player when the phase changes.
      */
     @RepeatedTest(REPEAT_TESTS)
     void testPhaseChange() {
@@ -167,7 +168,7 @@ class TestAIPlayerAdvanced {
             LOGGER.info("Action at PRE-FLOP: " + action);
             switch (action) {
                 case CHECK:
-                    fail("Cannot check");
+                    fail(CANNOT_CHECK);
                     break;
                 case CALL:
                 case RAISE:
@@ -179,7 +180,7 @@ class TestAIPlayerAdvanced {
                     assertEquals(player.getChips(), player.getTotalPhaseBet());
                     break;
                 default:
-                    fail("Unknown action");
+                    fail(UNKNOWN_ACTION);
                     break;
             }
         }
@@ -193,7 +194,7 @@ class TestAIPlayerAdvanced {
             LOGGER.info("Action at FLOP: " + action);
             switch (action) {
                 case CHECK:
-                    fail("Cannot check");
+                    fail(CANNOT_CHECK);
                     break;
                 case CALL:
                     assertEquals(BET_1000, player.getTotalPhaseBet());
@@ -208,7 +209,7 @@ class TestAIPlayerAdvanced {
                     assertEquals(player.getChips(), player.getTotalPhaseBet());
                     break;
                 default:
-                    fail("Unknown action");
+                    fail(UNKNOWN_ACTION);
                     break;
             }
         }
