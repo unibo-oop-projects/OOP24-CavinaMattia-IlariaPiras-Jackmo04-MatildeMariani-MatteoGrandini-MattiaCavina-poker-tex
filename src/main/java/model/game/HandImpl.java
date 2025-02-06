@@ -73,10 +73,8 @@ public class HandImpl implements Hand {
             case CHECK:
                 break;
         }
-        this.controller.setPlayerAction(player.getId(), action);
+        this.controller.setPlayerAction(player.getId(), String.valueOf(action));
         if (!action.equals(Action.FOLD) &&  !action.equals(Action.CHECK)) {
-            System.out.println(player.getTotalPhaseBet());
-            System.out.println(gameState.getCurrentBet());
             this.controller.setPlayerBet(player.getId(), player.getTotalPhaseBet());
             this.controller.setPlayerChips(player.getId(), player.getChips());
         }
@@ -87,27 +85,16 @@ public class HandImpl implements Hand {
      */
     @Override
     public void startPhase() {
+        this.halt();
         var playersIterator = Iterables.cycle(this.handPlayers).iterator();
-        System.out.println("Current bet in Phase: " + gameState.getCurrentBet());
-        System.out.println("First player phaseBet: " + this.handPlayers.getFirst().getTotalPhaseBet() + " id: " + this.handPlayers.getFirst().getId());
-
         while (!this.isPhaseOver() && playersIterator.hasNext()) {
             var currentPlayer = playersIterator.next();
-            System.out.println(currentPlayer.getTotalPhaseBet());
-            System.out.println(gameState.getCurrentBet());
             if (currentPlayer.hasChipsLeft()) {
                 this.manageAction(playersIterator, currentPlayer);
             }
-
-            try {
-                Thread.sleep(WAIT_TIME);
-            } catch (InterruptedException e) {
-
-            }
+            this.halt();
         }
-        System.out.println("Phase Over");
         this.currentPhase = this.currentPhase.next();
-        System.out.println("next Phase " + String.valueOf(this.currentPhase));
     }
     
     /**
@@ -142,8 +129,10 @@ public class HandImpl implements Hand {
         if (!this.handPlayers.isEmpty()) {
             this.handPlayers.forEach(p -> p.handLost());
         }
-        this.controller.setPot(0);
-        this.controller.setPlayerChips(winner.getId(), winner.getChips());
+        this.halt();
+        this.controller.showWinner(winner.getId(), winner.getChips(), this.gameState.getPot());
+        this.halt();
+        this.controller.setWinnerData(winner.getId(), winner.getChips());
     }
 
     /**
@@ -162,5 +151,12 @@ public class HandImpl implements Hand {
         return currentPhase;
     }
 
+    private void halt() {
+        try {
+            Thread.sleep(WAIT_TIME);
+        } catch (InterruptedException e) {
+
+        }
+    }
 
 }
