@@ -73,7 +73,7 @@ public class StatsScene implements Scene {
         this.statsContainer.removeAll();
         var count = 0;
         for (final var stat : statsMap) {
-            final var panel = this.getStatJPanel(stat.elem1(), stat.elem2());
+            final var panel = this.getStatJPanel(stat.getKey(), stat.getValue());
             panel.setBackground(count++ % 2 == 0 ? new Color(LIGHT_GREEN_HEX) : new Color(DARK_GREEN_HEX));
             this.statsContainer.add(panel);
         }
