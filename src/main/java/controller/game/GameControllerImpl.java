@@ -211,7 +211,7 @@ public class GameControllerImpl implements GameController{
      */
     @Override
     public UserPlayerController getUserPlayerController() {
-        return new UserPlayerController(this.game.getUserPlayer());
+        return this.game.getUserPlayer().getController();
     }
     
 }

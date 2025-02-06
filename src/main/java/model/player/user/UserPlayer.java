@@ -138,4 +138,9 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
         stats.append(this.statistics);
         this.statistics.reset();
     }
+
+    public UserPlayerController getController() {
+        return controller;
+    }
+    
 }
