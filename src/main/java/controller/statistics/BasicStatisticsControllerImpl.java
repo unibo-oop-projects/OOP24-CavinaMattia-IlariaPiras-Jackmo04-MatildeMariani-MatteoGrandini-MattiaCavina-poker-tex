@@ -36,7 +36,6 @@ public class BasicStatisticsControllerImpl implements StatsController {
     public List<ImmutablePair<String, String>> getStatistics() {
         final var statsManager = new StatisticsManagerImpl<>(STATS_FILE_NAME, new BasicStatisticsImpl());
         return this.getAsList(statsManager.getTotalStatistics());
-        
     }
 
     /**

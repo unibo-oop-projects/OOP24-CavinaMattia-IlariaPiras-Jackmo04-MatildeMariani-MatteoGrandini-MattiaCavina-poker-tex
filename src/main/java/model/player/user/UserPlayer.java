@@ -133,6 +133,9 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
         this.setCards(Set.of());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateStatistics(final BasicStatistics stats) {
         stats.append(this.statistics);
