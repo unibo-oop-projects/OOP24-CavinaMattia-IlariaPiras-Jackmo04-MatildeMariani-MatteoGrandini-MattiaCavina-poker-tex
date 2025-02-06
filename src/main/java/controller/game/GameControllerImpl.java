@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import controller.card.CardGetterImage;
 import controller.card.CardGetterImageImpl;
+import controller.difficulty.DifficultySelectionControllerImpl;
 import controller.game.api.Difficulty;
 import controller.game.api.GameController;
 import controller.gameover.GameOverMenuImpl;
@@ -14,6 +15,7 @@ import model.deck.api.Card;
 import model.game.GameFactoryImpl;
 import model.game.api.Game;
 import view.View;
+import view.scenes.DifficultySelectionScene;
 import view.scenes.GameOverScene;
 import view.scenes.GameScene;
 import view.scenes.MainMenuScene;
@@ -210,7 +212,7 @@ public class GameControllerImpl implements GameController{
     @Override
     public void goToDifficultySelectionScene() {
         this.endGame();
-        this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
+        this.mainView.changeScene(new DifficultySelectionScene(new DifficultySelectionControllerImpl(this.mainView)));
     }
 
     /**
