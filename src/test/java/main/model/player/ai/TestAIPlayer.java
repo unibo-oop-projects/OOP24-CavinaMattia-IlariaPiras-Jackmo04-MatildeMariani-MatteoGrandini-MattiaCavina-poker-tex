@@ -185,8 +185,9 @@ class TestAIPlayer {
         while (action != Action.RAISE) {
             action = player.getAction(state);
         }
+        final var bet = player.getTotalPhaseBet();
         player.handLost();
-        assertEquals(STARTING_CHIPS - player.getTotalPhaseBet(), player.getChips());
+        assertEquals(STARTING_CHIPS - bet, player.getChips());
         assertEquals(Set.of(), player.getCards());
     }
 }
