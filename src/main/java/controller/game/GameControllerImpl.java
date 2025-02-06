@@ -30,6 +30,9 @@ public class GameControllerImpl implements GameController{
     private final Game game;
     private GameScene gameScene;
 
+    private boolean isPaused = false;
+    private final Object pauseLock = new Object();
+
     /**
      * Creates a new {@link GameController}.
      * @param mainView the mainView.
@@ -195,6 +198,7 @@ public class GameControllerImpl implements GameController{
      */
     @Override
     public void goToMainMenuScene() {
+        this.game.end();
         this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
     }
 
@@ -202,8 +206,9 @@ public class GameControllerImpl implements GameController{
      * {@inheritDoc}
      */
     @Override
-    public View getMainView() {
-        return mainView;
+    public void goToDifficultySelectionScene() {
+        this.game.end();
+        this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
     }
 
     /**
@@ -213,5 +218,41 @@ public class GameControllerImpl implements GameController{
     public UserPlayerController getUserPlayerController() {
         return this.game.getUserPlayer().getController();
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void pauseGame() {
+        synchronized (pauseLock) {
+            this.isPaused = true;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resumeGame() {
+        synchronized (pauseLock) {
+            this.isPaused = false;
+            pauseLock.notify();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void waitIfPaused() {
+        synchronized (pauseLock) {
+            while (this.isPaused) {
+                try {
+                    pauseLock.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+    }    
 }
