@@ -36,6 +36,7 @@ public abstract class AbstractPlayer implements Player {
         this.cards = Set.of();
         this.role = Optional.empty();
         this.chips = initialChips;
+        this.totalPhaseBet = 0;
     }
 
     /**
