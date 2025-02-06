@@ -102,8 +102,12 @@ public class TablePanel extends JPanel {
             default -> null;
         };
         if (playerBet != null) {
-            playerBet.setText(bet);
-            playerBet.setVisible(true);
+            if (bet.isBlank()) {
+                playerBet.setVisible(false);
+            } else {
+                playerBet.setText(bet);
+                playerBet.setVisible(true);
+            }
         }
     }
 
