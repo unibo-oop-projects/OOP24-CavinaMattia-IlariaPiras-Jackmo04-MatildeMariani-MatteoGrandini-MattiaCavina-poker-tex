@@ -28,7 +28,7 @@ import model.statistics.api.StatisticsManager;
 public abstract class AbstractGame implements Game, StatisticsContributor<BasicStatistics>{
 
     private static final int INITIAL_BET_DIVISION_FACT = 100;
-    protected static final int NUM_AI_PLAYERS = 4;
+    protected static final int NUM_AI_PLAYERS = 3;
     private static final int USER_PLAYER_ID = NUM_AI_PLAYERS;
     private static final String STATISTICS_FILE_NAME = "stats.bin";
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGame.class);
@@ -67,8 +67,8 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      */
     @Override
     public boolean isOver() {
-        return this.gameState.getHandNumber() == 10;/*this.players.stream().allMatch(p -> p.isAI()) || 
-               isWon();*/
+        return this.players.stream().allMatch(p -> p.isAI()) || 
+               isWon();
 
     }
 
@@ -149,7 +149,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
             this.players.add(this.getAIPlayer(i, initialChips));
         }
-        //this.players.add(this.userPlayer);
+        this.players.add(this.userPlayer);
         //this.statsManager.addContributor(this.userPlayer);
     }
 
@@ -169,6 +169,9 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.statistics.reset();
     }
 
+    /**
+     * 
+     */
     private void updateStatisticsAfterGameEnd() {
         if (this.isWon()) {
             this.statistics.incrementGamesWon(1);            
@@ -181,6 +184,9 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         }
     }
 
+    /**
+     * Private inner class that implements a GameLoop that handles the logistical aspects of a game.
+     */
     private class GameLoop extends Thread {
         public void run() {
             statistics.incrementGamesPlayed(1);
@@ -191,45 +197,25 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
                 players.stream().forEachOrdered(p -> p.setCards(dealer.giveCardsToPlayer()));
                 gameState.newHand(startingBet, players.size());
                 var hand = new HandImpl(controller, players, gameState);
-                System.out.println(gameState.getHandNumber());
 
                 controller.updateForNewHand();
-                controller.setPlayerCards(USER_PLAYER_ID -1, players.stream().filter(p -> p.getId() == (USER_PLAYER_ID -1)).findAny().get().getCards());
+                controller.setPlayerCards(userPlayer.getId(), userPlayer.getCards());
 
                 do {
                     gameState.addCommunityCards(dealer.giveCardsToTheGame(
                         gameState.getHandPhase().getNumCards()));
-                        controller.setCommunityCards(gameState.getCommunityCards());
-                    
+                    controller.setCommunityCards(gameState.getCommunityCards());
                     hand.startPhase();
-                    players.forEach(p -> {
-                        gameState.addToPot(p.getTotalPhaseBet());
-                        controller.setPlayerBet(p.getId(), 0);
-                    });
-                    System.out.println("Current Pot after Phase: " + gameState.getPot());
-                    controller.setPot(gameState.getPot());
+                    players.forEach(p -> gameState.addToPot(p.getTotalPhaseBet()));
+                    controller.updateForNewPhase(gameState.getPot());
                     gameState.nextHandPhase();
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
                     
                 } while (!hand.isHandOver());
 
-                hand.determinesWinnerOfTheHand();
-
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                
+                hand.determinesWinnerOfTheHand();               
             }
             updateStatisticsAfterGameEnd();
-            controller.goToGameOverScene(AbstractGame.this.isWon());
+            controller.goToGameOverScene(isWon());
         }
     }
 
