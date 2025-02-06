@@ -12,6 +12,7 @@ import controller.player.user.UserPlayerController;
 import view.scenes.GameScene;
 import view.scenes.GameOverScene;
 import view.scenes.MainMenuScene;
+import view.scenes.DifficultySelectionScene;
 import view.View;
 
 /**
@@ -120,14 +121,29 @@ public interface GameController {
     void goToMainMenuScene();
 
     /**
-     * Returns the mainView.
-     * @return the mainView.
+     * Goes to the {@link DifficultySelectionScene}.
      */
-    View getMainView();
+    void goToDifficultySelectionScene();
 
     /**
      * Returns a new {@link UserPlayerController}.
      * @return a new user player controller.
      */
     UserPlayerController getUserPlayerController();
+
+    /**
+     * Synchronized method that sets the paused boolean value to true.
+     */
+    void pauseGame();
+
+    /**
+     * Synchronized method that sets the paused boolean value to false and notify the thread 
+     * waiting on pauseLock.
+     */
+    void resumeGame();
+
+    /**
+     * Synchronized method that calls the wait() method if paused is true.
+     */
+    void waitIfPaused();
 }
