@@ -87,7 +87,8 @@ public class HandImpl implements Hand {
     public void startPhase() {
         this.halt();
         var playersIterator = Iterables.cycle(this.handPlayers).iterator();
-        while (!this.isPhaseOver() && playersIterator.hasNext()) {
+        while (!this.isPhaseOver() && playersIterator.hasNext() && !controller.isTerminated()) {
+            this.controller.waitIfPaused();
             var currentPlayer = playersIterator.next();
             if (currentPlayer.hasChipsLeft()) {
                 this.manageAction(playersIterator, currentPlayer);
@@ -151,6 +152,10 @@ public class HandImpl implements Hand {
         return currentPhase;
     }
 
+    /**
+     * Method that calls the method sleep on the current thread.
+     * Used to manage the timing with which the actions of a hand must be carried out.
+     */
     private void halt() {
         try {
             Thread.sleep(WAIT_TIME);

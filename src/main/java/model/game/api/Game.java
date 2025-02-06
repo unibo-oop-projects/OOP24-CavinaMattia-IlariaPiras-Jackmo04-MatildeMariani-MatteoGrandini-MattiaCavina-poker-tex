@@ -32,11 +32,6 @@ public interface Game {
      * The winner of the hand is then declared. 
     */
     void start();
-
-    /**
-     * Sets the {@link GameLoop} gameTerminated boolean to true.
-     */
-    void end();
     
     /**
      * Returns the list of players in the game.

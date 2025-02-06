@@ -85,7 +85,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      */
     @Override
     public void start() {
-        this.loop.start();        
+        new Thread(this.loop).start();      
     }
 
     /**
@@ -104,7 +104,10 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         return this.gameState;
     }
 
-    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UserPlayer getUserPlayer() {
         return (UserPlayer) this.userPlayer;
     }
@@ -188,9 +191,11 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      * Private inner class that implements a GameLoop that handles the logistical aspects of a game.
      */
     private class GameLoop extends Thread {
+
+        @Override
         public void run() {
             statistics.incrementGamesPlayed(1);
-            while (!isOver()) {
+            while (!isOver() && !controller.isTerminated()) {
                 dealer.shuffle();
                 statistics.incrementHandsPlayed(1);
                 setRolesForNewHand();
@@ -202,6 +207,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
                 controller.setPlayerCards(userPlayer.getId(), userPlayer.getCards());
 
                 do {
+                    controller.waitIfPaused();
                     gameState.addCommunityCards(dealer.giveCardsToTheGame(
                         gameState.getHandPhase().getNumCards()));
                     controller.setCommunityCards(gameState.getCommunityCards());
@@ -209,13 +215,17 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
                     players.forEach(p -> gameState.addToPot(p.getTotalPhaseBet()));
                     controller.updateForNewPhase(gameState.getPot());
                     gameState.nextHandPhase();
-                    
-                } while (!hand.isHandOver());
+                        
+                } while (!hand.isHandOver() && !controller.isTerminated());
 
-                hand.determinesWinnerOfTheHand();               
+                if (!controller.isTerminated()) {
+                    hand.determinesWinnerOfTheHand(); 
+                }            
             }
             updateStatisticsAfterGameEnd();
-            controller.goToGameOverScene(isWon());
+            if (!controller.isTerminated()) {
+                controller.goToGameOverScene(isWon());
+            }
         }
     }
 
