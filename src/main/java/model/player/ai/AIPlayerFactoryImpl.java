@@ -23,9 +23,9 @@ import model.game.api.State;
 public class AIPlayerFactoryImpl implements AIPlayerFactory {
 
     // Changes how much the AI player will raise.
-    private static final double EASY_RAISING_FACTOR = 0.75;
+    private static final double EASY_RAISING_FACTOR = 0.80;
     private static final double MEDIUM_RAISING_FACTOR = 1.00;
-    private static final double HARD_RAISING_FACTOR = 2.00;
+    private static final double HARD_RAISING_FACTOR = 1.50;
 
     // Changes how likely the AI player is to call or raise.
     private static final double EASY_DIFFICULTY_MODIFIER = 0.70;
