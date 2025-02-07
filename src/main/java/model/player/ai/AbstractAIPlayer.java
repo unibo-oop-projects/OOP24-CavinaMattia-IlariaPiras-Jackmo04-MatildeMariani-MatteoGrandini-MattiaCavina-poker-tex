@@ -40,7 +40,7 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
         final var currentHandPhase = currentState.getHandPhase();
         final var currentBet = currentState.getCurrentBet();
         if (!this.hasChipsLeft()) {
-            return this.check(); // TODO maybe change this to all in
+            return this.check();
         }
         if (this.hasToPayBlind(currentHandPhase)) {
             return this.call(currentBet, currentHandPhase);
