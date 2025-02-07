@@ -81,7 +81,7 @@ public class StateImpl implements State{
     @Override
     public void nextHandPhase() {
         this.handPhase = this.handPhase.next();
-        this.currentBet = this.startingBet;
+        this.currentBet = 0;
     }
 
     /**

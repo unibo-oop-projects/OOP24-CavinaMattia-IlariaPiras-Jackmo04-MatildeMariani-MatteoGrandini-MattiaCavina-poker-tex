@@ -27,7 +27,7 @@ import model.statistics.api.StatisticsManager;
  */
 public abstract class AbstractGame implements Game, StatisticsContributor<BasicStatistics>{
 
-    private static final int INITIAL_BET_DIVISION_FACT = 100;
+    private static final int INITIAL_BET_DIVISION_FACT = 10;
     protected static final int NUM_AI_PLAYERS = 3;
     private static final int USER_PLAYER_ID = NUM_AI_PLAYERS;
     private static final String STATISTICS_FILE_NAME = "stats.bin";
@@ -69,8 +69,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      */
     @Override
     public boolean isOver() {
-        return this.players.stream().allMatch(p -> p.isAI()) || 
-               isWon();
+        return this.players.stream().allMatch(p -> p.isAI()) || isWon();
 
     }
 
@@ -132,9 +131,9 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
             this.players.removeIf(p -> !p.hasChipsLeft());
 
             indexNextSmallBlind = (originalList.indexOf(smallBlindPlayer) + 
-                                  (this.players.contains(smallBlindPlayer)? 1 : 0)) % players.size();
+                (this.players.contains(smallBlindPlayer)? 1 : 0)) % players.size();
             indexNextBigBlind = (originalList.indexOf(bigBlindPlayer) + 
-                                (this.players.contains(bigBlindPlayer)? 1 : 0)) % players.size();
+                (this.players.contains(bigBlindPlayer)? 1 : 0)) % players.size();
         }
     
         smallBlindPlayer = this.players.get(indexNextSmallBlind);
@@ -218,8 +217,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
                         p.nextPhase();
                     });
                     controller.updateForNewPhase(gameState.getPot());
-                    gameState.nextHandPhase();
-                        
+                    gameState.nextHandPhase();   
                 } while (!hand.isHandOver() && !controller.isTerminated());
 
                 if (!controller.isTerminated()) {
