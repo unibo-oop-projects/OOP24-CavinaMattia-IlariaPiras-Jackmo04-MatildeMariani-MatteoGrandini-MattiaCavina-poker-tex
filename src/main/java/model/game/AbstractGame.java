@@ -57,7 +57,9 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.statsManager.addContributor(this);
         this.startingBet = (int) initialChips / INITIAL_BET_DIVISION_FACT;
         this.dealer = new DealerImpl();
-        this.userPlayer = new UserPlayer(USER_PLAYER_ID, initialChips);
+        final var user = new UserPlayer(USER_PLAYER_ID, initialChips);
+        this.userPlayer = user;
+        this.statsManager.addContributor(user); // TODO potrebbe non funzionare
         this.setInitialPlayers(initialChips);
         this.gameState = new StateImpl(startingBet, this.players.size());
     }
@@ -153,7 +155,6 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
             this.players.add(this.getAIPlayer(i, initialChips));
         }
         this.players.add(this.userPlayer);
-        //this.statsManager.addContributor(this.userPlayer);
     }
 
     /**

@@ -1,11 +1,8 @@
 package model.player.user;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import controller.player.user.UserPlayerController;
-import model.combination.CombinationHandlerImpl;
+import model.combination.api.Combination;
+import model.deck.api.Card;
 import model.game.api.Phase;
 import model.game.api.State;
 import model.player.AbstractPlayer;
@@ -58,17 +55,13 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
     }
 
     /**
-     * Updates the player's best combination based on the current state of the game.
-     * This method combines the player's cards with the community cards and calculates the best combination.
-     * @param currentState the current state of the game, which includes the community cards.
+     * {@inheritDoc}
      */
-    private void updateCombination(final State currentState) {
-        final var allCards = Stream.concat(currentState.getCommunityCards().stream(), 
-                        this.getCards().stream()).collect(Collectors.toSet());
-
-        final var combination = new CombinationHandlerImpl().getBestCombination(allCards);
+    @Override
+    protected Combination<Card> updateCombination(final State currentState) {
+        final var combination = super.updateCombination(currentState);
         this.statistics.setBestCombinationIfSo(combination.type());
-        this.setCombination(combination); 
+        return combination;
     }
 
     /**
@@ -123,14 +116,6 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
     @Override
     public void handLost() {
         this.endHand();
-    }
-
-    /**
-     * Ends the current hand for the player.
-     * This method resets the player's cards.
-     */
-    private void endHand() {
-        this.setCards(Set.of());
     }
 
     /**

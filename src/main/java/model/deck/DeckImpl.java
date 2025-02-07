@@ -44,8 +44,8 @@ public class DeckImpl<X> implements Deck<X> {
      */
     @Override
     public List<X> getSomeCards(final int numberOfCard) {
-        if (this.deck.isEmpty()) {
-            throw new IllegalAccessError("Keep more Cards than remaing in Deck");
+        if (numberOfCard > deck.size()) {
+            throw new IllegalStateException("Keep more Cards than remaing in Deck");
         } else {
             return Stream.iterate(0, t -> t + 1)
                     .limit(numberOfCard)

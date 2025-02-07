@@ -29,7 +29,7 @@ class DeckFactoryImplTest {
         try {
             t.getSomeCards(1);
 
-        } catch (IllegalAccessError e) {
+        } catch (IllegalStateException e) {
             System.err.println("Deck is Empty");
         }
         t.shuffled();

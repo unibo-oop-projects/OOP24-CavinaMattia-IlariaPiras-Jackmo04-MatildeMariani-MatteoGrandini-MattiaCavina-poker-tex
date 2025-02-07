@@ -3,6 +3,8 @@ package model.player;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import model.combination.CombinationHandlerImpl;
 import model.combination.api.Combination;
@@ -117,6 +119,14 @@ public abstract class AbstractPlayer implements Player {
      * {@inheritDoc}
      */
     @Override
+    public void nextPhase() {
+        this.totalPhaseBet = 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public abstract Action getAction(State currentState);
 
     /**
@@ -162,11 +172,24 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * {@inheritDoc}
+     * Used to update the combination of the player.
+     * @param currentState the current state of the game.
      */
-    @Override
-    public void nextPhase() {
-        this.totalPhaseBet = 0;
+    protected Combination<Card> updateCombination(final State currentState) {
+        final var usableCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream())
+            .collect(Collectors.toSet());
+        final var combination = new CombinationHandlerImpl().getBestCombination(usableCards);
+        this.setCombination(combination);
+        return combination;
+    }
+
+    /**
+     * Resets the player's cards, role and total phase bet.
+     */
+    protected void endHand() {
+        this.setCards(Set.of());
+        this.setRole(null);
+        this.setTotalPhaseBet(0);
     }
 
 }

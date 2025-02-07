@@ -1,13 +1,12 @@
 package controller.gameover;
 
-import controller.menu.MainMenuControllerImpl;
+import controller.scene.SceneControllerImpl;
 import view.View;
-import view.scenes.MainMenuScene;
 
 /**
  * Class to implement {@link controller.gameover.GameOverMenu} controller.
  */
-public class GameOverMenuImpl extends MainMenuControllerImpl implements GameOverMenu {
+public class GameOverMenuImpl extends SceneControllerImpl implements GameOverMenu {
 
     private boolean endGameStatus;
 
@@ -23,14 +22,6 @@ public class GameOverMenuImpl extends MainMenuControllerImpl implements GameOver
     public GameOverMenuImpl(final View mainView, final boolean endGameStatus) {
         super(mainView);
         this.endGameStatus = endGameStatus;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void goToMainScene() {
-        getView().changeScene(new MainMenuScene(new MainMenuControllerImpl(getView())));
     }
 
     /**
