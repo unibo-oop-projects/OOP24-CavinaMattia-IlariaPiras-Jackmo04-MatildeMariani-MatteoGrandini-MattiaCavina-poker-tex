@@ -2,30 +2,34 @@ package main.model.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import controller.game.GameControllerImpl;
+import controller.game.api.Difficulty;
+import controller.game.api.GameController;
 import model.game.GameFactoryImpl;
 import model.game.api.GameFactory;
+import view.ViewImpl;
 public class TestGame {
 
     private static final int INITIAL_CHIPS = 500;
-    private static final int INITIAL_NUM_PLAYERS = 3;
+    private static final int INITIAL_NUM_PLAYERS = 4;
 
     private static GameFactory gameFactory;
+    private static GameController controller;
 
     @BeforeAll
     public static void setUp() {
         gameFactory = new GameFactoryImpl();
+        controller = new GameControllerImpl(new ViewImpl(), Difficulty.EASY, INITIAL_CHIPS);
     }
 
     @Test
     public void testCreation() {
-        var game = gameFactory.easyGame(INITIAL_CHIPS);
-        //When the UserPlayer is implemented and I can add it then they should both return false.
-        assertTrue(game.isOver());
+        var game = gameFactory.easyGame(controller, INITIAL_CHIPS);
+        assertFalse(game.isOver());
         assertFalse(game.isWon());
 
         assertEquals(INITIAL_NUM_PLAYERS, game.getPlayers().size());

@@ -1,7 +1,15 @@
 package view.scenes;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,6 +23,19 @@ import view.scenes.api.Scene;
  */
 public class MainMenuScene extends JPanel implements Scene {
 
+    private static final int R_BUTTONS_PANEL = 236;
+    private static final int G_BUTTONS_PANEL = 205;
+    private static final int B_BUTTONS_PANEL = 153;
+    private static final int R_BORDER = 0;  
+    private static final int G_BORDER = 0;
+    private static final int B_BORDER = 0;
+    private static final int A_BORDER = 50;
+    private static final int FONT_SIZE = 30;
+    private static final int FONT_SIZE_TITLE = 50;
+    private static final int THICKNESS = 4;
+    private static final int R_BACKGROUND = 220;
+    private static final int G_BACKGROUND = 186;
+    private static final int B_BACKGROUND = 133;
     private static final String SCENE_NAME = "menu";
 
     private final MainMenuController controller;
@@ -26,23 +47,47 @@ public class MainMenuScene extends JPanel implements Scene {
     public MainMenuScene(final MainMenuController controller) {
         this.controller = controller;
         this.setLayout(new BorderLayout());
-        JLabel title = new JLabel("Poker Texas Hold'em", SwingConstants.CENTER);
-        this.add(title, BorderLayout.NORTH);
 
-        // Menu buttons panel
-        JPanel menuButtons = new JPanel();
+        JPanel titlePanel = new JPanel();
+        titlePanel.setLayout(new FlowLayout());
+        titlePanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
 
-        // TODO add other buttons to panel (Play, settings, rules, etc.)
-        JButton goToStats = new JButton("Statistiche");
-        JButton goToRules = new JButton("Regole");
-        menuButtons.add(goToStats);
-        menuButtons.add(goToRules);
+        JLabel title = new JLabel("MENU", SwingConstants.CENTER);
+        title.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE_TITLE));
 
-        this.add(menuButtons, BorderLayout.CENTER);
+        titlePanel.add(title);
 
-        // Button listeners TODO add other listeners
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
+        mainPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+
+        JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new GridLayout(4,1,0,5));
+        menuPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+
+        MenuButton goToStats = new MenuButton("Statistics");
+        MenuButton goToRules = new MenuButton("How to play");
+        MenuButton goToDifficultySelection = new MenuButton("New game");
+        MenuButton exit = new MenuButton("Exit");
+       
+        menuPanel.add(goToDifficultySelection);
+        menuPanel.add(goToRules);
+        menuPanel.add(goToStats);
+        menuPanel.add(exit);
+
+        centerPanel.add(titlePanel);
+        centerPanel.add(menuPanel);
+        mainPanel.add(centerPanel);
+
+        this.add(mainPanel, BorderLayout.CENTER);
+
         goToStats.addActionListener(e -> this.controller.goToStatsScene());
         goToRules.addActionListener(e -> this.controller.goToRulesScene());
+        goToDifficultySelection.addActionListener(e -> this.controller.goToDifficultySelectionScene());
+        exit.addActionListener(e -> this.controller.exitGame());
     }
 
     /**
@@ -59,5 +104,24 @@ public class MainMenuScene extends JPanel implements Scene {
     @Override
     public String getSceneName() {
         return SCENE_NAME;
+    }
+
+    /**
+     * Custom button class for the MainMenuScene.
+     * This class extends JButton and provides a style for buttons in this scene.
+     */
+    private class MenuButton extends JButton {
+
+        public MenuButton(String text) {
+            super(text);
+            this.setBackground(new Color(R_BUTTONS_PANEL, G_BUTTONS_PANEL, B_BUTTONS_PANEL));
+            this.setForeground(Color.BLACK);
+            this.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
+            this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
+                            BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
+            this.setOpaque(true);
+            this.setContentAreaFilled(true);
+            this.setPreferredSize(new Dimension(250, 60));
+        }
     }
 }

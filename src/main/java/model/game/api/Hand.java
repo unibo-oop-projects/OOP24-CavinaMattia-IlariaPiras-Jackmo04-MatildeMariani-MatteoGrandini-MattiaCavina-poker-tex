@@ -54,7 +54,7 @@ public interface Hand {
      * Checks who won the hand (the one with the best combination if there is more than one {@link Player}
      * still in the game or the only one left otherwise) and tells players whether they lost or won accordingly.
     */
-    void determinateWinnerOfTheHand();
+    void determinesWinnerOfTheHand();
 
     /**
      * Returns the list of players in the hand.

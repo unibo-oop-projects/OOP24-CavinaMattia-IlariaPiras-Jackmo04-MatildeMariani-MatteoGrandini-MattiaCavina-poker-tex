@@ -4,7 +4,7 @@ import controller.scene.SceneControllerImpl;
 import view.View;
 
 /**
- * Class to implement end game pannel controller.
+ * Class to implement {@link controller.gameover.GameOverMenu} controller.
  */
 public class GameOverMenuImpl extends SceneControllerImpl implements GameOverMenu {
 
@@ -16,7 +16,8 @@ public class GameOverMenuImpl extends SceneControllerImpl implements GameOverMen
      * @param mainView
      *                      the main view of the application.
      * @param endGameStatus
-     *                      Status of intial pannel , used to show correct pannel.
+     *                      Status of intial pannel , used to show correct pannel
+     *                      and to change from victory pannel to loseer pannel.
      */
     public GameOverMenuImpl(final View mainView, final boolean endGameStatus) {
         super(mainView);

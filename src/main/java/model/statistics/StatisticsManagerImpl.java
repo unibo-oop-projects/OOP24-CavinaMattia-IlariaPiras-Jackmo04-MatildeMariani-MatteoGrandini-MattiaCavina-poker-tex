@@ -11,6 +11,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.statistics.api.Statistics;
 import model.statistics.api.StatisticsContributor;
 import model.statistics.api.StatisticsManager;
@@ -23,6 +27,7 @@ import model.statistics.api.StatisticsManager;
 public class StatisticsManagerImpl<S extends Statistics> implements StatisticsManager<S> {
 
     private static final String PROJECT_DIR_NAME = "poker_tex";
+    private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsManagerImpl.class);
 
     private S globalStatistics;
     private Set<StatisticsContributor<S>> contributors;
@@ -40,16 +45,21 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
     /**
      * Constructs a new instance of this class.
      * Will load the statistics from the specified file if they were saved
-     * previously
+     * previously, otherwise the statistics will be initialized with the
+     * provided object.
      * using the {@link #saveStatistics(String)} method.
      * 
      * @param fileName   The name of the file to load the statistics from.
      * @param statistics The object representing the statistics to manage.
-     * @throws IOException If an I/O error occurs while loading the statistics.
      */
-    public StatisticsManagerImpl(final String fileName, final S statistics) throws Exception {
+    public StatisticsManagerImpl(final String fileName, final S statistics) {
         this(statistics);
-        this.loadStatistics(fileName);
+        try {
+            this.loadStatistics(fileName);
+        } catch (IOException | ClassNotFoundException e) {
+            LOGGER.info("Could not load statistics from file '{}'.", fileName);
+            this.globalStatistics = statistics;
+        }
     }
 
     /**
@@ -90,11 +100,11 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      * <i>poker_tex</i> directory.
      */
     @Override
-    public void saveStatistics(final String fileName) throws Exception {
-        File file = getFileInProjectDir(fileName);
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
-        oos.writeObject(globalStatistics);
-        oos.close();
+    public void saveStatistics(final String fileName) throws IOException {
+        final File file = getFileInProjectDir(fileName);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(globalStatistics);
+        }
     }
 
     /**
@@ -103,18 +113,20 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      * <i>poker_tex</i> directory.
      */
     @SuppressWarnings("unchecked")
+    @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "The returned value is unimportant")
     @Override
-    public void loadStatistics(final String fileName) throws Exception {
-        File file = getFileInProjectDir(fileName);
-        file.createNewFile();
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-        this.globalStatistics = (S) ois.readObject();
-        ois.close();
+    public final void loadStatistics(final String fileName) throws IOException, ClassNotFoundException {
+        final File file = getFileInProjectDir(fileName);
+        file.createNewFile(); 
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            this.globalStatistics = (S) ois.readObject();
+        }
     }
 
+    @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "The returned value is unimportant")
     private File getFileInProjectDir(final String fileName) {
-        String userHome = System.getProperty("user.home");
-        File pokerDir = new File(userHome, PROJECT_DIR_NAME);
+        final String userHome = System.getProperty("user.home");
+        final File pokerDir = new File(userHome, PROJECT_DIR_NAME);
         if (!pokerDir.exists()) {
             pokerDir.mkdirs();
         }

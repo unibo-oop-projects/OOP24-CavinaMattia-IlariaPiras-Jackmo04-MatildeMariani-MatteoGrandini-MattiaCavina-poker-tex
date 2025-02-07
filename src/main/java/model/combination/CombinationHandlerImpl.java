@@ -5,12 +5,14 @@ import java.util.Set;
 import model.combination.api.Combination;
 import model.combination.api.CombinationHandler;
 import model.combination.api.CombinationType;
-import model.combination.api.CombinationsCardGetter;
-import model.combination.api.CombinationsRules;
+import model.combination.api.CombinationCardGetter;
+import model.combination.api.CombinationRules;
 import model.deck.api.Card;
 
 /**
  * Class that find type of combination.
+ * That class implemets {@link model.combination.api.CombinationHandler} with
+ * card type {@link model.deck.api.Card}.
  */
 public class CombinationHandlerImpl implements CombinationHandler<Card> {
 
@@ -18,9 +20,9 @@ public class CombinationHandlerImpl implements CombinationHandler<Card> {
      * {@inheritDoc}
      */
     @Override
-    public Combination<Card> getCombination(final Set<Card> totalCardList) {
-        final CombinationsRules<Card> combRules = new CombinationsRulesImpl(totalCardList);
-        final CombinationsCardGetter<Card> combGetter = new CombinationsCardGetterImpl(totalCardList);
+    public Combination<Card> getBestCombination(final Set<Card> totalCardList) {
+        final CombinationRules<Card> combRules = new CombinationRulesImpl(totalCardList);
+        final CombinationCardGetter<Card> combGetter = new CombinationCardGetterImpl(totalCardList);
 
         if (combRules.isRoyalFlush()) {
             return new Combination<>(combGetter.getRoyalFlush(), CombinationType.ROYAL_FLUSH);

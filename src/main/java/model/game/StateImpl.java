@@ -21,6 +21,7 @@ public class StateImpl implements State{
     private int remainingPlayers;
     private int handNumber;
     private Phase handPhase;
+    private final int startingBet;
     private final Set<Card> communityCards = new HashSet<>();
 
     /**
@@ -32,7 +33,8 @@ public class StateImpl implements State{
         this.pot = INITIAL_POT;
         this.handNumber = START_HAND_NUMBER;
         this.handPhase = FIRST_PHASE;
-        this.currentBet = initialBet;
+        this.startingBet = initialBet;
+        this.currentBet = startingBet;
         this.remainingPlayers = numPlayers;
     }
 
@@ -49,6 +51,7 @@ public class StateImpl implements State{
                      final int handNumber, final Phase handPhase, final Set<Card> communityCards) {
         this.pot = pot;
         this.currentBet = currentBet;
+        this.startingBet = currentBet;
         this.remainingPlayers = remainingPlayers;
         this.handNumber = handNumber;
         this.handPhase = handPhase;
@@ -78,6 +81,7 @@ public class StateImpl implements State{
     @Override
     public void nextHandPhase() {
         this.handPhase = this.handPhase.next();
+        this.currentBet = this.startingBet;
     }
 
     /**

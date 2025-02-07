@@ -16,5 +16,4 @@ public interface RulesController {
      */
     String getRulesHtml();
 
-    String getRulesIntro();
 }

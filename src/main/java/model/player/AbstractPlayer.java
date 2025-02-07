@@ -1,15 +1,17 @@
 package model.player;
 
 import java.util.Objects;
-import java.util.Set;
 import java.util.Optional;
+import java.util.Set;
 
+import model.combination.CombinationHandlerImpl;
+import model.combination.api.Combination;
 import model.deck.api.Card;
 import model.game.api.State;
 import model.player.api.Action;
 import model.player.api.Player;
 import model.player.api.Role;
-import model.combination.api.Combination;
+
 /**
  * Abstract class that implements the common methods of a generic player.
  * It also provides some abstract methods that must be implemented by the subclasses.
@@ -18,6 +20,7 @@ import model.combination.api.Combination;
  */
 public abstract class AbstractPlayer implements Player {
 
+    private final int id;
     private Set<Card> cards;
     private Optional<Role> role;
     private Combination<Card> bestCombination;
@@ -26,13 +29,22 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Constructor for the AbstractPlayer class.
+     * @param id the id of the player.
      * @param initialChips the initial amount of chips that the player has.
-     * @param initialRole the initial role of the player.
      */
-    public AbstractPlayer(final int initialChips) {
+    public AbstractPlayer(final int id, final int initialChips) {
+        this.id = id;
         this.cards = Set.of();
         this.role = Optional.empty();
         this.chips = initialChips;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getId() {
+        return this.id;
     }
 
     /**
@@ -49,6 +61,7 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public void setCards(final Set<Card> cards) {
         this.cards = Objects.requireNonNull(Set.copyOf(cards));
+        this.bestCombination = cards.isEmpty() ? null : new CombinationHandlerImpl().getBestCombination(cards);
     }
 
     /**
@@ -145,6 +158,14 @@ public abstract class AbstractPlayer implements Player {
      */
     protected void setTotalPhaseBet(final int totalPhaseBet) {
         this.totalPhaseBet = totalPhaseBet;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void nextPhase() {
+        this.totalPhaseBet = 0;
     }
 
 }

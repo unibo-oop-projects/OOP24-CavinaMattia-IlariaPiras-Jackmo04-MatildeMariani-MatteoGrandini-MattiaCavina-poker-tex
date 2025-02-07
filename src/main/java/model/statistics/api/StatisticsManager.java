@@ -1,5 +1,6 @@
 package model.statistics.api;
 
+import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -40,16 +41,17 @@ public interface StatisticsManager<S extends Statistics> {
      * Saves the total statistics to the specified file.
      * <p><b>Note:</b> The {@link Statistics} class used must implement the {@link java.io.Serializable} interface.
      * @param fileName The name of the file to save the statistics to.
-     * @throws Exception If an I/O error occurs while saving the statistics or if the statistics class is not serializable.
+     * @throws IOException If an I/O error occurs while saving the statistics.
      */
-    void saveStatistics(String fileName) throws Exception;
+    void saveStatistics(String fileName) throws IOException;
 
     /**
      * Loads the total statistics from the specified file.
      * <p><b>Note:</b> The {@link Statistics} class used must implement the {@link java.io.Serializable} interface.
      * @param fileName The name of the file to load the statistics from.
-     * @throws Exception If an I/O error occurs while loading the statistics or if the statistics class is not serializable.
+     * @throws IOException If an I/O error occurs while loading the statistics.
+     * @throws ClassNotFoundException If the class of the serialized object cannot be found.
      */
-    void loadStatistics(String fileName) throws Exception;
+    void loadStatistics(String fileName) throws IOException, ClassNotFoundException;
 
 }

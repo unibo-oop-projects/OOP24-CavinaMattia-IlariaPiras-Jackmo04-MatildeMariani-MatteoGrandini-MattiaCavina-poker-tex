@@ -3,9 +3,16 @@ package controller.gameover;
 import controller.scene.SceneController;
 
 /**
- * Inteface to controll end game menu.
+ * Inteface to controll {@link view.scenes.GameOverScene} and its feuture like
+ * the player is winner and looser.
+ * This class extend {@link MainMenuControllor}.
  */
-public interface GameOverMenu extends SceneController {
+public interface GameOverMenu extends MainMenuController {
+
+    /**
+     * Method to change scene to {@link view.scenes.MainMenuScene}.
+     */
+    void goToMainScene();
 
     /**
      * Method to change result pannel to from win to lose.

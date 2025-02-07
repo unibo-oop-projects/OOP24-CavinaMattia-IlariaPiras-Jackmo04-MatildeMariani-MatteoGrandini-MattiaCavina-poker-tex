@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.google.common.collect.Lists;
-
 import model.deck.api.Deck;
 import model.deck.api.DeckBuild;
 
@@ -14,16 +12,19 @@ import model.deck.api.DeckBuild;
  * keep card.
  * 
  * @param <X>
+ *            Generic parameter useful to manage different card.
  */
 public class DeckImpl<X> implements Deck<X> {
 
     private final DeckBuild<X> deckBuilder;
-    private List<X> deck = Lists.newLinkedList();
+    private List<X> deck;
 
     /**
      * Create and shuffle new deck.
      * 
      * @param deckBuilder
+     *                    {@link model.deck.api.DeckBuild} that permit to generate
+     *                    deck.
      */
     public DeckImpl(final DeckBuild<X> deckBuilder) {
         this.deckBuilder = deckBuilder;
