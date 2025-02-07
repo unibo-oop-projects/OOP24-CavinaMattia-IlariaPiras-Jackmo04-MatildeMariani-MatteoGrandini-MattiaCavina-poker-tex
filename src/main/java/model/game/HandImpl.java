@@ -107,7 +107,7 @@ public class HandImpl implements Hand {
         return this.handPlayers.size() < MIN_PLAYERS || 
                this.handPlayers.stream()
                    .allMatch(p -> p.getTotalPhaseBet() == this.gameState.getCurrentBet() || 
-                         !p.hasChipsLeft());
+                        !p.hasChipsLeft());
     }
 
     /**
@@ -126,7 +126,7 @@ public class HandImpl implements Hand {
     public void determinesWinnerOfTheHand() {
         this.handPlayers.forEach(p -> this.controller.setPlayerCards(p.getId(), p.getCards()));
         this.handPlayers.sort((p1, p2) -> this.comparator.compare(p1.getCombination(), p2.getCombination()));
-        var winner = this.handPlayers.removeFirst();
+        var winner = this.handPlayers.removeLast();
         winner.handWon(this.gameState.getPot());
         if (!this.handPlayers.isEmpty()) {
             this.handPlayers.forEach(p -> p.handLost());
@@ -164,5 +164,4 @@ public class HandImpl implements Hand {
 
         }
     }
-
 }
