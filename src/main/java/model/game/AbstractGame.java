@@ -38,10 +38,13 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
     private final State gameState;
     private final int startingBet;
     private final List<Player> players = new LinkedList<>();
+    private final Player userPlayer;
     private Player smallBlindPlayer;
     private Player bigBlindPlayer;
     private final BasicStatistics statistics;
     private final StatisticsManager<BasicStatistics> statsManager;
+
+    private final GameLoop loop = new GameLoop();
     
     /**
      * Constructor for the AbstractGame. 
@@ -54,6 +57,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.statsManager.addContributor(this);
         this.startingBet = (int) initialChips / INITIAL_BET_DIVISION_FACT;
         this.dealer = new DealerImpl();
+        this.userPlayer = new UserPlayer(USER_PLAYER_ID, initialChips);
         this.setInitialPlayers(initialChips);
         this.gameState = new StateImpl(startingBet, this.players.size());
     }
@@ -65,6 +69,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
     public boolean isOver() {
         return this.players.stream().allMatch(p -> p.isAI()) || 
                isWon();
+
     }
 
     /**
@@ -80,38 +85,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      */
     @Override
     public void start() {
-        this.statistics.incrementGamesPlayed(1);
-        while (!isOver()) {
-            this.statistics.incrementHandsPlayed(1);
-            this.setRolesForNewHand();
-            this.players.stream().forEachOrdered(p -> p.setCards(this.dealer.giveCardsToPlayer()));
-            this.gameState.newHand(startingBet, this.players.size());
-            var hand = new HandImpl(this.controller, this.players, this.gameState);
-
-            this.controller.updateForNewHand();
-            this.controller.setPlayerCards(USER_PLAYER_ID, this.players.getLast().getCards());
-
-            do {
-                this.gameState.addCommunityCards(this.dealer.giveCardsToTheGame(
-                     gameState.getHandPhase().getNumCards()));
-                this.controller.setCommunityCards(this.gameState.getCommunityCards());
-                
-                hand.startPhase();
-                this.players.forEach(p -> {
-                    this.gameState.addToPot(p.getTotalPhaseBet());
-                    this.controller.setPlayerBet(p.getId(), 0);
-                });
-                this.controller.setPot(this.gameState.getPot());
-                this.gameState.nextHandPhase();
-                
-            } while (!hand.isHandOver());
-
-            hand.determinesWinnerOfTheHand();
-            
-        }
-        this.updateStatisticsAfterGameEnd();
-        this.controller.goToGameOverScene(this.isWon());
-        
+        new Thread(this.loop).start();      
     }
 
     /**
@@ -131,6 +105,14 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UserPlayer getUserPlayer() {
+        return (UserPlayer) this.userPlayer;
+    }
+
+    /**
      * Sets the {@link Role}s for the hand, randomly if it's the first hand or to the next player in 
      * the list (keeping in mind that some players may no longer be in the game) otherwise.
      * Updates the smallBlindPlayer and bigBlindPlayer fields.
@@ -147,10 +129,10 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
             var originalList = List.copyOf(players);
             this.players.removeIf(p -> !p.hasChipsLeft());
 
-            indexNextSmallBlind = originalList.indexOf(smallBlindPlayer) + 
-                                  (this.players.contains(smallBlindPlayer)? 1 : 0);
-            indexNextBigBlind = originalList.indexOf(bigBlindPlayer) + 
-                                (this.players.contains(bigBlindPlayer)? 1 : 0);
+            indexNextSmallBlind = (originalList.indexOf(smallBlindPlayer) + 
+                                  (this.players.contains(smallBlindPlayer)? 1 : 0)) % players.size();
+            indexNextBigBlind = (originalList.indexOf(bigBlindPlayer) + 
+                                (this.players.contains(bigBlindPlayer)? 1 : 0)) % players.size();
         }
     
         smallBlindPlayer = this.players.get(indexNextSmallBlind);
@@ -170,9 +152,8 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         for (var i = 0; i < NUM_AI_PLAYERS; i++) {
             this.players.add(this.getAIPlayer(i, initialChips));
         }
-        final var userPlayer = new UserPlayer(USER_PLAYER_ID, initialChips);
-        this.players.add(userPlayer);
-        this.statsManager.addContributor(userPlayer);
+        this.players.add(this.userPlayer);
+        //this.statsManager.addContributor(this.userPlayer);
     }
 
     /**
@@ -191,6 +172,9 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.statistics.reset();
     }
 
+    /**
+     * 
+     */
     private void updateStatisticsAfterGameEnd() {
         if (this.isWon()) {
             this.statistics.incrementGamesWon(1);            
@@ -202,4 +186,47 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
             LOGGER.error("Error while saving statistics: ", e);
         }
     }
+
+    /**
+     * Private inner class that implements a GameLoop that handles the logistical aspects of a game.
+     */
+    private class GameLoop extends Thread {
+
+        @Override
+        public void run() {
+            statistics.incrementGamesPlayed(1);
+            while (!isOver() && !controller.isTerminated()) {
+                dealer.shuffle();
+                statistics.incrementHandsPlayed(1);
+                setRolesForNewHand();
+                players.stream().forEachOrdered(p -> p.setCards(dealer.giveCardsToPlayer()));
+                gameState.newHand(startingBet, players.size());
+                var hand = new HandImpl(controller, players, gameState);
+
+                controller.updateForNewHand();
+                controller.setPlayerCards(userPlayer.getId(), userPlayer.getCards());
+
+                do {
+                    controller.waitIfPaused();
+                    gameState.addCommunityCards(dealer.giveCardsToTheGame(
+                        gameState.getHandPhase().getNumCards()));
+                    controller.setCommunityCards(gameState.getCommunityCards());
+                    hand.startPhase();
+                    players.forEach(p -> gameState.addToPot(p.getTotalPhaseBet()));
+                    controller.updateForNewPhase(gameState.getPot());
+                    gameState.nextHandPhase();
+                        
+                } while (!hand.isHandOver() && !controller.isTerminated());
+
+                if (!controller.isTerminated()) {
+                    hand.determinesWinnerOfTheHand(); 
+                }            
+            }
+            updateStatisticsAfterGameEnd();
+            if (!controller.isTerminated()) {
+                controller.goToGameOverScene(isWon());
+            }
+        }
+    }
+
 }

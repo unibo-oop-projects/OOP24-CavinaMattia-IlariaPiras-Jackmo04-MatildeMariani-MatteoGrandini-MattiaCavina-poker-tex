@@ -5,15 +5,17 @@ import java.util.stream.Stream;
 
 import controller.card.CardGetterImage;
 import controller.card.CardGetterImageImpl;
+import controller.difficulty.DifficultySelectionControllerImpl;
 import controller.game.api.Difficulty;
 import controller.game.api.GameController;
 import controller.gameover.GameOverMenuImpl;
 import controller.menu.MainMenuControllerImpl;
+import controller.player.user.UserPlayerController;
 import model.deck.api.Card;
 import model.game.GameFactoryImpl;
 import model.game.api.Game;
-import model.player.api.Action;
 import view.View;
+import view.scenes.DifficultySelectionScene;
 import view.scenes.GameOverScene;
 import view.scenes.GameScene;
 import view.scenes.MainMenuScene;
@@ -23,11 +25,17 @@ import view.scenes.MainMenuScene;
  */
 public class GameControllerImpl implements GameController{
 
+    private static final int MAX_PLAYERS = 4;
     private static final int NUM_PLAYER_CARD = 2;
     private final CardGetterImage cardGetterImage;
     private final View mainView;
     private final Game game;
     private GameScene gameScene;
+
+    private boolean isPaused = false;
+    private boolean gameTerminated = false;
+    private final Object pauseLock = new Object();
+    private final Object endLock = new Object();
 
     /**
      * Creates a new {@link GameController}.
@@ -68,7 +76,7 @@ public class GameControllerImpl implements GameController{
     public void startGame() {
         this.game.getPlayers().forEach(p -> {
             this.setPlayerChips(p.getId(), p.getChips());
-            this.gameScene.getPlayerPanel(p.getId()).reset(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD));
+            this.gameScene.getPlayerPanel(p.getId()).resetForNewHand(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD));
         });
         this.setCommunityCards(Set.of());
         this.game.start();
@@ -79,15 +87,27 @@ public class GameControllerImpl implements GameController{
      */
     @Override
     public void updateForNewHand() {
-        Stream.iterate(0, i -> i < 4, i -> i + 1)
-              .filter(id -> !this.gameScene.getPlayerPanel(id).isEnabled())
-              .forEach(id -> this.gameScene.getPlayerPanel(id).reset(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD)));
+        Stream.iterate(0, i -> i < MAX_PLAYERS, i -> i + 1)
+              .filter(id -> this.gameScene.getPlayerPanel(id).isEnabled())
+              .forEach(id -> this.gameScene.getPlayerPanel(id).resetForNewHand(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD)));
         
         this.setCommunityCards(Set.of());
         
-        Stream.iterate(0, i -> i < 4, i -> i + 1)
+        Stream.iterate(0, i -> i < MAX_PLAYERS, i -> i + 1)
               .filter(id -> this.game.getPlayers().stream().noneMatch(p -> p.getId() == id))
               .forEach(id -> this.gameScene.getPlayerPanel(id).lost());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateForNewPhase(final int pot) {
+        this.game.getPlayers().forEach(p -> {
+            this.setPlayerBet(p.getId(), 0);
+            this.gameScene.getPlayerPanel(p.getId()).resetActionForNewPhase();
+        });
+        this.setPot(pot);
     }
 
     /**
@@ -119,8 +139,8 @@ public class GameControllerImpl implements GameController{
      * {@inheritDoc}
      */
     @Override
-    public void setPlayerAction(final int id, final Action action) {
-        this.gameScene.getPlayerPanel(id).setAction(String.valueOf(action));
+    public void setPlayerAction(final int id, final String action) {
+        this.gameScene.getPlayerPanel(id).setAction(action);
     }
 
     /**
@@ -128,7 +148,7 @@ public class GameControllerImpl implements GameController{
      */
     @Override
     public void setPlayerBet(final int id, final int bet) {
-        this.gameScene.getTable().setPlayerBet(id, String.valueOf(bet));
+        this.gameScene.getTable().setPlayerBet(id, bet != 0 ? String.valueOf(bet) : "");
     }
 
     /**
@@ -144,11 +164,29 @@ public class GameControllerImpl implements GameController{
      */
     @Override
     public void setRoles(final int smallBlindId, final int bigBlindId) {
-        Stream.iterate(0, i -> i < 4, i -> i + 1)
+        Stream.iterate(0, i -> i < MAX_PLAYERS, i -> i + 1)
               .filter(id -> this.game.getPlayers().stream().anyMatch(p -> p.getId() == id))
               .forEach(id -> this.gameScene.getPlayerPanel(id).setRole(
                     id == smallBlindId ? "SB" : 
                     id == bigBlindId ? "BB" : ""));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void showWinner(final int winnerId, final int winnerChips, final int pot) {
+        this.setPot(0);
+        this.setPlayerBet(winnerId, pot);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setWinnerData(final int winnerId, final int winnerChips) {
+        this.setPlayerBet(winnerId, 0);
+        this.setPlayerChips(winnerId, winnerChips);
     }
 
     /**
@@ -164,6 +202,7 @@ public class GameControllerImpl implements GameController{
      */
     @Override
     public void goToMainMenuScene() {
+        this.endGame();
         this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
     }
 
@@ -171,8 +210,74 @@ public class GameControllerImpl implements GameController{
      * {@inheritDoc}
      */
     @Override
-    public View getMainView() {
-        return mainView;
+    public void goToDifficultySelectionScene() {
+        this.endGame();
+        this.mainView.changeScene(new DifficultySelectionScene(new DifficultySelectionControllerImpl(this.mainView)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UserPlayerController getUserPlayerController() {
+        return this.game.getUserPlayer().getController();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void pauseGame() {
+        synchronized (pauseLock) {
+            this.isPaused = true;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resumeGame() {
+        synchronized (pauseLock) {
+            this.isPaused = false;
+            pauseLock.notify();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void endGame() {
+        synchronized (endLock) {
+            this.gameTerminated = true;
+        }
+        this.resumeGame();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void waitIfPaused() {
+        synchronized (pauseLock) {
+            while (this.isPaused) {
+                try {
+                    pauseLock.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
     }
     
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isTerminated() {
+        synchronized (endLock) {
+            return this.gameTerminated;
+        }
+    } 
 }

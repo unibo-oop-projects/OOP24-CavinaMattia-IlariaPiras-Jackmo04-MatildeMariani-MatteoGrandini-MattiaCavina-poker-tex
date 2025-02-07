@@ -12,6 +12,7 @@ import model.combination.CombinationComparator;
 import model.game.api.Hand;
 import model.game.api.Phase;
 import model.game.api.State;
+import model.player.api.Action;
 import model.player.api.Player;
 import model.player.api.Role;
 
@@ -72,9 +73,11 @@ public class HandImpl implements Hand {
             case CHECK:
                 break;
         }
-        this.controller.setPlayerAction(player.getId(), action);
-        this.controller.setPlayerBet(player.getId(), player.getTotalPhaseBet());
-        this.controller.setPlayerChips(player.getId(), player.getChips());
+        this.controller.setPlayerAction(player.getId(), String.valueOf(action));
+        if (!action.equals(Action.FOLD) &&  !action.equals(Action.CHECK)) {
+            this.controller.setPlayerBet(player.getId(), player.getTotalPhaseBet());
+            this.controller.setPlayerChips(player.getId(), player.getChips());
+        }
     }
 
     /**
@@ -82,18 +85,15 @@ public class HandImpl implements Hand {
      */
     @Override
     public void startPhase() {
+        this.halt();
         var playersIterator = Iterables.cycle(this.handPlayers).iterator();
-        while (playersIterator.hasNext() || this.isPhaseOver()) {
+        while (!this.isPhaseOver() && playersIterator.hasNext() && !controller.isTerminated()) {
+            this.controller.waitIfPaused();
             var currentPlayer = playersIterator.next();
             if (currentPlayer.hasChipsLeft()) {
                 this.manageAction(playersIterator, currentPlayer);
             }
-
-            try {
-                Thread.sleep(WAIT_TIME);
-            } catch (InterruptedException e) {
-
-            }
+            this.halt();
         }
         this.currentPhase = this.currentPhase.next();
     }
@@ -130,8 +130,10 @@ public class HandImpl implements Hand {
         if (!this.handPlayers.isEmpty()) {
             this.handPlayers.forEach(p -> p.handLost());
         }
-        this.controller.setPot(0);
-        this.controller.setPlayerChips(winner.getId(), winner.getChips());
+        this.halt();
+        this.controller.showWinner(winner.getId(), winner.getChips(), this.gameState.getPot());
+        this.halt();
+        this.controller.setWinnerData(winner.getId(), winner.getChips());
     }
 
     /**
@@ -150,5 +152,16 @@ public class HandImpl implements Hand {
         return currentPhase;
     }
 
+    /**
+     * Method that calls the method sleep on the current thread.
+     * Used to manage the timing with which the actions of a hand must be carried out.
+     */
+    private void halt() {
+        try {
+            Thread.sleep(WAIT_TIME);
+        } catch (InterruptedException e) {
+
+        }
+    }
 
 }

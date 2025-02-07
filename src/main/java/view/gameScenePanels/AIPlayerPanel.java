@@ -24,6 +24,7 @@ public class AIPlayerPanel extends PlayerPanelImpl{
      * Constructor for the AIPlayerPanel class.
      */
     public AIPlayerPanel() {
+        super();
 
         /*Sets the cardsPanel background*/
         this.getCardsPanel().setBackground(Color.LIGHT_GRAY);
@@ -42,10 +43,10 @@ public class AIPlayerPanel extends PlayerPanelImpl{
 
         /*Creation of dataPanel, it contains the basic data of a player*/
         JPanel dataPanel = new JPanel();
-        dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.X_AXIS));
         dataPanel.add(this.getPlayerAction());
         dataPanel.add(this.getPlayerChips());
         dataPanel.add(this.getPlayerRole());
+        
         dataPanel.setBackground(Color.LIGHT_GRAY);
 
         /*Adding panels to the main one*/
