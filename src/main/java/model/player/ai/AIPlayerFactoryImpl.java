@@ -105,6 +105,7 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                 case FLUSH -> STD_CALL_FLUSH;
                 case FULL_HOUSE -> STD_CALL_FULL_HOUSE;
                 case POKER -> STD_CALL_POKER;
+                case STRAIGHT_FLUSH -> STD_CALL_POKER;//TO DO
                 case ROYAL_FLUSH -> STD_CALL_ROYAL_FLUSH;
             },
             type -> switch (type) {
@@ -116,6 +117,7 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                 case FLUSH -> STD_RAISE_FLUSH;
                 case FULL_HOUSE -> STD_RAISE_FULL_HOUSE;
                 case POKER -> STD_RAISE_POKER;
+                case STRAIGHT_FLUSH -> STD_RAISE_POKER;//TO DO
                 case ROYAL_FLUSH -> STD_RAISE_ROYAL_FLUSH;
             }
         );

@@ -120,12 +120,20 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
      * {@inheritDoc}
      */
     @Override
-    public Boolean isRoyalFlush() {
+    public Boolean isStraightFlush() {
         return isStraight()
                 && rulesUtilities.getRoyalFlush(getSafetyList()).stream()
                         .map(Card::seedName)
                         .distinct()
-                        .count() == 1
+                        .count() == 1;
+    }
+
+        /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean isRoyalFlush() {
+        return isStraightFlush()
                 && rulesUtilities.getRoyalFlush(getSafetyList()).stream()
                         .mapToInt(Card::valueOfCard)
                         .min().getAsInt() == SimpleCard.TEN.getValueOfCard();

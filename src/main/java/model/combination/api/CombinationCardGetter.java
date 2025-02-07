@@ -82,6 +82,16 @@ public interface CombinationCardGetter<X> {
      *         {@link java.util.Set} of {@link model.deck.api.Card} that form the
      *         Royal-Flush combination.
      */
+    Set<X> getStraightFlush();
+
+
+    /**
+     * Get the royal flush combination from card Set.
+     * 
+     * @return
+     *         {@link java.util.Set} of {@link model.deck.api.Card} that form the
+     *         Royal-Flush combination.
+     */
     Set<X> getRoyalFlush();
 
     /**

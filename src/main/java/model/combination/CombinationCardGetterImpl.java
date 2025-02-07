@@ -140,6 +140,14 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
      * {@inheritDoc}
      */
     @Override
+    public Set<Card> getStraightFlush() {
+        return getStraight();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Set<Card> getRoyalFlush() {
         return getStraight();
     }

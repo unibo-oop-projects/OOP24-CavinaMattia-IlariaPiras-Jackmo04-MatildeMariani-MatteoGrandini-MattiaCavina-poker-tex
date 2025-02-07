@@ -235,6 +235,25 @@ class CombinationRulesImplTest {
 
     }
 
+       /**
+     * Test for the method isStraightFlush.
+     */
+    @Test
+    void testStraightFlush() {
+        Set<Card> totalCardList = Set.of(
+                new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.CLUBS),
+                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND),
+                new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.SPADES),
+                new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND),
+                new Card(SimpleCard.FOUR, SimpleCard.FOUR.getValueOfCard(), SeedCard.DIAMOND),
+                new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.DIAMOND),
+                new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.DIAMOND));
+
+        assertTrue(new CombinationRulesImpl(totalCardList).isStraightFlush());
+        
+
+    }
+
     /**
      * Test for the method isRoyalFlush.
      */

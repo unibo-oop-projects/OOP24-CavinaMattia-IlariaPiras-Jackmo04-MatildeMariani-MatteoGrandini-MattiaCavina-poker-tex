@@ -69,6 +69,14 @@ public interface CombinationRules<X> {
      * Check if the combination is a royal flush.
      * Five cards with the same seed and consecutive values.
      * 
+     * @return true if the combination is a {@link model.combination.api.CombinationType#STRAIGHT_FLUSH}.
+     */
+    Boolean isStraightFlush();
+
+    /**
+     * Check if the combination is a royal flush.
+     * Five cards with the same seed and consecutive values and the less card is ten.
+     * 
      * @return true if the combination is a {@link model.combination.api.CombinationType#ROYAL_FLUSH}.
      */
     Boolean isRoyalFlush();

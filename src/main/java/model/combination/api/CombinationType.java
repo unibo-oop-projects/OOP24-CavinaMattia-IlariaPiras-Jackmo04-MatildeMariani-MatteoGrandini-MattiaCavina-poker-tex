@@ -39,10 +39,14 @@ public enum CombinationType {
      */
     POKER(8, "Four of a Kind"),
     /**
+     * Five cards with the same seed and consecutive values.
+     */
+    STRAIGHT_FLUSH(9, "Straight Flush"),
+    /**
      * Five cards with the same seed and consecutive values with ten like less
      * value.
      */
-    ROYAL_FLUSH(9, "Royal Flush");
+    ROYAL_FLUSH(10, "Royal Flush");
 
     private final int value;
     private final String name;
