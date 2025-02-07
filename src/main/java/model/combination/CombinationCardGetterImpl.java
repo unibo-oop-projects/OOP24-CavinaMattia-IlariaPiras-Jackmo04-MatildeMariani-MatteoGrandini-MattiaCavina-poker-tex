@@ -21,143 +21,143 @@ import model.deck.api.SimpleCard;
  */
 public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
 
-        private final List<Card> totalCardList = Lists.newLinkedList();
-        private static final int COMBINATION_NUMBER = 5;
-        private final CombinationUtilities rulesUtilities = new CombinationUtilitiesImpl();
+    private final List<Card> totalCardList = Lists.newLinkedList();
+    private static final int COMBINATION_NUMBER = 5;
+    private final CombinationUtilities rulesUtilities = new CombinationUtilitiesImpl();
 
-        /**
-         * Constructor for CombinationsRulesImpl.
-         * 
-         * @param totalCardList
-         *                      list of cards.
-         * @throws IllegalAccessError
-         *                            thrown when the list is empty.
-         * 
-         */
-        public CombinationCardGetterImpl(final Set<Card> totalCardList) {
-                if (!totalCardList.isEmpty()) {
-                        totalCardList.forEach(this.totalCardList::add);
-                } else {
-                        throw new IllegalArgumentException("Empty Set passed like Argument");
-                }
+    /**
+     * Constructor for CombinationsRulesImpl.
+     * 
+     * @param totalCardList
+     *                      list of cards.
+     * @throws IllegalAccessError
+     *                            thrown when the list is empty.
+     * 
+     */
+    public CombinationCardGetterImpl(final Set<Card> totalCardList) {
+        if (!totalCardList.isEmpty()) {
+            totalCardList.forEach(this.totalCardList::add);
+        } else {
+            throw new IllegalArgumentException("Empty Set passed like Argument");
         }
+    }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Set<Card> getPair() {
-                return getSafetyList().stream().filter(t -> t.cardName()
-                                .equals(rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
-                                                .stream()
-                                                .filter(l -> l.getCount() == CombinationDimension.PAIR
-                                                                .getDimension())
-                                                .toList().getFirst().getElement()))
-                                .collect(Collectors.toSet());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Card> getPair() {
+        return getSafetyList().stream().filter(t -> t.cardName()
+                .equals(rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
+                        .stream()
+                        .filter(l -> l.getCount() == CombinationDimension.PAIR
+                                .getDimension())
+                        .toList().getFirst().getElement()))
+                .collect(Collectors.toSet());
 
-        }
+    }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Set<Card> getTwoPairs() {
-               final List<SimpleCard> twoPairSeedList = rulesUtilities.getSumOfSameNameCard(getSafetyList())
-                                .entrySet()
-                                .stream()
-                                .filter(l -> l.getCount() == CombinationDimension.PAIR.getDimension())
-                                .map(Entry::getElement)
-                                .toList();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Card> getTwoPairs() {
+        final List<SimpleCard> twoPairSeedList = rulesUtilities.getSumOfSameNameCard(getSafetyList())
+                .entrySet()
+                .stream()
+                .filter(l -> l.getCount() == CombinationDimension.PAIR.getDimension())
+                .map(Entry::getElement)
+                .toList();
 
-                return getSafetyList().stream().filter(t -> t.cardName() == twoPairSeedList.getFirst()
-                                || t.cardName() == twoPairSeedList.getLast())
-                                .collect(Collectors.toSet());
-        }
+        return getSafetyList().stream().filter(t -> t.cardName() == twoPairSeedList.getFirst()
+                || t.cardName() == twoPairSeedList.getLast())
+                .collect(Collectors.toSet());
+    }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Set<Card> getTris() {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Card> getTris() {
 
-                return getSafetyList().stream().filter(t -> t.cardName()
-                                .equals(rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
-                                                .stream()
-                                                .filter(l -> l.getCount() == CombinationDimension.TRIS.getDimension())
-                                                .toList().getFirst().getElement()))
-                                .collect(Collectors.toSet());
-        }
+        return getSafetyList().stream().filter(t -> t.cardName()
+                .equals(rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
+                        .stream()
+                        .filter(l -> l.getCount() == CombinationDimension.TRIS.getDimension())
+                        .toList().getFirst().getElement()))
+                .collect(Collectors.toSet());
+    }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Set<Card> getStraight() {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Card> getStraight() {
 
-                return rulesUtilities.getRoyalFlush(getSafetyList())
-                                .stream()
-                                .collect(Collectors.toSet());
-        }
+        return rulesUtilities.getRoyalFlush(getSafetyList())
+                .stream()
+                .collect(Collectors.toSet());
+    }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Set<Card> getFullHouse() {
-                return Stream.concat(getPair().stream(), getTris().stream())
-                                .collect(Collectors.toSet());
-        }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Card> getFullHouse() {
+        return Stream.concat(getPair().stream(), getTris().stream())
+                .collect(Collectors.toSet());
+    }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Set<Card> getFlush() {
-                return getSafetyList().stream().filter(t -> t.seedName()
-                                .equals(rulesUtilities.getSumOfSameSeedCard(getSafetyList()).entrySet()
-                                                .stream()
-                                                .filter(l -> l.getCount() == CombinationDimension.STRAIGHT
-                                                                .getDimension())
-                                                .toList().getFirst().getElement()))
-                                .collect(Collectors.toSet());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Card> getFlush() {
+        return getSafetyList().stream().filter(t -> t.seedName()
+                .equals(rulesUtilities.getSumOfSameSeedCard(getSafetyList()).entrySet()
+                        .stream()
+                        .filter(l -> l.getCount() == CombinationDimension.STRAIGHT
+                                .getDimension())
+                        .toList().getFirst().getElement()))
+                .collect(Collectors.toSet());
 
-        }
+    }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Set<Card> getPoker() {
-                return getSafetyList().stream().filter(t -> t.cardName()
-                                .equals(rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
-                                                .stream()
-                                                .filter(l -> l.getCount() == CombinationDimension.POKER.getDimension())
-                                                .toList().getFirst().getElement()))
-                                .collect(Collectors.toSet());
-        }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Card> getPoker() {
+        return getSafetyList().stream().filter(t -> t.cardName()
+                .equals(rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
+                        .stream()
+                        .filter(l -> l.getCount() == CombinationDimension.POKER.getDimension())
+                        .toList().getFirst().getElement()))
+                .collect(Collectors.toSet());
+    }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Set<Card> getRoyalFlush() {
-                return getStraight();
-        }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Card> getRoyalFlush() {
+        return getStraight();
+    }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Set<Card> getHightCard() {
-                return totalCardList.stream()
-                                .sorted(Comparator.comparing(Card::valueOfCard)).toList()
-                                .reversed()
-                                .stream()
-                                .limit(COMBINATION_NUMBER)
-                                .collect(Collectors.toSet());
-        }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Card> getHightCard() {
+        return totalCardList.stream()
+                .sorted(Comparator.comparing(Card::valueOfCard)).toList()
+                .reversed()
+                .stream()
+                .limit(COMBINATION_NUMBER)
+                .collect(Collectors.toSet());
+    }
 
-        private List<Card> getSafetyList() {
-                return Lists.newLinkedList(this.totalCardList);
-        }
+    private List<Card> getSafetyList() {
+        return Lists.newLinkedList(this.totalCardList);
+    }
 }
