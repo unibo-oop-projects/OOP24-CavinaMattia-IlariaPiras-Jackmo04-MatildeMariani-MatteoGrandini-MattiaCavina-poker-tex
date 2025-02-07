@@ -53,10 +53,10 @@ public class TestHandImpl {
 
     @BeforeEach
     public void newHand() {
-        Player player1 = playerFactory.easy(1, INITIAL_CHIPS);
-        Player player2 = playerFactory.easy(2, INITIAL_CHIPS);
-        Player player3 = playerFactory.easy(3, INITIAL_CHIPS);
-        Player player4 = playerFactory.easy(4, INITIAL_CHIPS);
+        Player player1 = playerFactory.createEasy(1, INITIAL_CHIPS);
+        Player player2 = playerFactory.createEasy(2, INITIAL_CHIPS);
+        Player player3 = playerFactory.createEasy(3, INITIAL_CHIPS);
+        Player player4 = playerFactory.createEasy(4, INITIAL_CHIPS);
         player2.setRole(Role.SMALL_BLIND);
         player3.setRole(Role.BIG_BLIND);
 
@@ -72,10 +72,10 @@ public class TestHandImpl {
 
     @Test
     public void testCreation() {
-        Player player1 = playerFactory.easy(1, INITIAL_CHIPS);
-        Player player2 = playerFactory.easy(2, INITIAL_CHIPS);
-        Player player3 = playerFactory.easy(3, INITIAL_CHIPS);
-        Player player4 = playerFactory.easy(4, INITIAL_CHIPS);
+        Player player1 = playerFactory.createEasy(1, INITIAL_CHIPS);
+        Player player2 = playerFactory.createEasy(2, INITIAL_CHIPS);
+        Player player3 = playerFactory.createEasy(3, INITIAL_CHIPS);
+        Player player4 = playerFactory.createEasy(4, INITIAL_CHIPS);
         var players = new ArrayList<>(List.of(player1, player2, player3, player4));
         player2.setRole(Role.SMALL_BLIND);
         player3.setRole(Role.BIG_BLIND);

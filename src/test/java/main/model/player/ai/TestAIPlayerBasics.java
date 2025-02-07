@@ -61,7 +61,7 @@ class TestAIPlayerBasics {
      */
     @Test
     void testCreation() {
-        final var player = factory.easy(PLAYER_ID, STARTING_CHIPS);
+        final var player = factory.createEasy(PLAYER_ID, STARTING_CHIPS);
         assertEquals(Optional.empty(), player.getRole());
         assertEquals(STARTING_CHIPS, player.getChips());
         assertEquals(Set.of(), player.getCards());
@@ -76,7 +76,7 @@ class TestAIPlayerBasics {
      */
     @RepeatedTest(REPEAT_TESTS)
     void testBettingRegular() {
-        final var player = factory.easy(PLAYER_ID, STARTING_CHIPS);
+        final var player = factory.createEasy(PLAYER_ID, STARTING_CHIPS);
         assertEquals(0, player.getTotalPhaseBet());
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         final var action = player.getAction(new StateImpl(BET_1000, NUM_OF_PLAYERS));
@@ -105,7 +105,7 @@ class TestAIPlayerBasics {
      */
     @RepeatedTest(REPEAT_TESTS)
     void testBettingWithBlind() {
-        final var player = factory.easy(PLAYER_ID, STARTING_CHIPS);
+        final var player = factory.createEasy(PLAYER_ID, STARTING_CHIPS);
         player.setRole(Role.SMALL_BLIND);
         assertEquals(0, player.getTotalPhaseBet());
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
@@ -152,7 +152,7 @@ class TestAIPlayerBasics {
      */
     @RepeatedTest(REPEAT_TESTS)
     void testChecking() {
-        final var player = factory.hard(PLAYER_ID, STARTING_CHIPS);
+        final var player = factory.createHard(PLAYER_ID, STARTING_CHIPS);
         assertEquals(0, player.getTotalPhaseBet());
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         final var state = new StateImpl(0, NUM_OF_PLAYERS);
@@ -167,7 +167,7 @@ class TestAIPlayerBasics {
      */
     @Test
     void testWinning() {
-        final var player = factory.medium(PLAYER_ID, STARTING_CHIPS);
+        final var player = factory.createMedium(PLAYER_ID, STARTING_CHIPS);
         player.handWon(BET_1000);
         assertEquals(STARTING_CHIPS + BET_1000, player.getChips());
         assertEquals(Set.of(), player.getCards());
@@ -179,7 +179,7 @@ class TestAIPlayerBasics {
      */
     @Test
     void testLosing() {
-        final var player = factory.hard(PLAYER_ID, STARTING_CHIPS);
+        final var player = factory.createHard(PLAYER_ID, STARTING_CHIPS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         final var state = new StateImpl(0, NUM_OF_PLAYERS);
         state.addToPot(POT_2000);

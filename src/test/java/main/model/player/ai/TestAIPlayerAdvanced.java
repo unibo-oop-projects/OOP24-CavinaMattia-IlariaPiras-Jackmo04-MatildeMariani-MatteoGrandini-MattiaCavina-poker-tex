@@ -60,7 +60,7 @@ class TestAIPlayerAdvanced {
     @RepeatedTest(REPEAT_TESTS)
     void testAllIn() {
         LOGGER.info("Testing all in");
-        final var player = factory.hard(STD_ID, CHIPS_800);
+        final var player = factory.createHard(STD_ID, CHIPS_800);
         player.setCards(deck.getSomeCards(2).stream().collect(Collectors.toSet()));
         final var state = new StateImpl(BET_1000, NUM_OF_PLAYERS);
         var action = Action.FOLD;
@@ -97,7 +97,7 @@ class TestAIPlayerAdvanced {
     @RepeatedTest(REPEAT_TESTS)
     void testChangingBet() {
         LOGGER.info("Testing changing bet");
-        final var player = factory.hard(STD_ID, CHIPS_10000);
+        final var player = factory.createHard(STD_ID, CHIPS_10000);
         player.setCards(deck.getSomeCards(2).stream().collect(Collectors.toSet()));
         final var state = new StateImpl(BET_1000, NUM_OF_PLAYERS);
         var action = Action.FOLD;
@@ -159,7 +159,7 @@ class TestAIPlayerAdvanced {
     @RepeatedTest(REPEAT_TESTS)
     void testPhaseChange() {
         LOGGER.info("Testing changing phase");
-        final var player = factory.hard(STD_ID, CHIPS_10000);
+        final var player = factory.createHard(STD_ID, CHIPS_10000);
         player.setCards(deck.getSomeCards(2).stream().collect(Collectors.toSet()));
         final var state = new StateImpl(BET_1000, NUM_OF_PLAYERS);
         var action = Action.FOLD;
