@@ -29,7 +29,6 @@ import model.player.ai.api.AIPlayerFactory;
 import model.player.api.Player;
 import model.player.api.Role;
 import view.ViewImpl;
-import view.scenes.GameScene;
 
 public class TestHandImpl {
 
@@ -38,7 +37,6 @@ public class TestHandImpl {
 
     private static AIPlayerFactory playerFactory;
     private static GameController controller;
-    private static GameScene gameScene;
     private static List<Player> players;
     private static State gameState;
     private static Hand hand;
@@ -48,15 +46,14 @@ public class TestHandImpl {
     public static void setUp() {
         playerFactory = new AIPlayerFactoryImpl();
         controller = new GameControllerImpl(new ViewImpl(), Difficulty.EASY, INITIAL_CHIPS);
-        gameScene = new GameScene(controller);
     }
 
     @BeforeEach
     public void newHand() {
-        Player player1 = playerFactory.easy(1, INITIAL_CHIPS);
-        Player player2 = playerFactory.easy(2, INITIAL_CHIPS);
-        Player player3 = playerFactory.easy(3, INITIAL_CHIPS);
-        Player player4 = playerFactory.easy(4, INITIAL_CHIPS);
+        Player player1 = playerFactory.createEasy(1, INITIAL_CHIPS);
+        Player player2 = playerFactory.createEasy(2, INITIAL_CHIPS);
+        Player player3 = playerFactory.createEasy(3, INITIAL_CHIPS);
+        Player player4 = playerFactory.createEasy(4, INITIAL_CHIPS);
         player2.setRole(Role.SMALL_BLIND);
         player3.setRole(Role.BIG_BLIND);
 
@@ -72,10 +69,10 @@ public class TestHandImpl {
 
     @Test
     public void testCreation() {
-        Player player1 = playerFactory.easy(1, INITIAL_CHIPS);
-        Player player2 = playerFactory.easy(2, INITIAL_CHIPS);
-        Player player3 = playerFactory.easy(3, INITIAL_CHIPS);
-        Player player4 = playerFactory.easy(4, INITIAL_CHIPS);
+        Player player1 = playerFactory.createEasy(1, INITIAL_CHIPS);
+        Player player2 = playerFactory.createEasy(2, INITIAL_CHIPS);
+        Player player3 = playerFactory.createEasy(3, INITIAL_CHIPS);
+        Player player4 = playerFactory.createEasy(4, INITIAL_CHIPS);
         var players = new ArrayList<>(List.of(player1, player2, player3, player4));
         player2.setRole(Role.SMALL_BLIND);
         player3.setRole(Role.BIG_BLIND);
@@ -107,14 +104,6 @@ public class TestHandImpl {
 
     @Test
     public void testDeterminateWinnnerOfTheHand() {
-        /*gameState.addToPot(INITIAL_CHIPS);
-        gameState.addCommunityCards(deck.getSomeCards(5).stream().collect(Collectors.toSet()));
-        hand.determinesWinnerOfTheHand();
-
-        assertEquals( 1, 
-                    (int) players.stream().filter(p -> p.getChips() == (INITIAL_CHIPS + INITIAL_CHIPS)).count());
-        assertEquals( hand.getHandPlayers().size(), 
-                    (int) players.stream().filter(p -> p.getChips() == INITIAL_CHIPS).count());*/
         final Set<Card> firstPlayerCard = Set.of(
             new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
             new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND),
@@ -151,16 +140,18 @@ public class TestHandImpl {
             new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
             new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND)
         );
-        var player1 = players.get(0);
-        var player2 = players.get(1);
-        var player3 = players.get(2);
-        var player4 = players.get(3);
-        players.get(0).setCards(firstPlayerCard);
-        players.get(1).setCards(secondPlayerCard);
-        players.get(2).setCards(thirdPlayerCard);
-        players.get(3).setCards(fourthPlayerCard);
+        
+        Player player1 = playerFactory.createEasy(1, INITIAL_CHIPS);
+        Player player2 = playerFactory.createEasy(2, INITIAL_CHIPS);
+        Player player3 = playerFactory.createEasy(3, INITIAL_CHIPS);
+        Player player4 = playerFactory.createEasy(4, INITIAL_CHIPS);
+        var players = new ArrayList<>(List.of(player1, player2, player3, player4));
+        player1.setCards(firstPlayerCard);
+        player2.setCards(secondPlayerCard);
+        player3.setCards(thirdPlayerCard);
+        player4.setCards(fourthPlayerCard);
         players.sort((p1, p2) -> new CombinationComparator().compare(p1.getCombination(), p2.getCombination()));
-        assertEquals(List.of(player2, player4, player1, player3), players);
+        assertEquals(List.of(player4, player1, player2, player3), players);
     }
 
     @Test

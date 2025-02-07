@@ -46,7 +46,8 @@ public class HandImpl implements Hand {
         var originalList = List.copyOf(this.handPlayers);
         this.handPlayers.clear();
         var index  = Iterables.indexOf(originalList, p -> p.getRole().equals(Optional.of(firstPlayerRole)));
-        this.handPlayers.addAll(originalList.subList(index, originalList.size()));
+        this.handPlayers.add(originalList.get(index));
+        this.handPlayers.addAll(originalList.subList(index + 1, originalList.size()));
         this.handPlayers.addAll(originalList.subList(0, index));
     }
     

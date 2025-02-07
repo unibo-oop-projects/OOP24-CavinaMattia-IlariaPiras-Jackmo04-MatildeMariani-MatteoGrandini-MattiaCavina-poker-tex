@@ -212,7 +212,10 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
                         gameState.getHandPhase().getNumCards()));
                     controller.setCommunityCards(gameState.getCommunityCards());
                     hand.startPhase();
-                    players.forEach(p -> gameState.addToPot(p.getTotalPhaseBet()));
+                    players.forEach(p -> {
+                        gameState.addToPot(p.getTotalPhaseBet());
+                        p.nextPhase();
+                    });
                     controller.updateForNewPhase(gameState.getPot());
                     gameState.nextHandPhase();
                         

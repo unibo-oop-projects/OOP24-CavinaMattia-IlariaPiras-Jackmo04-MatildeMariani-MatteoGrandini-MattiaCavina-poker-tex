@@ -16,7 +16,7 @@ import model.game.api.State;
  * This class provides a basic implementation of the {@link AIPlayer} interface.
  * It provides basic methods to handle the player's actions during a hand.
  */
-public abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
+abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
     private final double raisingFactor;
     private final int standardRaise;
