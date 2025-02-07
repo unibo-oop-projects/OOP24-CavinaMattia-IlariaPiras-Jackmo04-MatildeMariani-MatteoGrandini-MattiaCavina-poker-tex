@@ -65,7 +65,7 @@ public class TestHandImpl {
         deck = new DeckFactoryImpl().simplePokerDeck();
         hand = new HandImpl(controller, players, gameState);
         
-        hand.getHandPlayers()
+        hand.getRemainingPlayers()
             .forEach(p -> p.setCards(deck.getSomeCards(NUM_PLAYER_CARDS).stream().collect(Collectors.toSet())));
     }
 
@@ -81,27 +81,27 @@ public class TestHandImpl {
         player3.setRole(Role.BIG_BLIND);
 
         var hand1 = new HandImpl(controller, players, gameState);
-        assertEquals(List.of(player2, player3, player4, player1), hand1.getHandPlayers());
+        assertEquals(List.of(player2, player3, player4, player1), hand1.getRemainingPlayers());
 
         player2.setRole(null);
         player3.setRole(Role.SMALL_BLIND);
         player4.setRole(Role.BIG_BLIND);
 
         var hand2 = new HandImpl(controller, List.of(player2, player3, player4), gameState);
-        assertEquals(List.of(player3, player4, player2), hand2.getHandPlayers());
+        assertEquals(List.of(player3, player4, player2), hand2.getRemainingPlayers());
 
         player3.setRole(Role.BIG_BLIND);
         player4.setRole(Role.SMALL_BLIND);
 
         var hand3 = new HandImpl(controller, List.of(player3, player4), gameState);
-        assertEquals(List.of(player4, player3), hand3.getHandPlayers());
+        assertEquals(List.of(player4, player3), hand3.getRemainingPlayers());
 
         player2.setRole(Role.BIG_BLIND);
         player3.setRole(null);
         player4.setRole(Role.SMALL_BLIND);
 
         var hand4 = new HandImpl(controller, List.of(player2, player3, player4), gameState);
-        assertEquals(List.of(player4, player2, player3), hand4.getHandPlayers());
+        assertEquals(List.of(player4, player2, player3), hand4.getRemainingPlayers());
 
     }
 
@@ -136,6 +136,6 @@ public class TestHandImpl {
         hand.determinesWinnerOfTheHand();
 
         assertEquals(1, (int) players.stream().filter(p -> p.getChips() == (INITIAL_CHIPS + INITIAL_CHIPS)).count());
-        assertEquals(hand.getHandPlayers().size(), (int) players.stream().filter(p -> p.getChips() == INITIAL_CHIPS).count());
+        assertEquals(hand.getRemainingPlayers().size(), (int) players.stream().filter(p -> p.getChips() == INITIAL_CHIPS).count());
     }
 }
