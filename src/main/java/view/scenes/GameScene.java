@@ -57,8 +57,6 @@ public class GameScene extends JPanel implements Scene {
         JPanel southJPanel = new JPanel(new BorderLayout());
         JPanel buttonsPanel = new JPanel(new GridLayout(2, 1, 0, 10));
         buttonsPanel.setBackground(southPlayerPanel.getBackground());
-        /*MyButton pause = new MyButton(" Pause ", "PAUSE", pauseActionListener, buttonsPanel);
-        MyButton menu = new MyButton(" Menu ", "MENU", menuActionListener, buttonsPanel);*/
         MyButton pause = new MyButton("Pause");
         pause.initializeButton("PAUSE", pauseActionListener, buttonsPanel);
         MyButton menu = new MyButton("Menu");
