@@ -10,7 +10,7 @@ import view.scenes.DifficultySelectionScene;
 import view.scenes.GameOverScene;
 import view.scenes.MainMenuScene;
 import view.scenes.RulesScene;
-import view.scenes.StatsScene;
+import view.scenes.StatisticsScene;
 
 public class SceneControllerImpl implements SceneController {
 
@@ -37,7 +37,7 @@ public class SceneControllerImpl implements SceneController {
      */
     @Override
     public void goToStatsScene() {
-        this.mainView.changeScene(new StatsScene(new BasicStatisticsControllerImpl(mainView)));
+        this.mainView.changeScene(new StatisticsScene(new BasicStatisticsControllerImpl(mainView)));
     }
 
     /**

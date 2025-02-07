@@ -9,7 +9,7 @@ import controller.scene.SceneController;
 /**
  * Interface for the statistics controller.
  */
-public interface StatsController extends SceneController {
+public interface StatisticsController extends SceneController {
 
     /**
      * Returns a list of pairs of strings, where the first string is the name of the

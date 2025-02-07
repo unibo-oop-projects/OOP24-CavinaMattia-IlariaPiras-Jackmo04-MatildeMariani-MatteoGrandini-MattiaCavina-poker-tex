@@ -13,13 +13,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import controller.statistics.StatsController;
+import controller.statistics.StatisticsController;
 import view.scenes.api.Scene;
 
 /**
  * The {@link Scene} that displays the statistics of the game.
  */
-public class StatsScene implements Scene {
+public class StatisticsScene implements Scene {
 
     private static final String FONT_FAMILY = "Roboto";
     private static final String SCENE_NAME = "stats";
@@ -36,13 +36,13 @@ public class StatsScene implements Scene {
 
     private final JPanel panel;
     private final JPanel statsContainer;
-    private final StatsController controller;
+    private final StatisticsController controller;
 
     /**
      * Creates a new {@link Scene} that displays the statistics of the game.
      * @param statsController the controller for the statistics
      */
-    public StatsScene(final StatsController statsController) {
+    public StatisticsScene(final StatisticsController statsController) {
         this.panel = new JPanel();
         this.controller = statsController;
 

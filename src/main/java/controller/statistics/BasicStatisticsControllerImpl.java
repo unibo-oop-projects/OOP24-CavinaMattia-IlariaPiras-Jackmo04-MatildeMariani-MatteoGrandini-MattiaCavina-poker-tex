@@ -15,7 +15,7 @@ import view.View;
  * Manages the retrieval of the statistics form the statistics manager and the
  * return to the main menu scene.
  */
-public class BasicStatisticsControllerImpl extends SceneControllerImpl implements StatsController {
+public class BasicStatisticsControllerImpl extends SceneControllerImpl implements StatisticsController {
 
     private static final String STATS_FILE_NAME = "stats.bin";
 
