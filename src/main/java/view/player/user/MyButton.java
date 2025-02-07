@@ -46,7 +46,7 @@ public class MyButton extends JButton implements Serializable {
     public void initializeButton(final String command, final ActionListener listener, final JPanel panel) {
         this.setBackground(new Color(R_BUTTONS_PANEL, G_BUTTONS_PANEL, B_BUTTONS_PANEL));
         this.setForeground(Color.BLACK);
-        this.setFont(new Font("Dosis", Font.BOLD, FONT_SIZE));
+        this.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
         this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
         this.setOpaque(true);

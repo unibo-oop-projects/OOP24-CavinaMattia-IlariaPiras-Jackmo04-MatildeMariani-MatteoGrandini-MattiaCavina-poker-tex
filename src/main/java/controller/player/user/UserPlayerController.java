@@ -67,7 +67,7 @@ public class UserPlayerController {
      * @return the action received from the user player.
      */
     public Action getUserAction() {
-        userPanel.updateButtonStates();
+        this.userPanel.updateButtonStates();
         synchronized (this.lock) {
             while (!this.actionReceived) {
                 try {
@@ -78,7 +78,7 @@ public class UserPlayerController {
             }
         }
         this.actionReceived = false; 
-        userPanel.disableAllButtons();
+        this.userPanel.disableAllButtons();
         return this.action;
     }
 
@@ -162,6 +162,10 @@ public class UserPlayerController {
      * @return the current state.
      */
     public State getState() {
-        return state;
+        return this.state;
+    }
+
+    public UserPanel getUserPanel() {
+        return this.userPanel;
     }
 }

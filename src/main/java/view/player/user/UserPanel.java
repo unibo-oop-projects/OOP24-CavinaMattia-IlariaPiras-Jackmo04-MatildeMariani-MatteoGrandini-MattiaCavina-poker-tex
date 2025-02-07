@@ -60,6 +60,7 @@ public class UserPanel extends PlayerPanelImpl implements Serializable {
     public UserPanel(final UserPlayerController controller) {
         this.controller = controller;
         createUserPanel();
+        disableAllButtons();
     }
 
     /**
@@ -134,25 +135,25 @@ public class UserPanel extends PlayerPanelImpl implements Serializable {
      * Updates the states of the buttons based on the current game state.
      */
     public void updateButtonStates() {
-        checkButton.setEnabled(controller.canCheck());
-        callButton.setEnabled(controller.canCall());
-        raiseButton.setEnabled(controller.canRaise());
-        foldButton.setEnabled(controller.canFold());
-        allInButton.setEnabled(controller.canAllIn());
-        raiseAmount.setEnabled(controller.canRaise());
+        this.checkButton.setEnabled(controller.canCheck());
+        this.callButton.setEnabled(controller.canCall());
+        this.raiseButton.setEnabled(controller.canRaise());
+        this.foldButton.setEnabled(controller.canFold());
+        this.allInButton.setEnabled(controller.canAllIn());
+        this.raiseAmount.setEnabled(controller.canRaise());
     }
 
     /**
      * Disables all the buttons and the text field in the GUI.
      */
     public void disableAllButtons() {
-        raiseAmount.setText(MESSAGE);
-        raiseAmount.setEnabled(false);
-        checkButton.setEnabled(false);
-        callButton.setEnabled(false);
-        raiseButton.setEnabled(false);
-        foldButton.setEnabled(false);
-        allInButton.setEnabled(false);
+        this.raiseAmount.setText(MESSAGE);
+        this.raiseAmount.setEnabled(false);
+        this.checkButton.setEnabled(false);
+        this.callButton.setEnabled(false);
+        this.raiseButton.setEnabled(false);
+        this.foldButton.setEnabled(false);
+        this.allInButton.setEnabled(false);
     }
 
     /**
