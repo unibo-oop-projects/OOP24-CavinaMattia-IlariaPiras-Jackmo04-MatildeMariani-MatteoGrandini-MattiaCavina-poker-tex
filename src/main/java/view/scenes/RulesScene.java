@@ -51,7 +51,7 @@ public class RulesScene implements Scene {
         // Back to menu button
         final JButton backButton = new JButton("Back to Menu");
         backButton.setFont(new Font(FONT_FAMILY, Font.BOLD, BACK_BTN_FONT_SIZE));
-        backButton.addActionListener(e -> this.controller.goToMainMenuScene());
+        backButton.addActionListener(e -> this.controller.goToMainScene());
         this.panel.add(backButton, BorderLayout.SOUTH);
     }
 

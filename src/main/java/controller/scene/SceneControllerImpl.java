@@ -14,7 +14,7 @@ import view.scenes.StatsScene;
 
 public class SceneControllerImpl implements SceneController {
 
-        private final View mainView;
+    private final View mainView;
 
     /**
      * Creates a new main menu controller.

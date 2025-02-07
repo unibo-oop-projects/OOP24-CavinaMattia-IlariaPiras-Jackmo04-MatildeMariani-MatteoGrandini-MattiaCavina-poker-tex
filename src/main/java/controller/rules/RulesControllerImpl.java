@@ -7,34 +7,23 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
-import controller.menu.MainMenuControllerImpl;
+import controller.scene.SceneControllerImpl;
 import view.View;
-import view.scenes.MainMenuScene;
 
 /**
  * Implementation of the rules controller.
  * Manages the return to the main menu scene.
  */
-public class RulesControllerImpl implements RulesController {
+public class RulesControllerImpl extends SceneControllerImpl implements RulesController {
 
     private static final String RULES_HTML_PATH = "rules/rules.html";
-
-    private final View mainView;
 
     /**
      * Creates a new rules controller.
      * @param mainView the main view of the application
      */
     public RulesControllerImpl(final View mainView) {
-        this.mainView = mainView;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void goToMainMenuScene() {
-        this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
+        super(mainView);
     }
 
     /**
