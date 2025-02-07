@@ -18,6 +18,7 @@ import view.scenes.api.Scene;
  */
 public class RulesScene implements Scene {
 
+    private static final String FONT_FAMILY = "Roboto";
     private static final String SCENE_NAME = "rules";
     private static final int SCROLL_INCREMENT = 16;
     private static final int BACK_BTN_FONT_SIZE = 18;
@@ -49,7 +50,7 @@ public class RulesScene implements Scene {
 
         // Back to menu button
         final JButton backButton = new JButton("Back to Menu");
-        backButton.setFont(new Font("Arial", Font.BOLD, BACK_BTN_FONT_SIZE));
+        backButton.setFont(new Font(FONT_FAMILY, Font.BOLD, BACK_BTN_FONT_SIZE));
         backButton.addActionListener(e -> this.controller.goToMainMenuScene());
         this.panel.add(backButton, BorderLayout.SOUTH);
     }

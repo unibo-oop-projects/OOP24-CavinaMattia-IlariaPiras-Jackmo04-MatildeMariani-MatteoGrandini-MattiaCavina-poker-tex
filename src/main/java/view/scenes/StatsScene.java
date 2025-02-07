@@ -21,6 +21,7 @@ import view.scenes.api.Scene;
  */
 public class StatsScene implements Scene {
 
+    private static final String FONT_FAMILY = "Roboto";
     private static final String SCENE_NAME = "stats";
     private static final Border TITLE_BORDER = BorderFactory.createEmptyBorder(20, 0, 10, 0);
     private static final Border STATS_CONTAINER_BORDER = BorderFactory.createEmptyBorder(10, 100, 10, 100);
@@ -48,7 +49,7 @@ public class StatsScene implements Scene {
         this.panel.setBackground(new Color(DARKER_GREEN_HEX));
         this.panel.setLayout(new BorderLayout());
         final JLabel title = new JLabel("Statistics", JLabel.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
+        title.setFont(new Font(FONT_FAMILY, Font.BOLD, TITLE_FONT_SIZE));
         title.setBorder(TITLE_BORDER);
         title.setForeground(Color.WHITE);
         this.panel.add(title, BorderLayout.NORTH);
@@ -63,7 +64,7 @@ public class StatsScene implements Scene {
         this.panel.add(statsContainer, BorderLayout.CENTER);
 
         final JButton backButton = new JButton("Back to Menu");
-        backButton.setFont(new Font("Arial", Font.BOLD, BACK_BTN_FONT_SIZE));
+        backButton.setFont(new Font(FONT_FAMILY, Font.BOLD, BACK_BTN_FONT_SIZE));
         backButton.addActionListener(e -> this.controller.goToMainMenuScene());
         this.panel.add(backButton, BorderLayout.SOUTH);
     }
@@ -83,7 +84,7 @@ public class StatsScene implements Scene {
     private JPanel getStatJPanel(final String name, final String value) {
         final JPanel panel = new JPanel();
         final JLabel label = new JLabel(name + ": " + value, JLabel.CENTER);
-        label.setFont(new Font("Arial", Font.BOLD, STATS_FONT_SIZE));
+        label.setFont(new Font(FONT_FAMILY, Font.BOLD, STATS_FONT_SIZE));
         panel.setLayout(new BorderLayout());
         panel.add(label, BorderLayout.CENTER);
         panel.setPreferredSize(STAT_PANEL_DIMENSION);
