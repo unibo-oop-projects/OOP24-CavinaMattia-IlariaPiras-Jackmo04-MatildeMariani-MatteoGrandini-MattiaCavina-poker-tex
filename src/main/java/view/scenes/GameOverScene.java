@@ -10,10 +10,12 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.Action;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import javax.swing.Timer;
 
 import controller.gameover.GameOverMenu;
 import view.scenes.api.Scene;
@@ -28,7 +30,7 @@ public class GameOverScene extends JPanel implements Scene {
 
     private static final String SCENE_NAME = "GameOver";
     private static final String RESOURCE_PATH = "endgame/";
-    private static final int TEXT_DIMENSION_BUTTON = 20;
+    private static final int TEXT_DIMENSION_BUTTON = 30;
     private static final int TEXT_DIMENSION_RESULT = 50;
     private static final String VICTORY_STRING = "YOU WIN!";
     private static final String LOSE_STRING = "YOU LOSE!";
@@ -36,6 +38,10 @@ public class GameOverScene extends JPanel implements Scene {
     private static final String VICTORY_IMG_NAME = "Victory";
     private static final String LOSE_IMG_NAME = "Lose";
     private static final String IMG_EXTENSION = ".jpg";
+    private static final Color TEXT_COLOR = Color.WHITE;
+    private static final Integer TIME_TO_LAMP = 500;
+
+    private Boolean setLamp = true;
 
     private final GameOverMenu controller;
 
@@ -43,7 +49,7 @@ public class GameOverScene extends JPanel implements Scene {
 
     private final JLabel endImmage = new JLabel();
     private final JLabel textFinalResult = new JLabel();
-    private final Font buttonFont = new Font("BottonFont", Font.ROMAN_BASELINE, TEXT_DIMENSION_BUTTON);
+    private final Font buttonFont = new Font("BottonFont", Font.BOLD, TEXT_DIMENSION_BUTTON);
     private final Font stringResultFont = new Font("StringResultFont", Font.ROMAN_BASELINE, TEXT_DIMENSION_RESULT);
 
     /**
@@ -56,6 +62,8 @@ public class GameOverScene extends JPanel implements Scene {
         this.controller = controller;
 
         this.setLayout(new BorderLayout());
+        Timer timer = new Timer(TIME_TO_LAMP, getLampAction(textFinalResult));
+        timer.start();
 
         endImmage.setHorizontalAlignment(JLabel.CENTER);
         endImmage.setVerticalAlignment(JLabel.CENTER);
@@ -63,13 +71,7 @@ public class GameOverScene extends JPanel implements Scene {
         textFinalResult.setFont(stringResultFont);
         textFinalResult.setHorizontalAlignment(JLabel.CENTER);
 
-        final JButton goToStats = getButtomFeuture("Statistics", Color.GRAY, Color.BLACK, buttonFont,
-                e -> this.controller.goToStatsScene());
-
-        final JButton goToExitGame = getButtomFeuture("Exit Game", Color.DARK_GRAY, Color.WHITE, buttonFont,
-                e -> this.controller.exitGame());
-
-        final JButton goToMainMenu = getButtomFeuture("Main Menu", Color.LIGHT_GRAY, Color.BLACK, buttonFont,
+        final JButton goToMainMenu = getButtomFeuture("Menu", Color.LIGHT_GRAY, Color.BLACK, buttonFont,
                 e -> this.controller.goToMainScene());
 
         // To change Pannel from win to lose from keyboard.
@@ -78,11 +80,9 @@ public class GameOverScene extends JPanel implements Scene {
         this.getActionMap().put(KEY_BORD_SWITCH, getChangePannelAction());
 
         // Add botton at game over pannel.
-        this.add(goToExitGame, BorderLayout.EAST);
-        this.add(goToMainMenu, BorderLayout.WEST);
         this.add(endImmage, BorderLayout.CENTER);
         this.add(labelPannel, BorderLayout.NORTH);
-        this.add(goToStats, BorderLayout.SOUTH);
+        this.add(goToMainMenu, BorderLayout.SOUTH);
 
         // add north pannel.
         labelPannel.add(textFinalResult, BorderLayout.CENTER);
@@ -114,13 +114,11 @@ public class GameOverScene extends JPanel implements Scene {
             endImmage.setIcon(
                     new ImageIcon(ClassLoader.getSystemResource(RESOURCE_PATH + VICTORY_IMG_NAME + IMG_EXTENSION)));
             textFinalResult.setText(VICTORY_STRING);
-            textFinalResult.setForeground(Color.BLACK);
         } else {
             this.setBackground(Color.BLACK);
             endImmage.setIcon(
                     new ImageIcon(ClassLoader.getSystemResource(RESOURCE_PATH + LOSE_IMG_NAME + IMG_EXTENSION)));
             textFinalResult.setText(LOSE_STRING);
-            textFinalResult.setForeground(Color.RED);
         }
     }
 
@@ -144,5 +142,21 @@ public class GameOverScene extends JPanel implements Scene {
         button.addActionListener(action);
         return button;
 
+    }
+
+    private ActionListener getLampAction(JComponent component) {
+        return new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (setLamp) {
+                    textFinalResult.setForeground(TEXT_COLOR);
+                } else {
+                    textFinalResult.setForeground(labelPannel.getBackground());
+                }
+                setLamp = !setLamp;
+            }
+
+        };
     }
 }

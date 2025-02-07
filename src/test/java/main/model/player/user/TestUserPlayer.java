@@ -18,8 +18,10 @@ import model.player.api.Action;
 import model.player.api.Role;
 import model.player.user.UserPlayer;
 
-public class TestUserPlayer {
-    
+/**
+ * Tests for the UserPlayer implementation.
+ */
+class TestUserPlayer {
     private static final int PLAYER_ID = 1;
     private static final int INITIAL_TOTAL_PHASE_BET = 0;
     private static final int INITIAL_CHIPS = 2000;
@@ -31,15 +33,15 @@ public class TestUserPlayer {
     private static final int BET_3000 = 3000;
 
     private UserPlayer player;
-    private static Deck<Card> deck;
+    private Deck<Card> deck;
 
     @BeforeEach
-    public void newDeck() {
+    void newDeck() {
         deck = new DeckFactoryImpl().simplePokerDeck();
     }
 
     @Test
-    public void testCreation() {
+    void testCreation() {
         this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         assertTrue(this.player.getRole().isEmpty());
         assertEquals(INITIAL_CHIPS, player.getChips());
@@ -51,9 +53,9 @@ public class TestUserPlayer {
     }
 
     @Test
-    public void testCheck() throws InterruptedException {
+    void testCheck() throws InterruptedException {
         this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
-        var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
+        final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().receiveUserAction("CALL");
         assertEquals(Action.CALL, player.getAction(state));
@@ -67,10 +69,10 @@ public class TestUserPlayer {
     }
 
     @Test
-    public void testPreFlopSmallBlind() {
+    void testPreFlopSmallBlind() {
         this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         player.setRole(Role.SMALL_BLIND);
-        var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
+        final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         assertEquals(Action.CALL, player.getAction(state));
         assertEquals(INITIAL_CHIPS - (INITIAL_BET * MULTIPLIER_SMALL_BLIND), player.getChips());
@@ -78,9 +80,9 @@ public class TestUserPlayer {
     }
 
     @Test
-    public void testTextField() throws InterruptedException {
+    void testTextField() throws InterruptedException {
         this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
-        var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
+        final var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().setRaiseAmount(INITIAL_BET_500 * MULTIPLIER_RAISE);
         player.getController().receiveUserAction("RAISE");
@@ -95,9 +97,9 @@ public class TestUserPlayer {
     }
 
     @Test
-    public void testAllIn() {
+    void testAllIn() {
         this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
-        var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
+        final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().receiveUserAction("ALL_IN");
         assertEquals(Action.ALL_IN, player.getAction(state));
@@ -106,7 +108,7 @@ public class TestUserPlayer {
     }
 
     @Test
-    public void testWinning() {
+    void testWinning() {
         this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.handWon(BET_3000);
@@ -115,9 +117,9 @@ public class TestUserPlayer {
     }
 
     @Test
-    public void testLosing() {
+    void testLosing() {
         this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
-        var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
+        final var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().setRaiseAmount(INITIAL_BET_500 * MULTIPLIER_RAISE);
         player.getController().receiveUserAction("RAISE");

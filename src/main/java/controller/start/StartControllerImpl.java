@@ -4,6 +4,10 @@ import controller.menu.MainMenuControllerImpl;
 import view.View;
 import view.scenes.MainMenuScene;
 
+/**
+ * Implementation of the start controller.
+ * This controller handles the logic for transitioning from the start scene to the main menu scene.
+ */
 public class StartControllerImpl implements StartController {
 
     private final View mainView;
@@ -15,7 +19,7 @@ public class StartControllerImpl implements StartController {
     public StartControllerImpl(final View mainView) {
         this.mainView = mainView;
     }
-    
+
     /**
      * {@inheritDoc}
      */

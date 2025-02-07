@@ -16,10 +16,7 @@ import model.statistics.api.StatisticsContributor;
  */
 public class UserPlayer extends AbstractPlayer implements StatisticsContributor<BasicStatistics> {
 
-    private static final int INITIAL_TOTAL_PHASE_BET = 0;
-
     private final UserPlayerController controller;
-    private Action action;
     private final BasicStatistics statistics;
 
     /**
@@ -30,7 +27,6 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
     public UserPlayer(final int id, final int initialChips) {
         super(id, initialChips);
         this.controller = new UserPlayerController(this);
-        this.setTotalPhaseBet(INITIAL_TOTAL_PHASE_BET);
         this.statistics = new BasicStatisticsImpl();
     }
 
@@ -40,21 +36,22 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
     @Override
     public Action getAction(final State currentState) {
         this.controller.setCurrentState(currentState);
-        if(this.getCards().size() != 2) {
+        if (this.getCards().size() != 2) {
             throw new IllegalStateException("Player must have 2 cards to play");
         }
         this.updateCombination(currentState);
-        if(currentState.getHandPhase() == Phase.PREFLOP && this.getTotalPhaseBet() == 0 && this.getRole().isPresent()) {
+        final Action action;
+        if (currentState.getHandPhase() == Phase.PREFLOP && this.getTotalPhaseBet() == 0 && this.getRole().isPresent()) {
             this.setTotalPhaseBet((int) (currentState.getCurrentBet() * this.getRole().get().getMultiplier()));
             this.setChips(this.getChips() - this.getTotalPhaseBet());
-            this.action = Action.CALL;
+            action = Action.CALL;
         } else { 
-            this.action = this.controller.getUserAction();
-            int bet = this.calculateChipsToBet(currentState.getCurrentBet(), this.action);
+            action = this.controller.getUserAction();
+            final int bet = this.calculateChipsToBet(currentState.getCurrentBet(), action);
             this.setChips(this.getChips() - bet);
             this.setTotalPhaseBet(this.getTotalPhaseBet() + bet);
         }
-        return this.action;
+        return action;
     }
 
     /**
@@ -79,7 +76,8 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
                 return this.controller.getRaiseAmount();
             }
             case Action.CALL -> {
-                return this.getChips() < (currentBet - this.getTotalPhaseBet()) ? this.getChips() : (currentBet - this.getTotalPhaseBet());
+                return this.getChips() < (currentBet - this.getTotalPhaseBet())
+                ? this.getChips() : (currentBet - this.getTotalPhaseBet());
             }
             case Action.ALL_IN -> {
                 return this.getChips();
@@ -87,8 +85,10 @@ public class UserPlayer extends AbstractPlayer implements StatisticsContributor<
             case Action.FOLD, Action.CHECK -> {
                 return 0;
             }
+            default -> {
+                throw new IllegalArgumentException("Action is not valid: " + action);
+            }
         }
-        return 0;
     }
 
     /**

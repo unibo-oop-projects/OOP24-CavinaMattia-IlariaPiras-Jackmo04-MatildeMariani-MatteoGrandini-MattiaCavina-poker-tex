@@ -1,5 +1,8 @@
 package controller.player.user;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import model.game.api.State;
 import model.player.api.Action;
 import model.player.user.UserPlayer;
@@ -9,14 +12,15 @@ import view.player.user.UserPanel;
  * Controller class for managing user player actions and interactions with the UserPanel.
  */
 public class UserPlayerController {
-    
+
     private final UserPlayer userPlayer;
     private final UserPanel userPanel;
     private int raiseAmount;
     private State state;
     private Action action;
-    private boolean actionReceived = false;
+    private boolean actionReceived;
     private final Object lock = new Object();
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserPlayerController.class);
 
     /**
      * Constructs a UserPlayerController with the specified user player.
@@ -49,7 +53,7 @@ public class UserPlayerController {
             default -> throw new IllegalArgumentException();
             };
             this.actionReceived = true;
-            this.lock.notifyAll();  
+            this.lock.notifyAll();
         }
     }
 
@@ -63,17 +67,18 @@ public class UserPlayerController {
      * @return the action received from the user player.
      */
     public Action getUserAction() {
-        userPanel.updateButtonStates();
+        this.userPanel.updateButtonStates();
         synchronized (this.lock) {
             while (!this.actionReceived) {
                 try {
                     this.lock.wait();
                 } catch (InterruptedException ex) {
+                    LOGGER.info("Thread was interrupted: ", ex);
                 }
             }
         }
         this.actionReceived = false; 
-        userPanel.disableAllButtons();
+        this.userPanel.disableAllButtons();
         return this.action;
     }
 
@@ -82,8 +87,8 @@ public class UserPlayerController {
      * @param text the amount as a string.
      * @return true if the amount is valid, false otherwise.
      */
-    public boolean isAmountOK(String text) {
-        int amount;
+    public boolean isAmountOK(final String text) {
+        final int amount;
         amount = Integer.parseInt(text);
         return this.userPlayer.getChips() > amount;
     }
@@ -109,7 +114,7 @@ public class UserPlayerController {
      * @return true if the user player can check, false otherwise.
      */
     public boolean canCheck() {
-        return this.state.getCurrentBet() == this.userPlayer.getTotalPhaseBet() && this.userPlayer.getChips() > 0;
+        return this.getState().getCurrentBet() == this.userPlayer.getTotalPhaseBet() && this.userPlayer.getChips() > 0;
     }
 
     /**
@@ -125,7 +130,7 @@ public class UserPlayerController {
      * @return true if the user player can raise, false otherwise.
      */
     public boolean canRaise() {
-        return userPlayer.getChips() > this.state.getCurrentBet();
+        return userPlayer.getChips() > this.getState().getCurrentBet();
     }
 
     /**
@@ -150,5 +155,17 @@ public class UserPlayerController {
      */
     public void setCurrentState(final State state) {
         this.state = state;
+    }
+
+    /**
+     * Gets the current state.
+     * @return the current state.
+     */
+    public State getState() {
+        return this.state;
+    }
+
+    public UserPanel getUserPanel() {
+        return this.userPanel;
     }
 }
