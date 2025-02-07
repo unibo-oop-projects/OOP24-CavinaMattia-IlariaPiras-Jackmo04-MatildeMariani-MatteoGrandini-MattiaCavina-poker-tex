@@ -69,8 +69,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      */
     @Override
     public boolean isOver() {
-        return this.players.stream().allMatch(p -> p.isAI()) || 
-               isWon();
+        return this.players.stream().allMatch(p -> p.isAI()) || isWon();
 
     }
 
@@ -218,8 +217,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
                         p.nextPhase();
                     });
                     controller.updateForNewPhase(gameState.getPot());
-                    gameState.nextHandPhase();
-                        
+                    gameState.nextHandPhase();   
                 } while (!hand.isHandOver() && !controller.isTerminated());
 
                 if (!controller.isTerminated()) {
