@@ -60,7 +60,7 @@ public interface Hand {
      * Returns the list of players in the hand.
      * @return the list of players in the hand.
      */
-    List<Player> getHandPlayers();
+    List<Player> getRemainingPlayers();
 
     /**
      * Returns the current Phase.
