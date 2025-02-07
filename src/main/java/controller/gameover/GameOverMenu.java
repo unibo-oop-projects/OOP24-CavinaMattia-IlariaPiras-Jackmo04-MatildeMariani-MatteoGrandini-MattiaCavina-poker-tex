@@ -7,7 +7,7 @@ import controller.scene.SceneController;
  * the player is winner and looser.
  * This class extend {@link MainMenuControllor}.
  */
-public interface GameOverMenu extends MainMenuController {
+public interface GameOverMenu extends SceneController {
 
     /**
      * Method to change scene to {@link view.scenes.MainMenuScene}.

@@ -1,9 +1,13 @@
 package controller.scene;
 
+import controller.difficulty.DifficultySelectionControllerImpl;
+import controller.gameover.GameOverMenuImpl;
 import controller.menu.MainMenuControllerImpl;
 import controller.rules.RulesControllerImpl;
-import controller.statistics.StatsControllerImpl;
+import controller.statistics.BasicStatisticsControllerImpl;
 import view.View;
+import view.scenes.DifficultySelectionScene;
+import view.scenes.GameOverScene;
 import view.scenes.MainMenuScene;
 import view.scenes.RulesScene;
 import view.scenes.StatsScene;
@@ -33,7 +37,7 @@ public class SceneControllerImpl implements SceneController {
      */
     @Override
     public void goToStatsScene() {
-        this.mainView.changeScene(new StatsScene(new StatsControllerImpl(mainView)));
+        this.mainView.changeScene(new StatsScene(new BasicStatisticsControllerImpl(mainView)));
     }
 
     /**
@@ -49,8 +53,7 @@ public class SceneControllerImpl implements SceneController {
      */
     @Override
     public void goToDifficultySelectionScene() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'goToDifficultySelectionScene'");
+        this.mainView.changeScene(new DifficultySelectionScene(new DifficultySelectionControllerImpl(mainView)));
     }
 
     /**
@@ -68,6 +71,15 @@ public class SceneControllerImpl implements SceneController {
      */
     protected View getView() {
         return this.mainView;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+
+    @Override
+    public void goToGameOverScene(final Boolean endGameStatus) {
+        this.mainView.changeScene(new GameOverScene(new GameOverMenuImpl(mainView, endGameStatus)));
     }
     
 }
