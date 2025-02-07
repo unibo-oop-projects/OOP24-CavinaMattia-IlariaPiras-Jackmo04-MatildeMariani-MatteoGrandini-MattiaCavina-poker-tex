@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import model.combination.CombinationHandlerImpl;
 import model.combination.api.Combination;
 import model.deck.api.Card;
 import model.game.api.State;
@@ -60,6 +61,7 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public void setCards(final Set<Card> cards) {
         this.cards = Objects.requireNonNull(Set.copyOf(cards));
+        this.bestCombination = cards.isEmpty() ? null : new CombinationHandlerImpl().getBestCombination(cards);
     }
 
     /**
