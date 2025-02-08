@@ -12,6 +12,10 @@ import view.scenes.MainMenuScene;
 import view.scenes.RulesScene;
 import view.scenes.StatisticsScene;
 
+/**
+ * Class that implements {@link SceneController} to
+ * controll change scene in other controller.
+ */
 public class SceneControllerImpl implements SceneController {
 
     private final View mainView;
