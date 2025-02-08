@@ -35,6 +35,9 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
      */
     @Override
     public Action getAction() {
+        if (this.getGameState() == null) {
+            throw new IllegalStateException("Player must have a game state to play");
+        }
         if (!this.hasEnoughCards()) {
             throw new IllegalStateException("Player must have 2 cards to play");
         }
