@@ -3,6 +3,8 @@ package controller.game;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import javax.swing.SwingUtilities;
+
 import controller.card.CardGetterImage;
 import controller.card.CardGetterImageImpl;
 import controller.difficulty.DifficultySelectionControllerImpl;
@@ -280,4 +282,13 @@ public class GameControllerImpl implements GameController{
             return this.gameTerminated;
         }
     } 
+
+    @Override
+    public void isTurn(int id, boolean isTurn) {
+        if (id == this.game.getUserPlayer().getId()) {
+            SwingUtilities.invokeLater(() -> this.gameScene.updateUserButtonStates(isTurn));
+        } else {
+            SwingUtilities.invokeLater(() -> this.gameScene.updateAIPlayerPanelState(id, isTurn));
+        }
+    }
 }

@@ -63,4 +63,8 @@ public class AIPlayerPanel extends PlayerPanelImpl{
 
     }
 
+    public void updateState(boolean isTurn) {
+        
+    }
+
 }

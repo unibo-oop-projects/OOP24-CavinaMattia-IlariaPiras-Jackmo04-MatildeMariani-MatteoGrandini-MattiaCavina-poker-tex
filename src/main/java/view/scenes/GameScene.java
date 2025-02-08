@@ -14,6 +14,7 @@ import javax.swing.RootPaneContainer;
 import javax.swing.SwingUtilities;
 
 import controller.game.api.GameController;
+import model.player.ai.api.AIPlayer;
 import view.gameScenePanels.AIPlayerPanel;
 import view.gameScenePanels.PauseDialog;
 import view.gameScenePanels.PlayerPanelImpl;
@@ -168,4 +169,15 @@ public class GameScene extends JPanel implements Scene {
         
     };
 
+    public void updateUserButtonStates(boolean isTurn) {
+        if (isTurn) {
+            ((UserPanel) this.southPlayerPanel).updateButtonStates();
+        } else {
+            ((UserPanel) this.southPlayerPanel).disableAllButtons();
+        } 
+    }
+
+    public void updateAIPlayerPanelState(int id, boolean isTurn) {
+        ((AIPlayerPanel) this.getPlayerPanel(id)).updateState(isTurn);
+    }
 }
