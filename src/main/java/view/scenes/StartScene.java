@@ -79,6 +79,7 @@ public class StartScene implements Scene {
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
         button.setOpaque(true);
         button.setContentAreaFilled(true);
+        button.setFocusable(false);
         button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         button.addActionListener(e -> this.controller.goToMainMenuScene());
 

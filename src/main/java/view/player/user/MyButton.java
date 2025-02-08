@@ -49,6 +49,7 @@ public class MyButton extends JButton {
         this.setContentAreaFilled(true);
         this.setActionCommand(command);
         this.addButtonToPanel(this, listener, panel);
+        this.setFocusable(false);
     }
 
     /**

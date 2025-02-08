@@ -132,6 +132,7 @@ public class MainMenuScene implements Scene {
             this.button.setOpaque(true);
             this.button.setContentAreaFilled(true);
             this.button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+            this.button.setFocusable(false);
         }
 
         public JButton getButton() {
