@@ -80,9 +80,11 @@ public class DifficultySelectionScene implements Scene {
 
         final JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new GridLayout(3, 1));
+        inputPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(3, 1));
@@ -128,6 +130,7 @@ public class DifficultySelectionScene implements Scene {
 
         final JPanel initialChipsPanel = new JPanel();
         initialChipsPanel.setLayout(new GridLayout(2, 1));
+        initialChipsPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JLabel initialChipsLabel = new JLabel("How many chips do you want to start with?");
         initialChipsLabel.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_LABEL));
