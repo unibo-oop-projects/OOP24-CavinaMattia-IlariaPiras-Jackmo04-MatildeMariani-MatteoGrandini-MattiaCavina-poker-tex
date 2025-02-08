@@ -18,4 +18,9 @@ public interface StatisticsController extends SceneController {
      */
     List<ImmutablePair<String, String>> getStatistics();
 
+    /**
+     * Resets the statistics.
+     */
+    void resetStatistics();
+
 }

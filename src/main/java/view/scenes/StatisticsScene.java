@@ -81,6 +81,11 @@ public class StatisticsScene implements Scene {
         this.statsContainer.add(Box.createVerticalStrut(BOTTOM_SPACING));
     }
 
+    private void resetStats() {
+        this.controller.resetStatistics();
+        this.updateStats();
+    }
+
     private JPanel getStatJPanel(final String name, final String value) {
         final JPanel panel = new JPanel();
         final JLabel label = new JLabel(name + ": " + value, JLabel.CENTER);
