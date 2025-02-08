@@ -6,7 +6,6 @@ import model.player.api.Action;
 import model.player.api.Role;
 import model.statistics.api.BasicStatistics;
 import model.game.api.Phase;
-import model.game.api.State;
 
 /**
  * This class provides a basic implementation of the {@link AIPlayer} interface.
@@ -14,7 +13,8 @@ import model.game.api.State;
  */
 abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
-    private static final int REDUCING_FACTOR = 10;
+    private static final int RAISE_REDUCING_FACTOR = 10;
+
     private final double raisingFactor;
     private final int standardRaise;
 
@@ -27,7 +27,7 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
     AbstractAIPlayer(final int id, final int initialChips, final double raisingFactor) {
         super(id, initialChips);
         this.raisingFactor = raisingFactor;
-        this.standardRaise = initialChips / REDUCING_FACTOR;
+        this.standardRaise = initialChips / RAISE_REDUCING_FACTOR;
     }
 
     /**
@@ -51,13 +51,13 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
         if (this.hasToPayBlind(currentHandPhase)) {
             return this.call(currentBet, currentHandPhase);
         }
-        if (this.shouldRaise(currentState)) {
+        if (this.shouldRaise()) {
             return this.raise(currentBet, currentHandPhase);
         }
         if (this.canCheck(currentBet)) {
             return this.check();
         }
-        if (this.shouldCall(currentState)) {
+        if (this.shouldCall()) {
             return this.call(currentBet, currentHandPhase);
         }
         return this.fold();
@@ -90,6 +90,8 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
     /**
      * {@inheritDoc}
+     * This implementation does nothing, 
+     * because the AI player does not need to update statistics.
      */
     @Override
     public void updateStatistics(BasicStatistics stats) {
@@ -112,17 +114,15 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
     /**
      * Returns whether the player should call in the current state.
-     * @param currentState the current state of the game.
      * @return whether the player should call in the current state.
      */
-    protected abstract boolean shouldCall(State currentState);
+    protected abstract boolean shouldCall();
 
     /**
      * Returns whether the player should raise in the current state.
-     * @param currentState the current state of the game.
      * @return whether the player should raise in the current state.
      */
-    protected abstract boolean shouldRaise(State currentState);
+    protected abstract boolean shouldRaise();
 
     private Action call(final int currentBet, final Phase currentHandPhase) {
         this.makeBet(requiredBet(currentBet, currentHandPhase));
