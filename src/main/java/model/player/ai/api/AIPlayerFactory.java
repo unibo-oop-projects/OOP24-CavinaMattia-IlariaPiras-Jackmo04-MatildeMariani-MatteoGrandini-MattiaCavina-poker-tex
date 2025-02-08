@@ -6,46 +6,47 @@ import model.combination.api.CombinationType;
 
 /**
  * Factory for creating AI players.
- * There are three levels of AI players: easy, medium, and hard.
+ * There are three fixed levels of AI players: easy, medium, and hard;
+ * however, it is also possible to create a custom AI player with a custom difficulty.
  */
 public interface AIPlayerFactory {
 
     /**
-     * Create an easy difficulty AI player with the given initial chips and id.
+     * Create an <b>easy</b> difficulty AI player with the given id and initial chips.
      * An easy AI player is less likely to call or raise than a medium one.
-     * @param id the player's id
-     * @param initialChips initial chips
-     * @return an {@link AIPlayer} object with easy difficulty
+     * @param id the player's id.
+     * @param initialChips the amount of initial chips.
+     * @return an easy difficulty {@link AIPlayer} object.
      */
     AIPlayer createEasy(int id, int initialChips);
 
     /**
-     * Create a medium difficulty AI player with the given initial chips and id.
-     * @param id the player's id
-     * @param initialChips initial chips
-     * @return an {@link AIPlayer} object with medium difficulty
+     * Create a <b>medium</b> difficulty AI player with the given id and initial chips.
+     * @param id the player's id.
+     * @param initialChips the amount of initial chips.
+     * @return a medium difficulty {@link AIPlayer} object.
      */
     AIPlayer createMedium(int id, int initialChips);
 
     /**
-     * Create a hard difficulty AI player with the given initial chips and id.
+     * Create a <b>hard</b> difficulty AI player with the given id initial chips.
      * A hard AI player is more likely to call or raise than a medium one.
-     * @param id the player's id
-     * @param initialChips initial chips
-     * @return an {@link AIPlayer} object with hard difficulty
+     * @param id the player's id.
+     * @param initialChips the amount of initial chips.
+     * @return a hard difficulty {@link AIPlayer} object.
      */
     AIPlayer createHard(int id, int initialChips);
 
     /**
-     * Create a custom AI player with the given initial chips, id, raising factor, and difficulty modifier,
+     * Create a custom AI player with the given id, initial chips, raising factor, difficulty modifier,
      * as well as custom call and raise chances for each combination type.
-     * @param id the player's id
-     * @param initialChips initial chips
-     * @param raisingFactor raising factor
-     * @param difficultyModifier the higher the value, the more likely the AI player is to call or raise
-     * @param callChance a function that maps a combination type to its base call chance
-     * @param raiseChance a function that maps a combination type to its base raise chance
-     * @return an {@link AIPlayer} object with custom difficulty
+     * @param id the player's id.
+     * @param initialChips the amount of initial chips.
+     * @param raisingFactor the higher the value, the more chips the AI player will raise.
+     * @param difficultyModifier the higher the value, the more likely the AI player is to call or raise.
+     * @param callChance a function that maps a combination type to its base call chance.
+     * @param raiseChance a function that maps a combination type to its base raise chance.
+     * @return a custom difficulty {@link AIPlayer} object.
      */
     AIPlayer createCustom(
         int id,
