@@ -32,12 +32,8 @@ public class UserPanel extends PlayerPanelImpl {
     private static final int G_BORDER = 0;
     private static final int B_BORDER = 0;
     private static final int A_BORDER = 50;
-    private static final int R_BACKGROUND = 220;
-    private static final int G_BACKGROUND = 186;
-    private static final int B_BACKGROUND = 133;
-    private static final int R_INPUT_PANEL = 236;
-    private static final int G_INPUT_PANEL = 230;
-    private static final int B_INPUT_PANEL = 208;
+    private static final int COLOR_BACKGROUND = 0xDCBA85;
+    private static final int COLOR_INPUT_PANEL = 0xECE6D0;
     private static final int COLS = 5;
     private static final String MESSAGE = "Insert your bet here and then push Raise";
 
@@ -68,23 +64,23 @@ public class UserPanel extends PlayerPanelImpl {
      */
     public final void createUserPanel() {
 
-        this.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        this.setBackground(new Color(COLOR_BACKGROUND));
         this.setLayout(new FlowLayout());
 
         final JPanel userPanel = new JPanel();
-        userPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        userPanel.setBackground(new Color(COLOR_BACKGROUND));
         userPanel.setLayout(new FlowLayout());
 
         final JPanel inputPanel = new JPanel();
-        inputPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        inputPanel.setBackground(new Color(COLOR_BACKGROUND));
         inputPanel.setLayout(new GridLayout(2, 1));
 
         final JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        buttonsPanel.setBackground(new Color(COLOR_BACKGROUND));
         buttonsPanel.setLayout(new GridLayout(1, COLS));
 
         final JPanel chipsPanel = new JPanel();
-        chipsPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        chipsPanel.setBackground(new Color(COLOR_BACKGROUND));
         chipsPanel.setLayout(new FlowLayout());
 
         this.checkButton = new MyButton("Check");
@@ -101,27 +97,27 @@ public class UserPanel extends PlayerPanelImpl {
         this.raiseAmount = new JTextField(MESSAGE); 
         this.raiseAmount.setFont(new Font("Roboto", Font.PLAIN, FONT_SIZE));
         this.raiseAmount.addFocusListener(new MyFocusListener());
-        this.raiseAmount.setBackground(new Color(R_INPUT_PANEL, G_INPUT_PANEL, B_INPUT_PANEL));
+        this.raiseAmount.setBackground(new Color(COLOR_INPUT_PANEL));
         this.raiseAmount.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
         chipsPanel.add(this.raiseAmount);
 
         this.getPlayerChips().setFont(new Font("Roboto", Font.PLAIN, FONT_SIZE));
-        this.getPlayerChips().setBackground(new Color(R_INPUT_PANEL, G_INPUT_PANEL, B_INPUT_PANEL));
+        this.getPlayerChips().setBackground(new Color(COLOR_INPUT_PANEL));
         this.getPlayerChips().setOpaque(true);
         this.getPlayerChips().setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
         chipsPanel.add(this.getPlayerChips());
 
         this.getPlayerRole().setFont(new Font("Roboto", Font.PLAIN, FONT_SIZE));
-        this.getPlayerRole().setBackground(new Color(R_INPUT_PANEL, G_INPUT_PANEL, B_INPUT_PANEL));
+        this.getPlayerRole().setBackground(new Color(COLOR_INPUT_PANEL));
         this.getPlayerRole().setOpaque(true);
         chipsPanel.add(this.getPlayerRole());
 
         inputPanel.add(buttonsPanel);
         inputPanel.add(chipsPanel);
 
-        this.getCardsPanel().setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        this.getCardsPanel().setBackground(new Color(COLOR_BACKGROUND));
         this.getCardsPanel().setLayout(new FlowLayout());
 
         userPanel.add(inputPanel);

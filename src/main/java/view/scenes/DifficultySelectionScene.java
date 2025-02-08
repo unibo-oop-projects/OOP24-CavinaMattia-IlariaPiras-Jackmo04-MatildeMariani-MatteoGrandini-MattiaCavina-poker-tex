@@ -34,10 +34,7 @@ import view.scenes.api.Scene;
  * The user can proceed to the game scene by pressing the "Play" button.
  */
 public class DifficultySelectionScene implements Scene {
-
-    private static final int R_BUTTONS_PANEL = 236;
-    private static final int G_BUTTONS_PANEL = 205;
-    private static final int B_BUTTONS_PANEL = 153;
+    private static final int COLOR_BUTTONS_PANEL = 0xECCD99;
     private static final int R_BORDER = 0;
     private static final int G_BORDER = 0;
     private static final int B_BORDER = 0;
@@ -47,12 +44,8 @@ public class DifficultySelectionScene implements Scene {
     private static final int FONT_SIZE_BUTTON = 22; 
     private static final int TEXT_FIELD_SIZE = 15; 
     private static final int THICKNESS = 2;
-    private static final int R_BACKGROUND = 220;
-    private static final int G_BACKGROUND = 186;
-    private static final int B_BACKGROUND = 133;
-    private static final int R_INPUT_PANEL = 236;
-    private static final int G_INPUT_PANEL = 230;
-    private static final int B_INPUT_PANEL = 208;
+    private static final int COLOR_BACKGROUND = 0xDCBA85;
+    private static final int COLOR_INPUT_PANEL = 0xECE6D0;
     private static final int BUTTON_WIDTH = 150;
     private static final int BUTTON_HEIGHT = 50;
     private static final String FONT = "Roboto";
@@ -75,11 +68,11 @@ public class DifficultySelectionScene implements Scene {
     private void initialize() {
         final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
-        mainPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        mainPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JPanel titlePanel = new JPanel();
         titlePanel.setLayout(new FlowLayout());
-        titlePanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        titlePanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JLabel title = new JLabel("DIFFICULTY");
         title.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_TITLE));
@@ -93,7 +86,7 @@ public class DifficultySelectionScene implements Scene {
 
         final JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(3, 1));
-        buttonsPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        buttonsPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JRadioButton easy = new JRadioButton("EASY");
         easy.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_BUTTON));
@@ -138,13 +131,13 @@ public class DifficultySelectionScene implements Scene {
 
         final JLabel initialChipsLabel = new JLabel("How many chips do you want to start with?");
         initialChipsLabel.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_LABEL));
-        initialChipsLabel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        initialChipsLabel.setBackground(new Color(COLOR_BACKGROUND));
         initialChipsLabel.setOpaque(true);
         initialChipsLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         final JTextField input = new JTextField("", TEXT_FIELD_SIZE);
         input.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_LABEL));
-        input.setBackground(new Color(R_INPUT_PANEL, G_INPUT_PANEL, B_INPUT_PANEL));
+        input.setBackground(new Color(COLOR_INPUT_PANEL));
         input.addActionListener(e -> {
             this.controller.setInitialChips(Integer.parseInt(input.getText()));
         });
@@ -156,7 +149,7 @@ public class DifficultySelectionScene implements Scene {
 
         final JPanel playPanel = new JPanel();
         playPanel.setLayout(new FlowLayout());
-        playPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        playPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final DiffSelButton play = new DiffSelButton("PLAY");
 
@@ -212,7 +205,7 @@ public class DifficultySelectionScene implements Scene {
         }
 
         private void initializeButton() {
-            this.button.setBackground(new Color(R_BUTTONS_PANEL, G_BUTTONS_PANEL, B_BUTTONS_PANEL));
+            this.button.setBackground(new Color(COLOR_BUTTONS_PANEL));
             this.button.setForeground(Color.BLACK);
             this.button.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_BUTTON));
             this.button.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
