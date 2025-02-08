@@ -10,7 +10,7 @@ import model.game.api.State;
 /**
  * This class provides an implementation of the State interface.
  */
-public class StateImpl implements State{
+public final class StateImpl implements State {
 
     private static final int START_HAND_NUMBER = 0;
     private static final int INITIAL_POT = 0;
@@ -25,7 +25,7 @@ public class StateImpl implements State{
     private final Set<Card> communityCards = new HashSet<>();
 
     /**
-     * Basic constructor for the StateImpl.
+     * Basic constructor for the StateImpl class.
      * @param initialBet the initial bet required to play.
      * @param numPlayers the initial number of players.
      */

@@ -56,6 +56,7 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
                 this.game = gameFactory.easyGame(this, initialChips);
                 break;
         }
+        this.game.setInitialPlayers(initialChips);
         this.cardGetterImage = new CardGetterImageImpl();
         this.mainView.enableConfermationOnClose();
     }

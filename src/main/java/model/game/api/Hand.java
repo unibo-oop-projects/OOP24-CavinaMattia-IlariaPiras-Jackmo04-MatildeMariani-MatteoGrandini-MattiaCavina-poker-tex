@@ -5,22 +5,20 @@ import java.util.List;
 
 import model.player.api.Action;
 import model.player.api.Player;
-import model.player.api.Role;
 
 /**
  * Interface that models a Hand.
- * A Hand has a list of {@link Player}s, a game {@link State} which must always be updated, and a 
- * current {@link Phase}.
+ * A Hand has a list of the remaining {@link Player}s, one of those who lost the hand, 
+ * a game {@link State} which must always be updated, and a current {@link Phase}.
  */
 public interface Hand {
 
     /**
-     * Sorts its list of {@link Player}s, placing the player with the given {@link Role} first, 
+     * Sorts its list of {@link Player}s, placing the small blind player first, 
      * then the players that were after him in the original list, and lastly those who were before him,
      * in the original order.
-     * @param firstPlayerRole the role of the player that must be set first of the list.
      */
-    void sortFromRole(Role firstPlayerRole);
+    void sortFromRole();
 
     /**
      * Asks the given {@link Player} for his {@link Action} and updates the given iterator and the game
@@ -29,7 +27,7 @@ public interface Hand {
      * @param player the player whose turn it is.
      */
     void manageAction(Iterator<Player> playersIterator, Player player);
-    
+
     /**
      * Starts a new Phase in which it iterates through each player of its list until all but one folds or
      * isPhaseOver returns true.
@@ -38,7 +36,8 @@ public interface Hand {
 
     /**
      * Checks if the {@link Phase} is over. Returns true if there is less than the minimum number of 
-     * {@link Player}s still playing or if every player either went all-in or betted the current bet.
+     * {@link Player}s still playing or if every player either went all-in or betted the current bet, 
+     * after at least having gone once through the player list.
      * @return whether the phase is over.
      */
     boolean isPhaseOver();
@@ -46,7 +45,7 @@ public interface Hand {
     /**
      * Checks if the Hand is over. Returns true if there is less than the minimum number of 
      * {@link Player}s still playing or if all {@link Phase}s are completed.
-     * @return whether the phase is over.
+     * @return whether the hand is over.
      */
     boolean isHandOver();
 
@@ -67,5 +66,5 @@ public interface Hand {
      * @return the current Phase.
      */
     Phase getCurrentPhase();
-    
+
 }

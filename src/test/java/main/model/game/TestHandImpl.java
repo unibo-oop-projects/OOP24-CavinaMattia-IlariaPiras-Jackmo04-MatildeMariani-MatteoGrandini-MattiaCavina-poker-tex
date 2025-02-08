@@ -26,8 +26,10 @@ import model.player.api.Player;
 import model.player.api.Role;
 import view.ViewImpl;
 import view.scenes.GameScene;
-
-public class TestHandImpl {
+/**
+ * Class that implements basic tests for HandImpl.
+ */
+final class TestHandImpl {
 
     private static final int NUM_PLAYER_CARDS = 2;
     private static final int NUM_COMMUNITY_CARDS = 5;
@@ -37,26 +39,30 @@ public class TestHandImpl {
 
     private static AIPlayerFactory playerFactory;
     private static GameController controller;
-    private static GameScene gameScene;
-    private static List<Player> players;
-    private static State gameState;
-    private static Hand hand;
-    private static Deck<Card> deck;
+    private List<Player> players;
+    private State gameState;
+    private Hand hand;
+    private Deck<Card> deck;
 
+    /**
+     * Initialize the playerFactory, the controller and the gameScene before all the tests.
+     */
     @BeforeAll
     public static void setUp() {
         playerFactory = new AIPlayerFactoryImpl();
         controller = new GameControllerImpl(new ViewImpl(), Difficulty.EASY, INITIAL_CHIPS);
-        gameScene = new GameScene(controller);
-        controller.setGameScene(gameScene);
+        controller.setGameScene(new GameScene(controller));
     }
 
+    /**
+     * Initialize the players list, the gameState, the deck and the hand before each test.
+     */
     @BeforeEach
     public void newHand() {
-        Player player1 = playerFactory.createEasy(0, INITIAL_CHIPS);
-        Player player2 = playerFactory.createEasy(1, INITIAL_CHIPS);
-        Player player3 = playerFactory.createEasy(2, INITIAL_CHIPS);
-        Player player4 = playerFactory.createEasy(3, INITIAL_CHIPS);
+        final Player player1 = playerFactory.createEasy(0, INITIAL_CHIPS);
+        final Player player2 = playerFactory.createEasy(1, INITIAL_CHIPS);
+        final Player player3 = playerFactory.createEasy(2, INITIAL_CHIPS);
+        final Player player4 = playerFactory.createEasy(3, INITIAL_CHIPS);
         player2.setRole(Role.SMALL_BLIND);
         player3.setRole(Role.BIG_BLIND);
 
@@ -64,53 +70,53 @@ public class TestHandImpl {
         gameState = new StateImpl(INITIAL_CHIPS / INITIAL_BET_DIVISION_FACT, INITIAL_NUM_PLAYERS);
         deck = new DeckFactoryImpl().simplePokerDeck();
         hand = new HandImpl(controller, players, gameState);
-        
+
         hand.getRemainingPlayers()
             .forEach(p -> p.setCards(deck.getSomeCards(NUM_PLAYER_CARDS).stream().collect(Collectors.toSet())));
     }
 
 
     @Test
-    public void testCreation() {
-        Player player1 = playerFactory.createEasy(0, INITIAL_CHIPS);
-        Player player2 = playerFactory.createEasy(1, INITIAL_CHIPS);
-        Player player3 = playerFactory.createEasy(2, INITIAL_CHIPS);
-        Player player4 = playerFactory.createEasy(3, INITIAL_CHIPS);
-        var players = new ArrayList<>(List.of(player1, player2, player3, player4));
+    void testCreation() {
+        final Player player1 = playerFactory.createEasy(0, INITIAL_CHIPS);
+        final Player player2 = playerFactory.createEasy(1, INITIAL_CHIPS);
+        final Player player3 = playerFactory.createEasy(2, INITIAL_CHIPS);
+        final Player player4 = playerFactory.createEasy(3, INITIAL_CHIPS);
+        final var players = new ArrayList<>(List.of(player1, player2, player3, player4));
         player2.setRole(Role.SMALL_BLIND);
         player3.setRole(Role.BIG_BLIND);
 
-        var hand1 = new HandImpl(controller, players, gameState);
+        final var hand1 = new HandImpl(controller, players, gameState);
         assertEquals(List.of(player2, player3, player4, player1), hand1.getRemainingPlayers());
 
         player2.setRole(null);
         player3.setRole(Role.SMALL_BLIND);
         player4.setRole(Role.BIG_BLIND);
 
-        var hand2 = new HandImpl(controller, List.of(player2, player3, player4), gameState);
+        final var hand2 = new HandImpl(controller, List.of(player2, player3, player4), gameState);
         assertEquals(List.of(player3, player4, player2), hand2.getRemainingPlayers());
 
         player3.setRole(Role.BIG_BLIND);
         player4.setRole(Role.SMALL_BLIND);
 
-        var hand3 = new HandImpl(controller, List.of(player3, player4), gameState);
+        final var hand3 = new HandImpl(controller, List.of(player3, player4), gameState);
         assertEquals(List.of(player4, player3), hand3.getRemainingPlayers());
 
         player2.setRole(Role.BIG_BLIND);
         player3.setRole(null);
         player4.setRole(Role.SMALL_BLIND);
 
-        var hand4 = new HandImpl(controller, List.of(player2, player3, player4), gameState);
+        final var hand4 = new HandImpl(controller, List.of(player2, player3, player4), gameState);
         assertEquals(List.of(player4, player2, player3), hand4.getRemainingPlayers());
 
     }
 
     @Test
-    public void testManageAction() {
-        var iterator = players.iterator();
-        var currentPlayer = iterator.next();
-        var currentBetBeforePlayerAction = gameState.getCurrentBet();
-        
+    void testManageAction() {
+        final var iterator = players.iterator();
+        final var currentPlayer = iterator.next();
+        final var currentBetBeforePlayerAction = gameState.getCurrentBet();
+
         hand.manageAction(iterator, currentPlayer);
         switch (currentPlayer.getAction(gameState)) {
             case FOLD:
@@ -124,18 +130,21 @@ public class TestHandImpl {
                 if (currentBetBeforePlayerAction < currentPlayer.getTotalPhaseBet()) {
                     assertEquals(currentPlayer.getTotalPhaseBet(), gameState.getCurrentBet());
                 }
+            case CALL:
+            case CHECK:
             default:
                 break;
         }
     }
 
     @Test
-    public void testDeterminateWinnerOfTheHand() {
+    void testDeterminateWinnerOfTheHand() {
         gameState.addToPot(INITIAL_CHIPS);
         gameState.addCommunityCards(deck.getSomeCards(NUM_COMMUNITY_CARDS).stream().collect(Collectors.toSet()));
         hand.determinesWinnerOfTheHand();
 
         assertEquals(1, (int) players.stream().filter(p -> p.getChips() == (INITIAL_CHIPS + INITIAL_CHIPS)).count());
-        assertEquals(hand.getRemainingPlayers().size(), (int) players.stream().filter(p -> p.getChips() == INITIAL_CHIPS).count());
+        assertEquals(hand.getRemainingPlayers().size(), 
+            (int) players.stream().filter(p -> p.getChips() == INITIAL_CHIPS).count());
     }
 }

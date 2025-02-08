@@ -13,7 +13,7 @@ import model.player.api.Player;
  * Provides methods to create a {@link Game} of different difficulty level, implementing 
  * accordingly the getAIPlayer method to create an {@link AIPlayer} of the specified difficulty.
  */
-public class GameFactoryImpl implements GameFactory{
+public final class GameFactoryImpl implements GameFactory {
 
     private final AIPlayerFactory playerFactory;
 
@@ -28,9 +28,12 @@ public class GameFactoryImpl implements GameFactory{
      * {@inheritDoc}
      */
     @Override
-    public Game easyGame(GameController controller, int initialChips) {
+    public Game easyGame(final GameController controller, final int initialChips) {
         return new AbstractGame(controller, initialChips) {
 
+            /**
+             * {@inheritDoc}
+             */
             @Override
             protected Player getAIPlayer(final int id, final int initialChips) {
                 return playerFactory.createEasy(id, initialChips);
@@ -43,9 +46,12 @@ public class GameFactoryImpl implements GameFactory{
      * {@inheritDoc}
      */
     @Override
-    public Game mediumGame(GameController controller, int initialChips) {
+    public Game mediumGame(final GameController controller, final int initialChips) {
         return new AbstractGame(controller, initialChips) {
 
+            /**
+             * {@inheritDoc}
+             */
             @Override
             protected Player getAIPlayer(final int id, final int initialChips) {
                 return playerFactory.createMedium(id, initialChips);
@@ -58,9 +64,12 @@ public class GameFactoryImpl implements GameFactory{
      * {@inheritDoc}
      */
     @Override
-    public Game hardGame(GameController controller, int initialChips) {
+    public Game hardGame(final GameController controller, final int initialChips) {
         return new AbstractGame(controller, initialChips) {
 
+            /**
+             * {@inheritDoc}
+             */
             @Override
             protected Player getAIPlayer(final int id, final int initialChips) {
                 return playerFactory.createHard(id, initialChips);

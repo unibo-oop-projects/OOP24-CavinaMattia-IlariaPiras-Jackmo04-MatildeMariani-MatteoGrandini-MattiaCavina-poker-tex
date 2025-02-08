@@ -12,7 +12,11 @@ import controller.game.api.GameController;
 import model.game.GameFactoryImpl;
 import model.game.api.GameFactory;
 import view.ViewImpl;
-public class TestGame {
+
+/**
+ * Class that implements a basic test for the Game.
+ */
+final class TestGame {
 
     private static final int INITIAL_CHIPS = 500;
     private static final int INITIAL_NUM_PLAYERS = 4;
@@ -20,15 +24,22 @@ public class TestGame {
     private static GameFactory gameFactory;
     private static GameController controller;
 
+    /**
+     * Initialize gameFactory and GameController before all the tests.
+     */
     @BeforeAll
     public static void setUp() {
         gameFactory = new GameFactoryImpl();
         controller = new GameControllerImpl(new ViewImpl(), Difficulty.EASY, INITIAL_CHIPS);
     }
 
+    /**
+     * Test the creation of a game.
+     */
     @Test
-    public void testCreation() {
-        var game = gameFactory.easyGame(controller, INITIAL_CHIPS);
+    void testCreation() {
+        final var game = gameFactory.easyGame(controller, INITIAL_CHIPS);
+        game.setInitialPlayers(INITIAL_CHIPS);
         assertFalse(game.isOver());
         assertFalse(game.isWon());
 
