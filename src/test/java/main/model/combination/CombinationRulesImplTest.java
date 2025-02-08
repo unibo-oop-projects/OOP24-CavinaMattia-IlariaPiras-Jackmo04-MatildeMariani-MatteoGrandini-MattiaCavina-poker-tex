@@ -21,7 +21,7 @@ import model.deck.api.SimpleCard;
  */
 class CombinationRulesImplTest {
 
-    private CombinationUtilities utilies = new CombinationUtilitiesImpl();
+    private final CombinationUtilities utilies = new CombinationUtilitiesImpl();
 
     /**
      * Test for the method isPair.
