@@ -16,7 +16,7 @@ import model.deck.api.Card;
 import model.deck.api.SimpleCard;
 
 /**
- * Class that implements {@link model.combination.api.CombinationRules}.
+ * Class that implements {@link CombinationRules}.
  * All the methods are used to check how type of combination is it.
  */
 public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
@@ -28,10 +28,8 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
     /**
      * Constructor for CombinationsRulesImpl.
      * 
-     * @param totalCardList
-     *                      list of cards.
-     * @throws IllegalAccessError
-     *                            thrown when the list is empty.
+     * @param totalCardList list of cards.
+     * @throws IllegalAccessError thrown when the list is empty.
      * 
      */
     public CombinationCardGetterImpl(final Set<Card> totalCardList) {
@@ -134,22 +132,6 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
                         .filter(l -> l.getCount() == CombinationDimension.POKER.getDimension())
                         .toList().getFirst().getElement()))
                 .collect(Collectors.toSet());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<Card> getStraightFlush() {
-        return getStraight();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<Card> getRoyalFlush() {
-        return getStraight();
     }
 
     /**

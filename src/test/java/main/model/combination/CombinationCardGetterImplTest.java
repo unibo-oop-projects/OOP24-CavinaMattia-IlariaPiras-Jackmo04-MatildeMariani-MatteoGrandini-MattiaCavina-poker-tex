@@ -228,7 +228,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND)
             ),
-            new CombinationCardGetterImpl(totalCardList).getRoyalFlush()
+            new CombinationCardGetterImpl(totalCardList).getStraight()
         );
     }
 

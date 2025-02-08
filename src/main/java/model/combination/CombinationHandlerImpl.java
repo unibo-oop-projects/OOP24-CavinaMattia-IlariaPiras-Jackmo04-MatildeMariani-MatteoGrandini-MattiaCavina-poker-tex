@@ -25,9 +25,9 @@ public class CombinationHandlerImpl implements CombinationHandler<Card> {
         final CombinationCardGetter<Card> combGetter = new CombinationCardGetterImpl(totalCardList);
 
         if (combRules.isRoyalFlush()) {
-            return new Combination<>(combGetter.getRoyalFlush(), CombinationType.ROYAL_FLUSH);
+            return new Combination<>(combGetter.getStraight(), CombinationType.ROYAL_FLUSH);
         } else if (combRules.isStraightFlush()) {
-            return new Combination<>(combGetter.getStraightFlush(), CombinationType.STRAIGHT_FLUSH);
+            return new Combination<>(combGetter.getStraight(), CombinationType.STRAIGHT_FLUSH);
         } else if (combRules.isPoker()) {
             return new Combination<>(combGetter.getPoker(), CombinationType.POKER);
         } else if (combRules.isFlush()) {
