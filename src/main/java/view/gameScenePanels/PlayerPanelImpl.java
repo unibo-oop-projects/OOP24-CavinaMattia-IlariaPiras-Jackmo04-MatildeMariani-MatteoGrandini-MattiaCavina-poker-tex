@@ -11,7 +11,7 @@ import view.gameScenePanels.api.PlayerPanel;
 /**
  * Class that implements the common PlayerPanel methods.
  */
-public class PlayerPanelImpl extends JPanel implements PlayerPanel{
+public abstract class PlayerPanelImpl extends JPanel implements PlayerPanel{
 
     private static final int NUM_CARDS = 2;
 
@@ -119,4 +119,5 @@ public class PlayerPanelImpl extends JPanel implements PlayerPanel{
         }
     }
 
+    public abstract void updateState(boolean isTurn);
 }

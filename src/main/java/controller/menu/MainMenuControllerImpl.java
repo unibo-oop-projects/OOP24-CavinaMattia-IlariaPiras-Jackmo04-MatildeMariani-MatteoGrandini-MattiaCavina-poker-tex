@@ -6,7 +6,7 @@ import controller.statistics.BasicStatisticsControllerImpl;
 import view.View;
 import view.scenes.DifficultySelectionScene;
 import view.scenes.RulesScene;
-import view.scenes.StatsScene;
+import view.scenes.StatisticsScene;
 
 /**
  * Implementation of the main menu controller.
@@ -29,7 +29,7 @@ public class MainMenuControllerImpl implements MainMenuController {
      */
     @Override
     public void goToStatsScene() {
-        this.mainView.changeScene(new StatsScene(new BasicStatisticsControllerImpl(mainView)));
+        this.mainView.changeScene(new StatisticsScene(new BasicStatisticsControllerImpl(mainView)));
     }
 
     /**
@@ -58,8 +58,7 @@ public class MainMenuControllerImpl implements MainMenuController {
 
     /**
      * Method to get mainView.
-     * @return
-     *          the main view of the application   
+     * @return the main view of the application.
      */
     protected View getView() {
         return this.mainView;

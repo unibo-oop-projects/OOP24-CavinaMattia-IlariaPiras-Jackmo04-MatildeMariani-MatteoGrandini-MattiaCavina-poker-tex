@@ -13,31 +13,39 @@ import javax.swing.JPanel;
  * This class extends JButton and provides a constructor to initialize the button
  * with specific text, action command, action listener, and adds the button to a specified panel.
  */
-public class MyButton extends  JButton {
+public class MyButton extends JButton {
+
+    private static final long serialVersionUID = 2L;
 
     private static final int R_BUTTONS_PANEL = 236;
     private static final int G_BUTTONS_PANEL = 205;
     private static final int B_BUTTONS_PANEL = 153;
-    private static final int R_BORDER = 0;  
+    private static final int R_BORDER = 0;
     private static final int G_BORDER = 0;
     private static final int B_BORDER = 0;
     private static final int A_BORDER = 50;
     private static final int FONT_SIZE = 15; 
     private static final int THICKNESS = 2;
-    
+
     /**
      * Constructs a MyButton with the specified text, action command, action listener, and panel.
      * Initializes the button with specific styles and adds it to the specified panel.
      * @param text the text to be displayed on the button.
+     */
+    public MyButton(final String text) { 
+        super(text);
+    }
+
+    /**
+     * Initializes the button with specific styles and adds it to the specified panel.
      * @param command the action command for the button.
      * @param listener the action listener to handle button click events.
      * @param panel the panel to which the button will be added.
      */
-    public MyButton(String text, String command, ActionListener listener, JPanel panel) { 
-        super(text);
+    public void initializeButton(final String command, final ActionListener listener, final JPanel panel) {
         this.setBackground(new Color(R_BUTTONS_PANEL, G_BUTTONS_PANEL, B_BUTTONS_PANEL));
         this.setForeground(Color.BLACK);
-        this.setFont(new Font("Dosis", Font.BOLD, FONT_SIZE));
+        this.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
         this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
         this.setOpaque(true);
@@ -52,7 +60,7 @@ public class MyButton extends  JButton {
      * @param listener the action listener to handle button click events.
      * @param panel the panel to which the button will be added.
      */
-    private void addButtonToPanel(MyButton button, ActionListener listener, JPanel panel) {
+    private void addButtonToPanel(final MyButton button, final ActionListener listener, final JPanel panel) {
         button.addActionListener(listener);
         panel.add(button);
     }

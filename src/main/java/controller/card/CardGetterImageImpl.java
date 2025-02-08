@@ -10,7 +10,8 @@ import model.deck.api.Card;
 
 /**
  * CardGetterImmage is a class that implements
- * {@link controller.card.CardGetterImage}is used to get the image of the card.
+ * {@link CardGetterImage}is used to get the image of the card ,
+ * convert from {@link Card} {@link ImageIcon}.
  */
 public class CardGetterImageImpl implements CardGetterImage {
     private static final String BASE_PATH = "card/";

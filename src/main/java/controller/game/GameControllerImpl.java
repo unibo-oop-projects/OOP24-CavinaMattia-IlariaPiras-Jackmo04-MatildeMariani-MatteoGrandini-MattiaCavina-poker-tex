@@ -3,6 +3,8 @@ package controller.game;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import javax.swing.SwingUtilities;
+
 import controller.card.CardGetterImage;
 import controller.card.CardGetterImageImpl;
 import controller.difficulty.DifficultySelectionControllerImpl;
@@ -59,6 +61,7 @@ public class GameControllerImpl implements GameController{
                 break;
         }
         this.cardGetterImage = new CardGetterImageImpl();
+        this.mainView.enableConfermationOnClose();
     }
 
     /**
@@ -253,6 +256,7 @@ public class GameControllerImpl implements GameController{
             this.gameTerminated = true;
         }
         this.resumeGame();
+        this.mainView.disableConfermationOnClose();
     }
 
     /**
@@ -280,4 +284,9 @@ public class GameControllerImpl implements GameController{
             return this.gameTerminated;
         }
     } 
+
+    @Override
+    public void isTurn(int id, boolean isTurn) {
+        this.gameScene.updatePlayerPanelState(id, isTurn);
+    }
 }

@@ -39,10 +39,13 @@ public enum CombinationType {
      */
     POKER(8, "Four of a Kind"),
     /**
-     * Five cards with the same seed and consecutive values with ten like less
-     * value.
+     * Five cards with the same seed and consecutive values.
      */
-    ROYAL_FLUSH(9, "Royal Flush");
+    STRAIGHT_FLUSH(9, "Straight Flush"),
+    /**
+     * Five cards with the same seed and consecutive values from Ten to Ace.
+     */
+    ROYAL_FLUSH(10, "Royal Flush");
 
     private final int value;
     private final String name;
@@ -53,16 +56,14 @@ public enum CombinationType {
     }
 
     /**
-     * @return
-     *         the value of the combination.
+     * @return the value of the combination.
      */
     public int getValue() {
         return value;
     }
 
     /**
-     * @return
-     *         the name of the combination.
+     * @return the name of the combination.
      */
     public String getName() {
         return name;

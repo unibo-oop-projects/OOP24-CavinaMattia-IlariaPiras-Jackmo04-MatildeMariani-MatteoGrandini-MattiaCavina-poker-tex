@@ -3,9 +3,11 @@ package model.player.api;
 import java.util.Optional;
 import java.util.Set;
 
-import model.deck.api.Card;
 import model.combination.api.Combination;
+import model.deck.api.Card;
 import model.game.api.State;
+import model.statistics.api.BasicStatistics;
+import model.statistics.api.StatisticsContributor;
 
 /**
  * Interface that models a generic player in the game.
@@ -13,7 +15,7 @@ import model.game.api.State;
  * A player has two {@link Card}s, a {@link Role} and a certain amount of money at any given time.
  * The player can make a decision based on the current state of the game and return an {@link Action}.
  */
-public interface Player {
+public interface Player extends StatisticsContributor<BasicStatistics> {
 
     /**
      * Sets the player's cards for the current hand.
@@ -105,4 +107,8 @@ public interface Player {
      * Informs the player that the current phase has ended.
      */
     void nextPhase();
+
+    State getGameState();
+
+    void setGameState(State gameState);
 }

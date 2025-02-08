@@ -23,9 +23,9 @@ import model.game.api.State;
 public class AIPlayerFactoryImpl implements AIPlayerFactory {
 
     // Changes how much the AI player will raise.
-    private static final double EASY_RAISING_FACTOR = 0.50;
+    private static final double EASY_RAISING_FACTOR = 0.80;
     private static final double MEDIUM_RAISING_FACTOR = 1.00;
-    private static final double HARD_RAISING_FACTOR = 2.00;
+    private static final double HARD_RAISING_FACTOR = 1.50;
 
     // Changes how likely the AI player is to call or raise.
     private static final double EASY_DIFFICULTY_MODIFIER = 0.70;
@@ -49,6 +49,7 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
 
     // Standard values for raising based on the combination type.
     private static final double STD_RAISE_ROYAL_FLUSH = 0.80;
+    private static final double STD_RAISE_STRAIGHT_FLUSH = 0.70;
     private static final double STD_RAISE_POKER = 0.60;
     private static final double STD_RAISE_FULL_HOUSE = 0.40;
     private static final double STD_RAISE_FLUSH = 0.30;
@@ -60,6 +61,7 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
 
     // Standard values for calling based on the combination type.
     private static final double STD_CALL_ROYAL_FLUSH = 2.00;
+    private static final double STD_CALL_STRAIGHT_FLUSH = 1.97;
     private static final double STD_CALL_POKER = 1.95;
     private static final double STD_CALL_FULL_HOUSE = 1.90;
     private static final double STD_CALL_FLUSH = 1.85;
@@ -105,6 +107,7 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                 case FLUSH -> STD_CALL_FLUSH;
                 case FULL_HOUSE -> STD_CALL_FULL_HOUSE;
                 case POKER -> STD_CALL_POKER;
+                case STRAIGHT_FLUSH -> STD_CALL_STRAIGHT_FLUSH;
                 case ROYAL_FLUSH -> STD_CALL_ROYAL_FLUSH;
             },
             type -> switch (type) {
@@ -116,6 +119,7 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                 case FLUSH -> STD_RAISE_FLUSH;
                 case FULL_HOUSE -> STD_RAISE_FULL_HOUSE;
                 case POKER -> STD_RAISE_POKER;
+                case STRAIGHT_FLUSH -> STD_RAISE_STRAIGHT_FLUSH;
                 case ROYAL_FLUSH -> STD_RAISE_ROYAL_FLUSH;
             }
         );

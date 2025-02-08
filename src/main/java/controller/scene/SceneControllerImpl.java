@@ -10,21 +10,22 @@ import view.scenes.DifficultySelectionScene;
 import view.scenes.GameOverScene;
 import view.scenes.MainMenuScene;
 import view.scenes.RulesScene;
-import view.scenes.StatsScene;
+import view.scenes.StatisticsScene;
 
 public class SceneControllerImpl implements SceneController {
 
-        private final View mainView;
+    private final View mainView;
 
     /**
      * Creates a new main menu controller.
+     * 
      * @param mainView the main view of the application.
      */
     public SceneControllerImpl(final View mainView) {
         this.mainView = mainView;
     }
 
-     /**
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -37,7 +38,7 @@ public class SceneControllerImpl implements SceneController {
      */
     @Override
     public void goToStatsScene() {
-        this.mainView.changeScene(new StatsScene(new BasicStatisticsControllerImpl(mainView)));
+        this.mainView.changeScene(new StatisticsScene(new BasicStatisticsControllerImpl(mainView)));
     }
 
     /**
@@ -65,15 +66,6 @@ public class SceneControllerImpl implements SceneController {
     }
 
     /**
-     * Method to get mainView.
-     * @return
-     *          the main view of the application   
-     */
-    protected View getView() {
-        return this.mainView;
-    }
-
-    /**
      * {@inheritDoc}
      */
 
@@ -81,5 +73,14 @@ public class SceneControllerImpl implements SceneController {
     public void goToGameOverScene(final Boolean endGameStatus) {
         this.mainView.changeScene(new GameOverScene(new GameOverMenuImpl(mainView, endGameStatus)));
     }
-    
+
+    /**
+     * Method to get mainView.
+     * 
+     * @return the main view of the application
+     */
+    protected View getView() {
+        return this.mainView;
+    }
+
 }

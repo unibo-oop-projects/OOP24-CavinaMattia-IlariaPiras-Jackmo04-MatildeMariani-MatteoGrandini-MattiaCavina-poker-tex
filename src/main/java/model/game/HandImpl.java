@@ -60,6 +60,8 @@ public class HandImpl implements Hand {
      */
     @Override
     public void manageAction(final Iterator<Player> playersIterator, final Player player) {
+        player.setGameState(this.gameState);
+        this.controller.isTurn(player.getId(), true);
         var action = player.getAction(this.gameState);
         switch (action) {
             case FOLD:
@@ -79,6 +81,7 @@ public class HandImpl implements Hand {
             case CHECK:
                 break;
         }
+        this.controller.isTurn(player.getId(), false);
         this.controller.setPlayerAction(player.getId(), String.valueOf(action));
         if (!action.equals(Action.FOLD) &&  !action.equals(Action.CHECK)) {
             this.controller.setPlayerBet(player.getId(), player.getTotalPhaseBet());

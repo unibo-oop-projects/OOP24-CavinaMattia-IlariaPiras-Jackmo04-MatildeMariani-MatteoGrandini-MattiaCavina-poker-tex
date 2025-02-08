@@ -57,9 +57,8 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.statsManager.addContributor(this);
         this.startingBet = (int) initialChips / INITIAL_BET_DIVISION_FACT;
         this.dealer = new DealerImpl();
-        final var user = new UserPlayer(USER_PLAYER_ID, initialChips);
-        this.userPlayer = user;
-        this.statsManager.addContributor(user); // TODO potrebbe non funzionare
+        this.userPlayer = new UserPlayer(USER_PLAYER_ID, initialChips);
+        this.statsManager.addContributor(this.userPlayer);
         this.setInitialPlayers(initialChips);
         this.gameState = new StateImpl(startingBet, this.players.size());
     }
@@ -173,13 +172,14 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.statistics.reset();
     }
 
-    /**
-     * 
-     */
     private void updateStatisticsAfterGameEnd() {
         if (this.isWon()) {
             this.statistics.incrementGamesWon(1);            
         }
+        saveStatistics();
+    }
+
+    private void saveStatistics() {
         this.statsManager.updateTotalStatistics();
         try {
             this.statsManager.saveStatistics(STATISTICS_FILE_NAME);
@@ -223,7 +223,9 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
 
                 if (!controller.isTerminated()) {
                     hand.determinesWinnerOfTheHand(); 
-                }            
+                }
+
+                saveStatistics();
             }
             updateStatisticsAfterGameEnd();
             if (!controller.isTerminated()) {

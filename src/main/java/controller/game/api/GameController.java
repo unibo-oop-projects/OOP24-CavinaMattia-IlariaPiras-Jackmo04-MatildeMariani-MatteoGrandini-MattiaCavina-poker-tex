@@ -2,18 +2,18 @@ package controller.game.api;
 
 import java.util.Set;
 
+import controller.card.CardGetterImage;
+import controller.player.user.UserPlayerController;
 import model.deck.api.Card;
 import model.game.api.Game;
 import model.game.api.Hand;
 import model.game.api.Phase;
 import model.player.api.Player;
-import controller.card.CardGetterImage;
-import controller.player.user.UserPlayerController;
-import view.scenes.GameScene;
-import view.scenes.GameOverScene;
-import view.scenes.MainMenuScene;
-import view.scenes.DifficultySelectionScene;
 import view.View;
+import view.scenes.DifficultySelectionScene;
+import view.scenes.GameOverScene;
+import view.scenes.GameScene;
+import view.scenes.MainMenuScene;
 
 /**
  * Interface that models a GameController. 
@@ -158,4 +158,6 @@ public interface GameController {
      * @return whether the game is terminated.
      */
     boolean isTerminated();
+
+    void isTurn(int id, boolean isTurn);
 }

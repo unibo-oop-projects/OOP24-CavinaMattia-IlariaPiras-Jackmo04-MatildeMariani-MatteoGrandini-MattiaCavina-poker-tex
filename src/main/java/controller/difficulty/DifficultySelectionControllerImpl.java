@@ -16,7 +16,7 @@ public class DifficultySelectionControllerImpl implements DifficultySelectionCon
     private final View mainView;
     private Difficulty difficulty;
     private int initialChips;
-    
+
     /**
      * Creates a new difficulty selection controller.
      * @param mainView the main view of the application.
@@ -38,10 +38,10 @@ public class DifficultySelectionControllerImpl implements DifficultySelectionCon
      */
     @Override
     public void goToGameScene() {
-        if(this.difficulty == null) {
+        if (this.difficulty == null) {
             throw new IllegalStateException("Difficulty not set!");
         }
-        if(this.initialChips <= 0) {
+        if (this.initialChips <= 0) {
             throw new IllegalStateException("Initial chips not set!");
         }
         this.mainView.changeScene(new GameScene(new GameControllerImpl(this.mainView, this.difficulty, this.initialChips)));

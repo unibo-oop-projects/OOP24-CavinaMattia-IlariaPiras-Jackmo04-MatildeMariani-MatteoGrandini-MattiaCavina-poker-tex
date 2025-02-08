@@ -1,5 +1,6 @@
 package view.scenes;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -20,12 +21,12 @@ import view.scenes.api.Scene;
  * The StartScene class represents the initial scene of the application.
  * It displays the title of the game and allows the user to proceed to the main menu by pressing the button.
  */
-public class StartScene extends JPanel implements Scene {
+public class StartScene implements Scene {
 
     private static final int R_BUTTONS_PANEL = 236;
     private static final int G_BUTTONS_PANEL = 205;
     private static final int B_BUTTONS_PANEL = 153;
-    private static final int R_BORDER = 0;  
+    private static final int R_BORDER = 0;
     private static final int G_BORDER = 0;
     private static final int B_BORDER = 0;
     private static final int A_BORDER = 50;
@@ -40,6 +41,7 @@ public class StartScene extends JPanel implements Scene {
     private static final String SCENE_NAME = "start";
 
     private final StartController controller;
+    private final JPanel startPanel;
 
     /**
      * Constructs a new StartScene.
@@ -48,28 +50,33 @@ public class StartScene extends JPanel implements Scene {
     public StartScene(final StartController controller) {
 
         this.controller = controller;
-        this.setLayout(new GridBagLayout());
-        this.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        this.startPanel = new JPanel(new BorderLayout());
+        initialize();
+    }
 
-        JPanel mainPanel = new JPanel();
+    private void initialize() {
+        this.startPanel.setLayout(new GridBagLayout());
+        this.startPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+
+        final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
 
-        JPanel titlePanel = new JPanel();
+        final JPanel titlePanel = new JPanel();
         titlePanel.setLayout(new FlowLayout());
         titlePanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
-        
-        JLabel title = new JLabel("POKER TEXAS HOLD'EM", SwingConstants.CENTER);
+
+        final JLabel title = new JLabel("POKER TEXAS HOLD'EM", SwingConstants.CENTER);
         title.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE_TITLE));
         titlePanel.add(title);
 
-        JPanel centerPanel = new JPanel();
+        final JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
-        JPanel menuPanel = new JPanel();
+        final JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new FlowLayout());
         menuPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
 
-        JButton button = new JButton("Press to start");
+        final JButton button = new JButton("Press to start");
         button.setBackground(new Color(R_BUTTONS_PANEL, G_BUTTONS_PANEL, B_BUTTONS_PANEL));
         button.setForeground(Color.BLACK);
         button.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
@@ -87,7 +94,7 @@ public class StartScene extends JPanel implements Scene {
 
         mainPanel.add(centerPanel);
 
-        this.add(mainPanel);
+        this.startPanel.add(mainPanel);
     }
 
     /**
@@ -95,7 +102,9 @@ public class StartScene extends JPanel implements Scene {
      */
     @Override
     public JPanel getPanel() {
-        return this;
+        final var wrapper = new JPanel(new BorderLayout());
+        wrapper.add(this.startPanel, BorderLayout.CENTER);
+        return wrapper;
     }
 
     /**

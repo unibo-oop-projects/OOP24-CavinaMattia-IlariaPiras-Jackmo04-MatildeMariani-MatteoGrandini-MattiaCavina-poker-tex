@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,8 +19,10 @@ import model.player.api.Action;
 import model.player.api.Role;
 import model.player.user.UserPlayer;
 
-public class TestUserPlayer {
-    
+/**
+ * Tests for the UserPlayer implementation.
+ */
+class TestUserPlayer {
     private static final int PLAYER_ID = 1;
     private static final int INITIAL_TOTAL_PHASE_BET = 0;
     private static final int INITIAL_CHIPS = 2000;
@@ -34,26 +37,29 @@ public class TestUserPlayer {
     private static Deck<Card> deck;
 
     @BeforeEach
-    public void newDeck() {
+    public void initializeUserPlayer() {
+        player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
+    }
+
+    @BeforeAll
+    public static void setUp() {
         deck = new DeckFactoryImpl().simplePokerDeck();
     }
 
     @Test
-    public void testCreation() {
-        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
-        assertTrue(this.player.getRole().isEmpty());
+    void testCreation() {
+        assertTrue(player.getRole().isEmpty());
         assertEquals(INITIAL_CHIPS, player.getChips());
         assertEquals(Set.of(), player.getCards());
         assertEquals(INITIAL_TOTAL_PHASE_BET, player.getTotalPhaseBet());
-        assertThrows(IllegalStateException.class, 
+        assertThrows(IllegalStateException.class,
             () -> player.getAction(new StateImpl(INITIAL_BET, NUM_OF_PLAYERS)));
         assertFalse(player.isAI());
     }
 
     @Test
-    public void testCheck() throws InterruptedException {
-        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
-        var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
+    void testCheck() throws InterruptedException {
+        final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().receiveUserAction("CALL");
         assertEquals(Action.CALL, player.getAction(state));
@@ -67,10 +73,9 @@ public class TestUserPlayer {
     }
 
     @Test
-    public void testPreFlopSmallBlind() {
-        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
+    void testPreFlopSmallBlind() {
         player.setRole(Role.SMALL_BLIND);
-        var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
+        final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         assertEquals(Action.CALL, player.getAction(state));
         assertEquals(INITIAL_CHIPS - (INITIAL_BET * MULTIPLIER_SMALL_BLIND), player.getChips());
@@ -78,9 +83,8 @@ public class TestUserPlayer {
     }
 
     @Test
-    public void testTextField() throws InterruptedException {
-        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
-        var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
+    void testTextField() throws InterruptedException {
+        final var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().setRaiseAmount(INITIAL_BET_500 * MULTIPLIER_RAISE);
         player.getController().receiveUserAction("RAISE");
@@ -95,9 +99,8 @@ public class TestUserPlayer {
     }
 
     @Test
-    public void testAllIn() {
-        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
-        var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
+    void testAllIn() {
+        final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().receiveUserAction("ALL_IN");
         assertEquals(Action.ALL_IN, player.getAction(state));
@@ -106,8 +109,7 @@ public class TestUserPlayer {
     }
 
     @Test
-    public void testWinning() {
-        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
+    void testWinning() {
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.handWon(BET_3000);
         assertEquals(INITIAL_CHIPS + BET_3000, player.getChips());
@@ -115,9 +117,8 @@ public class TestUserPlayer {
     }
 
     @Test
-    public void testLosing() {
-        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
-        var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
+    void testLosing() {
+        final var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().setRaiseAmount(INITIAL_BET_500 * MULTIPLIER_RAISE);
         player.getController().receiveUserAction("RAISE");

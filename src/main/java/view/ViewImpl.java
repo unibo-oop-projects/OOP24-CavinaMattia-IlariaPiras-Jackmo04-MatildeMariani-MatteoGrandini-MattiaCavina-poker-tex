@@ -21,7 +21,7 @@ import view.scenes.api.Scene;
 public class ViewImpl implements View {
 
     private static final double INIT_FRAME_SIZE_FACTOR = 0.75;
-    private static final double MIN_FRAME_SIZE_FACTOR = 0.5; // TODO: change this value if needed
+    private static final double MIN_FRAME_SIZE_FACTOR = 0.6; 
 
     private final JFrame frame;
     private final Dimension screenSize;

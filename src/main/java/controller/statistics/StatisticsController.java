@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
+import controller.scene.SceneController;
+
 /**
  * Interface for the statistics controller.
  */
-public interface StatsController {
+public interface StatisticsController extends SceneController {
 
     /**
      * Returns a list of pairs of strings, where the first string is the name of the
@@ -17,8 +19,8 @@ public interface StatsController {
     List<ImmutablePair<String, String>> getStatistics();
 
     /**
-     * Goes back to the main menu scene.
+     * Resets the statistics.
      */
-    void goToMainMenuScene();
+    void resetStatistics();
 
 }

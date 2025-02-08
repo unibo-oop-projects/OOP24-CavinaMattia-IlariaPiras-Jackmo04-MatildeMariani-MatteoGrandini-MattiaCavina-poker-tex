@@ -168,10 +168,12 @@ class TestAIPlayerBasics {
     @Test
     void testWinning() {
         final var player = factory.createMedium(PLAYER_ID, STARTING_CHIPS);
+        player.setRole(Role.BIG_BLIND);
         player.handWon(BET_1000);
         assertEquals(STARTING_CHIPS + BET_1000, player.getChips());
         assertEquals(Set.of(), player.getCards());
         assertEquals(0, player.getTotalPhaseBet());
+        assertEquals(Optional.empty(), player.getRole());
     }
 
     /**
@@ -181,16 +183,16 @@ class TestAIPlayerBasics {
     void testLosing() {
         final var player = factory.createHard(PLAYER_ID, STARTING_CHIPS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
-        final var state = new StateImpl(0, NUM_OF_PLAYERS);
+        player.setRole(Role.SMALL_BLIND);
+        final var state = new StateImpl(BET_1000, NUM_OF_PLAYERS);
         state.addToPot(POT_2000);
-        var action = player.getAction(state);
-        while (action != Action.RAISE) {
-            action = player.getAction(state);
-        }
+        player.getAction(state);
         final var bet = player.getTotalPhaseBet();
+        assertEquals(BET_1000 / 2 , bet);
         player.handLost();
         assertEquals(STARTING_CHIPS - bet, player.getChips());
         assertEquals(Set.of(), player.getCards());
         assertEquals(0, player.getTotalPhaseBet());
+        assertEquals(Optional.empty(), player.getRole());
     }
 }
