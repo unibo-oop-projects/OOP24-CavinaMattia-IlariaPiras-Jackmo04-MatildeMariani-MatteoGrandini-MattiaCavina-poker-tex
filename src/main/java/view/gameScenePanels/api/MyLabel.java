@@ -1,5 +1,6 @@
 package view.gameScenePanels.api;
 
+import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -10,6 +11,8 @@ import javax.swing.JLabel;
  */
 public class MyLabel extends JLabel {
     
+    private static final int FONT_SIZE = 12;
+    
     /**
      * Creates a new MyLabel.
      * @param text the label text.
@@ -18,6 +21,7 @@ public class MyLabel extends JLabel {
         this.setText(text);
         this.setHorizontalAlignment(JLabel.CENTER);
         this.setVerticalAlignment(JLabel.CENTER);
+        this.setFont(new Font("Robonto", Font.BOLD, FONT_SIZE));
     }
 
     /**
