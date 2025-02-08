@@ -59,10 +59,10 @@ public class BasicStatisticsControllerImpl extends SceneControllerImpl implement
 
     private List<ImmutablePair<String, String>> getAsList(final BasicStatistics stats) {
         return List.of(
-            new ImmutablePair<>("Hands played", String.valueOf(stats.getNumOfHandsPlayed())),
-            new ImmutablePair<>("Hands won", String.valueOf(stats.getNumOfHandsWon())),
             new ImmutablePair<>("Games played", String.valueOf(stats.getNumOfGamesPlayed())),
             new ImmutablePair<>("Games won", String.valueOf(stats.getNumOfGamesWon())),
+            new ImmutablePair<>("Hands played", String.valueOf(stats.getNumOfHandsPlayed())),
+            new ImmutablePair<>("Hands won", String.valueOf(stats.getNumOfHandsWon())),
             new ImmutablePair<>("Best Combination", stats.getBestCombination().map(CombinationType::getName).orElse("None")),
             new ImmutablePair<>("Biggest win", stats.getBiggestWin() + " chips"),
             new ImmutablePair<>("Hands win rate", String.format("%.2f%%", stats.getHandWinRate() * 100)),
