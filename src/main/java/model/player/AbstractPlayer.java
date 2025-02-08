@@ -149,6 +149,22 @@ public abstract class AbstractPlayer implements Player {
     public abstract void handLost();
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setGameState(State gameState) {
+        this.gameState = Objects.requireNonNull(gameState);
+    }
+
+    /**
+     * Used to get the current state of the game.
+     * @return the current state of the game.
+     */
+    protected State getGameState() {
+        return this.gameState;
+    }
+
+    /**
      * Used to set the current combination of the player.
      * @param combination the combination to set as the current combination.
      */
@@ -193,13 +209,6 @@ public abstract class AbstractPlayer implements Player {
         this.setTotalPhaseBet(0);
     }
 
-    @Override
-    public State getGameState() {
-        return this.gameState;
-    }
-
-    @Override
-    public void setGameState(State gameState) {
-        this.gameState = gameState;
-    }
+    
+    
 }

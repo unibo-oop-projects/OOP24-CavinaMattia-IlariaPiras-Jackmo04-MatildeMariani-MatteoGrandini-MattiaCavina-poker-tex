@@ -108,7 +108,9 @@ public interface Player extends StatisticsContributor<BasicStatistics> {
      */
     void nextPhase();
 
-    State getGameState();
-
+    /**
+     * Informs the player of the new state of the game.
+     * @param gameState the current state of the game.
+     */
     void setGameState(State gameState);
 }

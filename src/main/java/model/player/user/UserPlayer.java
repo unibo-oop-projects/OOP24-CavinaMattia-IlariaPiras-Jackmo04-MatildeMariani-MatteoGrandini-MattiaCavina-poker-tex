@@ -132,4 +132,9 @@ public class UserPlayer extends AbstractPlayer {
     public UserPlayerController getController() {
         return this.controller;
     }
+
+    @Override
+    public State getGameState() {
+        return super.getGameState();
+    }
 }
