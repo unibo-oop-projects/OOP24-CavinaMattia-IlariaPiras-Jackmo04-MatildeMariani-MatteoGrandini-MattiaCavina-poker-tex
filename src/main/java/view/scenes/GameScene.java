@@ -169,15 +169,7 @@ public class GameScene extends JPanel implements Scene {
         
     };
 
-    public void updateUserButtonStates(boolean isTurn) {
-        if (isTurn) {
-            ((UserPanel) this.southPlayerPanel).updateButtonStates();
-        } else {
-            ((UserPanel) this.southPlayerPanel).disableAllButtons();
-        } 
-    }
-
-    public void updateAIPlayerPanelState(int id, boolean isTurn) {
-        ((AIPlayerPanel) this.getPlayerPanel(id)).updateState(isTurn);
+    public void updatePlayerPanelState(int id, boolean isTurn) {
+        this.getPlayerPanel(id).updateState(isTurn);
     }
 }
