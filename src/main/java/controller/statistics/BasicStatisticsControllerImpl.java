@@ -50,8 +50,9 @@ public class BasicStatisticsControllerImpl extends SceneControllerImpl implement
         this.statsManager.getTotalStatistics().reset();
         try {
             this.statsManager.saveStatistics(STATS_FILE_NAME);
+            LOGGER.info("Statistics correctly reset.");
         } catch (IOException e) {
-            LOGGER.error("Error while saving the statistics", e);
+            LOGGER.error("Error while saving the statistics.", e);
         }
     }
 
@@ -63,8 +64,8 @@ public class BasicStatisticsControllerImpl extends SceneControllerImpl implement
             new ImmutablePair<>("Games won", String.valueOf(stats.getNumOfGamesWon())),
             new ImmutablePair<>("Best Combination", stats.getBestCombination().map(CombinationType::getName).orElse("None")),
             new ImmutablePair<>("Biggest win", stats.getBiggestWin() + " chips"),
-            new ImmutablePair<>("Hands win rate", String.format("%.2f%%", stats.getHandWinRate())),
-            new ImmutablePair<>("Games win rate", String.format("%.2f%%", stats.getGameWinRate()))
+            new ImmutablePair<>("Hands win rate", String.format("%.2f%%", stats.getHandWinRate() * 100)),
+            new ImmutablePair<>("Games win rate", String.format("%.2f%%", stats.getGameWinRate() * 100))
         );
     }
 }
