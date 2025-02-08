@@ -60,7 +60,7 @@ public class TablePanel extends JPanel {
         eastPlayerBet.setHorizontalTextPosition(JLabel.LEFT);
             
         /*Adding components to the TablePanel*/
-        this.setLayout(new BorderLayout(GAP, GAP));
+        this.setLayout(new BorderLayout());
         this.add(table, BorderLayout.CENTER);
         this.add(westPlayerBet, BorderLayout.WEST);
         this.add(northPlayerBet, BorderLayout.NORTH);

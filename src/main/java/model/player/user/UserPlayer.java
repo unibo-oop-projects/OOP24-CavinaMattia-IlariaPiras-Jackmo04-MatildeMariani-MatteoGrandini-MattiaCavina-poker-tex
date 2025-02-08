@@ -9,12 +9,11 @@ import model.player.AbstractPlayer;
 import model.player.api.Action;
 import model.statistics.BasicStatisticsImpl;
 import model.statistics.api.BasicStatistics;
-import model.statistics.api.StatisticsContributor;
 
 /**
  * Class representing a human player in the game.
  */
-public class UserPlayer extends AbstractPlayer implements StatisticsContributor<BasicStatistics> {
+public class UserPlayer extends AbstractPlayer {
 
     private final UserPlayerController controller;
     private final BasicStatistics statistics;

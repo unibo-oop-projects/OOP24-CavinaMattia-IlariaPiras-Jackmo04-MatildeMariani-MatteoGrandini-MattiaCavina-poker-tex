@@ -16,30 +16,30 @@ import model.deck.api.Card;
 import model.deck.api.SimpleCard;
 
 /**
- * Class that implements {@link model.combination.api.CombinationRules}.
+ * Class that implements {@link CombinationRules}.
  * All the methods are used to check how type of combination is it.
  */
 public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
 
     private final List<Card> totalCardList = Lists.newLinkedList();
     private static final int COMBINATION_NUMBER = 5;
-    private final CombinationUtilities rulesUtilities = new CombinationUtilitiesImpl();
+    private final CombinationUtilities utilies;
 
     /**
      * Constructor for CombinationsRulesImpl.
      * 
-     * @param totalCardList
-     *                      list of cards.
-     * @throws IllegalAccessError
-     *                            thrown when the list is empty.
+     * @param totalCardList list of cards.
+     * @throws IllegalAccessError thrown when the list is empty.
      * 
      */
-    public CombinationCardGetterImpl(final Set<Card> totalCardList) {
+    public CombinationCardGetterImpl(final Set<Card> totalCardList ,CombinationUtilities utilies ) {
         if (!totalCardList.isEmpty()) {
             totalCardList.forEach(this.totalCardList::add);
         } else {
             throw new IllegalArgumentException("Empty Set passed like Argument");
         }
+        this.utilies = utilies;
+
     }
 
     /**
@@ -48,7 +48,7 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
     @Override
     public Set<Card> getPair() {
         return getSafetyList().stream().filter(t -> t.cardName()
-                .equals(rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
+                .equals(utilies.getSumOfSameNameCard(getSafetyList()).entrySet()
                         .stream()
                         .filter(l -> l.getCount() == CombinationDimension.PAIR
                                 .getDimension())
@@ -62,7 +62,7 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
      */
     @Override
     public Set<Card> getTwoPairs() {
-        final List<SimpleCard> twoPairSeedList = rulesUtilities.getSumOfSameNameCard(getSafetyList())
+        final List<SimpleCard> twoPairSeedList = utilies.getSumOfSameNameCard(getSafetyList())
                 .entrySet()
                 .stream()
                 .filter(l -> l.getCount() == CombinationDimension.PAIR.getDimension())
@@ -81,7 +81,7 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
     public Set<Card> getTris() {
 
         return getSafetyList().stream().filter(t -> t.cardName()
-                .equals(rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
+                .equals(utilies.getSumOfSameNameCard(getSafetyList()).entrySet()
                         .stream()
                         .filter(l -> l.getCount() == CombinationDimension.TRIS.getDimension())
                         .toList().getFirst().getElement()))
@@ -94,7 +94,7 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
     @Override
     public Set<Card> getStraight() {
 
-        return rulesUtilities.getRoyalFlush(getSafetyList())
+        return utilies.getRoyalFlush(getSafetyList())
                 .stream()
                 .collect(Collectors.toSet());
     }
@@ -114,7 +114,7 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
     @Override
     public Set<Card> getFlush() {
         return getSafetyList().stream().filter(t -> t.seedName()
-                .equals(rulesUtilities.getSumOfSameSeedCard(getSafetyList()).entrySet()
+                .equals(utilies.getSumOfSameSeedCard(getSafetyList()).entrySet()
                         .stream()
                         .filter(l -> l.getCount() == CombinationDimension.STRAIGHT
                                 .getDimension())
@@ -129,27 +129,11 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
     @Override
     public Set<Card> getPoker() {
         return getSafetyList().stream().filter(t -> t.cardName()
-                .equals(rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
+                .equals(utilies.getSumOfSameNameCard(getSafetyList()).entrySet()
                         .stream()
                         .filter(l -> l.getCount() == CombinationDimension.POKER.getDimension())
                         .toList().getFirst().getElement()))
                 .collect(Collectors.toSet());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<Card> getStraightFlush() {
-        return getStraight();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<Card> getRoyalFlush() {
-        return getStraight();
     }
 
     /**

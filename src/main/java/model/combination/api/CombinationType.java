@@ -43,8 +43,7 @@ public enum CombinationType {
      */
     STRAIGHT_FLUSH(9, "Straight Flush"),
     /**
-     * Five cards with the same seed and consecutive values with ten like less
-     * value.
+     * Five cards with the same seed and consecutive values from Ten to Ace.
      */
     ROYAL_FLUSH(10, "Royal Flush");
 
@@ -57,16 +56,14 @@ public enum CombinationType {
     }
 
     /**
-     * @return
-     *         the value of the combination.
+     * @return the value of the combination.
      */
     public int getValue() {
         return value;
     }
 
     /**
-     * @return
-     *         the name of the combination.
+     * @return the name of the combination.
      */
     public String getName() {
         return name;
