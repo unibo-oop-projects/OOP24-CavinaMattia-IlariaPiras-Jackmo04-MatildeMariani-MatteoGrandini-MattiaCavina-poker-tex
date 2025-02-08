@@ -42,7 +42,7 @@ public class CombinationComparator implements Comparator<Combination<Card>>, Ser
                         System.out.println("Tris not present in combination"); // NOPMD suppressed as it is a false
                                                                                // positive
                     }
-                default:
+                case PAIR, TRIS, POKER, FLUSH, STRAIGHT, STRAIGHT_FLUSH, ROYAL_FLUSH, HIGH_CARD:
                     return Integer.compare(sumValueCard(firstCombination.combinationCard()),
                             sumValueCard(secondCombination.combinationCard()));
             }
