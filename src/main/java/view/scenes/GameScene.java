@@ -14,7 +14,6 @@ import javax.swing.RootPaneContainer;
 import javax.swing.SwingUtilities;
 
 import controller.game.api.GameController;
-import model.player.ai.api.AIPlayer;
 import view.gameScenePanels.AIPlayerPanel;
 import view.gameScenePanels.PauseDialog;
 import view.gameScenePanels.PlayerPanelImpl;

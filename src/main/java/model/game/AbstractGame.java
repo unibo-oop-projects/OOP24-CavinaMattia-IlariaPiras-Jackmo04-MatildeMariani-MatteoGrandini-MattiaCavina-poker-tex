@@ -204,6 +204,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
                 gameState.newHand(startingBet, players.size());
                 var hand = new HandImpl(controller, players, gameState);
 
+                controller.waitIfPaused();
                 controller.updateForNewHand();
                 controller.setPlayerCards(userPlayer.getId(), userPlayer.getCards());
 
@@ -217,11 +218,13 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
                         gameState.addToPot(p.getTotalPhaseBet());
                         p.nextPhase();
                     });
+                    controller.waitIfPaused();
                     controller.updateForNewPhase(gameState.getPot());
                     gameState.nextHandPhase();   
                 } while (!hand.isHandOver() && !controller.isTerminated());
 
                 if (!controller.isTerminated()) {
+                    controller.waitIfPaused();
                     hand.determinesWinnerOfTheHand(); 
                 }
 
