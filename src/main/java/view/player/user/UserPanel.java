@@ -229,4 +229,13 @@ public class UserPanel extends PlayerPanelImpl implements Serializable {
         }
        super.setRole(role);
     }
+
+    @Override
+    public void updateState(boolean isTurn) {
+        if (isTurn) {
+            this.updateButtonStates();
+        } else {
+            this.disableAllButtons();
+        }
+    }
 }
