@@ -25,8 +25,9 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
      * Constructor for CombinationsRulesImpl.
      * 
      * @param totalCardList list of cards.
+     * @param utilies utilities used to find correct Combination.
      */
-    public CombinationRulesImpl(final Set<Card> totalCardList , CombinationUtilities utilies ) {
+    public CombinationRulesImpl(final Set<Card> totalCardList, final CombinationUtilities utilies) {
         totalCardList.forEach(this.totalCardList::add);
         this.utilies = utilies;
     }
@@ -128,7 +129,7 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
                         .count() == 1;
     }
 
-        /**
+    /**
      * {@inheritDoc}
      */
     @Override
