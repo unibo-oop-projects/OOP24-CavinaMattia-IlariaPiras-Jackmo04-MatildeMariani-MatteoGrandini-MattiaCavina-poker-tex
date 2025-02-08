@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,28 +34,31 @@ class TestUserPlayer {
     private static final int BET_3000 = 3000;
 
     private UserPlayer player;
-    private Deck<Card> deck;
+    private static Deck<Card> deck;
 
     @BeforeEach
-    void newDeck() {
+    public void initializeUserPlayer() {
+        player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
+    }
+
+    @BeforeAll
+    public static void setUp() {
         deck = new DeckFactoryImpl().simplePokerDeck();
     }
 
     @Test
     void testCreation() {
-        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
-        assertTrue(this.player.getRole().isEmpty());
+        assertTrue(player.getRole().isEmpty());
         assertEquals(INITIAL_CHIPS, player.getChips());
         assertEquals(Set.of(), player.getCards());
         assertEquals(INITIAL_TOTAL_PHASE_BET, player.getTotalPhaseBet());
-        assertThrows(IllegalStateException.class, 
+        assertThrows(IllegalStateException.class,
             () -> player.getAction(new StateImpl(INITIAL_BET, NUM_OF_PLAYERS)));
         assertFalse(player.isAI());
     }
 
     @Test
     void testCheck() throws InterruptedException {
-        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().receiveUserAction("CALL");
@@ -70,7 +74,6 @@ class TestUserPlayer {
 
     @Test
     void testPreFlopSmallBlind() {
-        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         player.setRole(Role.SMALL_BLIND);
         final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
@@ -81,7 +84,6 @@ class TestUserPlayer {
 
     @Test
     void testTextField() throws InterruptedException {
-        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         final var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().setRaiseAmount(INITIAL_BET_500 * MULTIPLIER_RAISE);
@@ -98,7 +100,6 @@ class TestUserPlayer {
 
     @Test
     void testAllIn() {
-        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().receiveUserAction("ALL_IN");
@@ -109,7 +110,6 @@ class TestUserPlayer {
 
     @Test
     void testWinning() {
-        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.handWon(BET_3000);
         assertEquals(INITIAL_CHIPS + BET_3000, player.getChips());
@@ -118,7 +118,6 @@ class TestUserPlayer {
 
     @Test
     void testLosing() {
-        this.player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
         final var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().setRaiseAmount(INITIAL_BET_500 * MULTIPLIER_RAISE);
