@@ -10,6 +10,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -28,7 +29,7 @@ public class StatisticsScene implements Scene {
     private static final Dimension STAT_PANEL_DIMENSION = new Dimension(200, 50);
     private static final int TITLE_FONT_SIZE = 30;
     private static final int STATS_FONT_SIZE = 20;
-    private static final int BACK_BTN_FONT_SIZE = 18;
+    private static final int BTN_FONT_SIZE = 18;
     private static final int BOTTOM_SPACING = 20;
     private static final int LIGHT_GREEN_HEX = 0x88e378;
     private static final int DARK_GREEN_HEX = 0x0cac64;
@@ -63,8 +64,8 @@ public class StatisticsScene implements Scene {
 
         this.panel.add(statsContainer, BorderLayout.CENTER);
 
-        final JButton backButton = new JButton("Back to Menu");
-        backButton.setFont(new Font(FONT_FAMILY, Font.BOLD, BACK_BTN_FONT_SIZE));
+        final JButton backButton = new JButton("Back to Menu"); // TODO change style
+        backButton.setFont(new Font(FONT_FAMILY, Font.BOLD, BTN_FONT_SIZE));
         backButton.addActionListener(e -> this.controller.goToMainScene());
         this.panel.add(backButton, BorderLayout.SOUTH);
     }
@@ -79,11 +80,21 @@ public class StatisticsScene implements Scene {
             this.statsContainer.add(panel);
         }
         this.statsContainer.add(Box.createVerticalStrut(BOTTOM_SPACING));
+        final JButton resetButton = new JButton("Reset"); // TODO change style
+        resetButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        resetButton.setFont(new Font(FONT_FAMILY, Font.BOLD, BTN_FONT_SIZE));
+        resetButton.addActionListener(e -> this.resetStats());
+        this.statsContainer.add(resetButton);
     }
 
     private void resetStats() {
+        if (!this.confirmReset()) {
+            return;
+        }
         this.controller.resetStatistics();
         this.updateStats();
+        this.panel.revalidate();
+        this.panel.repaint();
     }
 
     private JPanel getStatJPanel(final String name, final String value) {
@@ -94,6 +105,23 @@ public class StatisticsScene implements Scene {
         panel.add(label, BorderLayout.CENTER);
         panel.setPreferredSize(STAT_PANEL_DIMENSION);
         return panel;
+    }
+
+    private boolean confirmReset() {
+        final int confirm = JOptionPane.showOptionDialog(
+            this.panel, 
+            """
+                Are you sure you want to reset the statistics?
+                This action cannot be undone.
+            """,
+            "Reset statistics?",
+            JOptionPane.YES_NO_OPTION, 
+            JOptionPane.QUESTION_MESSAGE, 
+            null, 
+            null, 
+            null
+        );
+        return confirm == JOptionPane.YES_OPTION;
     }
 
     /**
