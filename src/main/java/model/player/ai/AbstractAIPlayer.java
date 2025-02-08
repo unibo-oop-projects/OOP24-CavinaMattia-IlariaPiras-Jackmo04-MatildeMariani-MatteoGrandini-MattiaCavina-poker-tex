@@ -20,9 +20,9 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
     /**
      * Creates a new AI player with the given initial amount of chips, role and raising factor.
-     * @param id the id of the player.
-     * @param initialChips the initial amount of chips of the player.
-     * @param raisingFactor a double determining by how much the player will raise.
+     * @param id the id of the player
+     * @param initialChips the initial amount of chips of the player
+     * @param raisingFactor a double determining by how much the player will raise
      */
     AbstractAIPlayer(final int id, final int initialChips, final double raisingFactor) {
         super(id, initialChips);
@@ -100,9 +100,9 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
     /**
      * Returns the amount of chips the player is required to call in the current state.
      * This amount is adjusted considering blinds.
-     * @param currentBet the current bet.
-     * @param currentHandPhase the current phase of the hand.
-     * @return the amount of chips that the player is required to call.
+     * @param currentBet the current bet
+     * @param currentHandPhase the current phase of the hand
+     * @return the amount of chips that the player is required to call
      */
     protected int requiredBet(final int currentBet, final Phase currentHandPhase) {
         return (int) (currentBet * this.getRole()
@@ -114,13 +114,13 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
     /**
      * Returns whether the player should call in the current state.
-     * @return whether the player should call in the current state.
+     * @return whether the player should call in the current state
      */
     protected abstract boolean shouldCall();
 
     /**
      * Returns whether the player should raise in the current state.
-     * @return whether the player should raise in the current state.
+     * @return whether the player should raise in the current state
      */
     protected abstract boolean shouldRaise();
 

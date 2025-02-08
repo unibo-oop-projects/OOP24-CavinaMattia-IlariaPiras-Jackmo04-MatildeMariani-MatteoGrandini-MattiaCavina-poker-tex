@@ -28,7 +28,7 @@ public class BasicStatisticsControllerImpl extends SceneControllerImpl implement
 
     /**
      * Constructor for the StatsControllerImpl class.
-     * @param mainView The main view of the application.
+     * @param mainView The main view of the application
      */
     public BasicStatisticsControllerImpl(final View mainView) {
         super(mainView);

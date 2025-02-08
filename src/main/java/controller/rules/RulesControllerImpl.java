@@ -19,7 +19,7 @@ public class RulesControllerImpl extends SceneControllerImpl implements RulesCon
 
     /**
      * Creates a new rules controller.
-     * @param mainView the main view of the application.
+     * @param mainView the main view of the application
      */
     public RulesControllerImpl(final View mainView) {
         super(mainView);

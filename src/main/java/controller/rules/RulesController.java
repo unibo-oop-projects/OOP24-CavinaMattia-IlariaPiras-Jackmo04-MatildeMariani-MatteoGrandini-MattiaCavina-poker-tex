@@ -10,7 +10,7 @@ public interface RulesController extends SceneController {
 
     /**
      * Returns the HTML string representing the rules.
-     * @return the HTML string representing the rules.
+     * @return the HTML string representing the rules
      */
     String getRulesHtml();
 
