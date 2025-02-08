@@ -25,8 +25,8 @@ public class StatisticsScene implements Scene {
 
     private static final String FONT_FAMILY = "Roboto";
     private static final String SCENE_NAME = "stats";
-    private static final Border TITLE_BORDER = BorderFactory.createEmptyBorder(20, 0, 10, 0);
-    private static final Border STATS_CONTAINER_BORDER = BorderFactory.createEmptyBorder(10, 100, 10, 100);
+    private static final Border TITLE_BORDER = BorderFactory.createEmptyBorder(20, 0, 20, 0);
+    private static final Border STATS_CONTAINER_BORDER = BorderFactory.createEmptyBorder(0, 100, 0, 100);
     private static final Border CONTAINER_BORDER = BorderFactory.createEmptyBorder(0, 0, 10, 0);
     private static final Dimension STAT_PANEL_DIMENSION = new Dimension(200, 50);
     private static final int TITLE_FONT_SIZE = 30;
