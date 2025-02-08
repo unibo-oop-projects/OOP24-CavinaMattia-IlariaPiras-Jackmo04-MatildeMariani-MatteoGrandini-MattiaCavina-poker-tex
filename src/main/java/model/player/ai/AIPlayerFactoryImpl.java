@@ -11,11 +11,8 @@ import model.game.api.State;
 
 /**
  * Implementation of the {@link AIPlayerFactory} interface.
- * This class provides methods to create AI players with different difficulty
- * levels.
- * The difficulty levels are: easy, medium and hard.
  * The decision-making process of the AI players is based on the
- * {@link Combination} they have.
+ * {@link Combination} they have and the current {@link State} of the game.
  * The better the combination, the more likely the AI player is to call or
  * raise.
  * They're also much more likely to raise if no one has betted yet.
@@ -23,25 +20,25 @@ import model.game.api.State;
 public class AIPlayerFactoryImpl implements AIPlayerFactory {
 
     // Changes how much the AI player will raise.
-    private static final double EASY_RAISING_FACTOR = 0.80;
+    private static final double EASY_RAISING_FACTOR = 0.50;
     private static final double MEDIUM_RAISING_FACTOR = 1.00;
-    private static final double HARD_RAISING_FACTOR = 1.50;
+    private static final double HARD_RAISING_FACTOR = 2.00;
 
     // Changes how likely the AI player is to call or raise.
-    private static final double EASY_DIFFICULTY_MODIFIER = 0.70;
+    private static final double EASY_DIFFICULTY_MODIFIER = 0.75;
     private static final double MEDIUM_DIFFICULTY_MODIFIER = 1.00;
     private static final double HARD_DIFFICULTY_MODIFIER = 1.25;
 
-    // Decides what is considered to be a high bet.
-    private static final double HIGH_BET_THRESHOLD = 1.5;
+    // Decides what is considered to be a high raise to call.
+    private static final double HIGH_RAISE_THRESHOLD = 1.5;
 
-    // Modifier to decrease the chance of calling a high bet.
-    private static final double HIGH_BET_MODIFIER = 0.75;
+    // Modifier to decrease the chance of calling a high raise.
+    private static final double HIGH_RAISE_MODIFIER = 0.75;
 
     // Modifier to increase the chance of raising if the AI player is the first to bet.
     private static final double FIRST_TO_BET_INCREMENT = 0.80;
 
-    // Modifiers to change the chance of calling or raising based on the hand phase.
+    // Modifiers to change the chance of calling or raising based on the current hand phase.
     private static final double PREFLOP_MODIFIER = 1.00;
     private static final double FLOP_MODIFIER = 0.75;
     private static final double TURN_MODIFIER = 0.60;
@@ -136,7 +133,8 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
             private final Random random = new Random();
 
             @Override
-            protected boolean shouldCall(final State currentState) {
+            protected boolean shouldCall() {
+                final var currentState = this.getGameState();
                 final var currentBet = currentState.getCurrentBet();
                 final var currentHandPhase = currentState.getHandPhase();
                 var chance = difficultyModifier * callChance.apply(this.getCombination().type());
@@ -147,14 +145,15 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                     case RIVER -> RIVER_MODIFIER;
                 };
                 if (this.getTotalPhaseBet() != 0
-                        && requiredBet(currentBet, currentHandPhase) > this.getTotalPhaseBet() * HIGH_BET_THRESHOLD) {
-                    chance = chance * HIGH_BET_MODIFIER;
+                        && requiredBet(currentBet, currentHandPhase) > this.getTotalPhaseBet() * HIGH_RAISE_THRESHOLD) {
+                    chance = chance * HIGH_RAISE_MODIFIER;
                 }
                 return random.nextDouble() < chance;
             }
 
             @Override
-            protected boolean shouldRaise(final State currentState) {
+            protected boolean shouldRaise() {
+                final var currentState = this.getGameState();
                 final var currentBet = currentState.getCurrentBet();
                 final var currentHandPhase = currentState.getHandPhase();
                 var chance = difficultyModifier * raiseChance.apply(this.getCombination().type());

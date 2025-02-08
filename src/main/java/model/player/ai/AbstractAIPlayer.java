@@ -6,7 +6,6 @@ import model.player.api.Action;
 import model.player.api.Role;
 import model.statistics.api.BasicStatistics;
 import model.game.api.Phase;
-import model.game.api.State;
 
 /**
  * This class provides a basic implementation of the {@link AIPlayer} interface.
@@ -14,29 +13,35 @@ import model.game.api.State;
  */
 abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
+    private static final int RAISE_REDUCING_FACTOR = 10;
+
     private final double raisingFactor;
     private final int standardRaise;
 
     /**
      * Creates a new AI player with the given initial amount of chips, role and raising factor.
-     * @param id the id of the player.
-     * @param initialChips the initial amount of chips of the player.
-     * @param raisingFactor a double determining by how much the player will raise.
+     * @param id the id of the player
+     * @param initialChips the initial amount of chips of the player
+     * @param raisingFactor a double determining by how much the player will raise
      */
     AbstractAIPlayer(final int id, final int initialChips, final double raisingFactor) {
         super(id, initialChips);
         this.raisingFactor = raisingFactor;
-        this.standardRaise = initialChips / 10;
+        this.standardRaise = initialChips / RAISE_REDUCING_FACTOR;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Action getAction(final State currentState) {
+    public Action getAction() {
+        if (this.getGameState() == null) {
+            throw new IllegalStateException("Player must have a game state to play");
+        }
         if (!this.hasEnoughCards()) {
             throw new IllegalStateException("Player must have 2 cards to play");
         }
+        final var currentState = this.getGameState();
         this.updateCombination(currentState);
         final var currentHandPhase = currentState.getHandPhase();
         final var currentBet = currentState.getCurrentBet();
@@ -46,13 +51,13 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
         if (this.hasToPayBlind(currentHandPhase)) {
             return this.call(currentBet, currentHandPhase);
         }
-        if (this.shouldRaise(currentState)) {
+        if (this.shouldRaise()) {
             return this.raise(currentBet, currentHandPhase);
         }
         if (this.canCheck(currentBet)) {
             return this.check();
         }
-        if (this.shouldCall(currentState)) {
+        if (this.shouldCall()) {
             return this.call(currentBet, currentHandPhase);
         }
         return this.fold();
@@ -85,6 +90,8 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
     /**
      * {@inheritDoc}
+     * This implementation does nothing, 
+     * because the AI player does not need to update statistics.
      */
     @Override
     public void updateStatistics(BasicStatistics stats) {
@@ -93,9 +100,9 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
     /**
      * Returns the amount of chips the player is required to call in the current state.
      * This amount is adjusted considering blinds.
-     * @param currentBet the current bet.
-     * @param currentHandPhase the current phase of the hand.
-     * @return the amount of chips that the player is required to call.
+     * @param currentBet the current bet
+     * @param currentHandPhase the current phase of the hand
+     * @return the amount of chips that the player is required to call
      */
     protected int requiredBet(final int currentBet, final Phase currentHandPhase) {
         return (int) (currentBet * this.getRole()
@@ -107,17 +114,15 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
     /**
      * Returns whether the player should call in the current state.
-     * @param currentState the current state of the game.
-     * @return whether the player should call in the current state.
+     * @return whether the player should call in the current state
      */
-    protected abstract boolean shouldCall(State currentState);
+    protected abstract boolean shouldCall();
 
     /**
      * Returns whether the player should raise in the current state.
-     * @param currentState the current state of the game.
-     * @return whether the player should raise in the current state.
+     * @return whether the player should raise in the current state
      */
-    protected abstract boolean shouldRaise(State currentState);
+    protected abstract boolean shouldRaise();
 
     private Action call(final int currentBet, final Phase currentHandPhase) {
         this.makeBet(requiredBet(currentBet, currentHandPhase));

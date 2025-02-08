@@ -66,8 +66,13 @@ class TestAIPlayerBasics {
         assertEquals(STARTING_CHIPS, player.getChips());
         assertEquals(Set.of(), player.getCards());
         assertEquals(0, player.getTotalPhaseBet());
+        // Cannot get action without a game state
         assertThrows(IllegalStateException.class, 
-            () -> player.getAction(new StateImpl(BET_1000, NUM_OF_PLAYERS)));
+            () -> player.getAction());
+        player.setGameState(new StateImpl(BET_1000, NUM_OF_PLAYERS));
+        // Cannot get action without cards
+        assertThrows(IllegalStateException.class, 
+            () -> player.getAction());
         assertTrue(player.isAI());
     }
 
@@ -79,7 +84,8 @@ class TestAIPlayerBasics {
         final var player = factory.createEasy(PLAYER_ID, STARTING_CHIPS);
         assertEquals(0, player.getTotalPhaseBet());
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
-        final var action = player.getAction(new StateImpl(BET_1000, NUM_OF_PLAYERS));
+        player.setGameState(new StateImpl(BET_1000, NUM_OF_PLAYERS));
+        final var action = player.getAction();
         switch (action) {
             case CHECK:
                 fail("Cannot check with a bet of 1000");
@@ -110,7 +116,8 @@ class TestAIPlayerBasics {
         assertEquals(0, player.getTotalPhaseBet());
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         final var state = new StateImpl(BET_1000, NUM_OF_PLAYERS);
-        var action = player.getAction(state);
+        player.setGameState(state);
+        var action = player.getAction();
         LOGGER.info(action.toString());
         switch (action) {
             case CALL:
@@ -126,7 +133,7 @@ class TestAIPlayerBasics {
                 break;
         }
         assertEquals(STARTING_CHIPS - player.getTotalPhaseBet(), player.getChips());
-        action = player.getAction(state);
+        action = player.getAction();
         LOGGER.info(action.toString());
         switch (action) {
             case RAISE:
@@ -156,8 +163,9 @@ class TestAIPlayerBasics {
         assertEquals(0, player.getTotalPhaseBet());
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         final var state = new StateImpl(0, NUM_OF_PLAYERS);
+        player.setGameState(state);
         state.addToPot(POT_2000);
-        final var action = player.getAction(state);
+        final var action = player.getAction();
         LOGGER.info(action.toString());
         assertTrue(action == Action.CHECK || action == Action.RAISE);
     }
@@ -185,8 +193,9 @@ class TestAIPlayerBasics {
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.setRole(Role.SMALL_BLIND);
         final var state = new StateImpl(BET_1000, NUM_OF_PLAYERS);
+        player.setGameState(state);
         state.addToPot(POT_2000);
-        player.getAction(state);
+        player.getAction();
         final var bet = player.getTotalPhaseBet();
         assertEquals(BET_1000 / 2 , bet);
         player.handLost();

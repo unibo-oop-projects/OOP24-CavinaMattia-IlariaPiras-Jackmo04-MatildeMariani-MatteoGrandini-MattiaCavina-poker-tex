@@ -12,21 +12,21 @@ public interface StatisticsManager<S extends Statistics> {
 
     /**
      * Returns the total statistics managed by the manager.
-     * @return The total statistics.
+     * @return The total statistics
      */
     S getTotalStatistics();
 
     /**
      * Adds a contributor to the manager.
      * The contributor must be contributing to the same type of statistics as the manager.
-     * @param contributor The contributor to add.
+     * @param contributor The contributor to add
      */
     void addContributor(StatisticsContributor<S> contributor);
 
     /**
      * Adds all given contributors to the manager.
      * All contributors must be contributing to the same type of statistics as the manager.
-     * @param contributors The set of contributors to add.
+     * @param contributors The collection of contributors to add
      */
     void addAllContributors(Collection<StatisticsContributor<S>> contributors);
 
@@ -40,17 +40,17 @@ public interface StatisticsManager<S extends Statistics> {
     /**
      * Saves the total statistics to the specified file.
      * <p><b>Note:</b> The {@link Statistics} class used must implement the {@link java.io.Serializable} interface.
-     * @param fileName The name of the file to save the statistics to.
-     * @throws IOException If an I/O error occurs while saving the statistics.
+     * @param fileName The name of the file to save the statistics to
+     * @throws IOException If an I/O error occurs while saving the statistics
      */
     void saveStatistics(String fileName) throws IOException;
 
     /**
      * Loads the total statistics from the specified file.
      * <p><b>Note:</b> The {@link Statistics} class used must implement the {@link java.io.Serializable} interface.
-     * @param fileName The name of the file to load the statistics from.
-     * @throws IOException If an I/O error occurs while loading the statistics.
-     * @throws ClassNotFoundException If the class of the serialized object cannot be found.
+     * @param fileName The name of the file to load the statistics from
+     * @throws IOException If an I/O error occurs while loading the statistics
+     * @throws ClassNotFoundException If the class of the serialized object cannot be found
      */
     void loadStatistics(String fileName) throws IOException, ClassNotFoundException;
 

@@ -3,8 +3,6 @@ package controller.game;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import javax.swing.SwingUtilities;
-
 import controller.card.CardGetterImage;
 import controller.card.CardGetterImageImpl;
 import controller.difficulty.DifficultySelectionControllerImpl;

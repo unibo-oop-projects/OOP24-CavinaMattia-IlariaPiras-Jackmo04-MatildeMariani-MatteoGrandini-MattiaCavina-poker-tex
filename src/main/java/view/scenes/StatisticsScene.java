@@ -125,6 +125,7 @@ public class StatisticsScene implements Scene {
             BorderFactory.createLineBorder(Color.WHITE, BTN_BORDER_SIZE, true)));
         button.setOpaque(true);
         button.setContentAreaFilled(true);
+        button.setFocusable(false);
         button.setPreferredSize(new Dimension(button.getPreferredSize().width, BTN_HEIGHT));
         return button;
     }

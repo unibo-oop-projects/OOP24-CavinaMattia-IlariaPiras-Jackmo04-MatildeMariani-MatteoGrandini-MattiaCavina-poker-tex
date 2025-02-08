@@ -27,7 +27,7 @@ import model.player.api.Role;
 import view.ViewImpl;
 import view.scenes.GameScene;
 
-public class TestHandImpl {
+class TestHandImpl {
 
     private static final int NUM_PLAYER_CARDS = 2;
     private static final int NUM_COMMUNITY_CARDS = 5;
@@ -110,9 +110,10 @@ public class TestHandImpl {
         var iterator = players.iterator();
         var currentPlayer = iterator.next();
         var currentBetBeforePlayerAction = gameState.getCurrentBet();
+        currentPlayer.setGameState(gameState);
         
         hand.manageAction(iterator, currentPlayer);
-        switch (currentPlayer.getAction(gameState)) {
+        switch (currentPlayer.getAction()) {
             case FOLD:
                 assertEquals(INITIAL_NUM_PLAYERS - 1, players.size());
                 assertEquals(INITIAL_NUM_PLAYERS - 1, gameState.getRemainingPlayers());
