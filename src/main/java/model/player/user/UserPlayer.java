@@ -33,7 +33,7 @@ public class UserPlayer extends AbstractPlayer {
      * {@inheritDoc}
      */
     @Override
-    public Action getAction(State gameState) {
+    public Action getAction() {
         if (this.getCards().size() != 2) {
             throw new IllegalStateException("Player must have 2 cards to play");
         }

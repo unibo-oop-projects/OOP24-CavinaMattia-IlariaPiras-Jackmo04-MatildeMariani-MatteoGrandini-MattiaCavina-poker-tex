@@ -34,10 +34,11 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
      * {@inheritDoc}
      */
     @Override
-    public Action getAction(final State currentState) {
+    public Action getAction() {
         if (!this.hasEnoughCards()) {
             throw new IllegalStateException("Player must have 2 cards to play");
         }
+        final var currentState = this.getGameState();
         this.updateCombination(currentState);
         final var currentHandPhase = currentState.getHandPhase();
         final var currentBet = currentState.getCurrentBet();
