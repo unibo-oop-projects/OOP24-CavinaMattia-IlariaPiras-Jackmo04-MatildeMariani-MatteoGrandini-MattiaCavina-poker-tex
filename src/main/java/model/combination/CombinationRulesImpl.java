@@ -12,9 +12,9 @@ import model.deck.api.Card;
 import model.deck.api.SimpleCard;
 
 /**
- * Class that implements the rules of the combinations.
- * All the methods are used to check how
- * {@link model.combination.api.CombinationType} is it.
+ * Class that implements the Rules of the combinations.
+ * All the methods are used to check how type of
+ * {@link CombinationType} is it.
  */
 public class CombinationRulesImpl implements CombinationRules<Card> {
 
@@ -24,8 +24,7 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
     /**
      * Constructor for CombinationsRulesImpl.
      * 
-     * @param totalCardList
-     *                      list of cards.
+     * @param totalCardList list of cards.
      */
     public CombinationRulesImpl(final Set<Card> totalCardList , CombinationUtilities utilies ) {
         totalCardList.forEach(this.totalCardList::add);
