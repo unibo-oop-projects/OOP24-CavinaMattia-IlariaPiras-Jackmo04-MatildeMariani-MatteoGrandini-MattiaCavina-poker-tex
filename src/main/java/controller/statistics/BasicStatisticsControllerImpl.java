@@ -17,12 +17,13 @@ import view.View;
 /**
  * Implementation of the StatsController interface.
  * Manages the retrieval of the statistics form the statistics manager and the
- * return to the main menu scene.
+ * resting of the statistics.
  */
 public class BasicStatisticsControllerImpl extends SceneControllerImpl implements StatisticsController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BasicStatisticsControllerImpl.class);
     private static final String STATS_FILE_NAME = "stats.bin";
+
     private final StatisticsManager<BasicStatistics> statsManager;
 
     /**

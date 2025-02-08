@@ -12,15 +12,14 @@ import view.View;
 
 /**
  * Implementation of the rules controller.
- * Manages the return to the main menu scene.
  */
 public class RulesControllerImpl extends SceneControllerImpl implements RulesController {
 
-    private static final String RULES_HTML_PATH = "rules/rules.html";
+    private static final String HTML_FILE_PATH = "rules/rules.html";
 
     /**
      * Creates a new rules controller.
-     * @param mainView the main view of the application
+     * @param mainView the main view of the application.
      */
     public RulesControllerImpl(final View mainView) {
         super(mainView);
@@ -31,9 +30,9 @@ public class RulesControllerImpl extends SceneControllerImpl implements RulesCon
      */
     @Override
     public String getRulesHtml() {
-        final InputStream is = ClassLoader.getSystemResourceAsStream(RULES_HTML_PATH);
+        final InputStream is = ClassLoader.getSystemResourceAsStream(HTML_FILE_PATH);
         if (is == null) {
-            throw new IllegalArgumentException("File not found: " + RULES_HTML_PATH);
+            throw new IllegalArgumentException("File not found: " + HTML_FILE_PATH);
         }
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
             final var html = reader.lines().collect(Collectors.joining("\n"));
