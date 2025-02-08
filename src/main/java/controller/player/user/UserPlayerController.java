@@ -67,7 +67,6 @@ public class UserPlayerController {
      * @return the action received from the user player.
      */
     public Action getUserAction() {
-        this.userPanel.updateButtonStates();
         synchronized (this.lock) {
             while (!this.actionReceived) {
                 try {
@@ -78,7 +77,6 @@ public class UserPlayerController {
             }
         }
         this.actionReceived = false; 
-        this.userPanel.disableAllButtons();
         return this.action;
     }
 
@@ -114,7 +112,7 @@ public class UserPlayerController {
      * @return true if the user player can check, false otherwise.
      */
     public boolean canCheck() {
-        return this.getState().getCurrentBet() == this.userPlayer.getTotalPhaseBet() && this.userPlayer.getChips() > 0;
+        return this.state.getCurrentBet() == this.userPlayer.getTotalPhaseBet() && this.userPlayer.getChips() > 0;
     }
 
     /**
@@ -130,7 +128,7 @@ public class UserPlayerController {
      * @return true if the user player can raise, false otherwise.
      */
     public boolean canRaise() {
-        return userPlayer.getChips() > this.getState().getCurrentBet();
+        return userPlayer.getChips() > this.state.getCurrentBet();
     }
 
     /**
@@ -155,14 +153,6 @@ public class UserPlayerController {
      */
     public void setCurrentState(final State state) {
         this.state = state;
-    }
-
-    /**
-     * Gets the current state.
-     * @return the current state.
-     */
-    public State getState() {
-        return this.state;
     }
 
     public UserPanel getUserPanel() {
