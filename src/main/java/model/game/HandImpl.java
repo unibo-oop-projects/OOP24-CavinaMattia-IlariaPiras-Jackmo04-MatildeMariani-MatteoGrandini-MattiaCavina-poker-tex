@@ -81,12 +81,13 @@ public class HandImpl implements Hand {
             case CHECK:
                 break;
         }
-        this.controller.isTurn(player.getId(), false);
         this.controller.setPlayerAction(player.getId(), String.valueOf(action));
         if (!action.equals(Action.FOLD) &&  !action.equals(Action.CHECK)) {
             this.controller.setPlayerBet(player.getId(), player.getTotalPhaseBet());
             this.controller.setPlayerChips(player.getId(), player.getChips());
         }
+        this.halt();
+        this.controller.isTurn(player.getId(), false);
     }
 
     /**
@@ -104,7 +105,6 @@ public class HandImpl implements Hand {
             if (currentPlayer.hasChipsLeft()) {
                 this.manageAction(playersIterator, currentPlayer);
             }
-            this.halt();
         }
         this.currentPhase = this.currentPhase.next();
     }
