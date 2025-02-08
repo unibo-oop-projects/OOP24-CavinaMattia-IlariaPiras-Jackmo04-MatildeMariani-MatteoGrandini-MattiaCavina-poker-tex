@@ -12,7 +12,7 @@ import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Factory to generate different {@link model.deck.api.Deck} whit diffent
+ * Factory to generate different {@link Deck} whit diffent
  * propreties.
  * 
  */
@@ -28,7 +28,7 @@ public class DeckFactoryImpl implements DeckFactory {
             final List<Card> deckNew = Lists.newLinkedList();
             for (final var elemSimple : SimpleCard.values()) {
                 for (final var elemSeed : SeedCard.values()) {
-                    deckNew.add(new Card(elemSimple, elemSimple.getValueOfCard(), elemSeed));
+                    deckNew.add(new Card(elemSimple, elemSeed));
                 }
             }
             Collections.shuffle(deckNew);

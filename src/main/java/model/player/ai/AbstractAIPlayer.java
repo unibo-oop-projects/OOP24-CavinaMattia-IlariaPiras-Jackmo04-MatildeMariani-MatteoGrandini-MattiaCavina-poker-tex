@@ -4,6 +4,7 @@ import model.player.AbstractPlayer;
 import model.player.ai.api.AIPlayer;
 import model.player.api.Action;
 import model.player.api.Role;
+import model.statistics.api.BasicStatistics;
 import model.game.api.Phase;
 import model.game.api.State;
 
@@ -80,6 +81,13 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
     @Override
     public void handLost() {
         this.endHand();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateStatistics(BasicStatistics stats) {
     }
 
     /**

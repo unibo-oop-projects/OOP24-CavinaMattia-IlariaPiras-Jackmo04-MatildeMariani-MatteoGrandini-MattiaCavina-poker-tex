@@ -55,8 +55,7 @@ public class GameOverScene extends JPanel implements Scene {
     /**
      * Creates a new {@link GameOverScene}.
      * 
-     * @param controller
-     *                   the controller of the game over menu.
+     * @param controller the controller of the game over menu.
      */
     public GameOverScene(final GameOverMenu controller) {
         this.controller = controller;

@@ -29,8 +29,7 @@ public enum SimpleCard {
     /**
      * Method to get Value of my Card.
      * 
-     * @return
-     *         value of my card.
+     * @return  value of my card.
      */
     public int getValueOfCard() {
         return valueOfCard;

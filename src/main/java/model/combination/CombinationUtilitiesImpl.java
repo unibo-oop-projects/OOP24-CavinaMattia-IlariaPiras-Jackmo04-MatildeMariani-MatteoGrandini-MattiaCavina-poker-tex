@@ -17,9 +17,10 @@ import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Class whith method to support method of
- * {@link model.combination.CombinationRulesImpl}
- * and {@link model.combination.CombinationCardGetterImpl} classes.
+ * Class with method to support method of
+ * {@link CombinationRulesImpl} and {@link CombinationCardGetterImpl} classes.
+ * This class it composed to some pubblic methd that allow
+ * to count or filter list of card by its feuture.
  */
 public final class CombinationUtilitiesImpl implements CombinationUtilities {
 
@@ -65,10 +66,8 @@ public final class CombinationUtilitiesImpl implements CombinationUtilities {
     /**
      * Method to filter the same value card.
      * 
-     * @param cardList
-     *                 List of card to be filtered.
-     * @return
-     *         List of card filtered and merged same value.
+     * @param cardList List of card to be filtered.
+     * @return List of card filtered and merged same value.
      */
     private List<Card> filteredSameValueCard(final List<Card> cardList) {
         final SeedCard mustUsedSeedCard;
@@ -103,10 +102,8 @@ public final class CombinationUtilitiesImpl implements CombinationUtilities {
      * Method to add card ace type, if it is present, with one value to consider
      * both value of that card.
      * 
-     * @param cardList
-     *                 List to add ace like one value if it present.
-     * @return
-     *         list with add ace with one value.
+     * @param cardList List to add ace like one value if it present.
+     * @return {@link List} with add ace with one value.
      */
     private List<Card> addAceOneValue(final List<Card> cardList) {
         final List<Card> aceList = Lists.newLinkedList();

@@ -10,14 +10,17 @@ import org.junit.jupiter.api.Test;
 import com.google.common.collect.Sets;
 
 import model.combination.CombinationCardGetterImpl;
+import model.combination.CombinationUtilitiesImpl;
+import model.combination.api.CombinationUtilities;
 import model.deck.api.Card;
 import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Test of {@link model.combination.CombinationCardGetterImpl}.
+ * Test of {@link CombinationCardGetterImpl}.
  */
 class CombinationCardGetterImplTest {
+    CombinationUtilities utilies = new CombinationUtilitiesImpl();
 
     /**
      * Empty test.
@@ -27,7 +30,7 @@ class CombinationCardGetterImplTest {
     void testEmpty() {
         final Set<Card> totalCardList = Sets.newHashSet();
         assertThrows(IllegalArgumentException.class,
-            () -> new CombinationCardGetterImpl(totalCardList).getPair());
+                () -> new CombinationCardGetterImpl(totalCardList, utilies).getPair());
     }
 
     /**
@@ -36,21 +39,18 @@ class CombinationCardGetterImplTest {
     @Test
     void testPair() {
         final Set<Card> totalCardList = Set.of(
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND),
-            new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
-            new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.HEARTH),
-            new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
-            new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND)
-        );
+                new Card(SimpleCard.ACE, SeedCard.CLUBS),
+                new Card(SimpleCard.THREE, SeedCard.DIAMOND),
+                new Card(SimpleCard.QUEEN, SeedCard.SPADES),
+                new Card(SimpleCard.JACK, SeedCard.HEARTH),
+                new Card(SimpleCard.TEN, SeedCard.CLUBS),
+                new Card(SimpleCard.ACE, SeedCard.DIAMOND),
+                new Card(SimpleCard.TWO, SeedCard.DIAMOND));
         assertEquals(
-            Set.of(
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND)
-            ),
-            new CombinationCardGetterImpl(totalCardList).getPair()
-        );
+                Set.of(
+                        new Card(SimpleCard.ACE, SeedCard.CLUBS),
+                        new Card(SimpleCard.ACE, SeedCard.DIAMOND)),
+                new CombinationCardGetterImpl(totalCardList, utilies).getPair());
     }
 
     /**
@@ -59,23 +59,20 @@ class CombinationCardGetterImplTest {
     @Test
     void testTwoPairs() {
         final Set<Card> totalCardList = Set.of(
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND),
-            new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
-            new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.HEARTH),
-            new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
-            new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND)
-        );
+                new Card(SimpleCard.ACE, SeedCard.CLUBS),
+                new Card(SimpleCard.THREE, SeedCard.DIAMOND),
+                new Card(SimpleCard.QUEEN, SeedCard.SPADES),
+                new Card(SimpleCard.JACK, SeedCard.HEARTH),
+                new Card(SimpleCard.TWO, SeedCard.CLUBS),
+                new Card(SimpleCard.ACE, SeedCard.DIAMOND),
+                new Card(SimpleCard.TWO, SeedCard.DIAMOND));
         assertEquals(
-            Set.of(
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
-                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND)
-            ),
-            new CombinationCardGetterImpl(totalCardList).getTwoPairs()
-        );
+                Set.of(
+                        new Card(SimpleCard.ACE, SeedCard.CLUBS),
+                        new Card(SimpleCard.TWO, SeedCard.CLUBS),
+                        new Card(SimpleCard.ACE, SeedCard.DIAMOND),
+                        new Card(SimpleCard.TWO, SeedCard.DIAMOND)),
+                new CombinationCardGetterImpl(totalCardList, utilies).getTwoPairs());
     }
 
     /**
@@ -84,22 +81,19 @@ class CombinationCardGetterImplTest {
     @Test
     void testTris() {
         final Set<Card> totalCardList = Set.of(
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
-            new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
-            new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.HEARTH),
-            new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH),
-            new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND)
-        );
+                new Card(SimpleCard.ACE, SeedCard.CLUBS),
+                new Card(SimpleCard.ACE, SeedCard.DIAMOND),
+                new Card(SimpleCard.QUEEN, SeedCard.SPADES),
+                new Card(SimpleCard.JACK, SeedCard.HEARTH),
+                new Card(SimpleCard.TEN, SeedCard.CLUBS),
+                new Card(SimpleCard.ACE, SeedCard.HEARTH),
+                new Card(SimpleCard.TWO, SeedCard.DIAMOND));
         assertEquals(
-            Set.of(
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH)
-            ),
-            new CombinationCardGetterImpl(totalCardList).getTris()
-        );
+                Set.of(
+                        new Card(SimpleCard.ACE, SeedCard.CLUBS),
+                        new Card(SimpleCard.ACE, SeedCard.DIAMOND),
+                        new Card(SimpleCard.ACE, SeedCard.HEARTH)),
+                new CombinationCardGetterImpl(totalCardList, utilies).getTris());
     }
 
     /**
@@ -108,23 +102,20 @@ class CombinationCardGetterImplTest {
     @Test
     void testPoker() {
         final Set<Card> totalCardList = Set.of(
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.SPADES),
-            new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.HEARTH),
-            new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH),
-            new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND)
-        );
+                new Card(SimpleCard.ACE, SeedCard.CLUBS),
+                new Card(SimpleCard.ACE, SeedCard.DIAMOND),
+                new Card(SimpleCard.ACE, SeedCard.SPADES),
+                new Card(SimpleCard.JACK, SeedCard.HEARTH),
+                new Card(SimpleCard.TEN, SeedCard.CLUBS),
+                new Card(SimpleCard.ACE, SeedCard.HEARTH),
+                new Card(SimpleCard.TWO, SeedCard.DIAMOND));
         assertEquals(
-            Set.of(
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.SPADES),
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH)
-            ),
-            new CombinationCardGetterImpl(totalCardList).getPoker()
-        );
+                Set.of(
+                        new Card(SimpleCard.ACE, SeedCard.CLUBS),
+                        new Card(SimpleCard.ACE, SeedCard.DIAMOND),
+                        new Card(SimpleCard.ACE, SeedCard.SPADES),
+                        new Card(SimpleCard.ACE, SeedCard.HEARTH)),
+                new CombinationCardGetterImpl(totalCardList, utilies).getPoker());
     }
 
     /**
@@ -133,24 +124,21 @@ class CombinationCardGetterImplTest {
     @Test
     void testFlush() {
         final Set<Card> totalCardList = Set.of(
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.HEARTH),
-            new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.HEARTH),
-            new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS)
-        );
+                new Card(SimpleCard.ACE, SeedCard.CLUBS),
+                new Card(SimpleCard.SIX, SeedCard.CLUBS),
+                new Card(SimpleCard.FIVE, SeedCard.CLUBS),
+                new Card(SimpleCard.KING, SeedCard.HEARTH),
+                new Card(SimpleCard.QUEEN, SeedCard.HEARTH),
+                new Card(SimpleCard.THREE, SeedCard.CLUBS),
+                new Card(SimpleCard.TWO, SeedCard.CLUBS));
         assertEquals(
-            Set.of(
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS)
-            ),
-            new CombinationCardGetterImpl(totalCardList).getFlush()
-        );
+                Set.of(
+                        new Card(SimpleCard.ACE, SeedCard.CLUBS),
+                        new Card(SimpleCard.SIX, SeedCard.CLUBS),
+                        new Card(SimpleCard.FIVE, SeedCard.CLUBS),
+                        new Card(SimpleCard.THREE, SeedCard.CLUBS),
+                        new Card(SimpleCard.TWO, SeedCard.CLUBS)),
+                new CombinationCardGetterImpl(totalCardList, utilies).getFlush());
     }
 
     /**
@@ -159,24 +147,21 @@ class CombinationCardGetterImplTest {
     @Test
     void testFullHouse() {
         final Set<Card> totalCardList = Set.of(
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
-            new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
-            new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.HEARTH),
-            new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH),
-            new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.DIAMOND)
-        );
+                new Card(SimpleCard.ACE, SeedCard.CLUBS),
+                new Card(SimpleCard.ACE, SeedCard.DIAMOND),
+                new Card(SimpleCard.QUEEN, SeedCard.SPADES),
+                new Card(SimpleCard.JACK, SeedCard.HEARTH),
+                new Card(SimpleCard.TEN, SeedCard.CLUBS),
+                new Card(SimpleCard.ACE, SeedCard.HEARTH),
+                new Card(SimpleCard.QUEEN, SeedCard.DIAMOND));
         assertEquals(
-            Set.of(
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
-                new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.SPADES),
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH),
-                new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.DIAMOND)
-            ),
-            new CombinationCardGetterImpl(totalCardList).getFullHouse()
-        );
+                Set.of(
+                        new Card(SimpleCard.ACE, SeedCard.CLUBS),
+                        new Card(SimpleCard.ACE, SeedCard.DIAMOND),
+                        new Card(SimpleCard.QUEEN, SeedCard.SPADES),
+                        new Card(SimpleCard.ACE, SeedCard.HEARTH),
+                        new Card(SimpleCard.QUEEN, SeedCard.DIAMOND)),
+                new CombinationCardGetterImpl(totalCardList, utilies).getFullHouse());
     }
 
     /**
@@ -185,24 +170,21 @@ class CombinationCardGetterImplTest {
     @Test
     void testStraight() {
         final Set<Card> totalCardList = Set.of(
-            new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND),
-            new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.SPADES),
-            new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.HEARTH),
-            new Card(SimpleCard.FOUR, SimpleCard.FOUR.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
-            new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.DIAMOND)
-        );
+                new Card(SimpleCard.QUEEN, SeedCard.CLUBS),
+                new Card(SimpleCard.TWO, SeedCard.DIAMOND),
+                new Card(SimpleCard.KING, SeedCard.SPADES),
+                new Card(SimpleCard.THREE, SeedCard.HEARTH),
+                new Card(SimpleCard.FOUR, SeedCard.CLUBS),
+                new Card(SimpleCard.FIVE, SeedCard.HEARTH),
+                new Card(SimpleCard.SIX, SeedCard.DIAMOND));
         assertEquals(
-            Set.of(
-                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND),
-                new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.HEARTH),
-                new Card(SimpleCard.FOUR, SimpleCard.FOUR.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
-                new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.DIAMOND)
-            ),
-            new CombinationCardGetterImpl(totalCardList).getStraight()
-        );
+                Set.of(
+                        new Card(SimpleCard.TWO, SeedCard.DIAMOND),
+                        new Card(SimpleCard.THREE, SeedCard.HEARTH),
+                        new Card(SimpleCard.FOUR, SeedCard.CLUBS),
+                        new Card(SimpleCard.FIVE, SeedCard.HEARTH),
+                        new Card(SimpleCard.SIX, SeedCard.DIAMOND)),
+                new CombinationCardGetterImpl(totalCardList, utilies).getStraight());
 
     }
 
@@ -212,24 +194,21 @@ class CombinationCardGetterImplTest {
     @Test
     void testRoyalFlush() {
         final Set<Card> totalCardList = Set.of(
-            new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.DIAMOND),
-            new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.HEARTH),
-            new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.DIAMOND),
-            new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.DIAMOND),
-            new Card(SimpleCard.FOUR, SimpleCard.FOUR.getValueOfCard(), SeedCard.CLUBS),
-            new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.DIAMOND),
-            new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND)
-        );
+                new Card(SimpleCard.QUEEN, SeedCard.DIAMOND),
+                new Card(SimpleCard.TWO, SeedCard.HEARTH),
+                new Card(SimpleCard.KING, SeedCard.DIAMOND),
+                new Card(SimpleCard.JACK, SeedCard.DIAMOND),
+                new Card(SimpleCard.FOUR, SeedCard.CLUBS),
+                new Card(SimpleCard.TEN, SeedCard.DIAMOND),
+                new Card(SimpleCard.ACE, SeedCard.DIAMOND));
         assertEquals(
-            Set.of(
-                new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.DIAMOND),
-                new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.DIAMOND),
-                new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.DIAMOND),
-                new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.DIAMOND),
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND)
-            ),
-            new CombinationCardGetterImpl(totalCardList).getRoyalFlush()
-        );
+                Set.of(
+                        new Card(SimpleCard.QUEEN, SeedCard.DIAMOND),
+                        new Card(SimpleCard.KING, SeedCard.DIAMOND),
+                        new Card(SimpleCard.JACK, SeedCard.DIAMOND),
+                        new Card(SimpleCard.TEN, SeedCard.DIAMOND),
+                        new Card(SimpleCard.ACE, SeedCard.DIAMOND)),
+                new CombinationCardGetterImpl(totalCardList, utilies).getStraight());
     }
 
 }

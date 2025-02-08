@@ -5,8 +5,7 @@ import java.util.List;
 /**
  * Inteface to Generate and manage a single deck.
  * 
- * @param <X>
- *            Parameter to manage diffirent type of card , to reuse this
+ * @param <X> Parameter to manage diffirent type of card , to reuse this
  *            inteface for more game.
  * 
  */
@@ -21,12 +20,10 @@ public interface Deck<X> {
     /**
      * Method to keep some card from deck , numer of card is arbytrary.
      * 
-     * @param numberOfCard
-     *                     Number of card that a need to keep from top of my deck.
-     * @throws IllegalAccessError
-     *                            Exception throws if there aren't many card in
+     * @param numberOfCard Number of card that a need to keep from top of my deck.
+     * @throws IllegalAccessError Exception throws if there aren't many card in
      *                            deck.
-     * @return List of card keeped from top fron deck.
+     * @return {@link List} of card keeped from top fron deck.
      */
     List<X> getSomeCards(int numberOfCard);
 

@@ -11,8 +11,7 @@ import model.deck.api.DeckBuild;
  * Generic class to manage deck , like create a deck ora shuffled or more to
  * keep card.
  * 
- * @param <X>
- *            Generic parameter useful to manage different card.
+ * @param <X> Generic parameter useful to manage different card.
  */
 public class DeckImpl<X> implements Deck<X> {
 
@@ -22,8 +21,7 @@ public class DeckImpl<X> implements Deck<X> {
     /**
      * Create and shuffle new deck.
      * 
-     * @param deckBuilder
-     *                    {@link model.deck.api.DeckBuild} that permit to generate
+     * @param deckBuilder {@link DeckBuild} that permit to generate
      *                    deck.
      */
     public DeckImpl(final DeckBuild<X> deckBuilder) {
