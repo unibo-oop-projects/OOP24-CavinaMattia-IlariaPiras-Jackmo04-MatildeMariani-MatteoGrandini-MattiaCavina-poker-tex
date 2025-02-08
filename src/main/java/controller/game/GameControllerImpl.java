@@ -287,10 +287,6 @@ public class GameControllerImpl implements GameController{
 
     @Override
     public void isTurn(int id, boolean isTurn) {
-        if (id == this.game.getUserPlayer().getId()) {
-            SwingUtilities.invokeLater(() -> this.gameScene.updateUserButtonStates(isTurn));
-        } else {
-            SwingUtilities.invokeLater(() -> this.gameScene.updateAIPlayerPanelState(id, isTurn));
-        }
+        this.gameScene.updatePlayerPanelState(id, isTurn);
     }
 }
