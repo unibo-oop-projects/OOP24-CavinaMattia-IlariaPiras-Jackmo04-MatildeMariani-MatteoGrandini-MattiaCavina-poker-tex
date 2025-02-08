@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import model.combination.api.Combination;
+import model.combination.api.CombinationUtilities;
 import model.deck.api.Card;
 
 /**
@@ -12,6 +13,7 @@ import model.deck.api.Card;
  * To return values can be read {@link java.util.Comparator}.
  */
 public class CombinationComparator implements Comparator<Combination<Card>> {
+    private final CombinationUtilities utilies = new CombinationUtilitiesImpl();
 
     /**
      * Method to compare two combination.
@@ -42,7 +44,8 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
                         return Integer.compare(sumValueCard(getTrisFromCombination(firstCombination)),
                                 sumValueCard(getTrisFromCombination(secondCombination)));
                     } catch (IllegalAccessException e) {
-                        System.out.println("Tris not present in combination"); // NOPMD suppressed as it is a false positive
+                        System.out.println("Tris not present in combination"); // NOPMD suppressed as it is a false
+                                                                               // positive
                     }
                 default:
                     return Integer.compare(sumValueCard(firstCombination.combinationCard()),
@@ -77,8 +80,8 @@ public class CombinationComparator implements Comparator<Combination<Card>> {
      *                                not conteins tris combination.
      */
     private Set<Card> getTrisFromCombination(final Combination<Card> combination) throws IllegalAccessException {
-        if (new CombinationRulesImpl(combination.combinationCard()).isTris()) {
-            return new CombinationCardGetterImpl(combination.combinationCard()).getTris();
+        if (new CombinationRulesImpl(combination.combinationCard(), utilies).isTris()) {
+            return new CombinationCardGetterImpl(combination.combinationCard(), utilies).getTris();
         } else {
             throw new IllegalAccessException();
         }

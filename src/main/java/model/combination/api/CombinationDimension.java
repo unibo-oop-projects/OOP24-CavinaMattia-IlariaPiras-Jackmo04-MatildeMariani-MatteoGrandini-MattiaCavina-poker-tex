@@ -1,26 +1,38 @@
 package model.combination.api;
 
 /**
- * Enum for the dimension of the Poker's combination.
- * Can be used for find correct {@link model.combination.api.CombinationType}.
+ * Enum for the dimension number card to compose Poker's combination .
+ * Can be used for find correct {@link CombinationType}.
  */
 public enum CombinationDimension {
 
-    // CHECKSTYLE: JavadocVariable OFF
+    /**
+     * Number of Card of Pair.
+     */
     PAIR(2),
+    /**
+     * Number of Card of Two-Pair.
+     */
     TWO_PAIRS(4),
+    /**
+     * Number of Card of Tris.
+     */
     TRIS(3),
+    /**
+     * Number of Card of Poker.
+     */
     POKER(4),
+    /**
+     * Number of Card of Full-House, Straight, Straight Flush, Royal-Flush.
+     */
     STRAIGHT(5);
-    // CHECKSTYLE: JavadocVariable ON
 
     private final int dimension;
 
     /**
      * Constructor for CombinationDimension.
      * 
-     * @param dimension
-     *                  Number of card to form combination.
+     * @param dimension Number of card to form combination.
      */
     CombinationDimension(final int dimension) {
         this.dimension = dimension;

@@ -12,14 +12,15 @@ import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Test della factory Deck and the class to generate new Poker's Deck.
+ * Test di {@link DeckFactoryImpl} and the class to generate and manage Deck
+ * like {@link Deck} and {@link Card}.
  */
 class DeckFactoryImplTest {
-    private static final  int ALL_DECKS = 52;
+    private static final int ALL_DECKS = 52;
     private static final int TWO_CARD = 2;
 
     /**
-     * test of simple deck.
+     * Test of simple deck.
      */
     @Test
     void simpleDeck() {

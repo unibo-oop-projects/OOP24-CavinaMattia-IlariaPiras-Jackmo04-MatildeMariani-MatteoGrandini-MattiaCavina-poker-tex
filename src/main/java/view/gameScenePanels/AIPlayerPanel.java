@@ -20,6 +20,11 @@ public class AIPlayerPanel extends PlayerPanelImpl{
     private static final int BORDER_THICKNESS = 5;
     private static final String HAT_PATH = "src/main/resources/hat.png";
 
+    private final MyLabel playerImage;
+    private final JPanel imagesPanel;
+    private final JPanel dataPanel;
+    private final JPanel mainPanel;
+    
     /**
      * Constructor for the AIPlayerPanel class.
      */
@@ -30,19 +35,20 @@ public class AIPlayerPanel extends PlayerPanelImpl{
         this.getCardsPanel().setBackground(Color.LIGHT_GRAY);
 
         /*Creation of the player image label*/
-        MyLabel playerImage = new MyLabel("");
+        this.playerImage = new MyLabel("");
         playerImage.setSize(PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
         playerImage.setImageFromPath(HAT_PATH);
+        this.playerImage.setEnabled(false);
 
         /*Creation of imagesPanel, it contains the player image and his set of cards*/
-        JPanel imagesPanel = new JPanel();
+        this.imagesPanel = new JPanel();
         imagesPanel.setLayout(new BoxLayout(imagesPanel, BoxLayout.X_AXIS));
         imagesPanel.add(playerImage);
         imagesPanel.add(this.getCardsPanel());
         imagesPanel.setBackground(Color.LIGHT_GRAY);
 
         /*Creation of dataPanel, it contains the basic data of a player*/
-        JPanel dataPanel = new JPanel();
+        this.dataPanel = new JPanel();
         dataPanel.add(this.getPlayerAction());
         dataPanel.add(this.getPlayerChips());
         dataPanel.add(this.getPlayerRole());
@@ -50,7 +56,7 @@ public class AIPlayerPanel extends PlayerPanelImpl{
         dataPanel.setBackground(Color.LIGHT_GRAY);
 
         /*Adding panels to the main one*/
-        JPanel mainPanel = new JPanel();
+        this.mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.add(imagesPanel);
         mainPanel.add(dataPanel);
@@ -61,6 +67,14 @@ public class AIPlayerPanel extends PlayerPanelImpl{
         this.setLayout(new GridBagLayout());
         this.add(mainPanel);
 
+    }
+
+    /**
+     * Method that set the playerImage enabled or disabled depending on isTurn.
+     * @param isTurn the boolean value that says whether it is the player's turn.
+     */
+    public void updateState(boolean isTurn) {
+        this.playerImage.setEnabled(isTurn);
     }
 
 }
