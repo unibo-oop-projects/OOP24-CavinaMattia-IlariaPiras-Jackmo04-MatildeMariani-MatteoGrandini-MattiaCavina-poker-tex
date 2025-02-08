@@ -52,7 +52,7 @@ public interface Player extends StatisticsContributor<BasicStatistics> {
      * @param currentState the current state of the game.
      * @return the player's action for the current hand.
      */
-    Action getAction();
+    Action getAction(State currentState);
 
     /**
      * Returns the player's cards for the current hand.

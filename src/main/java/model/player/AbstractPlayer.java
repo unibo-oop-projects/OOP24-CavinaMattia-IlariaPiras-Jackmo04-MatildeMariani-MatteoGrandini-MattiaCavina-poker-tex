@@ -128,7 +128,7 @@ public abstract class AbstractPlayer implements Player {
      * {@inheritDoc}
      */
     @Override
-    public abstract Action getAction();
+    public abstract Action getAction(State gameState);
 
     /**
      * {@inheritDoc}
@@ -193,10 +193,12 @@ public abstract class AbstractPlayer implements Player {
         this.setTotalPhaseBet(0);
     }
 
+    @Override
     public State getGameState() {
         return this.gameState;
     }
 
+    @Override
     public void setGameState(State gameState) {
         this.gameState = gameState;
     }
