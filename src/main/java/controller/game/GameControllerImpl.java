@@ -61,6 +61,7 @@ public class GameControllerImpl implements GameController{
                 break;
         }
         this.cardGetterImage = new CardGetterImageImpl();
+        this.mainView.enableConfermationOnClose();
     }
 
     /**
@@ -255,6 +256,7 @@ public class GameControllerImpl implements GameController{
             this.gameTerminated = true;
         }
         this.resumeGame();
+        this.mainView.disableConfermationOnClose();
     }
 
     /**
