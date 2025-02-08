@@ -31,7 +31,7 @@ class DeckFactoryImplTest {
             t.getSomeCards(1);
 
         } catch (IllegalStateException e) {
-            System.err.println("Deck is Empty");
+            System.err.println("Deck is Empty"); // NOPMD suppressed as it is a false positive
         }
         t.shuffled();
         assertEquals(ALL_DECKS, t.getSomeCards(ALL_DECKS).size());

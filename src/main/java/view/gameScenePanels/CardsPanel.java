@@ -34,7 +34,7 @@ public class CardsPanel extends JPanel {
     }
 
     /**
-     * Sets its cards image from the ImageIcon list
+     * Sets its cards image from the ImageIcon list.
      * @param cardsImages the list of ImageIcons
      */
     public void setCards(final List<ImageIcon> cardsImages) {

@@ -6,20 +6,19 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import model.combination.api.Combination;
-import model.combination.api.CombinationUtilities;
 import model.deck.api.Card;
 
 /**
  * Class that compare two combination to decretate the winner.
  * To return values can be read {@link Comparator}.
  */
-public class CombinationComparator implements Comparator<Combination<Card>> ,Serializable{
-    private final CombinationUtilities utilies = new CombinationUtilitiesImpl();
+public class CombinationComparator implements Comparator<Combination<Card>>, Serializable {
+    private static final long serialVersionUID = 42L;
 
     /**
      * Method to compare two combination.
      * 
-     * @param firstCombination First {@link Combination} of {@link Card} to be
+     * @param firstCombination  First {@link Combination} of {@link Card} to be
      *                          comparable.
      * @param secondCombination Second {@link Combination} of
      *                          {@link Card} to be comparable.
@@ -71,8 +70,9 @@ public class CombinationComparator implements Comparator<Combination<Card>> ,Ser
      *                                not conteins tris combination.
      */
     private Set<Card> getTrisFromCombination(final Combination<Card> combination) throws IllegalAccessException {
-        if (new CombinationRulesImpl(combination.combinationCard(), utilies).isTris()) {
-            return new CombinationCardGetterImpl(combination.combinationCard(), utilies).getTris();
+        if (new CombinationRulesImpl(combination.combinationCard(), new CombinationUtilitiesImpl()).isTris()) {
+            return new CombinationCardGetterImpl(combination.combinationCard(), new CombinationUtilitiesImpl())
+                    .getTris();
         } else {
             throw new IllegalAccessException();
         }
@@ -83,7 +83,7 @@ public class CombinationComparator implements Comparator<Combination<Card>> ,Ser
      * Win copple with the highter pair , if are equal must compare the other pair.
      * if either are equal is parity.
      * 
-     * @param firstList Set of card of firstCombination.
+     * @param firstList  Set of card of firstCombination.
      * @param secondList Set of Card of secondCombination
      * @return 0 if they are equals, 1 if first is bigger, -1 if second is bigger.
      */

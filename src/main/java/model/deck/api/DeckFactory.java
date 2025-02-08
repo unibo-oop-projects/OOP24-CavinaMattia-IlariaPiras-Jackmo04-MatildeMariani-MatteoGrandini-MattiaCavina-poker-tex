@@ -10,6 +10,8 @@ public interface DeckFactory {
      * Merged feuture of {@link SimpleCard} and
      * {@link SeedCard} create all
      * type of poker's Card.
+     * 
+     * @return {@link Deck} composed by Poker' Cards.
      */
     Deck<Card> simplePokerDeck();
 }
