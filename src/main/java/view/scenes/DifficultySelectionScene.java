@@ -8,6 +8,10 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -49,11 +53,17 @@ public class DifficultySelectionScene implements Scene {
     private static final int BUTTON_WIDTH = 150;
     private static final int BUTTON_HEIGHT = 50;
     private static final String FONT = "Roboto";
+    private static final String MESSAGE = "Enter your chips and then press enter";
+    private static final int MIN = 1000;
+    private static final int MAX = 1_000_000;
     private static final String SCENE_NAME = "difficulty selection";
+    private static final Logger LOGGER = LoggerFactory.getLogger(DifficultySelectionScene.class);
 
     private final DifficultySelectionController controller;
     private final JPanel diffSelPanel;
-    private static final Logger LOGGER = LoggerFactory.getLogger(DifficultySelectionScene.class);
+    private final DiffSelButton play = new DiffSelButton("PLAY");
+    private boolean difficultySelected;
+    private boolean chipsValid;
 
     /**
      * Constructs a new DifficultySelectionScene.
@@ -83,7 +93,7 @@ public class DifficultySelectionScene implements Scene {
         centerPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(3, 1));
+        inputPanel.setLayout(new GridLayout(4, 1));
         inputPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JPanel buttonsPanel = new JPanel();
@@ -113,6 +123,8 @@ public class DifficultySelectionScene implements Scene {
                     this.controller.setDifficulty(Difficulty.EASY);
                 }
             }
+            this.difficultySelected = true;
+            updatePlayButtonState(play.getButton());
         };
 
         easy.addActionListener(difficultyListener);
@@ -128,6 +140,19 @@ public class DifficultySelectionScene implements Scene {
         buttonsPanel.add(medium);
         buttonsPanel.add(hard);
 
+        final JPanel errorPanel = new JPanel();
+        errorPanel.setLayout(new FlowLayout());
+        errorPanel.setBackground(new Color(COLOR_BACKGROUND));
+
+        final JLabel errorLabel = new JLabel("Enter a number between 1000 and 1000000!!");
+        errorLabel.setFont(new Font("Roboto", Font.PLAIN, FONT_SIZE_LABEL));
+        errorLabel.setBackground(new Color(COLOR_INPUT_PANEL));
+        errorLabel.setOpaque(true);
+        errorLabel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
+            BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
+        errorLabel.setVisible(false);
+        errorPanel.add(errorLabel);
+
         final JPanel initialChipsPanel = new JPanel();
         initialChipsPanel.setLayout(new GridLayout(2, 1));
         initialChipsPanel.setBackground(new Color(COLOR_BACKGROUND));
@@ -138,11 +163,51 @@ public class DifficultySelectionScene implements Scene {
         initialChipsLabel.setOpaque(true);
         initialChipsLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        final JTextField input = new JTextField("", TEXT_FIELD_SIZE);
-        input.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_LABEL));
+        final JTextField input = new JTextField(MESSAGE, TEXT_FIELD_SIZE);
+        input.setFont(new Font(FONT, Font.PLAIN, FONT_SIZE_LABEL));
         input.setBackground(new Color(COLOR_INPUT_PANEL));
+        input.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (input.getText().equals(MESSAGE)) {
+                    input.setText(""); 
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (input.getText().isEmpty()) {
+                    input.setText(MESSAGE);
+                }
+            }
+        });
+        input.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    e.consume();
+                }
+                String text = input.getText() + c;
+                try {
+                    long value = Long.parseLong(text);
+                    if (value > Integer.MAX_VALUE) {
+                        e.consume(); 
+                    }
+                } catch (NumberFormatException ex) {
+                }
+            }
+        });
         input.addActionListener(e -> {
-            this.controller.setInitialChips(Integer.parseInt(input.getText()));
+            if (Integer.parseInt(input.getText()) < MIN || Integer.parseInt(input.getText()) > MAX) {
+                errorLabel.setVisible(true);
+                this.chipsValid = false;
+            } else {
+                errorLabel.setVisible(false);
+                this.controller.setInitialChips(Integer.parseInt(input.getText()));
+                this.chipsValid = true;
+            }
+            updatePlayButtonState(play.getButton()); 
         });
         input.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
@@ -154,8 +219,7 @@ public class DifficultySelectionScene implements Scene {
         playPanel.setLayout(new FlowLayout());
         playPanel.setBackground(new Color(COLOR_BACKGROUND));
 
-        final DiffSelButton play = new DiffSelButton("PLAY");
-
+        play.getButton().setEnabled(false);
         play.getButton().addActionListener(e -> {
             this.controller.goToGameScene();
         });
@@ -163,6 +227,7 @@ public class DifficultySelectionScene implements Scene {
         playPanel.add(play.getButton());
 
         inputPanel.add(buttonsPanel);
+        inputPanel.add(errorPanel);
         inputPanel.add(initialChipsPanel);
         inputPanel.add(playPanel);
 
@@ -194,11 +259,19 @@ public class DifficultySelectionScene implements Scene {
         return SCENE_NAME;
     }
 
+    private void updatePlayButtonState(JButton button) {
+    if (this.difficultySelected && this.chipsValid) {
+        button.setEnabled(true);
+    } else {
+        button.setEnabled(false);
+    }
+}
+
     /**
      * Custom button class for the DifficultySelectionScene.
      * This class extends JButton and provides a style for buttons in this scene.
      */
-    private static class DiffSelButton {
+    public static class DiffSelButton {
 
         private final JButton button;
 
@@ -216,6 +289,7 @@ public class DifficultySelectionScene implements Scene {
             this.button.setOpaque(true);
             this.button.setContentAreaFilled(true);
             this.button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+            this.button.setFocusable(false);
         }
 
         public JButton getButton() {
