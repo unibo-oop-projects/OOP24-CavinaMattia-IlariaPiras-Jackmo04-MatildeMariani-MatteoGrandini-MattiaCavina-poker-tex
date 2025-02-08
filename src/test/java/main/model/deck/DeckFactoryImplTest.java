@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import model.deck.DeckFactoryImpl;
 import model.deck.api.Card;
@@ -16,6 +18,8 @@ import model.deck.api.SimpleCard;
  * like {@link Deck} and {@link Card}.
  */
 class DeckFactoryImplTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeckFactoryImplTest.class);
     private static final int ALL_DECKS = 52;
     private static final int TWO_CARD = 2;
 
@@ -31,7 +35,7 @@ class DeckFactoryImplTest {
             t.getSomeCards(1);
 
         } catch (IllegalStateException e) {
-            System.err.println("Deck is Empty"); // NOPMD suppressed as it is a false positive
+            LOGGER.error("Deck is empty");
         }
         t.shuffled();
         assertEquals(ALL_DECKS, t.getSomeCards(ALL_DECKS).size());
