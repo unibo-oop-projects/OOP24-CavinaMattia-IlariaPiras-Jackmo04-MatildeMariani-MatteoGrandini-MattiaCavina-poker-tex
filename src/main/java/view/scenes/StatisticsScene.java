@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 import controller.statistics.StatisticsController;
@@ -109,7 +110,7 @@ public class StatisticsScene implements Scene {
 
     private boolean confirmReset() {
         final int confirm = JOptionPane.showOptionDialog(
-            this.panel, 
+            SwingUtilities.getWindowAncestor(panel),
             """
                 Are you sure you want to reset the statistics?
                 This action cannot be undone.
