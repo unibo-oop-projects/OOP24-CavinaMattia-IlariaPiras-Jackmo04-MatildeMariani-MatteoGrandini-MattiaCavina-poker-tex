@@ -25,13 +25,13 @@ class CombinationHandlerImplTest {
     void testPair() {
 
         final Set<Card> totalCardList = Set.of(
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
-                new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.SPADES),
-                new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
-                new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.DIAMOND),
-                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
+                new Card(SimpleCard.ACE, SeedCard.CLUBS),
+                new Card(SimpleCard.ACE, SeedCard.DIAMOND),
+                new Card(SimpleCard.THREE, SeedCard.SPADES),
+                new Card(SimpleCard.FIVE, SeedCard.HEARTH),
+                new Card(SimpleCard.TEN, SeedCard.CLUBS),
+                new Card(SimpleCard.KING, SeedCard.DIAMOND),
+                new Card(SimpleCard.TWO, SeedCard.DIAMOND));
 
         assertEquals(CombinationType.PAIR, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
         assertNotEquals(CombinationType.POKER, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
@@ -44,16 +44,17 @@ class CombinationHandlerImplTest {
     @Test
     void testStraight() {
         final Set<Card> totalCardList = Set.of(
-                new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND),
-                new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.SPADES),
-                new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.HEARTH),
-                new Card(SimpleCard.FOUR, SimpleCard.FOUR.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
-                new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.DIAMOND));
+                new Card(SimpleCard.QUEEN, SeedCard.CLUBS),
+                new Card(SimpleCard.TWO, SeedCard.DIAMOND),
+                new Card(SimpleCard.KING, SeedCard.SPADES),
+                new Card(SimpleCard.THREE, SeedCard.HEARTH),
+                new Card(SimpleCard.FOUR, SeedCard.CLUBS),
+                new Card(SimpleCard.FIVE, SeedCard.HEARTH),
+                new Card(SimpleCard.SIX, SeedCard.DIAMOND));
 
         assertEquals(CombinationType.STRAIGHT, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
-        assertNotEquals(CombinationType.ROYAL_FLUSH, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
+        assertNotEquals(CombinationType.ROYAL_FLUSH,
+                new CombinationHandlerImpl().getBestCombination(totalCardList).type());
     }
 
     /**
@@ -62,13 +63,13 @@ class CombinationHandlerImplTest {
     @Test
     void testHightCard() {
         final Set<Card> totalCardList = Set.of(
-                new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.JACK, SimpleCard.JACK.getValueOfCard(), SeedCard.SPADES),
-                new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.SPADES),
-                new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
-                new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.CLUBS),
-                new Card(SimpleCard.KING, SimpleCard.KING.getValueOfCard(), SeedCard.DIAMOND),
-                new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND));
+                new Card(SimpleCard.ACE, SeedCard.CLUBS),
+                new Card(SimpleCard.JACK, SeedCard.SPADES),
+                new Card(SimpleCard.THREE, SeedCard.SPADES),
+                new Card(SimpleCard.FIVE, SeedCard.HEARTH),
+                new Card(SimpleCard.TEN, SeedCard.CLUBS),
+                new Card(SimpleCard.KING, SeedCard.DIAMOND),
+                new Card(SimpleCard.TWO, SeedCard.DIAMOND));
 
         assertEquals(CombinationType.HIGH_CARD, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
         assertNotEquals(CombinationType.POKER, new CombinationHandlerImpl().getBestCombination(totalCardList).type());

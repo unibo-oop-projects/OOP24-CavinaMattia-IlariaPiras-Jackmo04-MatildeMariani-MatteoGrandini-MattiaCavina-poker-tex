@@ -12,7 +12,7 @@ import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Factory to generate different {@link model.deck.api.Deck} whit diffent
+ * Factory to generate different {@link Deck} whit diffent
  * propreties.
  * 
  */
