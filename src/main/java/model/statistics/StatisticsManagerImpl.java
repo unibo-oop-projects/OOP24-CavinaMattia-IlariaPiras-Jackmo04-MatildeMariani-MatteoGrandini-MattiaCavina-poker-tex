@@ -34,7 +34,6 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
 
     /**
      * Constructs a new instance of this class.
-     * 
      * @param statistics The object representing the statistics to manage.
      */
     public StatisticsManagerImpl(final S statistics) {
@@ -45,11 +44,10 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
     /**
      * Constructs a new instance of this class.
      * Will load the statistics from the specified file if they were saved
-     * previously, otherwise the statistics will be initialized with the
-     * provided object.
-     * using the {@link #saveStatistics(String)} method.
-     * 
-     * @param fileName   The name of the file to load the statistics from.
+     * previously using the {@link #saveStatistics(String)} method, 
+     * otherwise the statistics will be initialized with the
+     * provided object and saved to the specified file.
+     * @param fileName The name of the file to load the statistics from or save them to.
      * @param statistics The object representing the statistics to manage.
      */
     public StatisticsManagerImpl(final String fileName, final S statistics) {
@@ -57,8 +55,14 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
         try {
             this.loadStatistics(fileName);
         } catch (IOException | ClassNotFoundException e) {
-            LOGGER.info("Could not load statistics from file '{}'.", fileName);
+            LOGGER.warn("Could not load statistics from file '{}'.", fileName);
             this.globalStatistics = statistics;
+            try {
+                this.saveStatistics(fileName);
+                LOGGER.info("Statistics saved to file '{}'.", fileName);
+            } catch (IOException e1) {
+                LOGGER.error("Could not save statistics to file '{}'.", fileName);
+            }
         }
     }
 
@@ -100,11 +104,12 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      * <i>poker_tex</i> directory.
      */
     @Override
-    public void saveStatistics(final String fileName) throws IOException {
+    public final void saveStatistics(final String fileName) throws IOException {
         final File file = getFileInProjectDir(fileName);
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(globalStatistics);
         }
+        LOGGER.info("Statistics saved to file '{}'.", fileName);
     }
 
     /**
@@ -113,7 +118,7 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      * <i>poker_tex</i> directory.
      */
     @SuppressWarnings("unchecked")
-    @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "The returned value is unimportant")
+    @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "The returned value is irrelevant")
     @Override
     public final void loadStatistics(final String fileName) throws IOException, ClassNotFoundException {
         final File file = getFileInProjectDir(fileName);

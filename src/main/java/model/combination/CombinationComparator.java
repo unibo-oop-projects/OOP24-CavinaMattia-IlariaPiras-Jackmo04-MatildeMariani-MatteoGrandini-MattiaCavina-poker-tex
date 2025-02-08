@@ -5,6 +5,9 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import model.combination.api.Combination;
 import model.deck.api.Card;
 
@@ -13,6 +16,8 @@ import model.deck.api.Card;
  * To return values can be read {@link Comparator}.
  */
 public class CombinationComparator implements Comparator<Combination<Card>>, Serializable {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CombinationComparator.class);
     private static final long serialVersionUID = 42L;
 
     /**
@@ -39,10 +44,9 @@ public class CombinationComparator implements Comparator<Combination<Card>>, Ser
                         return Integer.compare(sumValueCard(getTrisFromCombination(firstCombination)),
                                 sumValueCard(getTrisFromCombination(secondCombination)));
                     } catch (IllegalAccessException e) {
-                        System.out.println("Tris not present in combination"); // NOPMD suppressed as it is a false
-                                                                               // positive
+                        LOGGER.debug("Tris not present in combination");
                     }
-                default:
+                case PAIR, TRIS, POKER, FLUSH, STRAIGHT, STRAIGHT_FLUSH, ROYAL_FLUSH, HIGH_CARD:
                     return Integer.compare(sumValueCard(firstCombination.combinationCard()),
                             sumValueCard(secondCombination.combinationCard()));
             }

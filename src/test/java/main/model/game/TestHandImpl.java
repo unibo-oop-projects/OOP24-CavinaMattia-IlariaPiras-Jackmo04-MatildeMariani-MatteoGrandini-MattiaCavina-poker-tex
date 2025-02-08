@@ -116,9 +116,10 @@ final class TestHandImpl {
         final var iterator = players.iterator();
         final var currentPlayer = iterator.next();
         final var currentBetBeforePlayerAction = gameState.getCurrentBet();
+        currentPlayer.setGameState(gameState);
 
         hand.manageAction(iterator, currentPlayer);
-        switch (currentPlayer.getAction(gameState)) {
+        switch (currentPlayer.getAction()) {
             case FOLD:
                 assertEquals(INITIAL_NUM_PLAYERS - 1, players.size());
                 assertEquals(INITIAL_NUM_PLAYERS - 1, gameState.getRemainingPlayers());

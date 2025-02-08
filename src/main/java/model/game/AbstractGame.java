@@ -205,10 +205,11 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         @Override
         public void run() {
             statistics.incrementGamesPlayed(1);
+            setRolesForNewHand();
             while (!isOver() && !controller.isTerminated()) {
                 dealer.shuffle();
                 statistics.incrementHandsPlayed(1);
-                setRolesForNewHand();
+                
                 players.stream().forEachOrdered(p -> p.setCards(dealer.giveCardsToPlayer()));
                 gameState.newHand(startingBet, players.size());
                 final var hand = new HandImpl(controller, players, gameState);
@@ -236,6 +237,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
                     controller.waitIfPaused();
                     hand.determinesWinnerOfTheHand(); 
                 }
+                setRolesForNewHand();
 
                 saveStatistics();
             }

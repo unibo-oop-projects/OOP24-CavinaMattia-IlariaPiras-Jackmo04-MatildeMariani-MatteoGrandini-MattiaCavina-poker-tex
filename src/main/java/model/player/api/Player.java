@@ -49,10 +49,9 @@ public interface Player extends StatisticsContributor<BasicStatistics> {
     /**
      * Informs the player that it's their turn.
      * The player will make a decision based on the current state and return an {@link Action}.
-     * @param currentState the current state of the game.
      * @return the player's action for the current hand.
      */
-    Action getAction(State currentState);
+    Action getAction();
 
     /**
      * Returns the player's cards for the current hand.
@@ -108,7 +107,9 @@ public interface Player extends StatisticsContributor<BasicStatistics> {
      */
     void nextPhase();
 
-    State getGameState();
-
+    /**
+     * Informs the player of the new state of the game.
+     * @param gameState the current state of the game.
+     */
     void setGameState(State gameState);
 }

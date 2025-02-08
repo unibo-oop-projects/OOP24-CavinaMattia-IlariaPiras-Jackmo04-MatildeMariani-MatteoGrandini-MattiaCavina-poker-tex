@@ -8,6 +8,8 @@ import controller.scene.SceneController;
 
 /**
  * Interface for the statistics controller.
+ * Manages the retrieval of the statistics form the statistics manager and the
+ * resetting of the statistics.
  */
 public interface StatisticsController extends SceneController {
 
@@ -19,7 +21,7 @@ public interface StatisticsController extends SceneController {
     List<ImmutablePair<String, String>> getStatistics();
 
     /**
-     * Resets the statistics.
+     * Resets the statistics and saves the changes.
      */
     void resetStatistics();
 

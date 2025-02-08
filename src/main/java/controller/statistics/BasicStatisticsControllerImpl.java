@@ -17,17 +17,18 @@ import view.View;
 /**
  * Implementation of the StatsController interface.
  * Manages the retrieval of the statistics form the statistics manager and the
- * return to the main menu scene.
+ * resting of the statistics.
  */
 public class BasicStatisticsControllerImpl extends SceneControllerImpl implements StatisticsController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BasicStatisticsControllerImpl.class);
     private static final String STATS_FILE_NAME = "stats.bin";
+
     private final StatisticsManager<BasicStatistics> statsManager;
 
     /**
      * Constructor for the StatsControllerImpl class.
-     * @param mainView The main view of the application.
+     * @param mainView The main view of the application
      */
     public BasicStatisticsControllerImpl(final View mainView) {
         super(mainView);
@@ -50,21 +51,22 @@ public class BasicStatisticsControllerImpl extends SceneControllerImpl implement
         this.statsManager.getTotalStatistics().reset();
         try {
             this.statsManager.saveStatistics(STATS_FILE_NAME);
+            LOGGER.info("Statistics correctly reset.");
         } catch (IOException e) {
-            LOGGER.error("Error while saving the statistics", e);
+            LOGGER.error("Error while saving the statistics.", e);
         }
     }
 
     private List<ImmutablePair<String, String>> getAsList(final BasicStatistics stats) {
         return List.of(
-            new ImmutablePair<>("Hands played", String.valueOf(stats.getNumOfHandsPlayed())),
-            new ImmutablePair<>("Hands won", String.valueOf(stats.getNumOfHandsWon())),
             new ImmutablePair<>("Games played", String.valueOf(stats.getNumOfGamesPlayed())),
             new ImmutablePair<>("Games won", String.valueOf(stats.getNumOfGamesWon())),
+            new ImmutablePair<>("Hands played", String.valueOf(stats.getNumOfHandsPlayed())),
+            new ImmutablePair<>("Hands won", String.valueOf(stats.getNumOfHandsWon())),
             new ImmutablePair<>("Best Combination", stats.getBestCombination().map(CombinationType::getName).orElse("None")),
             new ImmutablePair<>("Biggest win", stats.getBiggestWin() + " chips"),
-            new ImmutablePair<>("Hands win rate", String.format("%.2f%%", stats.getHandWinRate())),
-            new ImmutablePair<>("Games win rate", String.format("%.2f%%", stats.getGameWinRate()))
+            new ImmutablePair<>("Hands win rate", String.format("%.2f%%", stats.getHandWinRate() * 100)),
+            new ImmutablePair<>("Games win rate", String.format("%.2f%%", stats.getGameWinRate() * 100))
         );
     }
 }

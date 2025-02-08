@@ -52,8 +52,11 @@ class TestUserPlayer {
         assertEquals(INITIAL_CHIPS, player.getChips());
         assertEquals(Set.of(), player.getCards());
         assertEquals(INITIAL_TOTAL_PHASE_BET, player.getTotalPhaseBet());
-        assertThrows(IllegalStateException.class,
-            () -> player.getAction(new StateImpl(INITIAL_BET, NUM_OF_PLAYERS)));
+        assertThrows(IllegalStateException.class, 
+            () -> player.getAction());
+        player.setGameState(new StateImpl(BET_3000, NUM_OF_PLAYERS));
+        assertThrows(IllegalStateException.class, 
+            () -> player.getAction());
         assertFalse(player.isAI());
     }
 
@@ -61,13 +64,14 @@ class TestUserPlayer {
     void testCheck() throws InterruptedException {
         final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
+        player.setGameState(state);
         player.getController().receiveUserAction("CALL");
-        assertEquals(Action.CALL, player.getAction(state));
+        assertEquals(Action.CALL, player.getAction());
         state.setCurrentBet(INITIAL_BET);
         assertEquals(INITIAL_CHIPS - INITIAL_BET, player.getChips());
         assertEquals(INITIAL_BET, player.getTotalPhaseBet());
         player.getController().receiveUserAction("CHECK");
-        assertEquals(Action.CHECK, player.getAction(state));
+        assertEquals(Action.CHECK, player.getAction());
         assertEquals(INITIAL_CHIPS - INITIAL_BET, player.getChips());
         assertEquals(INITIAL_BET, player.getTotalPhaseBet()); 
     }
@@ -76,8 +80,9 @@ class TestUserPlayer {
     void testPreFlopSmallBlind() {
         player.setRole(Role.SMALL_BLIND);
         final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
+        player.setGameState(state);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
-        assertEquals(Action.CALL, player.getAction(state));
+        assertEquals(Action.CALL, player.getAction());
         assertEquals(INITIAL_CHIPS - (INITIAL_BET * MULTIPLIER_SMALL_BLIND), player.getChips());
         assertEquals(INITIAL_BET * MULTIPLIER_SMALL_BLIND, player.getTotalPhaseBet());
     }
@@ -85,15 +90,16 @@ class TestUserPlayer {
     @Test
     void testTextField() throws InterruptedException {
         final var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
+        player.setGameState(state);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().setRaiseAmount(INITIAL_BET_500 * MULTIPLIER_RAISE);
         player.getController().receiveUserAction("RAISE");
-        assertEquals(Action.RAISE, player.getAction(state));
+        assertEquals(Action.RAISE, player.getAction());
         assertEquals(INITIAL_CHIPS - (INITIAL_BET_500 * MULTIPLIER_RAISE), player.getChips());
         assertEquals(INITIAL_BET_500 * MULTIPLIER_RAISE, player.getTotalPhaseBet());
         state.setCurrentBet(INITIAL_BET_500 * MULTIPLIER_RAISE);
         player.getController().receiveUserAction("FOLD");
-        assertEquals(Action.FOLD, player.getAction(state));
+        assertEquals(Action.FOLD, player.getAction());
         assertEquals(INITIAL_CHIPS - (INITIAL_BET_500 * MULTIPLIER_RAISE), player.getChips());
         assertEquals(INITIAL_BET_500 * MULTIPLIER_RAISE, player.getTotalPhaseBet());
     }
@@ -101,9 +107,10 @@ class TestUserPlayer {
     @Test
     void testAllIn() {
         final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
+        player.setGameState(state);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().receiveUserAction("ALL_IN");
-        assertEquals(Action.ALL_IN, player.getAction(state));
+        assertEquals(Action.ALL_IN, player.getAction());
         assertEquals(0, player.getChips());
         assertEquals(INITIAL_CHIPS, player.getTotalPhaseBet());
     }
@@ -119,10 +126,11 @@ class TestUserPlayer {
     @Test
     void testLosing() {
         final var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
+        player.setGameState(state);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().setRaiseAmount(INITIAL_BET_500 * MULTIPLIER_RAISE);
         player.getController().receiveUserAction("RAISE");
-        assertEquals(Action.RAISE, player.getAction(state));
+        assertEquals(Action.RAISE, player.getAction());
         assertEquals(INITIAL_CHIPS - (INITIAL_BET_500 * MULTIPLIER_RAISE), player.getChips());
         assertEquals(INITIAL_BET_500 * MULTIPLIER_RAISE, player.getTotalPhaseBet());
         player.handLost();

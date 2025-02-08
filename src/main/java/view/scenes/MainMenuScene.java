@@ -22,10 +22,7 @@ import view.scenes.api.Scene;
  * The {@link Scene} that represents the main menu of the game.
  */
 public class MainMenuScene implements Scene {
-
-    private static final int R_BUTTONS_PANEL = 236;
-    private static final int G_BUTTONS_PANEL = 205;
-    private static final int B_BUTTONS_PANEL = 153;
+    private static final int COLOR_BUTTONS_PANEL = 0xECCD99;
     private static final int R_BORDER = 0;
     private static final int G_BORDER = 0;
     private static final int B_BORDER = 0;
@@ -33,9 +30,7 @@ public class MainMenuScene implements Scene {
     private static final int FONT_SIZE = 30;
     private static final int FONT_SIZE_TITLE = 50;
     private static final int THICKNESS = 4;
-    private static final int R_BACKGROUND = 220;
-    private static final int G_BACKGROUND = 186;
-    private static final int B_BACKGROUND = 133;
+    private static final int COLOR_BACKGROUND = 0xDCBA85;
     private static final int V_GAP = 5;
     private static final int BUTTON_WIDTH = 250;
     private static final int BUTTON_HEIGHT = 60;
@@ -57,7 +52,7 @@ public class MainMenuScene implements Scene {
     private void initialize() {
         final JPanel titlePanel = new JPanel();
         titlePanel.setLayout(new FlowLayout());
-        titlePanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        titlePanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JLabel title = new JLabel("MENU", SwingConstants.CENTER);
         title.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE_TITLE));
@@ -66,14 +61,14 @@ public class MainMenuScene implements Scene {
 
         final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
-        mainPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        mainPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
         final JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new GridLayout(4, 1, 0, V_GAP));
-        menuPanel.setBackground(new Color(R_BACKGROUND, G_BACKGROUND, B_BACKGROUND));
+        menuPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final MenuButton goToStats = new MenuButton("Statistics");
         final MenuButton goToRules = new MenuButton("How to play");
@@ -129,7 +124,7 @@ public class MainMenuScene implements Scene {
         }
 
         private void initializeButton() {
-            this.button.setBackground(new Color(R_BUTTONS_PANEL, G_BUTTONS_PANEL, B_BUTTONS_PANEL));
+            this.button.setBackground(new Color(COLOR_BUTTONS_PANEL));
             this.button.setForeground(Color.BLACK);
             this.button.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
             this.button.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
@@ -137,6 +132,7 @@ public class MainMenuScene implements Scene {
             this.button.setOpaque(true);
             this.button.setContentAreaFilled(true);
             this.button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+            this.button.setFocusable(false);
         }
 
         public JButton getButton() {

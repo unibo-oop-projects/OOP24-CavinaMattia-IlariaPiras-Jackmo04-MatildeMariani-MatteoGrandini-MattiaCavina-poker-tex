@@ -62,10 +62,10 @@ class TestAIPlayerAdvanced {
         LOGGER.info("Testing all in");
         final var player = factory.createHard(STD_ID, CHIPS_800);
         player.setCards(deck.getSomeCards(2).stream().collect(Collectors.toSet()));
-        final var state = new StateImpl(BET_1000, NUM_OF_PLAYERS);
+        player.setGameState(new StateImpl(BET_1000, NUM_OF_PLAYERS));
         var action = Action.FOLD;
         while (action == Action.FOLD) {
-            action = player.getAction(state);
+            action = player.getAction();
             LOGGER.info("Action: " + action);
             switch (action) {
                 case CHECK:
@@ -100,9 +100,10 @@ class TestAIPlayerAdvanced {
         final var player = factory.createHard(STD_ID, CHIPS_10000);
         player.setCards(deck.getSomeCards(2).stream().collect(Collectors.toSet()));
         final var state = new StateImpl(BET_1000, NUM_OF_PLAYERS);
+        player.setGameState(state);
         var action = Action.FOLD;
         while (action == Action.FOLD) {
-            action = player.getAction(state);
+            action = player.getAction();
             LOGGER.info("Action: " + action);
             switch (action) {
                 case CHECK:
@@ -128,7 +129,7 @@ class TestAIPlayerAdvanced {
         state.setCurrentBet(bet1 + BET_1000);
         action = Action.FOLD;
         while (action == Action.FOLD) {
-            action = player.getAction(state);
+            action = player.getAction();
             LOGGER.info("Next action: " + action);
             switch (action) {
                 case CHECK:
@@ -162,9 +163,10 @@ class TestAIPlayerAdvanced {
         final var player = factory.createHard(STD_ID, CHIPS_10000);
         player.setCards(deck.getSomeCards(2).stream().collect(Collectors.toSet()));
         final var state = new StateImpl(BET_1000, NUM_OF_PLAYERS);
+        player.setGameState(state);
         var action = Action.FOLD;
         while (action == Action.FOLD) {
-            action = player.getAction(state);
+            action = player.getAction();
             LOGGER.info("Action at PRE-FLOP: " + action);
             switch (action) {
                 case CHECK:
@@ -191,7 +193,7 @@ class TestAIPlayerAdvanced {
         state.setCurrentBet(BET_1000);
         action = Action.FOLD;
         while (action == Action.FOLD) {
-            action = player.getAction(state);
+            action = player.getAction();
             LOGGER.info("Action at FLOP: " + action);
             switch (action) {
                 case CHECK:

@@ -73,7 +73,7 @@ public final class HandImpl implements Hand {
     public void manageAction(final Iterator<Player> playersIterator, final Player player) {
         player.setGameState(this.gameState);
         this.controller.isTurn(player.getId(), true);
-        final var action = player.getAction(this.gameState);
+        final var action = player.getAction();
         switch (action) {
             case FOLD:
                 playersIterator.remove();

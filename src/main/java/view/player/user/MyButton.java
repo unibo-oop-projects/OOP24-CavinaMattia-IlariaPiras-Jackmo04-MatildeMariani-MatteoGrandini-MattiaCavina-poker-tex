@@ -16,10 +16,7 @@ import javax.swing.JPanel;
 public class MyButton extends JButton {
 
     private static final long serialVersionUID = 2L;
-
-    private static final int R_BUTTONS_PANEL = 236;
-    private static final int G_BUTTONS_PANEL = 205;
-    private static final int B_BUTTONS_PANEL = 153;
+    private static final int COLOR_BUTTONS_PANEL = 0xECCD99;
     private static final int R_BORDER = 0;
     private static final int G_BORDER = 0;
     private static final int B_BORDER = 0;
@@ -43,7 +40,7 @@ public class MyButton extends JButton {
      * @param panel the panel to which the button will be added.
      */
     public void initializeButton(final String command, final ActionListener listener, final JPanel panel) {
-        this.setBackground(new Color(R_BUTTONS_PANEL, G_BUTTONS_PANEL, B_BUTTONS_PANEL));
+        this.setBackground(new Color(COLOR_BUTTONS_PANEL));
         this.setForeground(Color.BLACK);
         this.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
         this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
@@ -52,6 +49,7 @@ public class MyButton extends JButton {
         this.setContentAreaFilled(true);
         this.setActionCommand(command);
         this.addButtonToPanel(this, listener, panel);
+        this.setFocusable(false);
     }
 
     /**

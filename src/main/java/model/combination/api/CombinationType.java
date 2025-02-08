@@ -6,6 +6,7 @@ package model.combination.api;
  * 
  */
 public enum CombinationType {
+    // CHECKSTYLE: JavadocVariable OFF
     /**
      * Five cards than not form neather combination.
      */
@@ -46,6 +47,7 @@ public enum CombinationType {
      * Five cards with the same seed and consecutive values from Ten to Ace.
      */
     ROYAL_FLUSH(10, "Royal Flush");
+    // CHECKSTYLE: JavadocVariable ON
 
     private final int value;
     private final String name;
