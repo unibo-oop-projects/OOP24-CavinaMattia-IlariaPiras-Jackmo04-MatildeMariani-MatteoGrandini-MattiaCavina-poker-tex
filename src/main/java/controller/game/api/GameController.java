@@ -4,29 +4,33 @@ import java.util.Set;
 
 import controller.card.CardGetterImage;
 import controller.player.user.UserPlayerController;
+import controller.scene.SceneController;
 import model.deck.api.Card;
 import model.game.api.Game;
 import model.game.api.Hand;
 import model.game.api.Phase;
 import model.player.api.Player;
 import view.View;
-import view.scenes.DifficultySelectionScene;
-import view.scenes.GameOverScene;
+import view.gameScenePanels.api.PlayerPanel;
 import view.scenes.GameScene;
-import view.scenes.MainMenuScene;
 
 /**
  * Interface that models a GameController. 
  * It has a {@link Game}, a {@link GameScene}, a main{@link View} and a {@link CardGetterImage}.
  * It acts as a mediator between the model (Game) and the view (GameScene).
  */
-public interface GameController {
+public interface GameController extends SceneController {
 
     /**
      * Sets the {@link GameScene}.
      * @param gameScene the gameScene.
      */
-    void setGameScene(final GameScene gameScene);
+    void setGameScene(GameScene gameScene);
+
+    /**
+     * Calls {@link GameScene} methods to set it and starts the game.
+     */
+    void startGame();
 
     /**
      * Calls {@link GameScene} methods to update it at the start of a new {@link Hand}.
@@ -35,13 +39,9 @@ public interface GameController {
 
     /**
      * Calls {@link GameScene} methods to update it at the start of a new {@link Phase}.
+     * @param pot the pot.
      */
     void updateForNewPhase(int pot);
-
-    /**
-     * Starts the game.
-     */
-    void startGame();
 
     /**
      * Converts the {@link Player}'s card set to a list of ImageIcons via its {@link CardGetterImage}
@@ -59,13 +59,14 @@ public interface GameController {
     void setCommunityCards(Set<Card> cards);
 
     /**
-     * Calls the setPot method in its {@link GameScene}.
-     * @param pot the pot (or the winnings).
+     * Calls the setPot and resetPlayersBet methods in its {@link GameScene}.
+     * @param pot the pot.
      */
     void setPot(int pot);
 
     /**
-     * Calls the setPlayerAction method in a different PlayerPanel in its {@link GameScene} depending on the id.
+     * Calls the setPlayerAction method in a different {@link PlayerPanel} in its {@link GameScene}
+     * depending on the id.
      * @param id the player's id.
      * @param action the player's action.
      */
@@ -79,14 +80,15 @@ public interface GameController {
     void setPlayerBet(int id, int bet);
 
     /**
-     * Calls the setPlayerChips method in a different PlayerPanel in its {@link GameScene} depending on the id.
+     * Calls the setPlayerChips method in a different {@link PlayerPanel} in its {@link GameScene}
+     * depending on the id.
      * @param id the player's id.
      * @param chips the player's chips.
      */
     void setPlayerChips(int id, int chips);
 
     /**
-     * Calls the setRole method in every PlayerPanel of its {@link GameScene} depending on 
+     * Calls the setRole method in each {@link PlayerPanel} of its {@link GameScene} depending on 
      * the ids of the smallBlind and bigBlind.
      * @param smallBlindId the small blind player's id.
      * @param bigBlindId the big blind player's id.
@@ -94,8 +96,8 @@ public interface GameController {
     void setRoles(int smallBlindId, int bigBlindId);
 
     /**
-     * Calls the setPot and the setPlayerBet methods so that the view shows the fact that the pot is 
-     * been assigned to the winner. 
+     * Calls the setPot and the setPlayerBet methods in its {@link GameScene} so that it shows the fact
+     * that the pot is been assigned to the winner. 
      * @param winnerId the winner's id.
      * @param winnerChips the winner's chips.
      * @param pot the pot.
@@ -103,53 +105,44 @@ public interface GameController {
     void showWinner(int winnerId, int winnerChips, int pot);
 
     /**
-     * Calls the setPlayerChips and the setPlayerBet methods to update the winner's data.
+     * Calls the setPlayerChips and the setPlayerBet methods in its {@link GameScene} to update the winner data.
      * @param winnerId the winner's id.
      * @param winnerChips the winner's chips.
      */
     void setWinnerData(int winnerId, int winnerChips);
 
     /**
-     * Goes to the {@link GameOverScene}.
-     * @param won boolean indicating whether the user player won.
+     * Calls the updatePlayerPanelState method in its {@link GameScene}.
+     * @param id the id of the player whose turn it is.
+     * @param isTurn the boolean indicating the state to which the player panel should be updated.
      */
-    void goToGameOverScene(boolean won);
+    void isTurn(int id, boolean isTurn);
 
     /**
-     * Goes to the {@link MainMenuScene}.
-     */
-    void goToMainMenuScene();
-
-    /**
-     * Goes to the {@link DifficultySelectionScene}.
-     */
-    void goToDifficultySelectionScene();
-
-    /**
-     * Returns a new {@link UserPlayerController}.
-     * @return a new user player controller.
+     * Returns the {@link UserPlayerController}.
+     * @return the user player controller.
      */
     UserPlayerController getUserPlayerController();
 
     /**
-     * Synchronized method that sets the paused boolean value to true.
+     * Synchronized method that sets the isPaused boolean value to true.
      */
     void pauseGame();
 
     /**
-     * Synchronized method that sets the paused boolean value to false and notify the thread 
-     * waiting on pauseLock.
+     * Synchronized method that sets the isPaused boolean value to false and notifies the thread 
+     * waiting for pauseLock.
      */
     void resumeGame();
 
     /**
-     * Synchronized method that sets the gameTerminated boolean value to true and calls the
+     * Synchronized method that sets the isTerminated boolean value to true and calls the
      * resumeGame method.
      */
     void endGame();
 
     /**
-     * Synchronized method that calls the wait() method if paused is true.
+     * Synchronized method that calls the wait() method if isPaused is true.
      */
     void waitIfPaused();
 
@@ -158,6 +151,4 @@ public interface GameController {
      * @return whether the game is terminated.
      */
     boolean isTerminated();
-
-    void isTurn(int id, boolean isTurn);
 }

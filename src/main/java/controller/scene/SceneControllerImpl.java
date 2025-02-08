@@ -74,7 +74,7 @@ public class SceneControllerImpl implements SceneController {
      */
 
     @Override
-    public void goToGameOverScene(final Boolean endGameStatus) {
+    public void goToGameOverScene(final boolean endGameStatus) {
         this.mainView.changeScene(new GameOverScene(new GameOverMenuImpl(mainView, endGameStatus)));
     }
 

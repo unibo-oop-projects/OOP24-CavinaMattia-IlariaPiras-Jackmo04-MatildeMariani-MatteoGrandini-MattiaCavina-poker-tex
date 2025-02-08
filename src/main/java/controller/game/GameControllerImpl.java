@@ -3,39 +3,34 @@ package controller.game;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import javax.swing.SwingUtilities;
-
 import controller.card.CardGetterImage;
 import controller.card.CardGetterImageImpl;
-import controller.difficulty.DifficultySelectionControllerImpl;
 import controller.game.api.Difficulty;
 import controller.game.api.GameController;
-import controller.gameover.GameOverMenuImpl;
-import controller.menu.MainMenuControllerImpl;
 import controller.player.user.UserPlayerController;
+import controller.scene.SceneControllerImpl;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.deck.api.Card;
 import model.game.GameFactoryImpl;
 import model.game.api.Game;
 import view.View;
-import view.scenes.DifficultySelectionScene;
-import view.scenes.GameOverScene;
 import view.scenes.GameScene;
-import view.scenes.MainMenuScene;
 
 /**
  * Class that implements the {@link GameController} interface.
  */
-public class GameControllerImpl implements GameController{
+public class GameControllerImpl extends SceneControllerImpl implements GameController {
 
     private static final int MAX_PLAYERS = 4;
     private static final int NUM_PLAYER_CARD = 2;
+
     private final CardGetterImage cardGetterImage;
     private final View mainView;
     private final Game game;
     private GameScene gameScene;
 
-    private boolean isPaused = false;
-    private boolean gameTerminated = false;
+    private boolean isPaused;
+    private boolean isTerminated;
     private final Object pauseLock = new Object();
     private final Object endLock = new Object();
 
@@ -46,8 +41,9 @@ public class GameControllerImpl implements GameController{
      * @param initialChips the player's initial chips.
      */
     public GameControllerImpl(final View mainView, final Difficulty difficulty, final int initialChips) {
+        super(mainView);
         this.mainView = mainView;
-        var gameFactory = new GameFactoryImpl();
+        final var gameFactory = new GameFactoryImpl();
         switch (difficulty) {
             case MEDIUM:
                 this.game = gameFactory.mediumGame(this, initialChips);
@@ -68,6 +64,7 @@ public class GameControllerImpl implements GameController{
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Storing GameScene mutable object is intented")
     public void setGameScene(final GameScene gameScene) {
         this.gameScene = gameScene;
     }
@@ -79,7 +76,8 @@ public class GameControllerImpl implements GameController{
     public void startGame() {
         this.game.getPlayers().forEach(p -> {
             this.setPlayerChips(p.getId(), p.getChips());
-            this.gameScene.getPlayerPanel(p.getId()).resetForNewHand(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD));
+            this.gameScene.getPlayerPanel(p.getId())
+                .resetForNewHand(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD));
         });
         this.setCommunityCards(Set.of());
         this.game.start();
@@ -91,14 +89,13 @@ public class GameControllerImpl implements GameController{
     @Override
     public void updateForNewHand() {
         Stream.iterate(0, i -> i < MAX_PLAYERS, i -> i + 1)
-              .filter(id -> this.gameScene.getPlayerPanel(id).isEnabled())
-              .forEach(id -> this.gameScene.getPlayerPanel(id).resetForNewHand(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD)));
-        
+            .filter(id -> this.gameScene.getPlayerPanel(id).isEnabled())
+            .forEach(id -> this.gameScene.getPlayerPanel(id)
+                .resetForNewHand(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD)));
         this.setCommunityCards(Set.of());
-        
         Stream.iterate(0, i -> i < MAX_PLAYERS, i -> i + 1)
-              .filter(id -> this.game.getPlayers().stream().noneMatch(p -> p.getId() == id))
-              .forEach(id -> this.gameScene.getPlayerPanel(id).lost());
+            .filter(id -> this.game.getPlayers().stream().noneMatch(p -> p.getId() == id))
+            .forEach(id -> this.gameScene.getPlayerPanel(id).lost());
     }
 
     /**
@@ -159,7 +156,7 @@ public class GameControllerImpl implements GameController{
      */
     @Override
     public void setPlayerChips(final int id, final int chips) {
-        this.gameScene.getPlayerPanel(id).setChips(String.valueOf(chips));        
+        this.gameScene.getPlayerPanel(id).setChips(String.valueOf(chips));
     }
 
     /**
@@ -168,10 +165,10 @@ public class GameControllerImpl implements GameController{
     @Override
     public void setRoles(final int smallBlindId, final int bigBlindId) {
         Stream.iterate(0, i -> i < MAX_PLAYERS, i -> i + 1)
-              .filter(id -> this.game.getPlayers().stream().anyMatch(p -> p.getId() == id))
-              .forEach(id -> this.gameScene.getPlayerPanel(id).setRole(
-                    id == smallBlindId ? "SB" : 
-                    id == bigBlindId ? "BB" : ""));
+            .filter(id -> this.game.getPlayers().stream().anyMatch(p -> p.getId() == id))
+            .forEach(id -> this.gameScene.getPlayerPanel(id).setRole(
+                id == smallBlindId ? "SB"
+                : id == bigBlindId ? "BB" : ""));
     }
 
     /**
@@ -196,17 +193,9 @@ public class GameControllerImpl implements GameController{
      * {@inheritDoc}
      */
     @Override
-    public void goToGameOverScene(boolean won) {
-        this.mainView.changeScene(new GameOverScene(new GameOverMenuImpl(this.mainView, won)));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void goToMainMenuScene() {
+    public void goToMainScene() {
         this.endGame();
-        this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
+        super.goToMainScene();
     }
 
     /**
@@ -215,7 +204,15 @@ public class GameControllerImpl implements GameController{
     @Override
     public void goToDifficultySelectionScene() {
         this.endGame();
-        this.mainView.changeScene(new DifficultySelectionScene(new DifficultySelectionControllerImpl(this.mainView)));
+        super.goToDifficultySelectionScene();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void isTurn(final int id, final boolean isTurn) {
+        this.gameScene.updatePlayerPanelState(id, isTurn);
     }
 
     /**
@@ -243,7 +240,7 @@ public class GameControllerImpl implements GameController{
     public void resumeGame() {
         synchronized (pauseLock) {
             this.isPaused = false;
-            pauseLock.notify();
+            pauseLock.notifyAll();
         }
     }
 
@@ -253,7 +250,7 @@ public class GameControllerImpl implements GameController{
     @Override
     public void endGame() {
         synchronized (endLock) {
-            this.gameTerminated = true;
+            this.isTerminated = true;
         }
         this.resumeGame();
         this.mainView.disableConfermationOnClose();
@@ -274,19 +271,14 @@ public class GameControllerImpl implements GameController{
             }
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean isTerminated() {
         synchronized (endLock) {
-            return this.gameTerminated;
+            return this.isTerminated;
         }
-    } 
-
-    @Override
-    public void isTurn(int id, boolean isTurn) {
-        this.gameScene.updatePlayerPanelState(id, isTurn);
     }
 }

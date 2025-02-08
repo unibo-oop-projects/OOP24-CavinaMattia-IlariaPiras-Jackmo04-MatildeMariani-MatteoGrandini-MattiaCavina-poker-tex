@@ -91,7 +91,7 @@ public class PauseDialog extends JDialog {
                         controller.goToDifficultySelectionScene();
                         break;
                     case "MENU":
-                        controller.goToMainMenuScene();
+                        controller.goToMainScene();
                         break;
                     case "RESUME":
                         controller.resumeGame();

@@ -163,7 +163,7 @@ public class GameScene extends JPanel implements Scene {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            GameScene.this.controller.goToMainMenuScene();
+            GameScene.this.controller.goToMainScene();
         }
         
     };
