@@ -3,8 +3,8 @@ package model.player.api;
 import java.util.Optional;
 import java.util.Set;
 
-import model.deck.api.Card;
 import model.combination.api.Combination;
+import model.deck.api.Card;
 import model.game.api.State;
 import model.statistics.api.BasicStatistics;
 import model.statistics.api.StatisticsContributor;
@@ -107,4 +107,8 @@ public interface Player extends StatisticsContributor<BasicStatistics> {
      * Informs the player that the current phase has ended.
      */
     void nextPhase();
+
+    State getGameState();
+
+    void setGameState(State gameState);
 }

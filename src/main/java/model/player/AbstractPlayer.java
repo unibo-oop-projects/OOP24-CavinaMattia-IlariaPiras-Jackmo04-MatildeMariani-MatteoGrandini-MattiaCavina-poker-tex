@@ -28,6 +28,7 @@ public abstract class AbstractPlayer implements Player {
     private Combination<Card> bestCombination;
     private int chips;
     private int totalPhaseBet;
+    private State gameState;
 
     /**
      * Constructor for the AbstractPlayer class.
@@ -192,4 +193,11 @@ public abstract class AbstractPlayer implements Player {
         this.setTotalPhaseBet(0);
     }
 
+    public State getGameState() {
+        return this.gameState;
+    }
+
+    public void setGameState(State gameState) {
+        this.gameState = gameState;
+    }
 }
