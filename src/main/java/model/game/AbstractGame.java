@@ -125,16 +125,17 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         if (this.gameState.getHandNumber() == 0) {
             Random rand = new Random();
             indexNextSmallBlind = rand.nextInt(players.size());
-            indexNextBigBlind = (indexNextSmallBlind + 1) % players.size();
         } else {
             var originalList = List.copyOf(players);
             this.players.removeIf(p -> !p.hasChipsLeft());
 
-            indexNextSmallBlind = (originalList.indexOf(smallBlindPlayer) + 
-                (this.players.contains(smallBlindPlayer)? 1 : 0)) % players.size();
-            indexNextBigBlind = (originalList.indexOf(bigBlindPlayer) + 
-                (this.players.contains(bigBlindPlayer)? 1 : 0)) % players.size();
+            indexNextSmallBlind = (this.players.contains(smallBlindPlayer)?
+                this.players.indexOf(smallBlindPlayer) + 1 :
+                (this.players.contains(bigBlindPlayer)? this.players.indexOf(bigBlindPlayer) :
+                this.players.indexOf(originalList.get(
+                    (originalList.indexOf(bigBlindPlayer) + 1 % originalList.size()))))) % players.size();
         }
+        indexNextBigBlind = (indexNextSmallBlind + 1) % players.size();
     
         smallBlindPlayer = this.players.get(indexNextSmallBlind);
         bigBlindPlayer = this.players.get(indexNextBigBlind);
