@@ -27,7 +27,7 @@ import model.player.api.Role;
 import view.ViewImpl;
 import view.scenes.GameScene;
 
-public class TestHandImpl {
+class TestHandImpl {
 
     private static final int NUM_PLAYER_CARDS = 2;
     private static final int NUM_COMMUNITY_CARDS = 5;
