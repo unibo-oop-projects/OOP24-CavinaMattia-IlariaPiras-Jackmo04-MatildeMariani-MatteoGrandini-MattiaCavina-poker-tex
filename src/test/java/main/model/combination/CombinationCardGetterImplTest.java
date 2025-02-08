@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import com.google.common.collect.Sets;
 
 import model.combination.CombinationCardGetterImpl;
+import model.combination.CombinationUtilitiesImpl;
+import model.combination.api.CombinationUtilities;
 import model.deck.api.Card;
 import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
@@ -18,6 +20,7 @@ import model.deck.api.SimpleCard;
  * Test of {@link model.combination.CombinationCardGetterImpl}.
  */
 class CombinationCardGetterImplTest {
+    CombinationUtilities utilies = new CombinationUtilitiesImpl();
 
     /**
      * Empty test.
@@ -27,7 +30,7 @@ class CombinationCardGetterImplTest {
     void testEmpty() {
         final Set<Card> totalCardList = Sets.newHashSet();
         assertThrows(IllegalArgumentException.class,
-            () -> new CombinationCardGetterImpl(totalCardList).getPair());
+            () -> new CombinationCardGetterImpl(totalCardList,utilies).getPair());
     }
 
     /**
@@ -49,7 +52,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND)
             ),
-            new CombinationCardGetterImpl(totalCardList).getPair()
+            new CombinationCardGetterImpl(totalCardList,utilies).getPair()
         );
     }
 
@@ -74,7 +77,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.DIAMOND)
             ),
-            new CombinationCardGetterImpl(totalCardList).getTwoPairs()
+            new CombinationCardGetterImpl(totalCardList,utilies).getTwoPairs()
         );
     }
 
@@ -98,7 +101,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH)
             ),
-            new CombinationCardGetterImpl(totalCardList).getTris()
+            new CombinationCardGetterImpl(totalCardList,utilies).getTris()
         );
     }
 
@@ -123,7 +126,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.SPADES),
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH)
             ),
-            new CombinationCardGetterImpl(totalCardList).getPoker()
+            new CombinationCardGetterImpl(totalCardList,utilies).getPoker()
         );
     }
 
@@ -149,7 +152,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.CLUBS),
                 new Card(SimpleCard.TWO, SimpleCard.TWO.getValueOfCard(), SeedCard.CLUBS)
             ),
-            new CombinationCardGetterImpl(totalCardList).getFlush()
+            new CombinationCardGetterImpl(totalCardList,utilies).getFlush()
         );
     }
 
@@ -175,7 +178,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.HEARTH),
                 new Card(SimpleCard.QUEEN, SimpleCard.QUEEN.getValueOfCard(), SeedCard.DIAMOND)
             ),
-            new CombinationCardGetterImpl(totalCardList).getFullHouse()
+            new CombinationCardGetterImpl(totalCardList,utilies).getFullHouse()
         );
     }
 
@@ -201,7 +204,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.FIVE, SimpleCard.FIVE.getValueOfCard(), SeedCard.HEARTH),
                 new Card(SimpleCard.SIX, SimpleCard.SIX.getValueOfCard(), SeedCard.DIAMOND)
             ),
-            new CombinationCardGetterImpl(totalCardList).getStraight()
+            new CombinationCardGetterImpl(totalCardList,utilies).getStraight()
         );
 
     }
@@ -228,7 +231,7 @@ class CombinationCardGetterImplTest {
                 new Card(SimpleCard.TEN, SimpleCard.TEN.getValueOfCard(), SeedCard.DIAMOND),
                 new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.DIAMOND)
             ),
-            new CombinationCardGetterImpl(totalCardList).getStraight()
+            new CombinationCardGetterImpl(totalCardList,utilies).getStraight()
         );
     }
 

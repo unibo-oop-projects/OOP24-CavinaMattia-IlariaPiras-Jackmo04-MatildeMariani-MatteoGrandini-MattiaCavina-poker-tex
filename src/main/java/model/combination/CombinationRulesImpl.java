@@ -19,7 +19,7 @@ import model.deck.api.SimpleCard;
 public class CombinationRulesImpl implements CombinationRules<Card> {
 
     private final List<Card> totalCardList = Lists.newLinkedList();
-    private final CombinationUtilities rulesUtilities = new CombinationUtilitiesImpl();
+    private final CombinationUtilities utilies;
 
     /**
      * Constructor for CombinationsRulesImpl.
@@ -27,8 +27,9 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
      * @param totalCardList
      *                      list of cards.
      */
-    public CombinationRulesImpl(final Set<Card> totalCardList) {
+    public CombinationRulesImpl(final Set<Card> totalCardList , CombinationUtilities utilies ) {
         totalCardList.forEach(this.totalCardList::add);
+        this.utilies = utilies;
     }
 
     /**
@@ -37,7 +38,7 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
     @Override
     public Boolean isPair() {
         return isLongEnough(CombinationDimension.PAIR.getDimension())
-                && rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
+                && utilies.getSumOfSameNameCard(getSafetyList()).entrySet()
                         .stream()
                         .map(Entry::getCount)
                         .toList()
@@ -51,7 +52,7 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
     @Override
     public Boolean isTwoPairs() {
         return isLongEnough(CombinationDimension.TWO_PAIRS.getDimension())
-                && rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
+                && utilies.getSumOfSameNameCard(getSafetyList()).entrySet()
                         .stream()
                         .map(Entry::getCount)
                         .filter(t -> t == CombinationDimension.PAIR.getDimension())
@@ -64,7 +65,7 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
     @Override
     public Boolean isTris() {
         return isLongEnough(CombinationDimension.TRIS.getDimension())
-                && rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
+                && utilies.getSumOfSameNameCard(getSafetyList()).entrySet()
                         .stream()
                         .map(Entry::getCount)
                         .toList()
@@ -76,7 +77,7 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
      */
     @Override
     public Boolean isStraight() {
-        return rulesUtilities.getRoyalFlush(getSafetyList()).size() == CombinationDimension.STRAIGHT
+        return utilies.getRoyalFlush(getSafetyList()).size() == CombinationDimension.STRAIGHT
                 .getDimension();
     }
 
@@ -96,7 +97,7 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
     @Override
     public Boolean isFlush() {
         return isLongEnough(CombinationDimension.STRAIGHT.getDimension())
-                && rulesUtilities.getSumOfSameSeedCard(getSafetyList()).entrySet()
+                && utilies.getSumOfSameSeedCard(getSafetyList()).entrySet()
                         .stream()
                         .map(Entry::getCount)
                         .toList()
@@ -109,7 +110,7 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
     @Override
     public Boolean isPoker() {
         return isLongEnough(CombinationDimension.POKER.getDimension())
-                && rulesUtilities.getSumOfSameNameCard(getSafetyList()).entrySet()
+                && utilies.getSumOfSameNameCard(getSafetyList()).entrySet()
                         .stream()
                         .map(Entry::getCount)
                         .toList()
@@ -122,7 +123,7 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
     @Override
     public Boolean isStraightFlush() {
         return isStraight()
-                && rulesUtilities.getRoyalFlush(getSafetyList()).stream()
+                && utilies.getRoyalFlush(getSafetyList()).stream()
                         .map(Card::seedName)
                         .distinct()
                         .count() == 1;
@@ -134,7 +135,7 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
     @Override
     public Boolean isRoyalFlush() {
         return isStraightFlush()
-                && rulesUtilities.getRoyalFlush(getSafetyList()).stream()
+                && utilies.getRoyalFlush(getSafetyList()).stream()
                         .mapToInt(Card::valueOfCard)
                         .min().getAsInt() == SimpleCard.TEN.getValueOfCard();
     }

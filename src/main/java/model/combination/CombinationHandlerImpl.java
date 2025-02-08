@@ -21,8 +21,10 @@ public class CombinationHandlerImpl implements CombinationHandler<Card> {
      */
     @Override
     public Combination<Card> getBestCombination(final Set<Card> totalCardList) {
-        final CombinationRules<Card> combRules = new CombinationRulesImpl(totalCardList);
-        final CombinationCardGetter<Card> combGetter = new CombinationCardGetterImpl(totalCardList);
+        final CombinationRules<Card> combRules = new CombinationRulesImpl(totalCardList,
+                new CombinationUtilitiesImpl());
+        final CombinationCardGetter<Card> combGetter = new CombinationCardGetterImpl(totalCardList,
+                new CombinationUtilitiesImpl());
 
         if (combRules.isRoyalFlush()) {
             return new Combination<>(combGetter.getStraight(), CombinationType.ROYAL_FLUSH);
