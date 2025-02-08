@@ -1,13 +1,17 @@
 package controller.statistics;
 
+import java.io.IOException;
 import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import controller.scene.SceneControllerImpl;
 import model.combination.api.CombinationType;
 import model.statistics.BasicStatisticsImpl;
 import model.statistics.StatisticsManagerImpl;
 import model.statistics.api.BasicStatistics;
+import model.statistics.api.StatisticsManager;
 import view.View;
 
 /**
@@ -17,7 +21,9 @@ import view.View;
  */
 public class BasicStatisticsControllerImpl extends SceneControllerImpl implements StatisticsController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(BasicStatisticsControllerImpl.class);
     private static final String STATS_FILE_NAME = "stats.bin";
+    private final StatisticsManager<BasicStatistics> statsManager;
 
     /**
      * Constructor for the StatsControllerImpl class.
@@ -25,6 +31,7 @@ public class BasicStatisticsControllerImpl extends SceneControllerImpl implement
      */
     public BasicStatisticsControllerImpl(final View mainView) {
         super(mainView);
+        this.statsManager = new StatisticsManagerImpl<>(STATS_FILE_NAME, new BasicStatisticsImpl());
     }
 
     /**
@@ -32,8 +39,20 @@ public class BasicStatisticsControllerImpl extends SceneControllerImpl implement
      */
     @Override
     public List<ImmutablePair<String, String>> getStatistics() {
-        final var statsManager = new StatisticsManagerImpl<>(STATS_FILE_NAME, new BasicStatisticsImpl());
-        return this.getAsList(statsManager.getTotalStatistics());
+        return this.getAsList(this.statsManager.getTotalStatistics());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resetStatistics() {
+        this.statsManager.getTotalStatistics().reset();
+        try {
+            this.statsManager.saveStatistics(STATS_FILE_NAME);
+        } catch (IOException e) {
+            LOGGER.error("Error while saving the statistics", e);
+        }
     }
 
     private List<ImmutablePair<String, String>> getAsList(final BasicStatistics stats) {

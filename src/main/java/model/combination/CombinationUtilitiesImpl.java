@@ -35,7 +35,7 @@ public final class CombinationUtilitiesImpl implements CombinationUtilities {
                 && !Stream.iterate(0, t -> t + 1)
                         .limit(CombinationDimension.STRAIGHT.getDimension())
                         .map(t -> t + straightList.get(t).valueOfCard())
-                        .allMatch(t -> t == straightList.getFirst().valueOfCard())) {
+                        .allMatch(t -> t.equals(straightList.getFirst().valueOfCard()))) {
             straightList.removeFirst();
         }
         return straightList.stream()

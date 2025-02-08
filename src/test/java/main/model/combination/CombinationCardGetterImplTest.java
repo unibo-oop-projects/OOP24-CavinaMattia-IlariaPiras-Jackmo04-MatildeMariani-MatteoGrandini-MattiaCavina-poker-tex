@@ -20,7 +20,7 @@ import model.deck.api.SimpleCard;
  * Test of {@link CombinationCardGetterImpl}.
  */
 class CombinationCardGetterImplTest {
-    CombinationUtilities utilies = new CombinationUtilitiesImpl();
+    private final CombinationUtilities utilies = new CombinationUtilitiesImpl();
 
     /**
      * Empty test.
