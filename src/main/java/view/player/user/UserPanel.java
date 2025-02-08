@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.io.Serializable;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -23,7 +22,7 @@ import view.gameScenePanels.PlayerPanelImpl;
 /**
  * Class representing the graphical user interface for the poker game.
  */
-public class UserPanel extends PlayerPanelImpl implements Serializable {
+public class UserPanel extends PlayerPanelImpl {
 
     private static final long serialVersionUID = 3L;
 

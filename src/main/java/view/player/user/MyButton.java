@@ -3,7 +3,6 @@ package view.player.user;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.io.Serializable;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -14,7 +13,7 @@ import javax.swing.JPanel;
  * This class extends JButton and provides a constructor to initialize the button
  * with specific text, action command, action listener, and adds the button to a specified panel.
  */
-public class MyButton extends JButton implements Serializable {
+public class MyButton extends JButton {
 
     private static final long serialVersionUID = 2L;
 
