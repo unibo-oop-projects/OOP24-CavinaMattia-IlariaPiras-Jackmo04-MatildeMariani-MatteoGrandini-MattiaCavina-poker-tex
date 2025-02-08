@@ -35,7 +35,7 @@ public class UserPanel extends PlayerPanelImpl {
     private static final int COLOR_BACKGROUND = 0xDCBA85;
     private static final int COLOR_INPUT_PANEL = 0xECE6D0;
     private static final int COLS = 5;
-    private static final String MESSAGE = "Insert your bet here and then push Raise";
+    private static final String MESSAGE = "Insert your bet here, press enter and then push Raise";
 
     private final UserPlayerController controller;
     private MyButton checkButton;
