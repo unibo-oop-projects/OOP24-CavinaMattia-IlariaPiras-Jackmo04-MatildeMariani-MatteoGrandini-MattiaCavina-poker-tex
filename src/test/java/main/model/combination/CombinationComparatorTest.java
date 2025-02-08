@@ -12,7 +12,7 @@ import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Test of {@link model.combination.CombinationComparator}.
+ * Test of {@link CombinationComparator}.
  */
 class CombinationComparatorTest {
 

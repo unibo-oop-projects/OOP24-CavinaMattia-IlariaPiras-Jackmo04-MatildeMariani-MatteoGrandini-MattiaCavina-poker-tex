@@ -1,7 +1,7 @@
 package model.deck.api;
 
 /**
- * DeckFactory to generate varius  type of deck.
+ * DeckFactory to generate varius type of deck.
  */
 public interface DeckFactory {
 

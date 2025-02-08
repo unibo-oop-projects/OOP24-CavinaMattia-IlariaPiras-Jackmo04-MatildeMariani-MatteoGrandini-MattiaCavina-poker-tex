@@ -14,7 +14,7 @@ import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Test of {@link model.combination.CombinationHandlerImpl}.
+ * Test of {@link CombinationHandlerImpl}.
  */
 class CombinationHandlerImplTest {
 

@@ -17,7 +17,7 @@ import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Test of {@link model.combination.CombinationRulesImpl}.
+ * Test of {@link CombinationRulesImpl}.
  */
 class CombinationRulesImplTest {
 

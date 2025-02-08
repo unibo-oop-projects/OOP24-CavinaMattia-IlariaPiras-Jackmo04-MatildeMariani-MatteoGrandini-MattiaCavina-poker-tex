@@ -17,7 +17,7 @@ import model.deck.api.SeedCard;
 import model.deck.api.SimpleCard;
 
 /**
- * Test of {@link model.combination.CombinationCardGetterImpl}.
+ * Test of {@link CombinationCardGetterImpl}.
  */
 class CombinationCardGetterImplTest {
     CombinationUtilities utilies = new CombinationUtilitiesImpl();

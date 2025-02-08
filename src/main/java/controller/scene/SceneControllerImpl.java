@@ -18,13 +18,14 @@ public class SceneControllerImpl implements SceneController {
 
     /**
      * Creates a new main menu controller.
+     * 
      * @param mainView the main view of the application.
      */
     public SceneControllerImpl(final View mainView) {
         this.mainView = mainView;
     }
 
-     /**
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -65,15 +66,6 @@ public class SceneControllerImpl implements SceneController {
     }
 
     /**
-     * Method to get mainView.
-     * @return
-     *          the main view of the application   
-     */
-    protected View getView() {
-        return this.mainView;
-    }
-
-    /**
      * {@inheritDoc}
      */
 
@@ -81,5 +73,14 @@ public class SceneControllerImpl implements SceneController {
     public void goToGameOverScene(final Boolean endGameStatus) {
         this.mainView.changeScene(new GameOverScene(new GameOverMenuImpl(mainView, endGameStatus)));
     }
-    
+
+    /**
+     * Method to get mainView.
+     * 
+     * @return the main view of the application
+     */
+    protected View getView() {
+        return this.mainView;
+    }
+
 }

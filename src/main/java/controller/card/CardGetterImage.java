@@ -36,8 +36,7 @@ public interface CardGetterImage {
      * 
      * @param card Set of card to be showed , its size must be under 5 card.
      * @return List of {@link ImageIcon} of the card and the back card.
-     * @throws IllegalArgumentException
-     *                                  If the number of {@link Card}
+     * @throws IllegalArgumentException If the number of {@link Card}
      *                                  is over the limit.
      */
     List<ImageIcon> getTableCardImage(Set<Card> card);
