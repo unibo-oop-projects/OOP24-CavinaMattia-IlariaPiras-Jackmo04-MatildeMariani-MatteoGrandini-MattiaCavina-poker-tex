@@ -128,7 +128,7 @@ public abstract class AbstractPlayer implements Player {
      * {@inheritDoc}
      */
     @Override
-    public abstract Action getAction(State currentState);
+    public abstract Action getAction();
 
     /**
      * {@inheritDoc}

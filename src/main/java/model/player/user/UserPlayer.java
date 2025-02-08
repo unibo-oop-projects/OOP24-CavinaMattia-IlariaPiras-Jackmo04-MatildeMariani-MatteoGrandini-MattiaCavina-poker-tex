@@ -33,20 +33,20 @@ public class UserPlayer extends AbstractPlayer {
      * {@inheritDoc}
      */
     @Override
-    public Action getAction(final State currentState) {
-        this.controller.setCurrentState(currentState);
+    public Action getAction() {
+        this.controller.setCurrentState(this.getGameState());
         if (this.getCards().size() != 2) {
             throw new IllegalStateException("Player must have 2 cards to play");
         }
-        this.updateCombination(currentState);
+        this.updateCombination(this.getGameState());
         final Action action;
-        if (currentState.getHandPhase() == Phase.PREFLOP && this.getTotalPhaseBet() == 0 && this.getRole().isPresent()) {
-            this.setTotalPhaseBet((int) (currentState.getCurrentBet() * this.getRole().get().getMultiplier()));
+        if (this.getGameState().getHandPhase() == Phase.PREFLOP && this.getTotalPhaseBet() == 0 && this.getRole().isPresent()) {
+            this.setTotalPhaseBet((int) (this.getGameState().getCurrentBet() * this.getRole().get().getMultiplier()));
             this.setChips(this.getChips() - this.getTotalPhaseBet());
             action = Action.CALL;
         } else { 
             action = this.controller.getUserAction();
-            final int bet = this.calculateChipsToBet(currentState.getCurrentBet(), action);
+            final int bet = this.calculateChipsToBet(this.getGameState().getCurrentBet(), action);
             this.setChips(this.getChips() - bet);
             this.setTotalPhaseBet(this.getTotalPhaseBet() + bet);
         }
