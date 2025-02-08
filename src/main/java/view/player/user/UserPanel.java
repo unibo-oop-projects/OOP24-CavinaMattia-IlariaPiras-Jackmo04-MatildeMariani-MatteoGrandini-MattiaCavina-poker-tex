@@ -60,7 +60,7 @@ public class UserPanel extends PlayerPanelImpl implements Serializable {
     public UserPanel(final UserPlayerController controller) {
         this.controller = controller;
         createUserPanel();
-        // disableAllButtons();
+        disableAllButtons();
     }
 
     /**
