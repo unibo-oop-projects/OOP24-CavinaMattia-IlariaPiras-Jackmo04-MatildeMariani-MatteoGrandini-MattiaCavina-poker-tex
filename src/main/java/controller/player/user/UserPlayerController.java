@@ -16,7 +16,6 @@ public class UserPlayerController {
     private final UserPlayer userPlayer;
     private final UserPanel userPanel;
     private int raiseAmount;
-    private State state;
     private Action action;
     private boolean actionReceived;
     private final Object lock = new Object();
@@ -112,7 +111,7 @@ public class UserPlayerController {
      * @return true if the user player can check, false otherwise.
      */
     public boolean canCheck() {
-        return this.state.getCurrentBet() == this.userPlayer.getTotalPhaseBet() && this.userPlayer.getChips() > 0;
+        return this.getState().getCurrentBet() == this.userPlayer.getTotalPhaseBet() && this.userPlayer.getChips() > 0;
     }
 
     /**
@@ -128,7 +127,7 @@ public class UserPlayerController {
      * @return true if the user player can raise, false otherwise.
      */
     public boolean canRaise() {
-        return userPlayer.getChips() > this.state.getCurrentBet();
+        return userPlayer.getChips() > this.getState().getCurrentBet();
     }
 
     /**
@@ -151,8 +150,8 @@ public class UserPlayerController {
      * Sets the current state of the game.
      * @param state the current state of the game.
      */
-    public void setCurrentState(final State state) {
-        this.state = state;
+    public State getState() {
+        return this.userPlayer.getGameState();
     }
 
     public UserPanel getUserPanel() {
