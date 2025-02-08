@@ -26,8 +26,9 @@ import view.scenes.api.Scene;
  * Extend {@link Jpannel} and implement {@link view.scenes.api.Scene}
  * 
  */
-public class GameOverScene extends JPanel implements Scene {
+public final class GameOverScene extends JPanel implements Scene {
 
+    private static final long serialVersionUID = 43L;
     private static final String SCENE_NAME = "GameOver";
     private static final String RESOURCE_PATH = "endgame/";
     private static final int TEXT_DIMENSION_BUTTON = 30;
@@ -61,7 +62,7 @@ public class GameOverScene extends JPanel implements Scene {
         this.controller = controller;
 
         this.setLayout(new BorderLayout());
-        Timer timer = new Timer(TIME_TO_LAMP, getLampAction(textFinalResult));
+        final Timer timer = new Timer(TIME_TO_LAMP, getLampAction(textFinalResult));
         timer.start();
 
         endImmage.setHorizontalAlignment(JLabel.CENTER);
@@ -74,7 +75,7 @@ public class GameOverScene extends JPanel implements Scene {
                 e -> this.controller.goToMainScene());
 
         // To change Pannel from win to lose from keyboard.
-        KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0);
+        final KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0);
         this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(keyStroke, KEY_BORD_SWITCH);
         this.getActionMap().put(KEY_BORD_SWITCH, getChangePannelAction());
 
@@ -124,7 +125,7 @@ public class GameOverScene extends JPanel implements Scene {
     private Action getChangePannelAction() {
         return new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 controller.changeResultPannel();
                 setFinalPannel(controller.isEndGameStatus());
             }
@@ -143,15 +144,15 @@ public class GameOverScene extends JPanel implements Scene {
 
     }
 
-    private ActionListener getLampAction(JComponent component) {
+    private ActionListener getLampAction(final JComponent component) {
         return new ActionListener() {
 
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 if (setLamp) {
-                    textFinalResult.setForeground(TEXT_COLOR);
+                    component.setForeground(TEXT_COLOR);
                 } else {
-                    textFinalResult.setForeground(labelPannel.getBackground());
+                    component.setForeground(component.getParent().getBackground());
                 }
                 setLamp = !setLamp;
             }
