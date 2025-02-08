@@ -1,11 +1,11 @@
 package model.player.ai;
 
+import model.game.api.Phase;
 import model.player.AbstractPlayer;
 import model.player.ai.api.AIPlayer;
 import model.player.api.Action;
 import model.player.api.Role;
 import model.statistics.api.BasicStatistics;
-import model.game.api.Phase;
 
 /**
  * This class provides a basic implementation of the {@link AIPlayer} interface.
@@ -94,7 +94,7 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
      * because the AI player does not need to update statistics.
      */
     @Override
-    public void updateStatistics(BasicStatistics stats) {
+    public void updateStatistics(final BasicStatistics stats) {
     }
 
     /**

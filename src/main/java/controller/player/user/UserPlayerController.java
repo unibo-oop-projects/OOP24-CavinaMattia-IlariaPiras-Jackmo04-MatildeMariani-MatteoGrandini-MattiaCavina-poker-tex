@@ -147,14 +147,11 @@ public class UserPlayerController {
     }
 
     /**
-     * Sets the current state of the game.
-     * @param state the current state of the game.
+     * Gets the current state of the game.
+     * This method returns the current state of the game.
+     * @return the current state of the game.
      */
     public State getState() {
         return this.userPlayer.getGameState();
-    }
-
-    public UserPanel getUserPanel() {
-        return this.userPanel;
     }
 }

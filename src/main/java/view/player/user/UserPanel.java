@@ -141,7 +141,7 @@ public class UserPanel extends PlayerPanelImpl {
     /**
      * Disables all the buttons and the text field in the GUI.
      */
-    public void disableAllButtons() {
+    public final void disableAllButtons() {
         this.raiseAmount.setText(MESSAGE);
         this.raiseAmount.setEnabled(false);
         this.checkButton.setEnabled(false);
@@ -225,8 +225,11 @@ public class UserPanel extends PlayerPanelImpl {
        super.setRole(role);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void updateState(boolean isTurn) {
+    public void updateState(final boolean isTurn) {
         if (isTurn) {
             this.updateButtonStates();
         } else {
