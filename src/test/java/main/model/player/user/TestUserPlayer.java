@@ -53,10 +53,10 @@ class TestUserPlayer {
         assertEquals(Set.of(), player.getCards());
         assertEquals(INITIAL_TOTAL_PHASE_BET, player.getTotalPhaseBet());
         assertThrows(IllegalStateException.class, 
-            () -> player.getAction());
+            player::getAction);
         player.setGameState(new StateImpl(BET_3000, NUM_OF_PLAYERS));
         assertThrows(IllegalStateException.class, 
-            () -> player.getAction());
+            player::getAction);
         assertFalse(player.isAI());
     }
 

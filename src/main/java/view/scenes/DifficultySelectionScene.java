@@ -168,14 +168,14 @@ public class DifficultySelectionScene implements Scene {
         input.setBackground(new Color(COLOR_INPUT_PANEL));
         input.addFocusListener(new FocusAdapter() {
             @Override
-            public void focusGained(FocusEvent e) {
-                if (input.getText().equals(MESSAGE)) {
+            public void focusGained(final FocusEvent e) {
+                if (MESSAGE.equals(input.getText())) {
                     input.setText(""); 
                 }
             }
 
             @Override
-            public void focusLost(FocusEvent e) {
+            public void focusLost(final FocusEvent e) {
                 if (input.getText().isEmpty()) {
                     input.setText(MESSAGE);
                 }
@@ -183,18 +183,19 @@ public class DifficultySelectionScene implements Scene {
         });
         input.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
+            public void keyTyped(final KeyEvent e) {
+                final char c = e.getKeyChar();
                 if (!Character.isDigit(c)) {
                     e.consume();
                 }
-                String text = input.getText() + c;
+                final String text = input.getText() + c;
                 try {
-                    long value = Long.parseLong(text);
+                    final long value = Long.parseLong(text);
                     if (value > Integer.MAX_VALUE) {
                         e.consume(); 
                     }
                 } catch (NumberFormatException ex) {
+                    LOGGER.error("Number conversion error: ", ex);
                 }
             }
         });
@@ -259,7 +260,7 @@ public class DifficultySelectionScene implements Scene {
         return SCENE_NAME;
     }
 
-    private void updatePlayButtonState(JButton button) {
+    private void updatePlayButtonState(final JButton button) {
     if (this.difficultySelected && this.chipsValid) {
         button.setEnabled(true);
     } else {
@@ -292,6 +293,12 @@ public class DifficultySelectionScene implements Scene {
             this.button.setFocusable(false);
         }
 
+        /**
+         * Gets the JButton associated with this DiffSelButton.
+         * This method returns the JButton component that is styled and initialized
+         * by the DiffSelButton class. 
+         * @return the JButton associated with this DiffSelButton.
+         */
         public JButton getButton() {
             return this.button;
         }
