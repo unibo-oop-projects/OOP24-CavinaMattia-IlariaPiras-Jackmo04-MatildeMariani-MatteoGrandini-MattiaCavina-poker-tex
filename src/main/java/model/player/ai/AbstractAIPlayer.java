@@ -14,6 +14,7 @@ import model.game.api.State;
  */
 abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
+    private static final int REDUCING_FACTOR = 10;
     private final double raisingFactor;
     private final int standardRaise;
 
@@ -26,7 +27,7 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
     AbstractAIPlayer(final int id, final int initialChips, final double raisingFactor) {
         super(id, initialChips);
         this.raisingFactor = raisingFactor;
-        this.standardRaise = initialChips / 10;
+        this.standardRaise = initialChips / REDUCING_FACTOR;
     }
 
     /**
