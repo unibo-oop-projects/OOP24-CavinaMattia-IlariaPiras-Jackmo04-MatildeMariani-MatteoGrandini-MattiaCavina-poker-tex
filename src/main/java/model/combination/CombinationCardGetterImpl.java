@@ -96,7 +96,7 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
         @Override
         public Set<Card> getStraight() {
 
-                return utilies.getRoyalFlushList(getSafetyList())
+                return utilies.getHighterStraight(getSafetyList())
                                 .stream()
                                 .collect(Collectors.toSet());
         }

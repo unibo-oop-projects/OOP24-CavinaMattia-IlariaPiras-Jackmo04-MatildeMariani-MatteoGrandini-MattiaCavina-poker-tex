@@ -22,7 +22,7 @@ public interface CombinationUtilities {
      * @return List of {@link Card} that represent the possible
      *         RoyalFlush combination.
      */
-    List<Card> getRoyalFlushList(List<Card> cardList);
+    List<Card> getHighterStraight(List<Card> cardList);
 
     /**
      * Method to count the sum of the same name card.

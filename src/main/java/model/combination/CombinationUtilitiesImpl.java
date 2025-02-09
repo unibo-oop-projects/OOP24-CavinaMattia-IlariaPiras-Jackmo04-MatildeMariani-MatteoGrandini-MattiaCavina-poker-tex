@@ -28,7 +28,7 @@ public final class CombinationUtilitiesImpl implements CombinationUtilities {
      * {@inheritDoc}
      */
     @Override
-    public List<Card> getRoyalFlushList(final List<Card> cardList) {
+    public List<Card> getHighterStraight(final List<Card> cardList) {
         final var straightList = filteredSameValueCard(addAceOneValue(cardList)).reversed();
 
         while (straightList.size() >= CombinationDimension.STRAIGHT.getDimension()
