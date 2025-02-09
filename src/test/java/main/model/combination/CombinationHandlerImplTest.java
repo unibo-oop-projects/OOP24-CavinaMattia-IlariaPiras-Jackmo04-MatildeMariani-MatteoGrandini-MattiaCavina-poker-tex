@@ -33,8 +33,8 @@ class CombinationHandlerImplTest {
                 new Card(SimpleCard.KING, SeedCard.DIAMOND),
                 new Card(SimpleCard.TWO, SeedCard.DIAMOND));
 
-        assertEquals(CombinationType.PAIR, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
-        assertNotEquals(CombinationType.POKER, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
+        assertEquals(CombinationType.PAIR, new CombinationHandlerImpl().getBestCombination(totalCardList).getType());
+        assertNotEquals(CombinationType.POKER, new CombinationHandlerImpl().getBestCombination(totalCardList).getType());
 
     }
 
@@ -52,9 +52,9 @@ class CombinationHandlerImplTest {
                 new Card(SimpleCard.FIVE, SeedCard.HEARTH),
                 new Card(SimpleCard.SIX, SeedCard.DIAMOND));
 
-        assertEquals(CombinationType.STRAIGHT, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
+        assertEquals(CombinationType.STRAIGHT, new CombinationHandlerImpl().getBestCombination(totalCardList).getType());
         assertNotEquals(CombinationType.ROYAL_FLUSH,
-                new CombinationHandlerImpl().getBestCombination(totalCardList).type());
+                new CombinationHandlerImpl().getBestCombination(totalCardList).getType());
     }
 
     /**
@@ -71,8 +71,8 @@ class CombinationHandlerImplTest {
                 new Card(SimpleCard.KING, SeedCard.DIAMOND),
                 new Card(SimpleCard.TWO, SeedCard.DIAMOND));
 
-        assertEquals(CombinationType.HIGH_CARD, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
-        assertNotEquals(CombinationType.POKER, new CombinationHandlerImpl().getBestCombination(totalCardList).type());
+        assertEquals(CombinationType.HIGH_CARD, new CombinationHandlerImpl().getBestCombination(totalCardList).getType());
+        assertNotEquals(CombinationType.POKER, new CombinationHandlerImpl().getBestCombination(totalCardList).getType());
 
     }
 

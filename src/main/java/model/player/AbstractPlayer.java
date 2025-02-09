@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import model.combination.CombinationHandlerImpl;
-import model.combination.api.Combination;
+import model.combination.Combination;
 import model.deck.api.Card;
 import model.game.api.State;
 import model.player.api.Action;
