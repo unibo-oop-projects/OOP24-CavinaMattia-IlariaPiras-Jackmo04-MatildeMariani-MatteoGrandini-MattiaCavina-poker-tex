@@ -36,14 +36,14 @@ public class UserPanel extends PlayerPanelImpl {
     private static final int COLOR_BACKGROUND = 0xDCBA85;
     private static final int COLOR_INPUT_PANEL = 0xECE6D0;
     private static final int COLS = 5;
-    private static final String MESSAGE = "Insert your bet here and then push Raise";
+    private static final String MESSAGE = "Insert your bet here, press enter and then push Raise";
 
     private final UserPlayerController controller;
-    private MyButton checkButton;
-    private MyButton callButton;
-    private MyButton raiseButton;
-    private MyButton foldButton;
-    private MyButton allInButton;
+    private GenericButton checkButton;
+    private GenericButton callButton;
+    private GenericButton raiseButton;
+    private GenericButton foldButton;
+    private GenericButton allInButton;
     private JTextField raiseAmount;
     private final ActionListener listener = new MyActionListener();
     private static final Logger LOGGER = LoggerFactory.getLogger(UserPanel.class);
@@ -86,15 +86,15 @@ public class UserPanel extends PlayerPanelImpl {
         chipsPanel.setBackground(new Color(COLOR_BACKGROUND));
         chipsPanel.setLayout(new FlowLayout());
 
-        this.checkButton = new MyButton("Check");
+        this.checkButton = new GenericButton("Check");
         this.checkButton.initializeButton("CHECK", this.listener, buttonsPanel);
-        this.callButton = new MyButton("Call");
+        this.callButton = new GenericButton("Call");
         this.callButton.initializeButton("CALL", this.listener, buttonsPanel);
-        this.raiseButton = new MyButton("Raise");
+        this.raiseButton = new GenericButton("Raise");
         this.raiseButton.initializeButton("RAISE", this.listener, buttonsPanel);
-        this.foldButton = new MyButton("Fold");
+        this.foldButton = new GenericButton("Fold");
         this.foldButton.initializeButton("FOLD", this.listener, buttonsPanel);
-        this.allInButton = new MyButton("All-in");
+        this.allInButton = new GenericButton("All-in");
         this.allInButton.initializeButton("ALL_IN", this.listener, buttonsPanel);
 
         this.raiseAmount = new JTextField(MESSAGE); 
@@ -181,13 +181,13 @@ public class UserPanel extends PlayerPanelImpl {
                     }
                 }
                 case "CHECK", "CALL", "FOLD", "ALL_IN" -> {
-                    controller.receiveUserAction(((MyButton) e.getSource()).getActionCommand());
+                    controller.receiveUserAction(((GenericButton) e.getSource()).getActionCommand());
                 }
                 default -> {
                     LOGGER.error("Unexpected action command: " + e.getActionCommand());
                 }
             }
-            setPlayerAction(((MyButton) e.getSource()).getActionCommand());
+            setPlayerAction(((GenericButton) e.getSource()).getActionCommand());
         }
     }
 

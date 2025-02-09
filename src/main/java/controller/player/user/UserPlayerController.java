@@ -3,6 +3,7 @@ package controller.player.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.game.api.State;
 import model.player.api.Action;
 import model.player.user.UserPlayer;
@@ -14,7 +15,6 @@ import view.player.user.UserPanel;
 public class UserPlayerController {
 
     private final UserPlayer userPlayer;
-    private final UserPanel userPanel;
     private int raiseAmount;
     private Action action;
     private boolean actionReceived;
@@ -26,9 +26,10 @@ public class UserPlayerController {
      * Initializes the userPanel associated with this controller.
      * @param userPlayer the user player associated with this controller.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Storing UserPlayer mutable object is intented")
     public UserPlayerController(final UserPlayer userPlayer) {
         this.userPlayer = userPlayer;
-        this.userPanel = new UserPanel(this);
+        new UserPanel(this);
     }
 
     /**
@@ -154,4 +155,5 @@ public class UserPlayerController {
     public State getState() {
         return this.userPlayer.getGameState();
     }
+
 }

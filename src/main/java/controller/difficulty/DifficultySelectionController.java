@@ -28,4 +28,5 @@ public interface DifficultySelectionController {
      * @param initialChips the initial number of chips to set.
      */
     void setInitialChips(int initialChips);
+
 }

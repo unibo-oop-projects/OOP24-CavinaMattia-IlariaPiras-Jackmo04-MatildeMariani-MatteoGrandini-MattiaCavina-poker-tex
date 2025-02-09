@@ -1,6 +1,7 @@
 package model.player.user;
 
 import controller.player.user.UserPlayerController;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.combination.Combination;
 import model.deck.api.Card;
 import model.game.api.Phase;
@@ -129,6 +130,7 @@ public class UserPlayer extends AbstractPlayer {
      * Gets the controller associated with this user player.
      * @return the controller associated with this user player.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "The controller is intended to be exposed")
     public UserPlayerController getController() {
         return this.controller;
     }
@@ -140,4 +142,5 @@ public class UserPlayer extends AbstractPlayer {
     public State getGameState() {
         return super.getGameState();
     }
+
 }

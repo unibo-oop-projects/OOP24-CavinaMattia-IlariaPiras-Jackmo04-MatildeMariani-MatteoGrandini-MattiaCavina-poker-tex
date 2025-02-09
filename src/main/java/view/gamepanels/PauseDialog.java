@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.slf4j.Logger;
@@ -20,7 +19,7 @@ import controller.game.api.GameController;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.game.api.Game;
 import view.gamepanels.api.CustomLabel;
-import view.player.user.MyButton;
+import view.player.user.GenericButton;
 import view.scenes.MainMenuScene;
 
 /**
@@ -74,17 +73,17 @@ public class PauseDialog {
      */
     private JPanel getPausePanel() {
         final var pausePanel = new JPanel();
-        final JLabel title = new CustomLabel().getCustomLabel("PAUSED");
+        final var title = new CustomLabel().getCustomLabel("PAUSED");
         title.setFont(new Font(FONT_FAMILY, Font.BOLD, TITLE_FONT_SIZE));
 
         pausePanel.setLayout(new GridLayout(4, 1, 0, VERTICAL_GAP));
         pausePanel.add(title);
 
-        final MyButton resumeButton = new MyButton("RESUME");
+        final var resumeButton = new GenericButton("RESUME");
         resumeButton.initializeButton("RESUME", actionListener, pausePanel);
-        final MyButton restartButton = new MyButton("NEW GAME");
+        final var restartButton = new GenericButton("NEW GAME");
         restartButton.initializeButton("NEW GAME", actionListener, pausePanel);
-        final MyButton menuButton = new MyButton("MENU");
+        final var menuButton = new GenericButton("MENU");
         menuButton.initializeButton("MENU", actionListener, pausePanel);
 
         resumeButton.setFont(new Font(FONT_FAMILY, Font.BOLD, BUTTON_FONT_SIZE));
@@ -101,7 +100,7 @@ public class PauseDialog {
     private final ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(final ActionEvent e) {
-            switch (((MyButton) e.getSource()).getActionCommand()) {
+            switch (((GenericButton) e.getSource()).getActionCommand()) {
                 case "NEW GAME":
                     controller.goToDifficultySelectionScene();
                     break;

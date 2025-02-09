@@ -21,7 +21,7 @@ public interface Deck<X> {
      * Method to keep some card from deck , numer of card is arbytrary.
      * 
      * @param numberOfCard Number of card that a need to keep from top of my deck.
-     * @throws IllegalAccessError Exception throws if there aren't many card in
+     * @throws IllegalStateException Exception throws if there aren't many card in
      *                            deck.
      * @return {@link List} of card keeped from top fron deck.
      */
