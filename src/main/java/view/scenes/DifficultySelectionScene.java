@@ -73,11 +73,15 @@ public class DifficultySelectionScene implements Scene {
      */
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentional storage of a object DifficultySelectionController")
     public DifficultySelectionScene(final DifficultySelectionController controller) { 
-        this.diffSelPanel = new JPanel(new GridBagLayout());
         this.controller = controller;
+        this.diffSelPanel = new JPanel(new BorderLayout());
         initialize();
     }
 
+    /**
+     * Initializes the components of the DifficultySelectionScene.
+     * Sets up the layout, styles, and event listeners for the components.
+     */
     private void initialize() {
         this.diffSelPanel.setBackground(new Color(COLOR_BACKGROUND));
 
@@ -91,6 +95,8 @@ public class DifficultySelectionScene implements Scene {
 
         final JLabel title = new JLabel("DIFFICULTY");
         title.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_TITLE));
+        title.setBackground(new Color(COLOR_BACKGROUND));
+        title.setOpaque(true);
         titlePanel.add(title);
 
         final JPanel centerPanel = new JPanel();
@@ -253,6 +259,7 @@ public class DifficultySelectionScene implements Scene {
     @Override
     public JPanel getPanel() {
         final var wrapper = new JPanel(new BorderLayout());
+        wrapper.setBackground(new Color(COLOR_BACKGROUND));
         wrapper.add(this.diffSelPanel, BorderLayout.CENTER);
         return wrapper;
     }
@@ -265,6 +272,10 @@ public class DifficultySelectionScene implements Scene {
         return SCENE_NAME;
     }
 
+    /**
+     * Updates the state of the play button based on the selected difficulty and chips validity.
+     * @param button the play button to be updated.
+     */
     private void updatePlayButtonState(final JButton button) {
     if (this.difficultySelected && this.chipsValid) {
         button.setEnabled(true);
@@ -280,11 +291,18 @@ public class DifficultySelectionScene implements Scene {
 
         private final JButton button;
 
+        /**
+         * Constructs a DiffSelButton with the specified text.
+         * @param text the text to be displayed on the button.
+         */
         DiffSelButton(final String text) {
             this.button = new JButton(text);
             initializeButton();
         }
 
+        /**
+         * Initializes the button with specific styles.
+         */
         private void initializeButton() {
             this.button.setBackground(new Color(COLOR_BUTTONS_PANEL));
             this.button.setForeground(Color.BLACK);
@@ -297,6 +315,12 @@ public class DifficultySelectionScene implements Scene {
             this.button.setFocusable(false);
         }
 
+        /**
+         * Gets the JButton associated with this DiffSelButton.
+         * This method returns the JButton component that is styled and initialized
+         * by the DiffSelButton class. 
+         * @return the JButton associated with this DiffSelButton.
+         */
         public JButton getButton() {
             return this.button;
         }

@@ -46,10 +46,14 @@ public class MainMenuScene implements Scene {
      */
     public MainMenuScene(final MainMenuController controller) {
         this.controller = controller;
-        this.mainMenuPanel = new JPanel(new GridBagLayout());
+        this.mainMenuPanel = new JPanel(new BorderLayout());
         initialize();
     }
 
+    /**
+     * Initializes the components of the MainMenuScene.
+     * Sets up the layout, styles, and event listeners for the components.
+     */
     private void initialize() {
         this.mainMenuPanel.setBackground(new Color(COLOR_BACKGROUND));
 
@@ -120,11 +124,18 @@ public class MainMenuScene implements Scene {
 
         private final JButton button;
 
+        /**
+         * Constructs a MenuButton with the specified text.
+         * @param text the text to be displayed on the button.
+         */
         MenuButton(final String text) {
             this.button = new JButton(text);
             initializeButton();
         }
 
+        /**
+         * Initializes the button with specific styles.
+         */
         private void initializeButton() {
             this.button.setBackground(new Color(COLOR_BUTTONS_PANEL));
             this.button.setForeground(Color.BLACK);
@@ -137,6 +148,12 @@ public class MainMenuScene implements Scene {
             this.button.setFocusable(false);
         }
 
+        /**
+         * Gets the JButton associated with this MenuButton.
+         * This method returns the JButton component that is styled and initialized
+         * by the MenuButton class. 
+         * @return the JButton associated with this DiffSelButton.
+         */
         public JButton getButton() {
             return this.button;
         }

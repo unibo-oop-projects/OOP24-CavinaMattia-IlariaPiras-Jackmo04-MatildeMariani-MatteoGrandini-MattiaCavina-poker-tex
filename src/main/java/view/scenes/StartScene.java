@@ -37,7 +37,7 @@ public class StartScene implements Scene {
     private static final String SCENE_NAME = "start";
 
     private final StartController controller;
-    private final JPanel mainPanel;
+    private final JPanel startPanel;
 
     /**
      * Constructs a new StartScene.
@@ -45,11 +45,14 @@ public class StartScene implements Scene {
      */
     public StartScene(final StartController controller) {
         this.controller = controller;
-        this.mainPanel = new JPanel();
+        this.startPanel = new JPanel(new BorderLayout());
         initialize();
     }
 
     private void initialize() {
+        this.startPanel.setBackground(new Color(COLOR_BACKGROUND));
+
+        final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         mainPanel.setBackground(new Color(COLOR_BACKGROUND));
 
@@ -86,6 +89,8 @@ public class StartScene implements Scene {
         centerPanel.add(menuPanel);
 
         mainPanel.add(centerPanel);
+
+        this.startPanel.add(mainPanel, BorderLayout.CENTER);
     }
 
     /**
@@ -94,8 +99,7 @@ public class StartScene implements Scene {
     @Override
     public JPanel getPanel() {
         final var wrapper = new JPanel(new BorderLayout());
-        wrapper.add(this.mainPanel, BorderLayout.CENTER);
-        wrapper.setBackground(new Color(COLOR_BACKGROUND));
+        wrapper.add(this.startPanel, BorderLayout.CENTER);
         return wrapper;
     }
 
