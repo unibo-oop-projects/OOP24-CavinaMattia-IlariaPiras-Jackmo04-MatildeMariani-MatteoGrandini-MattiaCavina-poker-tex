@@ -6,8 +6,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import model.combination.CombinationHandlerImpl;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.combination.Combination;
+import model.combination.CombinationHandlerImpl;
 import model.deck.api.Card;
 import model.game.api.State;
 import model.player.api.Action;
@@ -152,6 +153,7 @@ public abstract class AbstractPlayer implements Player {
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Storing State mutable object is intented")
     public void setGameState(final State gameState) {
         this.gameState = Objects.requireNonNull(gameState);
     }
@@ -210,4 +212,5 @@ public abstract class AbstractPlayer implements Player {
         this.setRole(null);
         this.setTotalPhaseBet(0);
     }
+
 }

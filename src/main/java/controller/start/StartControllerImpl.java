@@ -27,4 +27,5 @@ public class StartControllerImpl implements StartController {
     public void goToMainMenuScene() {
         this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
     }
+
 }

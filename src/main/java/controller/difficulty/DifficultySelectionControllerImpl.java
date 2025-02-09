@@ -61,5 +61,6 @@ public class DifficultySelectionControllerImpl implements DifficultySelectionCon
     @Override
     public void setInitialChips(final int initialChips) {
         this.initialChips = initialChips;
-    } 
+    }
+
 }
