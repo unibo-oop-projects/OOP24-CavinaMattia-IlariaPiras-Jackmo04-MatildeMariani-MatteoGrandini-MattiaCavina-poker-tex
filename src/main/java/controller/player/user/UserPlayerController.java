@@ -26,7 +26,7 @@ public class UserPlayerController {
      * Initializes the userPanel associated with this controller.
      * @param userPlayer the user player associated with this controller.
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Storing UserPlayer mutable object is intented")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Storing UserPlayer mutable object is intentional")
     public UserPlayerController(final UserPlayer userPlayer) {
         this.userPlayer = userPlayer;
         new UserPanel(this);

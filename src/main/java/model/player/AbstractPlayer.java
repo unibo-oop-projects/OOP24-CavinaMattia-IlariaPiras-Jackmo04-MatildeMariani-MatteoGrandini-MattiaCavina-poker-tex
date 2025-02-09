@@ -153,7 +153,7 @@ public abstract class AbstractPlayer implements Player {
      * {@inheritDoc}
      */
     @Override
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Storing State mutable object is intented")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Storing State mutable object is intentional")
     public void setGameState(final State gameState) {
         this.gameState = Objects.requireNonNull(gameState);
     }

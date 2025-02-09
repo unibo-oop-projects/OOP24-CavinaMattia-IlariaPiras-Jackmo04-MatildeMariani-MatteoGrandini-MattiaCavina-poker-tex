@@ -22,6 +22,7 @@ import view.scenes.api.Scene;
  * It displays the title of the game and allows the user to proceed to the main menu by pressing the button.
  */
 public class StartScene implements Scene {
+
     private static final int COLOR_BUTTONS_PANEL = 0xECCD99;
     private static final int R_BORDER = 0;
     private static final int G_BORDER = 0;
@@ -36,25 +37,21 @@ public class StartScene implements Scene {
     private static final String SCENE_NAME = "start";
 
     private final StartController controller;
-    private final JPanel startPanel;
+    private final JPanel mainPanel;
 
     /**
      * Constructs a new StartScene.
      * @param controller the controller that handles the start scene logic.
      */
     public StartScene(final StartController controller) {
-
         this.controller = controller;
-        this.startPanel = new JPanel(new BorderLayout());
+        this.mainPanel = new JPanel();
         initialize();
     }
 
     private void initialize() {
-        this.startPanel.setLayout(new GridBagLayout());
-        this.startPanel.setBackground(new Color(COLOR_BACKGROUND));
-
-        final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
+        mainPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JPanel titlePanel = new JPanel();
         titlePanel.setLayout(new FlowLayout());
@@ -89,8 +86,6 @@ public class StartScene implements Scene {
         centerPanel.add(menuPanel);
 
         mainPanel.add(centerPanel);
-
-        this.startPanel.add(mainPanel);
     }
 
     /**
@@ -99,7 +94,8 @@ public class StartScene implements Scene {
     @Override
     public JPanel getPanel() {
         final var wrapper = new JPanel(new BorderLayout());
-        wrapper.add(this.startPanel, BorderLayout.CENTER);
+        wrapper.add(this.mainPanel, BorderLayout.CENTER);
+        wrapper.setBackground(new Color(COLOR_BACKGROUND));
         return wrapper;
     }
 
@@ -110,4 +106,5 @@ public class StartScene implements Scene {
     public String getSceneName() {
         return SCENE_NAME;
     }
+
 }

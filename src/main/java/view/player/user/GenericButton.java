@@ -25,8 +25,8 @@ public class GenericButton extends JButton {
     private static final int THICKNESS = 2;
 
     /**
-     * Constructs a GenericButton with the specified text, action command, action listener, and panel.
-     * Initializes the button with specific styles and adds it to the specified panel.
+     * Constructs a GenericButton with the specified text.
+     * Initializes the button with specific styles.
      * @param text the text to be displayed on the button.
      */
     public GenericButton(final String text) { 
@@ -52,4 +52,5 @@ public class GenericButton extends JButton {
         panel.add(this);
         this.setFocusable(false);
     }
+
 }

@@ -22,6 +22,7 @@ import view.scenes.api.Scene;
  * The {@link Scene} that represents the main menu of the game.
  */
 public class MainMenuScene implements Scene {
+
     private static final int COLOR_BUTTONS_PANEL = 0xECCD99;
     private static final int R_BORDER = 0;
     private static final int G_BORDER = 0;
@@ -45,11 +46,13 @@ public class MainMenuScene implements Scene {
      */
     public MainMenuScene(final MainMenuController controller) {
         this.controller = controller;
-        this.mainMenuPanel = new JPanel(new BorderLayout());
+        this.mainMenuPanel = new JPanel(new GridBagLayout());
         initialize();
     }
 
     private void initialize() {
+        this.mainMenuPanel.setBackground(new Color(COLOR_BACKGROUND));
+
         final JPanel titlePanel = new JPanel();
         titlePanel.setLayout(new FlowLayout());
         titlePanel.setBackground(new Color(COLOR_BACKGROUND));
@@ -112,14 +115,13 @@ public class MainMenuScene implements Scene {
 
     /**
      * Custom button class for the MainMenuScene.
-     * This class extends JButton and provides a style for buttons in this scene.
      */
     private class MenuButton {
 
         private final JButton button;
 
         MenuButton(final String text) {
-            button = new JButton(text);
+            this.button = new JButton(text);
             initializeButton();
         }
 
@@ -139,4 +141,5 @@ public class MainMenuScene implements Scene {
             return this.button;
         }
     }
+
 }

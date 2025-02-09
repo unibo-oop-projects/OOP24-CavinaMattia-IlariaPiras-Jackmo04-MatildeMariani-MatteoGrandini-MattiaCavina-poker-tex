@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import controller.difficulty.DifficultySelectionController;
 import controller.game.api.Difficulty;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import view.scenes.api.Scene;
 
 /**
@@ -38,6 +39,7 @@ import view.scenes.api.Scene;
  * The user can proceed to the game scene by pressing the "Play" button.
  */
 public class DifficultySelectionScene implements Scene {
+
     private static final int COLOR_BUTTONS_PANEL = 0xECCD99;
     private static final int R_BORDER = 0;
     private static final int G_BORDER = 0;
@@ -69,13 +71,16 @@ public class DifficultySelectionScene implements Scene {
      * Constructs a new DifficultySelectionScene.
      * @param controller the controller that handles the difficulty selection logic.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentional storage of a object DifficultySelectionController")
     public DifficultySelectionScene(final DifficultySelectionController controller) { 
-        this.diffSelPanel = new JPanel(new BorderLayout());
+        this.diffSelPanel = new JPanel(new GridBagLayout());
         this.controller = controller;
         initialize();
     }
 
     private void initialize() {
+        this.diffSelPanel.setBackground(new Color(COLOR_BACKGROUND));
+
         final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         mainPanel.setBackground(new Color(COLOR_BACKGROUND));
@@ -270,14 +275,13 @@ public class DifficultySelectionScene implements Scene {
 
     /**
      * Custom button class for the DifficultySelectionScene.
-     * This class extends JButton and provides a style for buttons in this scene.
      */
-    public static class DiffSelButton {
+    private class DiffSelButton {
 
         private final JButton button;
 
         DiffSelButton(final String text) {
-            button = new JButton(text);
+            this.button = new JButton(text);
             initializeButton();
         }
 
@@ -293,14 +297,9 @@ public class DifficultySelectionScene implements Scene {
             this.button.setFocusable(false);
         }
 
-        /**
-         * Gets the JButton associated with this DiffSelButton.
-         * This method returns the JButton component that is styled and initialized
-         * by the DiffSelButton class. 
-         * @return the JButton associated with this DiffSelButton.
-         */
         public JButton getButton() {
             return this.button;
         }
     }
+
 }
