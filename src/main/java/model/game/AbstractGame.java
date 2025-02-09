@@ -61,11 +61,9 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.controller = controller;
         this.statistics = new BasicStatisticsImpl();
         this.statsManager = new StatisticsManagerImpl<>(STATISTICS_FILE_NAME, new BasicStatisticsImpl());
-        this.statsManager.addContributor(this);
         this.startingBet = initialChips / INITIAL_BET_DIVISION_FACT;
         this.dealer = new DealerImpl();
         this.userPlayer = new UserPlayer(USER_PLAYER_ID, initialChips);
-        this.statsManager.addContributor(this.userPlayer);
         this.gameState = new StateImpl(startingBet, NUM_AI_PLAYERS + 1);
     }
 
@@ -119,6 +117,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
             this.players.add(this.getAIPlayer(i, initialChips));
         }
         this.players.add(this.userPlayer);
+        initStatsManager();
     }
 
     /**
@@ -168,6 +167,11 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
     public void updateStatistics(final BasicStatistics totalStats) {
         totalStats.append(this.statistics);
         this.statistics.reset();
+    }
+
+    private void initStatsManager() {
+        this.statsManager.addContributor(this);
+        this.statsManager.addContributor(this.userPlayer);
     }
 
     private void updateStatisticsAfterGameEnd() {
