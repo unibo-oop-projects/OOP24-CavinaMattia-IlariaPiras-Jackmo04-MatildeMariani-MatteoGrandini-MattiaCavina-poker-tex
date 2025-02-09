@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.collect.Iterables;
 
 import controller.game.api.GameController;
@@ -26,6 +29,7 @@ public final class HandImpl implements Hand {
     private static final Phase FIRST_PHASE = Phase.PREFLOP;
     private static final int MIN_PLAYERS = 2;
     private static final int WAIT_TIME = 5000;
+    private static final Logger LOGGER = LoggerFactory.getLogger(HandImpl.class);
 
     private final CombinationComparator comparator;
     private final GameController controller;
@@ -161,7 +165,7 @@ public final class HandImpl implements Hand {
      */
     @Override
     public List<Player> getRemainingPlayers() {
-        return this.remainingPlayers;
+        return List.copyOf(this.remainingPlayers);
     }
 
     /**
@@ -180,6 +184,7 @@ public final class HandImpl implements Hand {
         try {
             Thread.sleep(WAIT_TIME);
         } catch (InterruptedException e) {
+            LOGGER.info("Thread interrupted.");
         }
     }
 }

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import controller.game.api.GameController;
+import controller.player.user.UserPlayerController;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.dealer.DealerImpl;
 import model.dealer.api.Dealer;
@@ -105,16 +106,8 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      * {@inheritDoc}
      */
     @Override
-    public State getGameState() {
-        return this.gameState;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public UserPlayer getUserPlayer() {
-        return (UserPlayer) this.userPlayer;
+    public UserPlayerController getUserPlayerController() {
+        return ((UserPlayer) this.userPlayer).getController();
     }
 
     /**
@@ -151,9 +144,9 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
             final var originalList = List.copyOf(players);
             this.players.removeIf(p -> !p.hasChipsLeft());
 
-            indexNextSmallBlind = this.players.contains(smallBlindPlayer)
+            indexNextSmallBlind = (this.players.contains(smallBlindPlayer)
                 ? this.players.indexOf(smallBlindPlayer) + 1
-                : (this.players.contains(bigBlindPlayer) ? this.players.indexOf(bigBlindPlayer)
+                : this.players.contains(bigBlindPlayer) ? this.players.indexOf(bigBlindPlayer)
                 : this.players.indexOf(originalList.get(
                     (originalList.indexOf(bigBlindPlayer) + 1) % originalList.size()))) % players.size();
         }
@@ -209,7 +202,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
             while (!isOver() && !controller.isTerminated()) {
                 dealer.shuffle();
                 statistics.incrementHandsPlayed(1);
-                
+
                 players.stream().forEachOrdered(p -> p.setCards(dealer.giveCardsToPlayer()));
                 gameState.newHand(startingBet, players.size());
                 final var hand = new HandImpl(controller, players, gameState);

@@ -3,6 +3,7 @@ package model.game.api;
 import java.util.List;
 
 import controller.game.api.GameController;
+import controller.player.user.UserPlayerController;
 import model.dealer.api.Dealer;
 import model.player.api.Player;
 import model.player.user.UserPlayer;
@@ -46,15 +47,9 @@ public interface Game {
     List<Player> getPlayers();
 
     /**
-     * Returns the game {@link State}.
-     * @return the game State.
+     * Returns the {@link UserPlayerController}.
+     * @return the user player controller.
      */
-    State getGameState();
-
-    /**
-     * Returns the {@link UserPlayer}.
-     * @return the user player.
-     */
-    UserPlayer getUserPlayer();
+    UserPlayerController getUserPlayerController();
 
 }

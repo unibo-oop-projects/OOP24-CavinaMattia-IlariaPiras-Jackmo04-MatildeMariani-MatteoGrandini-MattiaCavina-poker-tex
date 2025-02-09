@@ -66,7 +66,7 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
      */
     @Override
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Storing GameScene mutable object is intented")
-    public void setGameScene(final GameScene gameScene) {
+    public final void setGameScene(final GameScene gameScene) {
         this.gameScene = gameScene;
     }
 
@@ -90,12 +90,13 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
     @Override
     public void updateForNewHand() {
         Stream.iterate(0, i -> i < MAX_PLAYERS, i -> i + 1)
-            .filter(id -> this.gameScene.getPlayerPanel(id).isEnabled())
+            .filter(id -> this.gameScene.getPlayerPanel(id).shouldBeUpdated())
             .forEach(id -> this.gameScene.getPlayerPanel(id)
                 .resetForNewHand(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD)));
         this.setCommunityCards(Set.of());
         Stream.iterate(0, i -> i < MAX_PLAYERS, i -> i + 1)
-            .filter(id -> this.game.getPlayers().stream().noneMatch(p -> p.getId() == id))
+            .filter(id -> this.game.getPlayers().stream().noneMatch(p -> p.getId() == id) 
+                && this.gameScene.getPlayerPanel(id).shouldBeUpdated())
             .forEach(id -> this.gameScene.getPlayerPanel(id).lost());
     }
 
@@ -116,7 +117,7 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
      */
     @Override
     public void setPlayerCards(final int id, final Set<Card> cards) {
-        this.gameScene.getPlayerPanel(id).getCardsPanel().setCards(this.cardGetterImage.getCardImage(cards));
+        this.gameScene.getPlayerPanel(id).setCards(this.cardGetterImage.getCardImage(cards));
     }
 
     /**
@@ -124,7 +125,7 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
      */
     @Override
     public void setCommunityCards(final Set<Card> cards) {
-        this.gameScene.getTable().getCardsPanel().setCards(this.cardGetterImage.getTableCardImage(cards));
+        this.gameScene.setCommunityCards(this.cardGetterImage.getTableCardImage(cards));
     }
 
     /**
@@ -132,8 +133,7 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
      */
     @Override
     public void setPot(final int pot) {
-        this.gameScene.getTable().setPot(String.valueOf(pot));
-        this.gameScene.getTable().resetPlayersBet();
+        this.gameScene.setPot(String.valueOf(pot));
     }
 
     /**
@@ -149,7 +149,7 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
      */
     @Override
     public void setPlayerBet(final int id, final int bet) {
-        this.gameScene.getTable().setPlayerBet(id, bet != 0 ? String.valueOf(bet) : "");
+        this.gameScene.setPlayerBet(id, bet != 0 ? String.valueOf(bet) : "");
     }
 
     /**
@@ -221,7 +221,7 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
      */
     @Override
     public UserPlayerController getUserPlayerController() {
-        return this.game.getUserPlayer().getController();
+        return this.game.getUserPlayerController();
     }
 
     /**

@@ -131,6 +131,7 @@ final class TestHandImpl {
                 if (currentBetBeforePlayerAction < currentPlayer.getTotalPhaseBet()) {
                     assertEquals(currentPlayer.getTotalPhaseBet(), gameState.getCurrentBet());
                 }
+                break;
             case CALL:
             case CHECK:
             default:

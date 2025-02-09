@@ -47,8 +47,6 @@ final class TestGame {
         assertEquals(INITIAL_CHIPS, game.getPlayers().getFirst().getChips());
         assertEquals(INITIAL_CHIPS, game.getPlayers().get(1).getChips());
         assertEquals(INITIAL_CHIPS, game.getPlayers().get(2).getChips());
-        assertEquals(INITIAL_CHIPS / 10, game.getGameState().getCurrentBet());
-        assertEquals(INITIAL_NUM_PLAYERS, game.getGameState().getRemainingPlayers());
 
     }
 

@@ -11,7 +11,7 @@ import model.game.api.Hand;
 import model.game.api.Phase;
 import model.player.api.Player;
 import view.View;
-import view.gameScenePanels.api.PlayerPanel;
+import view.gamepanels.api.PlayerPanel;
 import view.scenes.GameScene;
 
 /**
@@ -59,7 +59,7 @@ public interface GameController extends SceneController {
     void setCommunityCards(Set<Card> cards);
 
     /**
-     * Calls the setPot and resetPlayersBet methods in its {@link GameScene}.
+     * Calls the setPot method in its {@link GameScene}.
      * @param pot the pot.
      */
     void setPot(int pot);
