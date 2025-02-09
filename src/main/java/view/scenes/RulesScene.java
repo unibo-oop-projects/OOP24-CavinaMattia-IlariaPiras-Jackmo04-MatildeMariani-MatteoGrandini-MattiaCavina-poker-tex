@@ -24,6 +24,7 @@ public class RulesScene implements Scene {
     private static final String SCENE_NAME = "rules";
     private static final int SCROLL_INCREMENT = 16;
     private static final int BG_COLOR_HEX = 0xDCBA85;
+    private static final int BTN_BG_COLOR = 0xeccd99;
     private static final int BACK_BTN_FONT_SIZE = 22;
     private static final int BTN_BORDER_SIZE = 2;
     private static final int BTN_HEIGHT = 50;
@@ -69,7 +70,7 @@ public class RulesScene implements Scene {
 
     private JButton getCustomButton(final String text) {
         final JButton button = new JButton(text);
-        button.setBackground(new Color(0xeccd99));
+        button.setBackground(new Color(BTN_BG_COLOR));
         button.setForeground(Color.BLACK);
         button.setFont(new Font(FONT_FAMILY, Font.BOLD, BACK_BTN_FONT_SIZE));
         button.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 

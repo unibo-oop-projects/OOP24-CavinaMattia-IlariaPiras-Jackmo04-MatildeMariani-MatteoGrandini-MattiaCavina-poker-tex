@@ -92,8 +92,12 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
         return standard(id, initialChips, HARD_RAISING_FACTOR, HARD_DIFFICULTY_MODIFIER);
     }
 
-    private AIPlayer standard(final int id, final int initialChips,
-            final double raisingFactor, final double difficultyModifier) {
+    private AIPlayer standard(
+        final int id, 
+        final int initialChips,
+        final double raisingFactor, 
+        final double difficultyModifier
+    ) {
         return createCustom(id, initialChips, raisingFactor, difficultyModifier,
             type -> switch (type) {
                 case HIGH_CARD -> STD_CALL_HIGH_CARD;
@@ -126,8 +130,14 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
      * {@inheritDoc}
      */
     @Override
-    public AIPlayer createCustom(final int id, final int initialChips, final double raisingFactor, final double difficultyModifier,
-            final Function<CombinationType, Double> callChance, final Function<CombinationType, Double> raiseChance) {
+    public AIPlayer createCustom(
+        final int id, 
+        final int initialChips, 
+        final double raisingFactor, 
+        final double difficultyModifier,
+        final Function<CombinationType, Double> callChance, 
+        final Function<CombinationType, Double> raiseChance
+    ) {
         return new AbstractAIPlayer(id, initialChips, raisingFactor) {
 
             private final Random random = new Random();

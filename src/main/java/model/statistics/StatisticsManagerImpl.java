@@ -79,15 +79,15 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      */
     @Override
     public void addContributor(final StatisticsContributor<S> contributor) {
-        contributors.add(Objects.requireNonNull(contributor));
+        this.contributors.add(Objects.requireNonNull(contributor));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void addAllContributors(final Collection<StatisticsContributor<S>> contributors) {
-        contributors.forEach(this::addContributor);
+    public void addAllContributors(final Collection<StatisticsContributor<S>> contributorsCollection) {
+        contributorsCollection.forEach(this::addContributor);
     }
 
     /**
@@ -95,7 +95,7 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
      */
     @Override
     public void updateTotalStatistics() {
-        contributors.forEach(contributor -> contributor.updateStatistics(globalStatistics));
+        this.contributors.forEach(contributor -> contributor.updateStatistics(globalStatistics));
     }
 
     /**

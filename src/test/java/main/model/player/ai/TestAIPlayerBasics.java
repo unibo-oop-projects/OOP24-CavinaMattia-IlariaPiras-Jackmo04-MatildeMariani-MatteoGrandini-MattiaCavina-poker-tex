@@ -67,12 +67,10 @@ class TestAIPlayerBasics {
         assertEquals(Set.of(), player.getCards());
         assertEquals(0, player.getTotalPhaseBet());
         // Cannot get action without a game state
-        assertThrows(IllegalStateException.class, 
-            () -> player.getAction());
+        assertThrows(IllegalStateException.class, player::getAction);
         player.setGameState(new StateImpl(BET_1000, NUM_OF_PLAYERS));
         // Cannot get action without cards
-        assertThrows(IllegalStateException.class, 
-            () -> player.getAction());
+        assertThrows(IllegalStateException.class, player::getAction);
         assertTrue(player.isAI());
     }
 
@@ -197,7 +195,7 @@ class TestAIPlayerBasics {
         state.addToPot(POT_2000);
         player.getAction();
         final var bet = player.getTotalPhaseBet();
-        assertEquals(BET_1000 / 2 , bet);
+        assertEquals(BET_1000 / 2, bet);
         player.handLost();
         assertEquals(STARTING_CHIPS - bet, player.getChips());
         assertEquals(Set.of(), player.getCards());
