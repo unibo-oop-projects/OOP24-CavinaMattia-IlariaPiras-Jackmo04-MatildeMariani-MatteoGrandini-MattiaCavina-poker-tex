@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import controller.game.api.GameController;
 import model.game.api.Game;
 import view.gameScenePanels.api.MyLabel;
-import view.player.user.MyButton;
+import view.player.user.GenericButton;
 import view.scenes.MainMenuScene;
 
 /**
@@ -66,11 +66,11 @@ public class PauseDialog extends JDialog {
             this.setLayout(new GridLayout(4, 1, 0, VERTICAL_GAP));
             this.add(title);
               
-            MyButton resumeButton = new MyButton("RESUME");
+            GenericButton resumeButton = new GenericButton("RESUME");
             resumeButton.initializeButton("RESUME", actionListener, this);
-            MyButton restartButton = new MyButton("NEW GAME");
+            GenericButton restartButton = new GenericButton("NEW GAME");
             restartButton.initializeButton("NEW GAME", actionListener, this);
-            MyButton menuButton = new MyButton("MENU");
+            GenericButton menuButton = new GenericButton("MENU");
             menuButton.initializeButton(TOOL_TIP_TEXT_KEY, actionListener, this);
 
             resumeButton.setFont(new Font("Roboto", Font.BOLD, BUTTON_FONT_SIZE));
@@ -86,7 +86,7 @@ public class PauseDialog extends JDialog {
         private ActionListener actionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                switch (((MyButton) e.getSource()).getActionCommand()) {
+                switch (((GenericButton) e.getSource()).getActionCommand()) {
                     case "NEW GAME":
                         controller.goToDifficultySelectionScene();
                         break;

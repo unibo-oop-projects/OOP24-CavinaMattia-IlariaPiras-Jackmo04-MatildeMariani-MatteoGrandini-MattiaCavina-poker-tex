@@ -77,7 +77,7 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
      */
     @Override
     public Boolean isStraight() {
-        return utilies.getRoyalFlush(getSafetyList()).size() == CombinationDimension.STRAIGHT
+        return utilies.getHighterStraight(getSafetyList()).size() == CombinationDimension.STRAIGHT
                 .getDimension();
     }
 
@@ -123,7 +123,7 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
     @Override
     public Boolean isStraightFlush() {
         return isStraight()
-                && utilies.getRoyalFlush(getSafetyList()).stream()
+                && utilies.getHighterStraight(getSafetyList()).stream()
                         .map(Card::seedName)
                         .distinct()
                         .count() == 1;
@@ -135,7 +135,7 @@ public class CombinationRulesImpl implements CombinationRules<Card> {
     @Override
     public Boolean isRoyalFlush() {
         return isStraightFlush()
-                && utilies.getRoyalFlush(getSafetyList()).stream()
+                && utilies.getHighterStraight(getSafetyList()).stream()
                         .mapToInt(Card::valueOfCard)
                         .min().getAsInt() == SimpleCard.TEN.getValueOfCard();
     }
