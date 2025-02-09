@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 import model.player.ai.api.AIPlayer;
 import model.player.ai.api.AIPlayerFactory;
-import model.combination.api.Combination;
+import model.combination.Combination;
 import model.combination.api.CombinationType;
 import model.game.api.State;
 

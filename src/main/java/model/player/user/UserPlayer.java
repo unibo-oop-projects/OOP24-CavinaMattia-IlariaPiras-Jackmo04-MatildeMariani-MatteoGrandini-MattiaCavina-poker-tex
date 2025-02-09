@@ -1,7 +1,7 @@
 package model.player.user;
 
 import controller.player.user.UserPlayerController;
-import model.combination.api.Combination;
+import model.combination.Combination;
 import model.deck.api.Card;
 import model.game.api.Phase;
 import model.game.api.State;

@@ -2,6 +2,8 @@ package model.combination.api;
 
 import java.util.Set;
 
+import model.combination.Combination;
+
 /**
  * Interface to find and compose the correct Combination from Set of Card.
  * 

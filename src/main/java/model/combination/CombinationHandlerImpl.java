@@ -2,7 +2,6 @@ package model.combination;
 
 import java.util.Set;
 
-import model.combination.api.Combination;
 import model.combination.api.CombinationHandler;
 import model.combination.api.CombinationType;
 import model.combination.api.CombinationCardGetter;

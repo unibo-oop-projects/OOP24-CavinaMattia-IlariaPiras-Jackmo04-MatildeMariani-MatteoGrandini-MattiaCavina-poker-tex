@@ -1,7 +1,9 @@
-package model.combination.api;
+package model.combination;
 
 import java.util.Collections;
 import java.util.Set;
+
+import model.combination.api.CombinationType;
 
 /**
  * Combination of List of {@link Card} and its type and value.
