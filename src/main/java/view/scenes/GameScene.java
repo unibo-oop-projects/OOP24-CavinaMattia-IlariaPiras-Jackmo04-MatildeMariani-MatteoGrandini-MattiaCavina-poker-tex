@@ -18,7 +18,7 @@ import view.gameScenePanels.AIPlayerPanel;
 import view.gameScenePanels.PauseDialog;
 import view.gameScenePanels.PlayerPanelImpl;
 import view.gameScenePanels.TablePanel;
-import view.player.user.MyButton;
+import view.player.user.GenericButton;
 import view.player.user.UserPanel;
 import view.scenes.api.Scene;
 
@@ -57,9 +57,9 @@ public class GameScene extends JPanel implements Scene {
         JPanel southJPanel = new JPanel(new BorderLayout());
         JPanel buttonsPanel = new JPanel(new GridLayout(2, 1, 0, 10));
         buttonsPanel.setBackground(southPlayerPanel.getBackground());
-        MyButton pause = new MyButton("Pause");
+        GenericButton pause = new GenericButton("Pause");
         pause.initializeButton("PAUSE", pauseActionListener, buttonsPanel);
-        MyButton menu = new MyButton("Menu");
+        GenericButton menu = new GenericButton("Menu");
         menu.initializeButton("MENU", menuActionListener, buttonsPanel);
         
         southJPanel.add(southPlayerPanel, BorderLayout.CENTER);

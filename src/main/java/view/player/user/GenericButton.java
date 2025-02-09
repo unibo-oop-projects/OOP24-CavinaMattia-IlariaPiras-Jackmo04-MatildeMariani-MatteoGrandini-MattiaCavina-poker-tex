@@ -9,11 +9,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
- * MyButton class for creating customized buttons with specific styles and actions.
+ * GenericButton class for creating customized buttons with specific styles and actions.
  * This class extends JButton and provides a constructor to initialize the button
  * with specific text, action command, action listener, and adds the button to a specified panel.
  */
-public class MyButton extends JButton {
+public class GenericButton extends JButton {
 
     private static final long serialVersionUID = 2L;
     private static final int COLOR_BUTTONS_PANEL = 0xECCD99;
@@ -25,11 +25,11 @@ public class MyButton extends JButton {
     private static final int THICKNESS = 2;
 
     /**
-     * Constructs a MyButton with the specified text, action command, action listener, and panel.
+     * Constructs a GenericButton with the specified text, action command, action listener, and panel.
      * Initializes the button with specific styles and adds it to the specified panel.
      * @param text the text to be displayed on the button.
      */
-    public MyButton(final String text) { 
+    public GenericButton(final String text) { 
         super(text);
     }
 
@@ -48,18 +48,8 @@ public class MyButton extends JButton {
         this.setOpaque(true);
         this.setContentAreaFilled(true);
         this.setActionCommand(command);
-        this.addButtonToPanel(this, listener, panel);
+        this.addActionListener(listener);
+        panel.add(this);
         this.setFocusable(false);
-    }
-
-    /**
-     * Adds the button to the specified panel and sets the action listener.
-     * @param button the button to be added to the panel.
-     * @param listener the action listener to handle button click events.
-     * @param panel the panel to which the button will be added.
-     */
-    private void addButtonToPanel(final MyButton button, final ActionListener listener, final JPanel panel) {
-        button.addActionListener(listener);
-        panel.add(button);
     }
 }
