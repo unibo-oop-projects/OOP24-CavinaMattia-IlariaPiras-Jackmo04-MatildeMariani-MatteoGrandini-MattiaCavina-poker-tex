@@ -9,9 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import controller.game.api.GameController;
+import controller.player.user.UserPlayerController;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.dealer.DealerImpl;
 import model.dealer.api.Dealer;
 import model.game.api.Game;
+import model.game.api.Phase;
 import model.game.api.State;
 import model.player.api.Player;
 import model.player.api.Role;
@@ -23,15 +26,17 @@ import model.statistics.api.StatisticsContributor;
 import model.statistics.api.StatisticsManager;
 
 /**
- * This class provides an implementation of the Game interface, abstracting the choice of players.
+ * This class provides an implementation of the Game interface, abstracting the initialization
+ * of AI players.
  */
-public abstract class AbstractGame implements Game, StatisticsContributor<BasicStatistics>{
+public abstract class AbstractGame implements Game, StatisticsContributor<BasicStatistics> {
 
     private static final int INITIAL_BET_DIVISION_FACT = 10;
-    protected static final int NUM_AI_PLAYERS = 3;
+    private static final int NUM_AI_PLAYERS = 3;
     private static final int USER_PLAYER_ID = NUM_AI_PLAYERS;
     private static final String STATISTICS_FILE_NAME = "stats.bin";
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGame.class);
+    private static final Random RAND = new Random();
 
     private final GameController controller;
     private final Dealer dealer;
@@ -45,22 +50,21 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
     private final StatisticsManager<BasicStatistics> statsManager;
 
     private final GameLoop loop = new GameLoop();
-    
+
     /**
-     * Constructor for the AbstractGame. 
+     * Constructor for the AbstractGame.
+     * @param controller the game controller. 
      * @param initialChips initial amount of chips of players.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Storing GameController mutable object is intented")
     public AbstractGame(final GameController controller, final int initialChips) {
         this.controller = controller;
         this.statistics = new BasicStatisticsImpl();
         this.statsManager = new StatisticsManagerImpl<>(STATISTICS_FILE_NAME, new BasicStatisticsImpl());
-        this.statsManager.addContributor(this);
-        this.startingBet = (int) initialChips / INITIAL_BET_DIVISION_FACT;
+        this.startingBet = initialChips / INITIAL_BET_DIVISION_FACT;
         this.dealer = new DealerImpl();
         this.userPlayer = new UserPlayer(USER_PLAYER_ID, initialChips);
-        this.statsManager.addContributor(this.userPlayer);
-        this.setInitialPlayers(initialChips);
-        this.gameState = new StateImpl(startingBet, this.players.size());
+        this.gameState = new StateImpl(startingBet, NUM_AI_PLAYERS + 1);
     }
 
     /**
@@ -68,7 +72,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      */
     @Override
     public boolean isOver() {
-        return this.players.stream().allMatch(p -> p.isAI()) || isWon();
+        return this.players.stream().allMatch(Player::isAI) || isWon();
 
     }
 
@@ -85,7 +89,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      */
     @Override
     public void start() {
-        new Thread(this.loop).start();      
+        new Thread(this.loop).start();
     }
 
     /**
@@ -93,24 +97,36 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      */
     @Override
     public List<Player> getPlayers() {
-        return this.players;
+        return List.copyOf(this.players);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public State getGameState() {
-        return this.gameState;
+    public UserPlayerController getUserPlayerController() {
+        return ((UserPlayer) this.userPlayer).getController();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UserPlayer getUserPlayer() {
-        return (UserPlayer) this.userPlayer;
+    public void setInitialPlayers(final int initialChips) {
+        for (var i = 0; i < NUM_AI_PLAYERS; i++) {
+            this.players.add(this.getAIPlayer(i, initialChips));
+        }
+        this.players.add(this.userPlayer);
+        initStatsManager();
     }
+
+    /**
+     * Returns a different type of AI player based on the difficulty level of the game.
+     * @param id the player's id.
+     * @param initialChips initial amount of chips of players.
+     * @return an AI player.
+     */
+    protected abstract Player getAIPlayer(int id, int initialChips);
 
     /**
      * Sets the {@link Role}s for the hand, randomly if it's the first hand or to the next player in 
@@ -118,50 +134,31 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      * Updates the smallBlindPlayer and bigBlindPlayer fields.
      */
     private void setRolesForNewHand() {
-        int indexNextSmallBlind;
-        int indexNextBigBlind;
+        final int indexNextSmallBlind;
+        final int indexNextBigBlind;
 
         if (this.gameState.getHandNumber() == 0) {
-            Random rand = new Random();
-            indexNextSmallBlind = rand.nextInt(players.size());
+            indexNextSmallBlind = RAND.nextInt(players.size());
         } else {
-            var originalList = List.copyOf(players);
+            final var originalList = List.copyOf(players);
             this.players.removeIf(p -> !p.hasChipsLeft());
 
-            indexNextSmallBlind = (this.players.contains(smallBlindPlayer)?
-                this.players.indexOf(smallBlindPlayer) + 1 :
-                (this.players.contains(bigBlindPlayer)? this.players.indexOf(bigBlindPlayer) :
-                this.players.indexOf(originalList.get(
-                    (originalList.indexOf(bigBlindPlayer) + 1 % originalList.size()))))) % players.size();
+            indexNextSmallBlind = (this.players.contains(smallBlindPlayer)
+                ? this.players.indexOf(smallBlindPlayer) + 1
+                : this.players.contains(bigBlindPlayer) ? this.players.indexOf(bigBlindPlayer)
+                : this.players.indexOf(originalList.get(
+                    (originalList.indexOf(bigBlindPlayer) + 1) % originalList.size()))) % players.size();
         }
         indexNextBigBlind = (indexNextSmallBlind + 1) % players.size();
-    
+
         smallBlindPlayer = this.players.get(indexNextSmallBlind);
         bigBlindPlayer = this.players.get(indexNextBigBlind);
-        
+
         this.smallBlindPlayer.setRole(Role.SMALL_BLIND);
         this.bigBlindPlayer.setRole(Role.BIG_BLIND);
 
         this.controller.setRoles(smallBlindPlayer.getId(), bigBlindPlayer.getId());
     }
-
-    /** 
-     * Sets the initial list of {@link Player}s. It's a template method.
-     * @param initialChips initial amount of chips of players.
-     */
-    private void setInitialPlayers(final int initialChips) {
-        for (var i = 0; i < NUM_AI_PLAYERS; i++) {
-            this.players.add(this.getAIPlayer(i, initialChips));
-        }
-        this.players.add(this.userPlayer);
-    }
-
-    /**
-     * Returns a different type of AI player based on the difficulty level of the game.
-     * @param initialChips initial amount of chips of players.
-     * @return an AI player.
-     */
-    protected abstract Player getAIPlayer(int id, int initialChips);
 
     /**
      * {@inheritDoc}
@@ -172,9 +169,14 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.statistics.reset();
     }
 
+    private void initStatsManager() {
+        this.statsManager.addContributor(this);
+        this.statsManager.addContributor(this.userPlayer);
+    }
+
     private void updateStatisticsAfterGameEnd() {
         if (this.isWon()) {
-            this.statistics.incrementGamesWon(1);            
+            this.statistics.incrementGamesWon(1);
         }
         saveStatistics();
     }
@@ -190,8 +192,12 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
 
     /**
      * Private inner class that implements a GameLoop that handles the logistical aspects of a game.
+     * A new hand begins until isOver returns true or the game has been terminated, updating the list 
+     * of {@link Player}s and their {@link Role}s, and asking the {@link Dealer} to deal cards to each of them. 
+     * It then goes through each {@link Phase} of the hand until it ends. 
+     * The winner of the hand is then declared.
      */
-    private class GameLoop extends Thread {
+    private final class GameLoop extends Thread {
 
         @Override
         public void run() {
@@ -200,10 +206,10 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
             while (!isOver() && !controller.isTerminated()) {
                 dealer.shuffle();
                 statistics.incrementHandsPlayed(1);
-                
+
                 players.stream().forEachOrdered(p -> p.setCards(dealer.giveCardsToPlayer()));
                 gameState.newHand(startingBet, players.size());
-                var hand = new HandImpl(controller, players, gameState);
+                final var hand = new HandImpl(controller, players, gameState);
 
                 controller.waitIfPaused();
                 controller.updateForNewHand();
@@ -221,7 +227,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
                     });
                     controller.waitIfPaused();
                     controller.updateForNewPhase(gameState.getPot());
-                    gameState.nextHandPhase();   
+                    gameState.nextHandPhase();
                 } while (!hand.isHandOver() && !controller.isTerminated());
 
                 if (!controller.isTerminated()) {

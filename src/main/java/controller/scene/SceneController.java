@@ -24,7 +24,7 @@ public interface SceneController {
     /**
      * Changes the scene to the difficulty selection scene.
      */
-    void goToGameOverScene(final Boolean endGameStatus);
+    void goToGameOverScene(boolean endGameStatus);
     /**
      * Exits the game.
      */

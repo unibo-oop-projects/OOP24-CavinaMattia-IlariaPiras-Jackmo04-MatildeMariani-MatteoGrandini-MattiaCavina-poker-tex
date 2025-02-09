@@ -1,23 +1,25 @@
 package view.scenes;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.GridBagLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.RootPaneContainer;
 import javax.swing.SwingUtilities;
 
 import controller.game.api.GameController;
-import view.gameScenePanels.AIPlayerPanel;
-import view.gameScenePanels.PauseDialog;
-import view.gameScenePanels.PlayerPanelImpl;
-import view.gameScenePanels.TablePanel;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import view.gamepanels.AIPlayerPanel;
+import view.gamepanels.PauseDialog;
+import view.gamepanels.PlayerPanelImpl;
+import view.gamepanels.TablePanel;
 import view.player.user.GenericButton;
 import view.player.user.UserPanel;
 import view.scenes.api.Scene;
@@ -25,11 +27,12 @@ import view.scenes.api.Scene;
 /**
  * The {@link Scene} of the game.
  */
-public class GameScene extends JPanel implements Scene {
+public class GameScene implements Scene {
 
     private static final String SCENE_NAME = "game";
-    
+
     private final GameController controller;
+    private final JPanel mainPanel;
     private final TablePanel table;
     private final PlayerPanelImpl westPlayerPanel;
     private final PlayerPanelImpl northPlayerPanel;
@@ -40,44 +43,46 @@ public class GameScene extends JPanel implements Scene {
      * Creates a new {@link GameScene}.
      * @param controller the controller for the game.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Storing GameController mutable object is intented")
     public GameScene(final GameController controller) {
-
         this.controller = controller;
-        this.setLayout(new BorderLayout());
-
-        /*Sets the panels for the player and for the table*/
+        this.mainPanel = new JPanel(new BorderLayout());
         this.westPlayerPanel = new AIPlayerPanel();
         this.northPlayerPanel = new AIPlayerPanel();
         this.eastPlayerPanel = new AIPlayerPanel();
-        /*To change with a UserPlayerPanel */
-        this.southPlayerPanel = new UserPanel(this.controller.getUserPlayerController());  
+        this.southPlayerPanel = new UserPanel(this.controller.getUserPlayerController());
         this.table = new TablePanel();
+        this.initialize();
+    }
 
-        /*Creates the south panel with the southPlayerPanel and a buttonPanel*/
-        JPanel southJPanel = new JPanel(new BorderLayout());
-        JPanel buttonsPanel = new JPanel(new GridLayout(2, 1, 0, 10));
-        buttonsPanel.setBackground(southPlayerPanel.getBackground());
-        GenericButton pause = new GenericButton("Pause");
-        pause.initializeButton("PAUSE", pauseActionListener, buttonsPanel);
-        GenericButton menu = new GenericButton("Menu");
-        menu.initializeButton("MENU", menuActionListener, buttonsPanel);
-        
-        southJPanel.add(southPlayerPanel, BorderLayout.CENTER);
-        southJPanel.add(buttonsPanel, BorderLayout.EAST);
+    /**
+     * Initializes the mainPanel.
+     */
+    private void initialize() {
+        final var southJPanel = new JPanel(new BorderLayout());
+        final var buttonPanel = new JPanel(new GridBagLayout());
+        buttonPanel.setBackground(southPlayerPanel.getPanel().getBackground());
+        final var pause = new GenericButton("Pause");
+        pause.initializeButton("PAUSE", pauseActionListener, buttonPanel);
 
-        /*Sets background color*/
-        westPlayerPanel.setBackground(Color.DARK_GRAY);
-        northPlayerPanel.setBackground(Color.DARK_GRAY);
-        eastPlayerPanel.setBackground(Color.DARK_GRAY);
-        southJPanel.setBackground(southPlayerPanel.getBackground());
+        southJPanel.add(southPlayerPanel.getPanel(), BorderLayout.CENTER);
+        southJPanel.add(buttonPanel, BorderLayout.EAST);
 
-        /*Adds the panels*/
-        this.add(northPlayerPanel, BorderLayout.NORTH);
-        this.add(westPlayerPanel, BorderLayout.WEST);
-        this.add(eastPlayerPanel, BorderLayout.EAST);
-        this.add(southJPanel, BorderLayout.SOUTH);
-        this.add(table, BorderLayout.CENTER);
+        westPlayerPanel.getPanel().setBackground(Color.DARK_GRAY);
+        northPlayerPanel.getPanel().setBackground(Color.DARK_GRAY);
+        eastPlayerPanel.getPanel().setBackground(Color.DARK_GRAY);
+        southJPanel.setBackground(southPlayerPanel.getPanel().getBackground());
 
+        this.mainPanel.add(northPlayerPanel.getPanel(), BorderLayout.NORTH);
+        this.mainPanel.add(westPlayerPanel.getPanel(), BorderLayout.WEST);
+        this.mainPanel.add(eastPlayerPanel.getPanel(), BorderLayout.EAST);
+        this.mainPanel.add(southJPanel, BorderLayout.SOUTH);
+        this.mainPanel.add(table.getPanel(), BorderLayout.CENTER);
+
+        this.initializeGameScene();
+    }
+
+    private void initializeGameScene() {
         this.controller.setGameScene(this);
         this.controller.startGame();
     }
@@ -87,7 +92,9 @@ public class GameScene extends JPanel implements Scene {
      */
     @Override
     public JPanel getPanel() {
-        return this;
+        final var wrapper = new JPanel(new BorderLayout());
+        wrapper.add(mainPanel, BorderLayout.CENTER);
+        return wrapper;
     }
 
     /**
@@ -104,33 +111,63 @@ public class GameScene extends JPanel implements Scene {
      * @return the corrisponding PlayerPanel.
      */
     public PlayerPanelImpl getPlayerPanel(final int id) {
-        return switch(id) {
+        return switch (id) {
             case 0 -> this.westPlayerPanel;
             case 1 -> this.northPlayerPanel;
             case 2 -> this.eastPlayerPanel;
             case 3 -> this.southPlayerPanel;
-            default -> throw new IllegalArgumentException();
+            default -> throw new IllegalArgumentException("Invalid id.");
         };
     }
 
     /**
-     * Returns the {@link TablePanel}.
-     * @return the table panel.
+     * Calls the updateState method in the PlayerPanel corresponding to the id.
+     * @param id the player's id.
+     * @param isTurn boolean indicating whether is the player's turn.
      */
-    public TablePanel getTable() {
-        return this.table;
+    public void updatePlayerPanelState(final int id, final boolean isTurn) {
+        this.getPlayerPanel(id).updateState(isTurn);
     }
 
-    private ActionListener pauseActionListener = new ActionListener() {
+    /**
+     * Calls the setCards method in its table.
+     * @param cardImage the list of ImageIcons.
+     */
+    public void setCommunityCards(final List<ImageIcon> cardImage) {
+        this.table.setCards(cardImage);
+    }
+
+    /**
+     * Calls the setPot and resetPlayersBet methods in its table.
+     * @param pot the pot.
+     */
+    public void setPot(final String pot) {
+        this.table.setPot(pot);
+        this.table.resetPlayersBet();
+    }
+
+    /**
+     * Calls the setPlayerBet method in its table.
+     * @param id the player's id.
+     * @param bet the player's bet.
+     */
+    public void setPlayerBet(final int id, final String bet) {
+        this.table.setPlayerBet(id, bet);
+    }
+
+    /**
+     * Implements the pause button ActionListener.
+     */
+    private final transient ActionListener pauseActionListener = new ActionListener() {
 
         private static final int TRASPARENCY = 170;
 
         @Override
-        public void actionPerformed(ActionEvent e) {
-            JPanel glassPane = new JPanel() {
+        public void actionPerformed(final ActionEvent e) {
+            final JPanel glassPane = new JPanel() {
 
                 @Override
-                protected void paintComponent(Graphics g) {
+                protected void paintComponent(final Graphics g) {
                     g.setColor(getBackground());
                     g.fillRect(0, 0, getWidth(), getHeight());
                     super.paintComponent(g);
@@ -139,7 +176,7 @@ public class GameScene extends JPanel implements Scene {
             glassPane.setOpaque(false);
             glassPane.setBackground(new Color(0, 0, 0, TRASPARENCY));
 
-            RootPaneContainer frame = (RootPaneContainer) SwingUtilities.getWindowAncestor(GameScene.this);
+            final RootPaneContainer frame = (RootPaneContainer) SwingUtilities.getWindowAncestor(mainPanel);
             frame.setGlassPane(glassPane);
             glassPane.setVisible(true);
 
@@ -148,27 +185,13 @@ public class GameScene extends JPanel implements Scene {
 
                 @Override
                 public void run() {
-                    PauseDialog pauseDialog = new PauseDialog((Window) frame, controller);
-                    pauseDialog.setLocationRelativeTo((Window) frame);
-                    pauseDialog.setVisible(true);
+                    final var pauseDialog = new PauseDialog((Window) frame, controller);
+                    pauseDialog.showDialog((Window) frame);
 
                     glassPane.setVisible(false);
                 }
-                
+
             });
         }
     };
-
-    private ActionListener menuActionListener = new ActionListener() {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            GameScene.this.controller.goToMainMenuScene();
-        }
-        
-    };
-
-    public void updatePlayerPanelState(int id, boolean isTurn) {
-        this.getPlayerPanel(id).updateState(isTurn);
-    }
 }

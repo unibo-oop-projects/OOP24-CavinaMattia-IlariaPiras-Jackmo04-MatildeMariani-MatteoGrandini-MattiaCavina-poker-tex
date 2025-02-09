@@ -5,9 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.collect.Iterables;
 
 import controller.game.api.GameController;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.combination.CombinationComparator;
 import model.game.api.Hand;
 import model.game.api.Phase;
@@ -16,12 +20,16 @@ import model.player.api.Action;
 import model.player.api.Player;
 import model.player.api.Role;
 
-public class HandImpl implements Hand {
+/**
+ * Class that implements the Hand interface.
+ */
+public final class HandImpl implements Hand {
 
     private static final Role FIRST_ROLE = Role.SMALL_BLIND;
     private static final Phase FIRST_PHASE = Phase.PREFLOP;
     private static final int MIN_PLAYERS = 2;
     private static final int WAIT_TIME = 5000;
+    private static final Logger LOGGER = LoggerFactory.getLogger(HandImpl.class);
 
     private final CombinationComparator comparator;
     private final GameController controller;
@@ -31,6 +39,13 @@ public class HandImpl implements Hand {
     private Phase currentPhase;
     private int numPlayerWhoPlayedInPhase;
 
+    /**
+     * Constructor for the class HandImpl.
+     * @param controller the game controller.
+     * @param handPlayers the list of players in the hand.
+     * @param gameState the game State.
+     */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Storing GameController mutable object is intented")
     public HandImpl(final GameController controller, final List<Player> handPlayers, final State gameState) {
         this.numPlayerWhoPlayedInPhase = 0;
         this.currentPhase = FIRST_PHASE;
@@ -39,30 +54,30 @@ public class HandImpl implements Hand {
         this.playersWhoLost = new LinkedList<>();
         this.remainingPlayers = new LinkedList<>(handPlayers);
         this.comparator = new CombinationComparator();
-        this.sortFromRole(FIRST_ROLE);
+        this.sortFromRole();
     } 
-        
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public void sortFromRole(final Role firstPlayerRole) {
-        var originalList = List.copyOf(this.remainingPlayers);
+    public void sortFromRole() {
+        final var originalList = List.copyOf(this.remainingPlayers);
         this.remainingPlayers.clear();
-        var index  = Iterables.indexOf(originalList, p -> p.getRole().equals(Optional.of(firstPlayerRole)));
+        final var index  = Iterables.indexOf(originalList, p -> p.getRole().equals(Optional.of(FIRST_ROLE)));
         this.remainingPlayers.add(originalList.get(index));
         this.remainingPlayers.addAll(originalList.subList(index + 1, originalList.size()));
         this.remainingPlayers.addAll(originalList.subList(0, index));
     }
-    
+
     /**
-     * {@inheritDoc}         
+     * {@inheritDoc}
      */
     @Override
     public void manageAction(final Iterator<Player> playersIterator, final Player player) {
         player.setGameState(this.gameState);
         this.controller.isTurn(player.getId(), true);
-        var action = player.getAction();
+        final var action = player.getAction();
         switch (action) {
             case FOLD:
                 playersIterator.remove();
@@ -79,6 +94,7 @@ public class HandImpl implements Hand {
                 break;
             case CALL:
             case CHECK:
+            default:
                 break;
         }
         this.controller.setPlayerAction(player.getId(), String.valueOf(action));
@@ -97,26 +113,26 @@ public class HandImpl implements Hand {
     public void startPhase() {
         this.halt();
         this.numPlayerWhoPlayedInPhase = 0;
-        var playersIterator = Iterables.cycle(this.remainingPlayers).iterator();
+        final var playersIterator = Iterables.cycle(this.remainingPlayers).iterator();
         while (!this.isPhaseOver() && playersIterator.hasNext() && !controller.isTerminated()) {
             this.controller.waitIfPaused();
             this.numPlayerWhoPlayedInPhase++;
-            var currentPlayer = playersIterator.next();
+            final var currentPlayer = playersIterator.next();
             if (currentPlayer.hasChipsLeft()) {
                 this.manageAction(playersIterator, currentPlayer);
             }
         }
         this.currentPhase = this.currentPhase.next();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean isPhaseOver() {
-        return (this.remainingPlayers.size() < MIN_PLAYERS || 
-               this.remainingPlayers.stream().allMatch(p -> p.getTotalPhaseBet() == this.gameState.getCurrentBet() || 
-                    !p.hasChipsLeft())) && (this.numPlayerWhoPlayedInPhase >= this.remainingPlayers.size());
+        return (this.remainingPlayers.size() < MIN_PLAYERS 
+            || this.remainingPlayers.stream().allMatch(p -> p.getTotalPhaseBet() == this.gameState.getCurrentBet()
+            || !p.hasChipsLeft())) && (this.numPlayerWhoPlayedInPhase >= this.remainingPlayers.size());
     }
 
     /**
@@ -124,8 +140,7 @@ public class HandImpl implements Hand {
      */
     @Override
     public boolean isHandOver() {
-        return remainingPlayers.size() < MIN_PLAYERS || 
-               this.currentPhase.equals(FIRST_PHASE);
+        return remainingPlayers.size() < MIN_PLAYERS || this.currentPhase.equals(FIRST_PHASE);
     }
 
     /**
@@ -135,10 +150,10 @@ public class HandImpl implements Hand {
     public void determinesWinnerOfTheHand() {
         this.remainingPlayers.forEach(p -> this.controller.setPlayerCards(p.getId(), p.getCards()));
         this.remainingPlayers.sort((p1, p2) -> this.comparator.compare(p1.getCombination(), p2.getCombination()));
-        var winner = this.remainingPlayers.removeLast();
+        final var winner = this.remainingPlayers.removeLast();
         winner.handWon(this.gameState.getPot());
         this.playersWhoLost.addAll(this.remainingPlayers);
-        this.playersWhoLost.forEach(p -> p.handLost());
+        this.playersWhoLost.forEach(Player::handLost);
         this.halt();
         this.controller.showWinner(winner.getId(), winner.getChips(), this.gameState.getPot());
         this.halt();
@@ -150,7 +165,7 @@ public class HandImpl implements Hand {
      */
     @Override
     public List<Player> getRemainingPlayers() {
-        return this.remainingPlayers;
+        return List.copyOf(this.remainingPlayers);
     }
 
     /**
@@ -169,6 +184,7 @@ public class HandImpl implements Hand {
         try {
             Thread.sleep(WAIT_TIME);
         } catch (InterruptedException e) {
+            LOGGER.info("Thread interrupted.");
         }
     }
 }

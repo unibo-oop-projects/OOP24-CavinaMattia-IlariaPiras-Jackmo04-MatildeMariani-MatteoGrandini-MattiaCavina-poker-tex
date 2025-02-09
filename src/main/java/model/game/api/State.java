@@ -3,6 +3,7 @@ package model.game.api;
 import java.util.Set;
 
 import model.deck.api.Card;
+import model.player.api.Player;
 
 /**
  * Interface that models the State of a game.
@@ -11,51 +12,52 @@ import model.deck.api.Card;
  * still in the game, the number of the hand and the current {@link Phase}. It must be updated regulary.
  */
 public interface State {
-    
+
     /**
      * Adds a bet to the pot.
-     * @param playerBet the amount of money a player betted.  
+     * @param playerBet the amount of money a player betted.
     */
     void addToPot(int playerBet);
-    
+
     /**
-     * Adds cards to the set of community cards for the hand. 
+     * Adds cards to the set of community {@link Card}s for the {@link Hand}. 
      * @param cards the set of cards to add.
     */
     void addCommunityCards(Set<Card> cards);
 
     /**
-     * Informs the State that a new hand is starting. It sets all its component accordingly. 
+     * Informs the State that a new {@link Hand} is starting. It sets all its component accordingly. 
      * @param initialBet the initial bet required to play in the hand.
      * @param remainingPlayers the number of players still in the game at the start of the hand.
     */
     void newHand(int initialBet, int remainingPlayers);
 
     /**
-     * Informs the State a new phase is starting. It sets the current phase accordingly.   
+     * Informs the State a new {@link Phase} is starting. It sets the current phase and the 
+     * current bet accordingly.
     */
     void nextHandPhase();
 
     /**
-     * Returns the pot, or the winnings of the hand.
+     * Returns the pot, or the winnings of the {@link Hand}.
      * @return the pot. 
     */
     int getPot();
 
     /**
-     * Returns the current minimum bet players must place if they want to continue playing.
+     * Returns the current minimum bet {@link Player}s must place if they want to continue playing.
      * @return the current bet. 
     */
     int getCurrentBet();
 
     /**
-     * Returns the number of players still in the game.
+     * Returns the number of {@link Player}s still in the game.
      * @return the number of players still in the game. 
     */
     int getRemainingPlayers();
 
     /**
-     * Returns the current hand number.
+     * Returns the current {@link Hand} number.
      * @return the hand's number. 
     */
     int getHandNumber();
@@ -67,26 +69,26 @@ public interface State {
     Phase getHandPhase();
 
     /**
-     * Returns the community cards for the current hand.
+     * Returns the community cards for the current {@link Hand}.
      * @return the community cards for the current hand. 
     */
     Set<Card> getCommunityCards();
 
     /**
-     * Sets the current minimum bet players must place if they want to continue playing.
+     * Sets the current minimum bet {@link Player}s must place if they want to continue playing.
      * @param currentBet the new minimum bet.
     */
     void setCurrentBet(int currentBet);
 
     /**
-     * Sets the number of players still in the game.
+     * Sets the number of {@link Player}s still in the game.
      * @param remainingPlayers the number of players still in the game.
     */
     void setRemainingPlayers(int remainingPlayers);
 
     /**
-     * Sets the hand phase.
+     * Sets the {@link Hand} {@link Phase}.
      * @param handPhase the current phase.
     */
-    void setHandPhase(final Phase handPhase);
+    void setHandPhase(Phase handPhase);
 }

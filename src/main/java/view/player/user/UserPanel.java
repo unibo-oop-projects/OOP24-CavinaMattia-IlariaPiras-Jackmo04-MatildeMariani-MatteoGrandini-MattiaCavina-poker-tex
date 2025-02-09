@@ -1,5 +1,6 @@
 package view.player.user;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -17,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import controller.player.user.UserPlayerController;
-import view.gameScenePanels.PlayerPanelImpl;
+import view.gamepanels.PlayerPanelImpl;
 
 /**
  * Class representing the graphical user interface for the poker game.
@@ -47,6 +48,8 @@ public class UserPanel extends PlayerPanelImpl {
     private final ActionListener listener = new MyActionListener();
     private static final Logger LOGGER = LoggerFactory.getLogger(UserPanel.class);
 
+    private final JPanel mainPanel = new JPanel();
+
     /**
      * Constructs a UserPanel with the specified user player controller.
      * Initializes the panel components and sets up the event listeners.
@@ -64,8 +67,8 @@ public class UserPanel extends PlayerPanelImpl {
      */
     public final void createUserPanel() {
 
-        this.setBackground(new Color(COLOR_BACKGROUND));
-        this.setLayout(new FlowLayout());
+        mainPanel.setBackground(new Color(COLOR_BACKGROUND));
+        mainPanel.setLayout(new FlowLayout());
 
         final JPanel userPanel = new JPanel();
         userPanel.setBackground(new Color(COLOR_BACKGROUND));
@@ -117,13 +120,13 @@ public class UserPanel extends PlayerPanelImpl {
         inputPanel.add(buttonsPanel);
         inputPanel.add(chipsPanel);
 
-        this.getCardsPanel().setBackground(new Color(COLOR_BACKGROUND));
-        this.getCardsPanel().setLayout(new FlowLayout());
+        this.getCardsPanel().getPanel().setBackground(new Color(COLOR_BACKGROUND));
+        this.getCardsPanel().getPanel().setLayout(new FlowLayout());
 
         userPanel.add(inputPanel);
-        userPanel.add(this.getCardsPanel());
+        userPanel.add(this.getCardsPanel().getPanel());
 
-        this.add(userPanel);
+        mainPanel.add(userPanel);
     }
 
     /**
@@ -235,5 +238,12 @@ public class UserPanel extends PlayerPanelImpl {
         } else {
             this.disableAllButtons();
         }
+    }
+
+    @Override
+    public JPanel getPanel() {
+        //final var wrapper = new JPanel(new BorderLayout());
+        //wrapper.add(mainPanel, BorderLayout.CENTER);
+        return mainPanel;
     }
 }
