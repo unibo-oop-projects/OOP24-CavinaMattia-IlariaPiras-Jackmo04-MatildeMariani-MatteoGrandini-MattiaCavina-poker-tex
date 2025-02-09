@@ -11,7 +11,7 @@ public interface DeckFactory {
      * {@link SeedCard} create all
      * type of poker's Card.
      * 
-     * @return {@link Deck} composed by Poker' Cards.
+     * @return {@link Deck} composed by Poker's Cards.
      */
     Deck<Card> simplePokerDeck();
 }
