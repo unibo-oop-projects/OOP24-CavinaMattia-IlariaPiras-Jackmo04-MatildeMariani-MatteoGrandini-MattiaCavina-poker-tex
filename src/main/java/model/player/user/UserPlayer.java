@@ -58,7 +58,7 @@ public class UserPlayer extends AbstractPlayer {
     @Override
     protected Combination<Card> updateCombination(final State currentState) {
         final var combination = super.updateCombination(currentState);
-        this.statistics.setBestCombinationIfSo(combination.type());
+        this.statistics.setBestCombinationIfSo(combination.getType());
         return combination;
     }
 

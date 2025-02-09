@@ -32,13 +32,13 @@ public class CombinationComparator implements Comparator<Combination<Card>>, Ser
     @Override
     public int compare(final Combination<Card> firstCombination, final Combination<Card> secondCombination) {
 
-        final int returnValue = Integer.compare(firstCombination.type().getValue(),
-                secondCombination.type().getValue());
+        final int returnValue = Integer.compare(firstCombination.getType().getValue(),
+                secondCombination.getType().getValue());
 
         if (returnValue == 0) {
-            switch (firstCombination.type()) {
+            switch (firstCombination.getType()) {
                 case TWO_PAIRS:
-                    return twoPairCompair(firstCombination.combinationCard(), secondCombination.combinationCard());
+                    return twoPairCompair(firstCombination.getCombinationCard(), secondCombination.getCombinationCard());
                 case FULL_HOUSE:
                     try {
                         return Integer.compare(sumValueCard(getTrisFromCombination(firstCombination)),
@@ -46,9 +46,10 @@ public class CombinationComparator implements Comparator<Combination<Card>>, Ser
                     } catch (IllegalAccessException e) {
                         LOGGER.debug("Tris not present in combination");
                     }
-                case PAIR, TRIS, POKER, FLUSH, STRAIGHT, STRAIGHT_FLUSH, ROYAL_FLUSH, HIGH_CARD:
-                    return Integer.compare(sumValueCard(firstCombination.combinationCard()),
-                            sumValueCard(secondCombination.combinationCard()));
+                    break;
+                default:
+                    return Integer.compare(sumValueCard(firstCombination.getCombinationCard()),
+                            sumValueCard(secondCombination.getCombinationCard()));
             }
         }
         return returnValue;
@@ -74,8 +75,8 @@ public class CombinationComparator implements Comparator<Combination<Card>>, Ser
      *                                not conteins tris combination.
      */
     private Set<Card> getTrisFromCombination(final Combination<Card> combination) throws IllegalAccessException {
-        if (new CombinationRulesImpl(combination.combinationCard(), new CombinationUtilitiesImpl()).isTris()) {
-            return new CombinationCardGetterImpl(combination.combinationCard(), new CombinationUtilitiesImpl())
+        if (new CombinationRulesImpl(combination.getCombinationCard(), new CombinationUtilitiesImpl()).isTris()) {
+            return new CombinationCardGetterImpl(combination.getCombinationCard(), new CombinationUtilitiesImpl())
                     .getTris();
         } else {
             throw new IllegalAccessException();
