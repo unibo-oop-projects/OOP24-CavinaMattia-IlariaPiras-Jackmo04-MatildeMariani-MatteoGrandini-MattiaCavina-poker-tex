@@ -33,8 +33,8 @@ public class StatisticsScene implements Scene {
     private static final int STATS_FONT_SIZE = 20;
     private static final int BTN_FONT_SIZE = 22;
     private static final int BTN_BORDER_SIZE = 2;
-    private static final int BOTTOM_SPACING = 20;
     private static final int BTN_HEIGHT = 50;
+    private static final int BOTTOM_SPACING = 20;
     private static final int LIGHT_GREEN_HEX = 0x88e378;
     private static final int DARK_GREEN_HEX = 0x0cac64;
     private static final int DARKER_GREEN_HEX = 0x2e603f;
