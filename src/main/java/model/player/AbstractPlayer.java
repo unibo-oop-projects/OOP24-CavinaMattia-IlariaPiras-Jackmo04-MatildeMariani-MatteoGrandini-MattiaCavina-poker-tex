@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import model.combination.CombinationHandlerImpl;
-import model.combination.api.Combination;
+import model.combination.Combination;
 import model.deck.api.Card;
 import model.game.api.State;
 import model.player.api.Action;
@@ -152,7 +152,7 @@ public abstract class AbstractPlayer implements Player {
      * {@inheritDoc}
      */
     @Override
-    public void setGameState(State gameState) {
+    public void setGameState(final State gameState) {
         this.gameState = Objects.requireNonNull(gameState);
     }
 
@@ -191,6 +191,8 @@ public abstract class AbstractPlayer implements Player {
     /**
      * Used to update the combination of the player.
      * @param currentState the current state of the game.
+     * @return the best combination of cards that the player can form 
+     * with the available cards.
      */
     protected Combination<Card> updateCombination(final State currentState) {
         final var usableCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream())
@@ -208,7 +210,4 @@ public abstract class AbstractPlayer implements Player {
         this.setRole(null);
         this.setTotalPhaseBet(0);
     }
-
-    
-    
 }

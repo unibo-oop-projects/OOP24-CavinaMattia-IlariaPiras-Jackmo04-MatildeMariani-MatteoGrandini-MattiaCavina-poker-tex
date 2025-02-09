@@ -74,7 +74,7 @@ public class MainMenuScene implements Scene {
         final MenuButton goToRules = new MenuButton("How to play");
         final MenuButton goToDifficultySelection = new MenuButton("New game");
         final MenuButton exit = new MenuButton("Exit");
-       
+
         menuPanel.add(goToDifficultySelection.getButton());
         menuPanel.add(goToRules.getButton());
         menuPanel.add(goToStats.getButton());

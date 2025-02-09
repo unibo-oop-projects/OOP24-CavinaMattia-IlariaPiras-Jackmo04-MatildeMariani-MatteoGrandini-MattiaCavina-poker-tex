@@ -1,7 +1,7 @@
 package model.player.user;
 
 import controller.player.user.UserPlayerController;
-import model.combination.api.Combination;
+import model.combination.Combination;
 import model.deck.api.Card;
 import model.game.api.Phase;
 import model.game.api.State;
@@ -58,7 +58,7 @@ public class UserPlayer extends AbstractPlayer {
     @Override
     protected Combination<Card> updateCombination(final State currentState) {
         final var combination = super.updateCombination(currentState);
-        this.statistics.setBestCombinationIfSo(combination.type());
+        this.statistics.setBestCombinationIfSo(combination.getType());
         return combination;
     }
 
@@ -133,6 +133,9 @@ public class UserPlayer extends AbstractPlayer {
         return this.controller;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public State getGameState() {
         return super.getGameState();

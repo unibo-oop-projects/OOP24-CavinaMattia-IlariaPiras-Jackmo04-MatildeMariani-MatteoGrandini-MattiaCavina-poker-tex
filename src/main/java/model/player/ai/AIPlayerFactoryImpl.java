@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 import model.player.ai.api.AIPlayer;
 import model.player.ai.api.AIPlayerFactory;
-import model.combination.api.Combination;
+import model.combination.Combination;
 import model.combination.api.CombinationType;
 import model.game.api.State;
 
@@ -137,7 +137,7 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                 final var currentState = this.getGameState();
                 final var currentBet = currentState.getCurrentBet();
                 final var currentHandPhase = currentState.getHandPhase();
-                var chance = difficultyModifier * callChance.apply(this.getCombination().type());
+                var chance = difficultyModifier * callChance.apply(this.getCombination().getType());
                 chance = chance * switch (currentHandPhase) {
                     case PREFLOP -> PREFLOP_MODIFIER;
                     case FLOP -> FLOP_MODIFIER;
@@ -156,7 +156,7 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                 final var currentState = this.getGameState();
                 final var currentBet = currentState.getCurrentBet();
                 final var currentHandPhase = currentState.getHandPhase();
-                var chance = difficultyModifier * raiseChance.apply(this.getCombination().type());
+                var chance = difficultyModifier * raiseChance.apply(this.getCombination().getType());
                 if (requiredBet(currentBet, currentHandPhase) == 0) {
                     chance = chance + FIRST_TO_BET_INCREMENT;
                 }

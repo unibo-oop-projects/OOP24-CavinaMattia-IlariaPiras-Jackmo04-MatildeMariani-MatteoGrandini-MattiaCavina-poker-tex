@@ -3,7 +3,7 @@ package model.player.api;
 import java.util.Optional;
 import java.util.Set;
 
-import model.combination.api.Combination;
+import model.combination.Combination;
 import model.deck.api.Card;
 import model.game.api.State;
 import model.statistics.api.BasicStatistics;
