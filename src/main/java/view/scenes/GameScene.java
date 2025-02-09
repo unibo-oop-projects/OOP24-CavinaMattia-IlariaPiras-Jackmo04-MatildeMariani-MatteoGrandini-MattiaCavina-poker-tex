@@ -1,6 +1,5 @@
 package view.scenes;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -80,6 +79,10 @@ public class GameScene implements Scene {
         this.mainPanel.add(southJPanel, BorderLayout.SOUTH);
         this.mainPanel.add(table.getPanel(), BorderLayout.CENTER);
 
+        this.initializeGameScene();
+    }
+
+    private void initializeGameScene() {
         this.controller.setGameScene(this);
         this.controller.startGame();
     }
@@ -155,7 +158,7 @@ public class GameScene implements Scene {
     /**
      * Implements the pause button ActionListener.
      */
-    private final ActionListener pauseActionListener = new ActionListener() {
+    private final transient ActionListener pauseActionListener = new ActionListener() {
 
         private static final int TRASPARENCY = 170;
 
@@ -173,7 +176,7 @@ public class GameScene implements Scene {
             glassPane.setOpaque(false);
             glassPane.setBackground(new Color(0, 0, 0, TRASPARENCY));
 
-            final RootPaneContainer frame = (RootPaneContainer) SwingUtilities.getWindowAncestor(GameScene.this.mainPanel);
+            final RootPaneContainer frame = (RootPaneContainer) SwingUtilities.getWindowAncestor(mainPanel);
             frame.setGlassPane(glassPane);
             glassPane.setVisible(true);
 
