@@ -59,7 +59,6 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
             this.globalStatistics = statistics;
             try {
                 this.saveStatistics(fileName);
-                LOGGER.info("Statistics saved to file '{}'.", fileName);
             } catch (IOException e1) {
                 LOGGER.error("Could not save statistics to file '{}'.", fileName);
             }
@@ -126,6 +125,7 @@ public class StatisticsManagerImpl<S extends Statistics> implements StatisticsMa
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             this.globalStatistics = (S) ois.readObject();
         }
+        LOGGER.info("Statistics loaded from file '{}'.", fileName);
     }
 
     @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "The returned value is unimportant")

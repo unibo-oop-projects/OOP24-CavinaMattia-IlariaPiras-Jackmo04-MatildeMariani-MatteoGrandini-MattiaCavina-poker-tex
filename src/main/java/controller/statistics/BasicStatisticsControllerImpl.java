@@ -22,7 +22,7 @@ import view.View;
 public class BasicStatisticsControllerImpl extends SceneControllerImpl implements StatisticsController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BasicStatisticsControllerImpl.class);
-    private static final String STATS_FILE_NAME = "stats.bin";
+    private static final String STATS_FILE_NAME = "stats.ser";
 
     private final StatisticsManager<BasicStatistics> statsManager;
 

@@ -34,7 +34,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
     private static final int INITIAL_BET_DIVISION_FACT = 10;
     private static final int NUM_AI_PLAYERS = 3;
     private static final int USER_PLAYER_ID = NUM_AI_PLAYERS;
-    private static final String STATISTICS_FILE_NAME = "stats.bin";
+    private static final String STATISTICS_FILE_NAME = "stats.ser";
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGame.class);
     private static final Random RAND = new Random();
 
