@@ -114,6 +114,14 @@ public class UserPlayerController {
     }
 
     /**
+     * Checks if the current phase of the game is PREFLOP.
+     * @return true if the current phase of the game is PREFLOP, false otherwise.
+     */
+    public boolean isPreFlop() {
+        return Phase.PREFLOP.equals(this.getState().getHandPhase());
+    }
+
+    /**
      * Checks if the user player can perform a check action.
      * @return true if the user player can check, false otherwise.
      */
@@ -160,14 +168,6 @@ public class UserPlayerController {
      */
     private State getState() {
         return this.userPlayer.getGameState();
-    }
-
-    /**
-     * Checks if the current phase of the game is PREFLOP.
-     * @return true if the current phase is PREFLOP, false otherwise.
-     */
-    public boolean isPreFlop() {
-        return Phase.PREFLOP.equals(this.getState().getHandPhase());
     }
 
 }

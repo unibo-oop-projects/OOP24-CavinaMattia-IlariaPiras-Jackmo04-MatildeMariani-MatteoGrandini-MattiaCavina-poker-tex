@@ -133,20 +133,6 @@ public class UserPanel extends PlayerPanelImpl {
     }
 
     /**
-     * Updates the states of the buttons based on the current game state.
-     */
-    private void updateButtonStates() {
-        if(this.getPlayerRole().getText().isBlank() || !controller.isPreFlop()) {
-            this.checkButton.setEnabled(controller.canCheck());
-            this.callButton.setEnabled(controller.canCall());
-            this.raiseButton.setEnabled(controller.canRaise());
-            this.foldButton.setEnabled(controller.canFold());
-            this.allInButton.setEnabled(controller.canAllIn());
-            this.raiseAmount.setEnabled(controller.canRaise());
-        }
-    }
-
-    /**
      * Disables all the buttons and the text field in the GUI.
      */
     private void disableAllButtons() {
@@ -157,7 +143,20 @@ public class UserPanel extends PlayerPanelImpl {
         this.raiseButton.setEnabled(false);
         this.foldButton.setEnabled(false);
         this.allInButton.setEnabled(false);
-        this.setAction("");
+    }
+
+    /**
+     * Updates the states of the buttons based on the current game state.
+     */
+    private void updateButtonStates() {
+        if (this.getPlayerRole().getText().isBlank() || !controller.isPreFlop()) {
+            this.checkButton.setEnabled(controller.canCheck());
+            this.callButton.setEnabled(controller.canCall());
+            this.raiseButton.setEnabled(controller.canRaise());
+            this.foldButton.setEnabled(controller.canFold());
+            this.allInButton.setEnabled(controller.canAllIn());
+            this.raiseAmount.setEnabled(controller.canRaise());
+        }
     }
 
     /**
