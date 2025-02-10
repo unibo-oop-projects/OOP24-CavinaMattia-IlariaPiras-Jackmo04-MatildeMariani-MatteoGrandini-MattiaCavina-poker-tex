@@ -192,7 +192,6 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Used to update the combination of the player.
-     * @param currentState the current state of the game.
      * @return the best combination of cards that the player can form 
      * with the available cards.
      */
