@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.Lists;
-
 import model.deck.api.Card;
 import model.deck.api.Deck;
 import model.deck.api.DeckFactory;
@@ -25,8 +23,8 @@ public class DeckFactoryImpl implements DeckFactory {
      */
     @Override
     public Deck<Card> simplePokerDeck() {
-        return new DeckImpl<Card>(() -> {
-            List<Card> deckCard = Arrays.stream(SimpleCard.values())
+        return new DeckImpl<>(() -> {
+            final List<Card> deckCard = Arrays.stream(SimpleCard.values())
                     .flatMap(t -> Arrays.stream(SeedCard.values())
                             .map(l -> new Card(t, l)))
                     .collect(Collectors.toList());
