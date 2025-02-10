@@ -97,12 +97,12 @@ public final class HandImpl implements Hand {
             default:
                 break;
         }
+        this.halt();
         this.controller.setPlayerAction(player.getId(), String.valueOf(action));
         if (!action.equals(Action.FOLD) &&  !action.equals(Action.CHECK)) {
             this.controller.setPlayerBet(player.getId(), player.getTotalPhaseBet());
             this.controller.setPlayerChips(player.getId(), player.getChips());
         }
-        this.halt();
         this.controller.isTurn(player.getId(), false);
     }
 
