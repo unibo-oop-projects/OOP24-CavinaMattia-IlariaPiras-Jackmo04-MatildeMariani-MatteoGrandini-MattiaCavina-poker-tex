@@ -136,7 +136,7 @@ public class UserPanel extends PlayerPanelImpl {
      * Updates the states of the buttons based on the current game state.
      */
     private void updateButtonStates() {
-        if(this.getPlayerRole().getText().equals("")) {
+        if(this.getPlayerRole().getText().isBlank() || !controller.isPreFlop()) {
             this.checkButton.setEnabled(controller.canCheck());
             this.callButton.setEnabled(controller.canCall());
             this.raiseButton.setEnabled(controller.canRaise());

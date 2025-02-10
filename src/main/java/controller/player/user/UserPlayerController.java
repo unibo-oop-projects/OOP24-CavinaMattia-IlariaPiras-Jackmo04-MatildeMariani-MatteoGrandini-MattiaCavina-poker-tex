@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import model.game.api.Phase;
 import model.game.api.State;
 import model.player.api.Action;
 import model.player.user.UserPlayer;
@@ -159,6 +160,14 @@ public class UserPlayerController {
      */
     private State getState() {
         return this.userPlayer.getGameState();
+    }
+
+    /**
+     * Checks if the current phase of the game is PREFLOP.
+     * @return true if the current phase is PREFLOP, false otherwise.
+     */
+    public boolean isPreFlop() {
+        return Phase.PREFLOP.equals(this.getState().getHandPhase());
     }
 
 }
