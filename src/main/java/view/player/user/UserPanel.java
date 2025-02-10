@@ -1,6 +1,5 @@
 package view.player.user;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -9,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -18,14 +19,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import controller.player.user.UserPlayerController;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import view.gamepanels.PlayerPanelImpl;
 
 /**
  * Class representing the graphical user interface for the poker game.
  */
 public class UserPanel extends PlayerPanelImpl {
-
-    private static final long serialVersionUID = 3L;
 
     private static final int FONT_SIZE = 15; 
     private static final int THICKNESS = 2;
@@ -35,8 +35,10 @@ public class UserPanel extends PlayerPanelImpl {
     private static final int A_BORDER = 50;
     private static final int COLOR_BACKGROUND = 0xDCBA85;
     private static final int COLOR_INPUT_PANEL = 0xECE6D0;
-    private static final int COLS = 5;
+    private static final int NUM_BUTTONS = 5;
     private static final String MESSAGE = "Insert your bet here, press enter and then push Raise";
+    private static final String FONT = "Roboto";
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserPanel.class);
 
     private final UserPlayerController controller;
     private GenericButton checkButton;
@@ -45,16 +47,15 @@ public class UserPanel extends PlayerPanelImpl {
     private GenericButton foldButton;
     private GenericButton allInButton;
     private JTextField raiseAmount;
-    private final ActionListener listener = new MyActionListener();
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserPanel.class);
-
-    private final JPanel mainPanel = new JPanel();
+    private final ActionListener listener = new InputActionListener();
+    private final JPanel userPlayerPanel = new JPanel();
 
     /**
      * Constructs a UserPanel with the specified user player controller.
      * Initializes the panel components and sets up the event listeners.
      * @param controller the user player controller associated with this panel.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentional storage of a object UserPlayerController")
     public UserPanel(final UserPlayerController controller) {
         this.controller = controller;
         createUserPanel();
@@ -65,14 +66,9 @@ public class UserPanel extends PlayerPanelImpl {
      * Creates and displays the panel components.
      * Sets up the buttons and their action listeners.
      */
-    public final void createUserPanel() {
-
-        mainPanel.setBackground(new Color(COLOR_BACKGROUND));
-        mainPanel.setLayout(new FlowLayout());
-
-        final JPanel userPanel = new JPanel();
-        userPanel.setBackground(new Color(COLOR_BACKGROUND));
-        userPanel.setLayout(new FlowLayout());
+    private void createUserPanel() {
+        userPlayerPanel.setBackground(new Color(COLOR_BACKGROUND));
+        userPlayerPanel.setLayout(new FlowLayout());
 
         final JPanel inputPanel = new JPanel();
         inputPanel.setBackground(new Color(COLOR_BACKGROUND));
@@ -80,7 +76,7 @@ public class UserPanel extends PlayerPanelImpl {
 
         final JPanel buttonsPanel = new JPanel();
         buttonsPanel.setBackground(new Color(COLOR_BACKGROUND));
-        buttonsPanel.setLayout(new GridLayout(1, COLS));
+        buttonsPanel.setLayout(new GridLayout(1, NUM_BUTTONS));
 
         final JPanel chipsPanel = new JPanel();
         chipsPanel.setBackground(new Color(COLOR_BACKGROUND));
@@ -98,21 +94,30 @@ public class UserPanel extends PlayerPanelImpl {
         this.allInButton.initializeButton("ALL_IN", this.listener, buttonsPanel);
 
         this.raiseAmount = new JTextField(MESSAGE); 
-        this.raiseAmount.setFont(new Font("Roboto", Font.PLAIN, FONT_SIZE));
-        this.raiseAmount.addFocusListener(new MyFocusListener());
+        this.raiseAmount.setFont(new Font(FONT, Font.PLAIN, FONT_SIZE));
+        this.raiseAmount.addFocusListener(new InputFocusListener());
+        this.raiseAmount.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(final KeyEvent e) {
+                final char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    e.consume();
+                }
+            }
+        });
         this.raiseAmount.setBackground(new Color(COLOR_INPUT_PANEL));
         this.raiseAmount.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
         chipsPanel.add(this.raiseAmount);
 
-        this.getPlayerChips().setFont(new Font("Roboto", Font.PLAIN, FONT_SIZE));
+        this.getPlayerChips().setFont(new Font(FONT, Font.PLAIN, FONT_SIZE));
         this.getPlayerChips().setBackground(new Color(COLOR_INPUT_PANEL));
         this.getPlayerChips().setOpaque(true);
         this.getPlayerChips().setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
         chipsPanel.add(this.getPlayerChips());
 
-        this.getPlayerRole().setFont(new Font("Roboto", Font.PLAIN, FONT_SIZE));
+        this.getPlayerRole().setFont(new Font(FONT, Font.PLAIN, FONT_SIZE));
         this.getPlayerRole().setBackground(new Color(COLOR_INPUT_PANEL));
         this.getPlayerRole().setOpaque(true);
         chipsPanel.add(this.getPlayerRole());
@@ -123,16 +128,14 @@ public class UserPanel extends PlayerPanelImpl {
         this.getCardsPanel().getPanel().setBackground(new Color(COLOR_BACKGROUND));
         this.getCardsPanel().getPanel().setLayout(new FlowLayout());
 
-        userPanel.add(inputPanel);
-        userPanel.add(this.getCardsPanel().getPanel());
-
-        mainPanel.add(userPanel);
+        userPlayerPanel.add(inputPanel);
+        userPlayerPanel.add(this.getCardsPanel().getPanel());
     }
 
     /**
      * Updates the states of the buttons based on the current game state.
      */
-    public void updateButtonStates() {
+    private void updateButtonStates() {
         this.checkButton.setEnabled(controller.canCheck());
         this.callButton.setEnabled(controller.canCall());
         this.raiseButton.setEnabled(controller.canRaise());
@@ -144,7 +147,7 @@ public class UserPanel extends PlayerPanelImpl {
     /**
      * Disables all the buttons and the text field in the GUI.
      */
-    public final void disableAllButtons() {
+    private void disableAllButtons() {
         this.raiseAmount.setText(MESSAGE);
         this.raiseAmount.setEnabled(false);
         this.checkButton.setEnabled(false);
@@ -158,8 +161,17 @@ public class UserPanel extends PlayerPanelImpl {
      * Sets the player action in the player panel.
      * @param action the action to set.
      */
-    public void setPlayerAction(final String action) {
+    private void setPlayerAction(final String action) {
         this.setAction(action);
+    }
+
+    /**
+     * Gets the JTextField for entering the raise amount.
+     * This method returns the JTextField component that allows the user to enter the amount they want to raise.
+     * @return the JTextField for entering the raise amount.
+     */
+    private JTextField getRaiseAmount() {
+        return this.raiseAmount;
     }
 
     /**
@@ -168,7 +180,7 @@ public class UserPanel extends PlayerPanelImpl {
      * for the buttons in the user interface. It processes the action commands and interacts
      * with the UserPlayerController to perform the appropriate actions based on the user's input.
      */
-    private final class MyActionListener implements ActionListener {
+    private final class InputActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
@@ -188,6 +200,7 @@ public class UserPanel extends PlayerPanelImpl {
                 }
             }
             setPlayerAction(((GenericButton) e.getSource()).getActionCommand());
+            getRaiseAmount().setText(MESSAGE);
         }
     }
 
@@ -197,7 +210,7 @@ public class UserPanel extends PlayerPanelImpl {
      * for the text field in the user interface. It processes the focus gained and focus lost
      * events to manage the text in the text field.
      */
-    private final class MyFocusListener implements FocusListener {
+    private final class InputFocusListener implements FocusListener {
 
         @Override
         public void focusGained(final FocusEvent e) {
@@ -240,10 +253,13 @@ public class UserPanel extends PlayerPanelImpl {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "The userPlayerPanel is intended to be exposed")
     @Override
     public JPanel getPanel() {
-        //final var wrapper = new JPanel(new BorderLayout());
-        //wrapper.add(mainPanel, BorderLayout.CENTER);
-        return mainPanel;
+        return this.userPlayerPanel;
     }
+
 }
