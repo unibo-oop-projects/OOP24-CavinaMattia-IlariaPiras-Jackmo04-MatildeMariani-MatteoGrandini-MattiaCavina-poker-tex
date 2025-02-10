@@ -34,6 +34,7 @@ public class StartScene implements Scene {
     private static final int COLOR_BACKGROUND = 0xDCBA85;
     private static final int BUTTON_WIDTH = 250;
     private static final int BUTTON_HEIGHT = 60;
+    private static final String FONT = "Roboto";
     private static final String SCENE_NAME = "start";
 
     private final StartController controller;
@@ -49,6 +50,10 @@ public class StartScene implements Scene {
         initialize();
     }
 
+    /**
+     * Initializes the components of the StartScene.
+     * Sets up the layout, styles, and event listeners for the components.
+     */
     private void initialize() {
         this.startPanel.setBackground(new Color(COLOR_BACKGROUND));
 
@@ -61,7 +66,7 @@ public class StartScene implements Scene {
         titlePanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JLabel title = new JLabel("POKER TEXAS HOLD'EM", SwingConstants.CENTER);
-        title.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE_TITLE));
+        title.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_TITLE));
         titlePanel.add(title);
 
         final JPanel centerPanel = new JPanel();
@@ -74,7 +79,7 @@ public class StartScene implements Scene {
         final JButton button = new JButton("Press to start");
         button.setBackground(new Color(COLOR_BUTTONS_PANEL));
         button.setForeground(Color.BLACK);
-        button.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
+        button.setFont(new Font(FONT, Font.BOLD, FONT_SIZE));
         button.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
         button.setOpaque(true);

@@ -23,6 +23,7 @@ import model.player.user.UserPlayer;
  * Tests for the UserPlayer implementation.
  */
 class TestUserPlayer {
+
     private static final int PLAYER_ID = 1;
     private static final int INITIAL_TOTAL_PHASE_BET = 0;
     private static final int INITIAL_CHIPS = 2000;
@@ -135,4 +136,5 @@ class TestUserPlayer {
         assertEquals(INITIAL_CHIPS - (INITIAL_BET_500 * MULTIPLIER_RAISE), player.getChips());
         assertEquals(Set.of(), player.getCards());
     }
+
 }

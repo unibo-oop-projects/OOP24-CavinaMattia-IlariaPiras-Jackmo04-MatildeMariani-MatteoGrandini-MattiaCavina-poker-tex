@@ -35,6 +35,7 @@ public class MainMenuScene implements Scene {
     private static final int V_GAP = 5;
     private static final int BUTTON_WIDTH = 250;
     private static final int BUTTON_HEIGHT = 60;
+    private static final String FONT = "Roboto";
     private static final String SCENE_NAME = "menu";
 
     private final MainMenuController controller;
@@ -42,7 +43,7 @@ public class MainMenuScene implements Scene {
 
     /**
      * Creates a new {@link MainMenuScene}.
-     * @param controller the controller for the main menu
+     * @param controller the controller for the main menu.
      */
     public MainMenuScene(final MainMenuController controller) {
         this.controller = controller;
@@ -62,7 +63,7 @@ public class MainMenuScene implements Scene {
         titlePanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JLabel title = new JLabel("MENU", SwingConstants.CENTER);
-        title.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE_TITLE));
+        title.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_TITLE));
 
         titlePanel.add(title);
 
@@ -139,7 +140,7 @@ public class MainMenuScene implements Scene {
         private void initializeButton() {
             this.button.setBackground(new Color(COLOR_BUTTONS_PANEL));
             this.button.setForeground(Color.BLACK);
-            this.button.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
+            this.button.setFont(new Font(FONT, Font.BOLD, FONT_SIZE));
             this.button.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
                             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
             this.button.setOpaque(true);
@@ -152,9 +153,9 @@ public class MainMenuScene implements Scene {
          * Gets the JButton associated with this MenuButton.
          * This method returns the JButton component that is styled and initialized
          * by the MenuButton class. 
-         * @return the JButton associated with this DiffSelButton.
+         * @return the JButton associated with this MenuButton.
          */
-        public JButton getButton() {
+        private JButton getButton() {
             return this.button;
         }
     }
