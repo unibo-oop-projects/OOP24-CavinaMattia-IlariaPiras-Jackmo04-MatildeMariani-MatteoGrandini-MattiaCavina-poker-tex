@@ -27,7 +27,7 @@ import view.scenes.api.Scene;
 /**
  * The {@link Scene} of the game.
  */
-public class GameScene implements Scene {
+public final class GameScene implements Scene {
 
     private static final String SCENE_NAME = "game";
 
@@ -63,7 +63,7 @@ public class GameScene implements Scene {
         final var buttonPanel = new JPanel(new GridBagLayout());
         buttonPanel.setBackground(southPlayerPanel.getPanel().getBackground());
         final var pause = new GenericButton("Pause");
-        pause.initializeButton("PAUSE", pauseActionListener, buttonPanel);
+        pause.initializeButton("PAUSE", new PauseActionListener(this), buttonPanel);
 
         southJPanel.add(southPlayerPanel.getPanel(), BorderLayout.CENTER);
         southJPanel.add(buttonPanel, BorderLayout.EAST);
@@ -79,10 +79,6 @@ public class GameScene implements Scene {
         this.mainPanel.add(southJPanel, BorderLayout.SOUTH);
         this.mainPanel.add(table.getPanel(), BorderLayout.CENTER);
 
-        this.initializeGameScene();
-    }
-
-    private void initializeGameScene() {
         this.controller.setGameScene(this);
         this.controller.startGame();
     }
@@ -158,9 +154,14 @@ public class GameScene implements Scene {
     /**
      * Implements the pause button ActionListener.
      */
-    private final transient ActionListener pauseActionListener = new ActionListener() {
+    private static class PauseActionListener implements ActionListener {
 
         private static final int TRASPARENCY = 170;
+        private final GameScene gameScene;
+
+        PauseActionListener(final GameScene gameScene) {
+            this.gameScene = gameScene;
+        }
 
         @Override
         public void actionPerformed(final ActionEvent e) {
@@ -176,16 +177,16 @@ public class GameScene implements Scene {
             glassPane.setOpaque(false);
             glassPane.setBackground(new Color(0, 0, 0, TRASPARENCY));
 
-            final RootPaneContainer frame = (RootPaneContainer) SwingUtilities.getWindowAncestor(mainPanel);
+            final RootPaneContainer frame = (RootPaneContainer) SwingUtilities.getWindowAncestor(gameScene.mainPanel);
             frame.setGlassPane(glassPane);
             glassPane.setVisible(true);
 
-            controller.pauseGame();
+            gameScene.controller.pauseGame();
             SwingUtilities.invokeLater(new Runnable() {
 
                 @Override
                 public void run() {
-                    final var pauseDialog = new PauseDialog((Window) frame, controller);
+                    final var pauseDialog = new PauseDialog((Window) frame, gameScene.controller);
                     pauseDialog.showDialog((Window) frame);
 
                     glassPane.setVisible(false);
@@ -193,5 +194,5 @@ public class GameScene implements Scene {
 
             });
         }
-    };
+    }
 }

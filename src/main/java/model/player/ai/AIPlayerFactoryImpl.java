@@ -145,7 +145,6 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
             @Override
             protected boolean shouldCall() {
                 final var currentState = this.getGameState();
-                final var currentBet = currentState.getCurrentBet();
                 final var currentHandPhase = currentState.getHandPhase();
                 var chance = difficultyModifier * callChance.apply(this.getCombination().getType());
                 chance = chance * switch (currentHandPhase) {
@@ -155,7 +154,7 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
                     case RIVER -> RIVER_MODIFIER;
                 };
                 if (this.getTotalPhaseBet() != 0
-                        && requiredBet(currentBet, currentHandPhase) > this.getTotalPhaseBet() * HIGH_RAISE_THRESHOLD) {
+                        && requiredBet(currentState) > this.getTotalPhaseBet() * HIGH_RAISE_THRESHOLD) {
                     chance = chance * HIGH_RAISE_MODIFIER;
                 }
                 return random.nextDouble() < chance;
@@ -164,10 +163,8 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
             @Override
             protected boolean shouldRaise() {
                 final var currentState = this.getGameState();
-                final var currentBet = currentState.getCurrentBet();
-                final var currentHandPhase = currentState.getHandPhase();
                 var chance = difficultyModifier * raiseChance.apply(this.getCombination().getType());
-                if (requiredBet(currentBet, currentHandPhase) == 0) {
+                if (requiredBet(currentState) == 0) {
                     chance = chance + FIRST_TO_BET_INCREMENT;
                 }
                 return random.nextDouble() < chance;
