@@ -1,9 +1,9 @@
 package model.deck;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import com.google.common.collect.Lists;
+import java.util.stream.Collectors;
 
 import model.deck.api.Card;
 import model.deck.api.Deck;
@@ -24,16 +24,12 @@ public class DeckFactoryImpl implements DeckFactory {
     @Override
     public Deck<Card> simplePokerDeck() {
         return new DeckImpl<>(() -> {
-
-            final List<Card> deckNew = Lists.newLinkedList();
-            for (final var elemSimple : SimpleCard.values()) {
-                for (final var elemSeed : SeedCard.values()) {
-                    deckNew.add(new Card(elemSimple, elemSeed));
-                }
-            }
-            Collections.shuffle(deckNew);
-            return deckNew;
+            final List<Card> deckCard = Arrays.stream(SimpleCard.values())
+                    .flatMap(t -> Arrays.stream(SeedCard.values())
+                            .map(l -> new Card(t, l)))
+                    .collect(Collectors.toList());
+            Collections.shuffle(deckCard);
+            return deckCard;
         });
     }
-
 }
