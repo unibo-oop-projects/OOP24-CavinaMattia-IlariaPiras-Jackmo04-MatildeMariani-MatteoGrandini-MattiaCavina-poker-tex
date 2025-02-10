@@ -14,12 +14,13 @@ import view.player.user.UserPanel;
  */
 public class UserPlayerController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserPlayerController.class);
+
     private final UserPlayer userPlayer;
     private int raiseAmount;
     private Action action;
     private boolean actionReceived;
     private final Object lock = new Object();
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserPlayerController.class);
 
     /**
      * Constructs a UserPlayerController with the specified user player.
@@ -86,9 +87,13 @@ public class UserPlayerController {
      * @return true if the amount is valid, false otherwise.
      */
     public boolean isAmountOK(final String text) {
-        final int amount;
-        amount = Integer.parseInt(text);
-        return this.userPlayer.getChips() > amount;
+        try {
+            final int amount = Integer.parseInt(text);
+            return this.userPlayer.getChips() > amount && amount > this.getState().getCurrentBet();
+        } catch (IllegalArgumentException ex) {
+            LOGGER.error("Invalid amount: ", ex);
+            return false;
+        }
     }
 
     /**
@@ -152,7 +157,7 @@ public class UserPlayerController {
      * This method returns the current state of the game.
      * @return the current state of the game.
      */
-    public State getState() {
+    private State getState() {
         return this.userPlayer.getGameState();
     }
 
