@@ -136,12 +136,14 @@ public class UserPanel extends PlayerPanelImpl {
      * Updates the states of the buttons based on the current game state.
      */
     private void updateButtonStates() {
-        this.checkButton.setEnabled(controller.canCheck());
-        this.callButton.setEnabled(controller.canCall());
-        this.raiseButton.setEnabled(controller.canRaise());
-        this.foldButton.setEnabled(controller.canFold());
-        this.allInButton.setEnabled(controller.canAllIn());
-        this.raiseAmount.setEnabled(controller.canRaise());
+        if(this.getPlayerRole().getText().equals("")) {
+            this.checkButton.setEnabled(controller.canCheck());
+            this.callButton.setEnabled(controller.canCall());
+            this.raiseButton.setEnabled(controller.canRaise());
+            this.foldButton.setEnabled(controller.canFold());
+            this.allInButton.setEnabled(controller.canAllIn());
+            this.raiseAmount.setEnabled(controller.canRaise());
+        }
     }
 
     /**
@@ -155,6 +157,7 @@ public class UserPanel extends PlayerPanelImpl {
         this.raiseButton.setEnabled(false);
         this.foldButton.setEnabled(false);
         this.allInButton.setEnabled(false);
+        this.setAction("");
     }
 
     /**
@@ -190,10 +193,12 @@ public class UserPanel extends PlayerPanelImpl {
                         final int raiseAmount = Integer.parseInt(UserPanel.this.raiseAmount.getText());
                         controller.setRaiseAmount(raiseAmount);
                         controller.receiveUserAction(raiseButton.getActionCommand());
+                        disableAllButtons();
                     }
                 }
                 case "CHECK", "CALL", "FOLD", "ALL_IN" -> {
                     controller.receiveUserAction(((GenericButton) e.getSource()).getActionCommand());
+                    disableAllButtons();
                 }
                 default -> {
                     LOGGER.error("Unexpected action command: " + e.getActionCommand());
