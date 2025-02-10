@@ -132,7 +132,8 @@ public final class HandImpl implements Hand {
     public boolean isPhaseOver() {
         return (this.remainingPlayers.size() < MIN_PLAYERS 
             || this.remainingPlayers.stream().allMatch(p -> p.getTotalPhaseBet() == this.gameState.getCurrentBet()
-            || !p.hasChipsLeft())) && (this.numPlayerWhoPlayedInPhase >= this.remainingPlayers.size());
+            || !p.hasChipsLeft())) && (this.numPlayerWhoPlayedInPhase 
+            >= (int) this.remainingPlayers.stream().filter(Player::hasChipsLeft).count());
     }
 
     /**
