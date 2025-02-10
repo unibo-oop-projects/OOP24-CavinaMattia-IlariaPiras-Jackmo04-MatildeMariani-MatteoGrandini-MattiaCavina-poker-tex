@@ -3,6 +3,9 @@ package controller.game;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import controller.card.CardGetterImage;
 import controller.card.CardGetterImageImpl;
 import controller.game.api.Difficulty;
@@ -23,6 +26,7 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
 
     private static final int MAX_PLAYERS = 4;
     private static final int NUM_PLAYER_CARD = 2;
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameControllerImpl.class);
 
     private final CardGetterImage cardGetterImage;
     private final View mainView;
@@ -267,7 +271,7 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
                 try {
                     pauseLock.wait();
                 } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
+                    LOGGER.info("Thread interrupted.");
                 }
             }
         }
