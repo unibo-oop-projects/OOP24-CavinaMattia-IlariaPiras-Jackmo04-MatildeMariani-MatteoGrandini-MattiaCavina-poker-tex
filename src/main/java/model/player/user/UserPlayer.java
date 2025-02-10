@@ -38,7 +38,7 @@ public class UserPlayer extends AbstractPlayer {
         if (this.getCards().size() != 2) {
             throw new IllegalStateException("Player must have 2 cards to play");
         }
-        this.updateCombination(this.getGameState());
+        this.updateCombination();
         final Action action;
         if (this.getGameState().getHandPhase() == Phase.PREFLOP && this.getTotalPhaseBet() == 0 && this.getRole().isPresent()) {
             this.setTotalPhaseBet((int) (this.getGameState().getCurrentBet() * this.getRole().get().getMultiplier()));
@@ -57,8 +57,8 @@ public class UserPlayer extends AbstractPlayer {
      * {@inheritDoc}
      */
     @Override
-    protected Combination<Card> updateCombination(final State currentState) {
-        final var combination = super.updateCombination(currentState);
+    protected Combination<Card> updateCombination() {
+        final var combination = super.updateCombination();
         this.statistics.setBestCombinationIfSo(combination.getType());
         return combination;
     }

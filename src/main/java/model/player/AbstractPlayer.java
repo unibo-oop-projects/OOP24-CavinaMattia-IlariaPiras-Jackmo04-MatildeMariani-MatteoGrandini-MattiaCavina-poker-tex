@@ -196,8 +196,8 @@ public abstract class AbstractPlayer implements Player {
      * @return the best combination of cards that the player can form 
      * with the available cards.
      */
-    protected Combination<Card> updateCombination(final State currentState) {
-        final var usableCards = Stream.concat(currentState.getCommunityCards().stream(), this.getCards().stream())
+    protected Combination<Card> updateCombination() {
+        final var usableCards = Stream.concat(this.gameState.getCommunityCards().stream(), this.getCards().stream())
             .collect(Collectors.toSet());
         final var combination = new CombinationHandlerImpl().getBestCombination(usableCards);
         this.setCombination(combination);

@@ -1,6 +1,13 @@
 package model.player.ai;
 
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+
 import model.game.api.Phase;
+import model.game.api.State;
 import model.player.AbstractPlayer;
 import model.player.ai.api.AIPlayer;
 import model.player.api.Action;
@@ -35,32 +42,22 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
      */
     @Override
     public Action getAction() {
-        if (this.getGameState() == null) {
-            throw new IllegalStateException("Player must have a game state to play");
-        }
-        if (!this.hasEnoughCards()) {
-            throw new IllegalStateException("Player must have 2 cards to play");
-        }
+        this.assertValidState();
+        this.updateCombination();
+        final List<ImmutablePair<Predicate<State>, Function<State,Action>>> actions = List.of(
+            ImmutablePair.of(state -> !this.hasChipsLeft(), state -> this.check()),
+            ImmutablePair.of(this::hasToPayBlind, this::call),
+            ImmutablePair.of(state -> this.shouldRaise(), this::raise),
+            ImmutablePair.of(this::canCheck, state -> this.check()),
+            ImmutablePair.of(state -> this.shouldCall(), this::call),
+            ImmutablePair.of(state -> true, state -> this.fold())
+        );
         final var currentState = this.getGameState();
-        this.updateCombination(currentState);
-        final var currentHandPhase = currentState.getHandPhase();
-        final var currentBet = currentState.getCurrentBet();
-        if (!this.hasChipsLeft()) {
-            return this.check();
-        }
-        if (this.hasToPayBlind(currentHandPhase)) {
-            return this.call(currentBet, currentHandPhase);
-        }
-        if (this.shouldRaise()) {
-            return this.raise(currentBet, currentHandPhase);
-        }
-        if (this.canCheck(currentBet)) {
-            return this.check();
-        }
-        if (this.shouldCall()) {
-            return this.call(currentBet, currentHandPhase);
-        }
-        return this.fold();
+        return actions.stream()
+            .filter(pair -> pair.getLeft().test(currentState))
+            .findFirst()
+            .map(pair -> pair.getRight().apply(currentState))
+            .orElseThrow();
     }
 
     /**
@@ -104,9 +101,9 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
      * @param currentHandPhase the current phase of the hand
      * @return the amount of chips that the player is required to call
      */
-    protected int requiredBet(final int currentBet, final Phase currentHandPhase) {
-        return (int) (currentBet * this.getRole()
-            .filter(r -> this.hasToPayBlind(currentHandPhase))
+    protected int requiredBet(final State state) {
+        return (int) (state.getCurrentBet() * this.getRole()
+            .filter(r -> this.hasToPayBlind(state))
             .map(Role::getMultiplier)
             .orElse(1.0)
         );
@@ -124,13 +121,22 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
      */
     protected abstract boolean shouldRaise();
 
-    private Action call(final int currentBet, final Phase currentHandPhase) {
-        this.makeBet(requiredBet(currentBet, currentHandPhase));
+    private void assertValidState() {
+        if (this.getGameState() == null) {
+            throw new IllegalStateException("Player must have a game state to play");
+        }
+        if (!this.hasEnoughCards()) {
+            throw new IllegalStateException("Player must have 2 cards to play");
+        }
+    }
+
+    private Action call(final State state) {
+        this.makeBet(requiredBet(state));
         return this.actionOrAllIn(Action.CALL);
     }
 
-    private Action raise(final int currentBet, final Phase currentHandPhase) {
-        this.makeBet((int) (requiredBet(currentBet, currentHandPhase) + this.standardRaise * raisingFactor));
+    private Action raise(final State state) {
+        this.makeBet((int) (requiredBet(state) + this.standardRaise * raisingFactor));
         return this.actionOrAllIn(Action.RAISE);
     }
 
@@ -146,14 +152,14 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
         return this.getCards().size() == 2;
     }
 
-    private boolean hasToPayBlind(final Phase currentHandPhase) {
+    private boolean hasToPayBlind(final State state) {
         return this.getRole()
-            .filter(r -> this.getTotalPhaseBet() == 0 && currentHandPhase == Phase.PREFLOP)
+            .filter(r -> this.getTotalPhaseBet() == 0 && state.getHandPhase() == Phase.PREFLOP)
             .isPresent();
     }
 
-    private boolean canCheck(final int currentBet) {
-        return currentBet == this.getTotalPhaseBet();
+    private boolean canCheck(final State state) {
+        return state.getCurrentBet() == this.getTotalPhaseBet();
     }
 
     private int maxBetToReach(final int amount) {
