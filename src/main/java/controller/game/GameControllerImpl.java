@@ -29,8 +29,8 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
     private final Game game;
     private GameScene gameScene;
 
-    private boolean isPaused;
-    private boolean isTerminated;
+    private volatile boolean isPaused;
+    private volatile boolean isTerminated;
     private final Object pauseLock = new Object();
     private final Object endLock = new Object();
 
