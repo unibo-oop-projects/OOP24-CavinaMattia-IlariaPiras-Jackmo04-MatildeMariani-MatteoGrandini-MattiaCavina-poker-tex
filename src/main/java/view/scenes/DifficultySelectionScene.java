@@ -155,8 +155,8 @@ public class DifficultySelectionScene implements Scene {
         errorPanel.setLayout(new FlowLayout());
         errorPanel.setBackground(new Color(COLOR_BACKGROUND));
 
-        final JLabel errorLabel = new JLabel("Enter a number between 1000 and 1000000!!");
-        errorLabel.setFont(new Font("Roboto", Font.PLAIN, FONT_SIZE_LABEL));
+        final JLabel errorLabel = new JLabel("Enter a number between 1000 and 1000000!");
+        errorLabel.setFont(new Font(FONT, Font.PLAIN, FONT_SIZE_LABEL));
         errorLabel.setBackground(new Color(COLOR_INPUT_PANEL));
         errorLabel.setOpaque(true);
         errorLabel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
@@ -199,25 +199,23 @@ public class DifficultySelectionScene implements Scene {
                 if (!Character.isDigit(c)) {
                     e.consume();
                 }
-                final String text = input.getText() + c;
-                try {
-                    final long value = Long.parseLong(text);
-                    if (value > Integer.MAX_VALUE) {
-                        e.consume(); 
-                    }
-                } catch (NumberFormatException ex) {
-                    LOGGER.error("Number conversion error: ", ex);
-                }
             }
         });
         input.addActionListener(e -> {
-            if (Integer.parseInt(input.getText()) < MIN || Integer.parseInt(input.getText()) > MAX) {
+            try {
+                final long value = Long.parseLong(input.getText());
+                if (value < MIN || value > MAX) {
+                    errorLabel.setVisible(true);
+                    this.chipsValid = false;
+                } else {
+                    errorLabel.setVisible(false);
+                    this.controller.setInitialChips((int) value);
+                    this.chipsValid = true;
+                }
+            } catch (IllegalArgumentException ex) {
+                LOGGER.error("The number entered is too big: ", ex);
                 errorLabel.setVisible(true);
                 this.chipsValid = false;
-            } else {
-                errorLabel.setVisible(false);
-                this.controller.setInitialChips(Integer.parseInt(input.getText()));
-                this.chipsValid = true;
             }
             updatePlayButtonState(play.getButton()); 
         });
@@ -232,9 +230,7 @@ public class DifficultySelectionScene implements Scene {
         playPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         play.getButton().setEnabled(false);
-        play.getButton().addActionListener(e -> {
-            this.controller.goToGameScene();
-        });
+        play.getButton().addActionListener(e -> this.controller.goToGameScene());
 
         playPanel.add(play.getButton());
 
@@ -277,12 +273,12 @@ public class DifficultySelectionScene implements Scene {
      * @param button the play button to be updated.
      */
     private void updatePlayButtonState(final JButton button) {
-    if (this.difficultySelected && this.chipsValid) {
-        button.setEnabled(true);
-    } else {
-        button.setEnabled(false);
+        if (this.difficultySelected && this.chipsValid) {
+            button.setEnabled(true);
+        } else {
+            button.setEnabled(false);
+        }
     }
-}
 
     /**
      * Custom button class for the DifficultySelectionScene.
@@ -321,7 +317,7 @@ public class DifficultySelectionScene implements Scene {
          * by the DiffSelButton class. 
          * @return the JButton associated with this DiffSelButton.
          */
-        public JButton getButton() {
+        private JButton getButton() {
             return this.button;
         }
     }
