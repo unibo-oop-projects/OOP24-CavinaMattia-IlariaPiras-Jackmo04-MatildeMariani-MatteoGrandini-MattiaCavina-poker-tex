@@ -57,7 +57,7 @@ class CombinationComparatorTest {
      */
     @Test
     void hightVsHight() {
-        final Set<Card> firstPlayerCard = Set.of(
+        Set<Card> firstPlayerCard = Set.of(
                 new Card(SimpleCard.ACE, SeedCard.CLUBS),
                 new Card(SimpleCard.JACK, SeedCard.SPADES),
                 new Card(SimpleCard.FOUR, SeedCard.SPADES),
@@ -65,7 +65,7 @@ class CombinationComparatorTest {
                 new Card(SimpleCard.TEN, SeedCard.CLUBS),
                 new Card(SimpleCard.KING, SeedCard.DIAMOND),
                 new Card(SimpleCard.TWO, SeedCard.DIAMOND));
-        final Set<Card> secondPlayerCard = Set.of(
+        Set<Card> secondPlayerCard = Set.of(
                 new Card(SimpleCard.ACE, SeedCard.CLUBS),
                 new Card(SimpleCard.JACK, SeedCard.SPADES),
                 new Card(SimpleCard.THREE, SeedCard.SPADES),
@@ -74,7 +74,29 @@ class CombinationComparatorTest {
                 new Card(SimpleCard.KING, SeedCard.DIAMOND),
                 new Card(SimpleCard.TWO, SeedCard.DIAMOND));
         assertEquals(
-                EQUAL,
+                SECOND_WIN,
+                combinationComparator.compare(
+                        new CombinationHandlerImpl().getBestCombination(firstPlayerCard),
+                        new CombinationHandlerImpl().getBestCombination(secondPlayerCard)));
+
+        firstPlayerCard = Set.of(
+                new Card(SimpleCard.FIVE, SeedCard.HEARTH),
+                new Card(SimpleCard.QUEEN, SeedCard.CLUBS),
+                new Card(SimpleCard.KING, SeedCard.DIAMOND),
+                new Card(SimpleCard.JACK, SeedCard.HEARTH),
+                new Card(SimpleCard.JACK, SeedCard.CLUBS),
+                new Card(SimpleCard.EIGHT, SeedCard.CLUBS),
+                new Card(SimpleCard.THREE, SeedCard.HEARTH));
+        secondPlayerCard = Set.of(
+                new Card(SimpleCard.FIVE, SeedCard.HEARTH),
+                new Card(SimpleCard.QUEEN, SeedCard.CLUBS),
+                new Card(SimpleCard.KING, SeedCard.DIAMOND),
+                new Card(SimpleCard.JACK, SeedCard.HEARTH),
+                new Card(SimpleCard.JACK, SeedCard.CLUBS),
+                new Card(SimpleCard.NINE, SeedCard.HEARTH),
+                new Card(SimpleCard.THREE, SeedCard.CLUBS));
+        assertEquals(
+                SECOND_WIN,
                 combinationComparator.compare(
                         new CombinationHandlerImpl().getBestCombination(firstPlayerCard),
                         new CombinationHandlerImpl().getBestCombination(secondPlayerCard)));

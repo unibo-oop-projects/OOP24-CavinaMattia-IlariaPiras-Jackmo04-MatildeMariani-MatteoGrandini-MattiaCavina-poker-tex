@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Lists;
+
 import model.deck.api.Card;
 
 /**
@@ -31,24 +33,29 @@ public class CombinationComparator implements Comparator<Combination<Card>>, Ser
     @Override
     public int compare(final Combination<Card> firstCombination, final Combination<Card> secondCombination) {
 
-        final int returnValue = Integer.compare(firstCombination.getType().getValue(),
+        int returnValue = Integer.compare(firstCombination.getType().getValue(),
                 secondCombination.getType().getValue());
 
         if (returnValue == 0) {
             switch (firstCombination.getType()) {
                 case TWO_PAIRS:
-                    return twoPairCompair(firstCombination.getCombinationCard(), secondCombination.getCombinationCard());
+                    returnValue = twoPairCompair(firstCombination.getCombinationCard(),
+                            secondCombination.getCombinationCard());
                 case FULL_HOUSE:
                     try {
-                        return Integer.compare(sumValueCard(getTrisFromCombination(firstCombination)),
+                        returnValue = Integer.compare(sumValueCard(getTrisFromCombination(firstCombination)),
                                 sumValueCard(getTrisFromCombination(secondCombination)));
                     } catch (IllegalAccessException e) {
                         LOGGER.debug("Tris not present in combination");
                     }
                     break;
                 default:
-                    return Integer.compare(sumValueCard(firstCombination.getCombinationCard()),
+                    returnValue = Integer.compare(sumValueCard(firstCombination.getCombinationCard()),
                             sumValueCard(secondCombination.getCombinationCard()));
+            }
+            if (returnValue == 0) {
+                returnValue = playoffCombination(firstCombination.getTotalCard(),
+                        secondCombination.getTotalCard());
             }
         }
         return returnValue;
@@ -109,5 +116,28 @@ public class CombinationComparator implements Comparator<Combination<Card>>, Ser
             return Integer.compare(valueFirstList.getFirst(), valueSecondList.getFirst());
         }
         return Integer.compare(valueFirstList.getLast(), valueSecondList.getLast());
+    }
+
+    /**
+     *This method compare the HAnd's card of player.
+     * @param firstList first player list of card.
+     * @param secondList second player list of card.
+     * @return 0 if they are equals, 1 if first is bigger, -1 if second is bigger.
+     */
+    private Integer playoffCombination(final Set<Card> firstList, final Set<Card> secondList) {
+        final var firstHand = Lists.newLinkedList(firstList);
+        final var secondHand = Lists.newLinkedList(secondList);
+        firstHand.removeAll(secondHand);
+        secondHand.removeAll(firstHand);
+
+        return firstHand.isEmpty() ? 0
+                : Integer.compare(firstHand.stream()
+                        .mapToInt(Card::valueOfCard)
+                        .max()
+                        .getAsInt(),
+                        secondHand.stream()
+                                .mapToInt(Card::valueOfCard)
+                                .max()
+                                .getAsInt());
     }
 }

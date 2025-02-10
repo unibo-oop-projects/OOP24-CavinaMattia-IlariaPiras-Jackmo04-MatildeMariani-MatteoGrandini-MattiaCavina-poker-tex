@@ -26,25 +26,25 @@ public class CombinationHandlerImpl implements CombinationHandler<Card> {
                 new CombinationUtilitiesImpl());
 
         if (combRules.isRoyalFlush()) {
-            return new Combination<>(combGetter.getStraight(), CombinationType.ROYAL_FLUSH);
+            return new Combination<>(combGetter.getStraight(), CombinationType.ROYAL_FLUSH, totalCardList);
         } else if (combRules.isStraightFlush()) {
-            return new Combination<>(combGetter.getStraight(), CombinationType.STRAIGHT_FLUSH);
+            return new Combination<>(combGetter.getStraight(), CombinationType.STRAIGHT_FLUSH, totalCardList);
         } else if (combRules.isPoker()) {
-            return new Combination<>(combGetter.getPoker(), CombinationType.POKER);
+            return new Combination<>(combGetter.getPoker(), CombinationType.POKER, totalCardList);
         } else if (combRules.isFlush()) {
-            return new Combination<>(combGetter.getFlush(), CombinationType.FLUSH);
+            return new Combination<>(combGetter.getFlush(), CombinationType.FLUSH, totalCardList);
         } else if (combRules.isFullHouse()) {
-            return new Combination<>(combGetter.getFullHouse(), CombinationType.FULL_HOUSE);
+            return new Combination<>(combGetter.getFullHouse(), CombinationType.FULL_HOUSE, totalCardList);
         } else if (combRules.isStraight()) {
-            return new Combination<>(combGetter.getStraight(), CombinationType.STRAIGHT);
+            return new Combination<>(combGetter.getStraight(), CombinationType.STRAIGHT, totalCardList);
         } else if (combRules.isTris()) {
-            return new Combination<>(combGetter.getTris(), CombinationType.TRIS);
+            return new Combination<>(combGetter.getTris(), CombinationType.TRIS, totalCardList);
         } else if (combRules.isTwoPairs()) {
-            return new Combination<>(combGetter.getTwoPairs(), CombinationType.TWO_PAIRS);
+            return new Combination<>(combGetter.getTwoPairs(), CombinationType.TWO_PAIRS, totalCardList);
         } else if (combRules.isPair()) {
-            return new Combination<>(combGetter.getPair(), CombinationType.PAIR);
+            return new Combination<>(combGetter.getPair(), CombinationType.PAIR, totalCardList);
         } else {
-            return new Combination<>(combGetter.getHightCard(), CombinationType.HIGH_CARD);
+            return new Combination<>(combGetter.getHightCard(), CombinationType.HIGH_CARD, totalCardList);
         }
 
     }
