@@ -53,13 +53,9 @@ public class CombinationComparator implements Comparator<Combination<Card>>, Ser
                     returnValue = Integer.compare(sumValueCard(firstCombination.getCombinationCard()),
                             sumValueCard(secondCombination.getCombinationCard()));
             }
-            if (returnValue == 0) {
-                returnValue = playoffCombination(firstCombination.getTotalCard(),
-                        secondCombination.getTotalCard());
-            }
         }
-        return returnValue;
-
+        return returnValue == 0 ? playoffCombination(firstCombination.getTotalCard(),
+                secondCombination.getTotalCard()) : returnValue;
     }
 
     /**
@@ -119,8 +115,9 @@ public class CombinationComparator implements Comparator<Combination<Card>>, Ser
     }
 
     /**
-     *This method compare the HAnd's card of player.
-     * @param firstList first player list of card.
+     * This method compare the HAnd's card of player.
+     * 
+     * @param firstList  first player list of card.
      * @param secondList second player list of card.
      * @return 0 if they are equals, 1 if first is bigger, -1 if second is bigger.
      */
