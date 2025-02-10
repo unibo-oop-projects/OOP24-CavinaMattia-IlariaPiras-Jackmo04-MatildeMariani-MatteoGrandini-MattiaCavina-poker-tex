@@ -113,7 +113,7 @@ class TestStatisticsManager {
         statsManager.addContributor(s -> s.setHandsPlayed(HANDS_PLAYED));
         statsManager.addContributor(s -> s.setGamesPlayed(GAMES_PLAYED));
         statsManager.updateTotalStatistics();
-        final var fileName = "stats.bin";
+        final var fileName = "stats.ser";
         // Save the statistics
         try {
             statsManager.saveStatistics(fileName);
