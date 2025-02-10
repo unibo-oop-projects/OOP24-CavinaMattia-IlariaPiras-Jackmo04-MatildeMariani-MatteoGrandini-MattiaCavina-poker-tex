@@ -44,7 +44,7 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
     public Action getAction() {
         this.assertValidState();
         this.updateCombination();
-        final List<ImmutablePair<Predicate<State>, Function<State,Action>>> actions = List.of(
+        final List<ImmutablePair<Predicate<State>, Function<State, Action>>> actions = List.of(
             ImmutablePair.of(state -> !this.hasChipsLeft(), state -> this.check()),
             ImmutablePair.of(this::hasToPayBlind, this::call),
             ImmutablePair.of(state -> this.shouldRaise(), this::raise),
@@ -97,8 +97,7 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
     /**
      * Returns the amount of chips the player is required to call in the current state.
      * This amount is adjusted considering blinds.
-     * @param currentBet the current bet
-     * @param currentHandPhase the current phase of the hand
+     * @param state the current state of the game
      * @return the amount of chips that the player is required to call
      */
     protected int requiredBet(final State state) {
@@ -130,11 +129,13 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
         }
     }
 
+    @SuppressWarnings("PMD.UnusedPrivateMethod") // False positive, method is referenced in the getAction method
     private Action call(final State state) {
         this.makeBet(requiredBet(state));
         return this.actionOrAllIn(Action.CALL);
     }
 
+    @SuppressWarnings("PMD.UnusedPrivateMethod") // False positive, method is referenced in the getAction method
     private Action raise(final State state) {
         this.makeBet((int) (requiredBet(state) + this.standardRaise * raisingFactor));
         return this.actionOrAllIn(Action.RAISE);
@@ -158,6 +159,7 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
             .isPresent();
     }
 
+    @SuppressWarnings("PMD.UnusedPrivateMethod") // False positive, method is referenced in the getAction method
     private boolean canCheck(final State state) {
         return state.getCurrentBet() == this.getTotalPhaseBet();
     }
