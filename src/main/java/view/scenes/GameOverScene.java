@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.Action;
+import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
@@ -26,9 +27,8 @@ import view.scenes.api.Scene;
  * Extend {@link Jpannel} and implement {@link view.scenes.api.Scene}
  * 
  */
-public final class GameOverScene extends JPanel implements Scene {
+public final class GameOverScene implements Scene {
 
-    private static final long serialVersionUID = 43L;
     private static final String SCENE_NAME = "GameOver";
     private static final String RESOURCE_PATH = "endgame/";
     private static final int TEXT_DIMENSION_BUTTON = 30;
@@ -46,6 +46,8 @@ public final class GameOverScene extends JPanel implements Scene {
 
     private final GameOverMenu controller;
 
+    private final JPanel gameOverPanel;
+
     private final JPanel labelPannel = new JPanel(new BorderLayout());
 
     private final JLabel endImmage = new JLabel();
@@ -60,8 +62,15 @@ public final class GameOverScene extends JPanel implements Scene {
      */
     public GameOverScene(final GameOverMenu controller) {
         this.controller = controller;
+        this.gameOverPanel = new JPanel(new BorderLayout());
+        initialize();
+    }
 
-        this.setLayout(new BorderLayout());
+    /**
+     * Initializes the components of the GameOverScene.
+     * Sets up the layout, styles, and event listeners for the components.
+     */
+    private void initialize() {
         final Timer timer = new Timer(TIME_TO_LAMP, getLampAction(textFinalResult));
         timer.start();
 
@@ -76,13 +85,13 @@ public final class GameOverScene extends JPanel implements Scene {
 
         // To change Pannel from win to lose from keyboard.
         final KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0);
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(keyStroke, KEY_BORD_SWITCH);
-        this.getActionMap().put(KEY_BORD_SWITCH, getChangePannelAction());
+        this.gameOverPanel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(keyStroke, KEY_BORD_SWITCH);
+        this.gameOverPanel.getActionMap().put(KEY_BORD_SWITCH, getChangePannelAction());
 
         // Add botton at game over pannel.
-        this.add(endImmage, BorderLayout.CENTER);
-        this.add(labelPannel, BorderLayout.NORTH);
-        this.add(goToMainMenu, BorderLayout.SOUTH);
+        this.gameOverPanel.add(endImmage, BorderLayout.CENTER);
+        this.gameOverPanel.add(labelPannel, BorderLayout.NORTH);
+        this.gameOverPanel.add(goToMainMenu, BorderLayout.SOUTH);
 
         // add north pannel.
         labelPannel.add(textFinalResult, BorderLayout.CENTER);
@@ -97,7 +106,9 @@ public final class GameOverScene extends JPanel implements Scene {
      */
     @Override
     public JPanel getPanel() {
-        return this;
+         final var wrapper = new JPanel(new BorderLayout());
+        wrapper.add(this.gameOverPanel, BorderLayout.CENTER);
+        return wrapper;
     }
 
     /**
@@ -110,12 +121,12 @@ public final class GameOverScene extends JPanel implements Scene {
 
     private void setFinalPannel(final Boolean status) {
         if (status) {
-            this.setBackground(Color.GREEN);
+            this.gameOverPanel.setBackground(Color.GREEN);
             endImmage.setIcon(
                     new ImageIcon(ClassLoader.getSystemResource(RESOURCE_PATH + VICTORY_IMG_NAME + IMG_EXTENSION)));
             textFinalResult.setText(VICTORY_STRING);
         } else {
-            this.setBackground(Color.BLACK);
+            this.gameOverPanel.setBackground(Color.BLACK);
             endImmage.setIcon(
                     new ImageIcon(ClassLoader.getSystemResource(RESOURCE_PATH + LOSE_IMG_NAME + IMG_EXTENSION)));
             textFinalResult.setText(LOSE_STRING);
