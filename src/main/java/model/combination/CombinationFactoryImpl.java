@@ -1,5 +1,6 @@
 package model.combination;
 
+import java.util.Collections;
 import java.util.Set;
 
 import model.combination.api.CombinationCardGetter;
@@ -9,20 +10,20 @@ import model.deck.api.Card;
 
 /**
  * Class that implemente {@link CombinationFactory} to generate all
- * {@link CombinationType} of combination
+ * {@link CombinationType} of combination.
  */
-public class CombinationFactoryImpl implements CombinationFactory {
+public final class CombinationFactoryImpl implements CombinationFactory {
 
-    final CombinationCardGetter<Card> combGetter;
-    final Set<Card> totalCard;
+    private final CombinationCardGetter<Card> combGetter;
+    private final Set<Card> totalCard;
 
     /**
      * Costructor of class.
      * 
      * @param totalCard All card that form combination, hand and table cards.
      */
-    public CombinationFactoryImpl(Set<Card> totalCard) {
-        this.totalCard = totalCard;
+    public CombinationFactoryImpl(final Set<Card> totalCard) {
+        this.totalCard = Collections.unmodifiableSet(totalCard);
         this.combGetter = new CombinationCardGetterImpl(totalCard,
                 new CombinationUtilitiesImpl());
     }
@@ -31,7 +32,7 @@ public class CombinationFactoryImpl implements CombinationFactory {
      * {@inheritDoc}
      */
     @Override
-    public Combination<Card> getPair(Set<Card> totalCard) {
+    public Combination<Card> getPair() {
         return new Combination<>(combGetter.getPairCard(), CombinationType.PAIR, totalCard);
     }
 
@@ -39,7 +40,7 @@ public class CombinationFactoryImpl implements CombinationFactory {
      * {@inheritDoc}
      */
     @Override
-    public Combination<Card> getTwoPairs(Set<Card> totalCard) {
+    public Combination<Card> getTwoPairs() {
         return new Combination<>(combGetter.getTwoPairsCard(), CombinationType.TWO_PAIRS, totalCard);
     }
 
@@ -47,12 +48,12 @@ public class CombinationFactoryImpl implements CombinationFactory {
      * {@inheritDoc}
      */
     @Override
-    public Combination<Card> getTris(Set<Card> totalCard) {
+    public Combination<Card> getTris() {
         return new Combination<>(combGetter.getTrisCard(), CombinationType.TRIS, totalCard);
     }
 
     @Override
-    public Combination<Card> getStraight(Set<Card> totalCard) {
+    public Combination<Card> getStraight() {
         return new Combination<>(combGetter.getStraightCard(), CombinationType.STRAIGHT, totalCard);
     }
 
@@ -60,7 +61,7 @@ public class CombinationFactoryImpl implements CombinationFactory {
      * {@inheritDoc}
      */
     @Override
-    public Combination<Card> getFullHouse(Set<Card> totalCard) {
+    public Combination<Card> getFullHouse() {
         return new Combination<>(combGetter.getFullHouseCard(), CombinationType.FULL_HOUSE, totalCard);
     }
 
@@ -68,7 +69,7 @@ public class CombinationFactoryImpl implements CombinationFactory {
      * {@inheritDoc}
      */
     @Override
-    public Combination<Card> getFlush(Set<Card> totalCard) {
+    public Combination<Card> getFlush() {
         return new Combination<>(combGetter.getFlushCard(), CombinationType.FLUSH, totalCard);
     }
 
@@ -76,7 +77,7 @@ public class CombinationFactoryImpl implements CombinationFactory {
      * {@inheritDoc}
      */
     @Override
-    public Combination<Card> getPoker(Set<Card> totalCard) {
+    public Combination<Card> getPoker() {
         return new Combination<>(combGetter.getPokerCard(), CombinationType.POKER, totalCard);
     }
 
@@ -84,7 +85,7 @@ public class CombinationFactoryImpl implements CombinationFactory {
      * {@inheritDoc}
      */
     @Override
-    public Combination<Card> getStraightFlush(Set<Card> totalCard) {
+    public Combination<Card> getStraightFlush() {
         return new Combination<>(combGetter.getStraightCard(), CombinationType.STRAIGHT_FLUSH, totalCard);
     }
 
@@ -92,7 +93,7 @@ public class CombinationFactoryImpl implements CombinationFactory {
      * {@inheritDoc}
      */
     @Override
-    public Combination<Card> getRoyalStraight(Set<Card> totalCard) {
+    public Combination<Card> getRoyalStraight() {
         return new Combination<>(combGetter.getStraightCard(), CombinationType.ROYAL_FLUSH, totalCard);
     }
 
@@ -100,7 +101,7 @@ public class CombinationFactoryImpl implements CombinationFactory {
      * {@inheritDoc}
      */
     @Override
-    public Combination<Card> getHightCard(Set<Card> totalCard) {
+    public Combination<Card> getHightCard() {
         return new Combination<>(combGetter.getHightCardCard(), CombinationType.HIGH_CARD, totalCard);
     }
 

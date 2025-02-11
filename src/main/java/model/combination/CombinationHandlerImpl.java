@@ -24,25 +24,25 @@ public class CombinationHandlerImpl implements CombinationHandler<Card> {
         final CombinationFactory combGetter = new CombinationFactoryImpl(totalCard);
 
         if (combRules.isRoyalFlush()) {
-            return combGetter.getRoyalStraight(totalCard);
+            return combGetter.getRoyalStraight();
         } else if (combRules.isStraightFlush()) {
-            return combGetter.getStraightFlush(totalCard);
+            return combGetter.getStraightFlush();
         } else if (combRules.isPoker()) {
-            return combGetter.getPoker(totalCard);
+            return combGetter.getPoker();
         } else if (combRules.isFlush()) {
-            return combGetter.getFlush(totalCard);
+            return combGetter.getFlush();
         } else if (combRules.isFullHouse()) {
-            return combGetter.getFullHouse(totalCard);
+            return combGetter.getFullHouse();
         } else if (combRules.isStraight()) {
-            return combGetter.getStraight(totalCard);
+            return combGetter.getStraight();
         } else if (combRules.isTris()) {
-            return combGetter.getTris(totalCard);
+            return combGetter.getTris();
         } else if (combRules.isTwoPairs()) {
-            return combGetter.getTwoPairs(totalCard);
+            return combGetter.getTwoPairs();
         } else if (combRules.isPair()) {
-            return combGetter.getPair(totalCard);
+            return combGetter.getPair();
         } else {
-            return combGetter.getHightCard(totalCard);
+            return combGetter.getHightCard();
         }
 
     }
