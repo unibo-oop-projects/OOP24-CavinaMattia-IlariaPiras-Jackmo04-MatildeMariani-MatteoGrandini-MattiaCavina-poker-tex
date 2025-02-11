@@ -48,7 +48,7 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
          * {@inheritDoc}
          */
         @Override
-        public Set<Card> getPair() {
+        public Set<Card> getPairCard() {
                 return getSafetyList().stream().filter(t -> t.cardName()
                                 .equals(utilies.getSumOfSameNameCard(getSafetyList()).entrySet()
                                                 .stream()
@@ -63,7 +63,7 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
          * {@inheritDoc}
          */
         @Override
-        public Set<Card> getTwoPairs() {
+        public Set<Card> getTwoPairsCard() {
                 final List<SimpleCard> twoPairSeedList = utilies.getSumOfSameNameCard(getSafetyList())
                                 .entrySet()
                                 .stream()
@@ -80,7 +80,7 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
          * {@inheritDoc}
          */
         @Override
-        public Set<Card> getTris() {
+        public Set<Card> getTrisCard() {
 
                 return getSafetyList().stream().filter(t -> t.cardName()
                                 .equals(utilies.getSumOfSameNameCard(getSafetyList()).entrySet()
@@ -94,7 +94,7 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
          * {@inheritDoc}
          */
         @Override
-        public Set<Card> getStraight() {
+        public Set<Card> getStraightCard() {
 
                 return utilies.getHighterStraight(getSafetyList())
                                 .stream()
@@ -105,8 +105,8 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
          * {@inheritDoc}
          */
         @Override
-        public Set<Card> getFullHouse() {
-                return Stream.concat(getPair().stream(), getTris().stream())
+        public Set<Card> getFullHouseCard() {
+                return Stream.concat(getPairCard().stream(), getTrisCard().stream())
                                 .collect(Collectors.toSet());
         }
 
@@ -114,7 +114,7 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
          * {@inheritDoc}
          */
         @Override
-        public Set<Card> getFlush() {
+        public Set<Card> getFlushCard() {
                 return getSafetyList().stream().filter(t -> t.seedName()
                                 .equals(utilies.getSumOfSameSeedCard(getSafetyList()).entrySet()
                                                 .stream()
@@ -129,7 +129,7 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
          * {@inheritDoc}
          */
         @Override
-        public Set<Card> getPoker() {
+        public Set<Card> getPokerCard() {
                 return getSafetyList().stream().filter(t -> t.cardName()
                                 .equals(utilies.getSumOfSameNameCard(getSafetyList()).entrySet()
                                                 .stream()
@@ -142,7 +142,7 @@ public class CombinationCardGetterImpl implements CombinationCardGetter<Card> {
          * {@inheritDoc}
          */
         @Override
-        public Set<Card> getHightCard() {
+        public Set<Card> getHightCardCard() {
                 return totalCardList.stream()
                                 .sorted(Comparator.comparing(Card::valueOfCard)).toList()
                                 .reversed()

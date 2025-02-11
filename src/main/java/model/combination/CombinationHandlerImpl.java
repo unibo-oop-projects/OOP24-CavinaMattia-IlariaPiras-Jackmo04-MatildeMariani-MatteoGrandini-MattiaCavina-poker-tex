@@ -3,15 +3,14 @@ package model.combination;
 import java.util.Set;
 
 import model.combination.api.CombinationHandler;
-import model.combination.api.CombinationType;
-import model.combination.api.CombinationCardGetter;
+import model.combination.api.CombinationFactory;
 import model.combination.api.CombinationRules;
 import model.deck.api.Card;
 
 /**
  * Class that find type of combination.
- * That class implemets {@link model.combination.api.CombinationHandler} with
- * card type {@link model.deck.api.Card}.
+ * That class implemets {@link CombinationHandler} with
+ * card type {@link Card}.
  */
 public class CombinationHandlerImpl implements CombinationHandler<Card> {
 
@@ -19,32 +18,31 @@ public class CombinationHandlerImpl implements CombinationHandler<Card> {
      * {@inheritDoc}
      */
     @Override
-    public Combination<Card> getBestCombination(final Set<Card> totalCardList) {
-        final CombinationRules<Card> combRules = new CombinationRulesImpl(totalCardList,
+    public Combination<Card> getBestCombination(final Set<Card> totalCard) {
+        final CombinationRules<Card> combRules = new CombinationRulesImpl(totalCard,
                 new CombinationUtilitiesImpl());
-        final CombinationCardGetter<Card> combGetter = new CombinationCardGetterImpl(totalCardList,
-                new CombinationUtilitiesImpl());
+        final CombinationFactory combGetter = new CombinationFactoryImpl(totalCard);
 
         if (combRules.isRoyalFlush()) {
-            return new Combination<>(combGetter.getStraight(), CombinationType.ROYAL_FLUSH, totalCardList);
+            return combGetter.getRoyalFlush();
         } else if (combRules.isStraightFlush()) {
-            return new Combination<>(combGetter.getStraight(), CombinationType.STRAIGHT_FLUSH, totalCardList);
+            return combGetter.getStraightFlush();
         } else if (combRules.isPoker()) {
-            return new Combination<>(combGetter.getPoker(), CombinationType.POKER, totalCardList);
+            return combGetter.getPoker();
         } else if (combRules.isFlush()) {
-            return new Combination<>(combGetter.getFlush(), CombinationType.FLUSH, totalCardList);
+            return combGetter.getFlush();
         } else if (combRules.isFullHouse()) {
-            return new Combination<>(combGetter.getFullHouse(), CombinationType.FULL_HOUSE, totalCardList);
+            return combGetter.getFullHouse();
         } else if (combRules.isStraight()) {
-            return new Combination<>(combGetter.getStraight(), CombinationType.STRAIGHT, totalCardList);
+            return combGetter.getStraight();
         } else if (combRules.isTris()) {
-            return new Combination<>(combGetter.getTris(), CombinationType.TRIS, totalCardList);
+            return combGetter.getTris();
         } else if (combRules.isTwoPairs()) {
-            return new Combination<>(combGetter.getTwoPairs(), CombinationType.TWO_PAIRS, totalCardList);
+            return combGetter.getTwoPairs();
         } else if (combRules.isPair()) {
-            return new Combination<>(combGetter.getPair(), CombinationType.PAIR, totalCardList);
+            return combGetter.getPair();
         } else {
-            return new Combination<>(combGetter.getHightCard(), CombinationType.HIGH_CARD, totalCardList);
+            return combGetter.getHightCard();
         }
 
     }

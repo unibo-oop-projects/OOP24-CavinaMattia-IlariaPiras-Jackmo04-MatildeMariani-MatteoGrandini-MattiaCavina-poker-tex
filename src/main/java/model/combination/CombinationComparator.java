@@ -41,6 +41,7 @@ public class CombinationComparator implements Comparator<Combination<Card>>, Ser
                 case TWO_PAIRS:
                     returnValue = twoPairCompair(firstCombination.getCombinationCard(),
                             secondCombination.getCombinationCard());
+                            break;
                 case FULL_HOUSE:
                     try {
                         returnValue = Integer.compare(sumValueCard(getTrisFromCombination(firstCombination)),
@@ -79,7 +80,7 @@ public class CombinationComparator implements Comparator<Combination<Card>>, Ser
     private Set<Card> getTrisFromCombination(final Combination<Card> combination) throws IllegalAccessException {
         if (new CombinationRulesImpl(combination.getCombinationCard(), new CombinationUtilitiesImpl()).isTris()) {
             return new CombinationCardGetterImpl(combination.getCombinationCard(), new CombinationUtilitiesImpl())
-                    .getTris();
+                    .getTrisCard();
         } else {
             throw new IllegalAccessException();
         }
