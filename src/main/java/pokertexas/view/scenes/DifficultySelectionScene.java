@@ -5,8 +5,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -55,7 +57,7 @@ public class DifficultySelectionScene implements Scene {
     private static final int BUTTON_WIDTH = 150;
     private static final int BUTTON_HEIGHT = 50;
     private static final String FONT = "Roboto";
-    private static final String MESSAGE = "Enter your chips and then press enter";
+    private static final String MESSAGE = "Enter chips and press enter";
     private static final int MIN = 1000;
     private static final int MAX = 1_000_000;
     private static final String SCENE_NAME = "difficulty selection";
@@ -104,8 +106,9 @@ public class DifficultySelectionScene implements Scene {
         centerPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(4, 1));
+        inputPanel.setLayout(new GridBagLayout());
         inputPanel.setBackground(new Color(COLOR_BACKGROUND));
+        GridBagConstraints gbc = new GridBagConstraints();
 
         final JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(3, 1));
@@ -154,10 +157,6 @@ public class DifficultySelectionScene implements Scene {
         buttonsPanel.add(medium);
         buttonsPanel.add(hard);
 
-        final JPanel errorPanel = new JPanel();
-        errorPanel.setLayout(new FlowLayout());
-        errorPanel.setBackground(new Color(COLOR_BACKGROUND));
-
         final JLabel errorLabel = new JLabel("Enter a number between 1000 and 1000000!");
         errorLabel.setFont(new Font(FONT, Font.PLAIN, FONT_SIZE_LABEL));
         errorLabel.setBackground(new Color(COLOR_INPUT_PANEL));
@@ -165,10 +164,9 @@ public class DifficultySelectionScene implements Scene {
         errorLabel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
         errorLabel.setVisible(false);
-        errorPanel.add(errorLabel);
 
         final JPanel initialChipsPanel = new JPanel();
-        initialChipsPanel.setLayout(new GridLayout(2, 1));
+        initialChipsPanel.setLayout(new GridBagLayout());
         initialChipsPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JLabel initialChipsLabel = new JLabel("How many chips do you want to start with?");
@@ -225,8 +223,20 @@ public class DifficultySelectionScene implements Scene {
         input.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
 
-        initialChipsPanel.add(initialChipsLabel);
-        initialChipsPanel.add(input);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        initialChipsPanel.add(errorLabel, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        initialChipsPanel.add(initialChipsLabel, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        initialChipsPanel.add(input, gbc);
 
         final JPanel playPanel = new JPanel();
         playPanel.setLayout(new FlowLayout());
@@ -237,10 +247,23 @@ public class DifficultySelectionScene implements Scene {
 
         playPanel.add(play.getButton());
 
-        inputPanel.add(buttonsPanel);
-        inputPanel.add(errorPanel);
-        inputPanel.add(initialChipsPanel);
-        inputPanel.add(playPanel);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        inputPanel.add(buttonsPanel, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        inputPanel.add(initialChipsPanel, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 1;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        inputPanel.add(playPanel, gbc);
 
         centerPanel.add(titlePanel);
         centerPanel.add(inputPanel);
