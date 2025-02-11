@@ -91,7 +91,7 @@ public class UserPlayerController {
     public boolean isAmountOK(final String text) {
         try {
             final int amount = Integer.parseInt(text);
-            return this.userPlayer.getChips() > amount && amount > this.getState().getCurrentBet();
+            return this.userPlayer.getChips() > amount && amount > (this.getState().getCurrentBet() - this.userPlayer.getTotalPhaseBet());
         } catch (IllegalArgumentException ex) {
             LOGGER.error("Invalid amount: ", ex);
             return false;
@@ -148,7 +148,7 @@ public class UserPlayerController {
      * @return true if the user player can raise, false otherwise.
      */
     public boolean canRaise() {
-        return userPlayer.getChips() > this.getState().getCurrentBet();
+        return userPlayer.getChips() > (this.getState().getCurrentBet() - this.userPlayer.getTotalPhaseBet());
     }
 
     /**
