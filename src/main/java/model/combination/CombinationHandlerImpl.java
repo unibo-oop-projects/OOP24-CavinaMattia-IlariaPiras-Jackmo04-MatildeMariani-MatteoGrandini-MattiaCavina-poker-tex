@@ -3,16 +3,14 @@ package model.combination;
 import java.util.Set;
 
 import model.combination.api.CombinationHandler;
-import model.combination.api.CombinationType;
-import model.combination.api.CombinationCardGetter;
 import model.combination.api.CombinationFactory;
 import model.combination.api.CombinationRules;
 import model.deck.api.Card;
 
 /**
  * Class that find type of combination.
- * That class implemets {@link model.combination.api.CombinationHandler} with
- * card type {@link model.deck.api.Card}.
+ * That class implemets {@link CombinationHandler} with
+ * card type {@link Card}.
  */
 public class CombinationHandlerImpl implements CombinationHandler<Card> {
 

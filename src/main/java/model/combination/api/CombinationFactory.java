@@ -6,11 +6,10 @@ import model.combination.Combination;
 import model.deck.api.Card;
 
 /**
- * Interface to get various poker combination card.
+ * Interface to get poker's combination.
  * To know how that combination are formed can be read
  * {@link CombinationRules}.
  * 
- * @param <Card> Generic type to reuse in differt type of card.
  */
 public interface CombinationFactory {
 
