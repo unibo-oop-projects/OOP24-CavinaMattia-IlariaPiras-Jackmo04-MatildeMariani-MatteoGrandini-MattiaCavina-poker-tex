@@ -17,7 +17,7 @@ public interface CombinationCardGetter<X> {
      * @return {@link Set} of {@link Card} that form the
      *         {@link CombinationType#PAIR} combination.
      */
-    Set<X> getPair();
+    Set<X> getPairCard();
 
     /**
      * Get the two pairs combination from card Set.
@@ -25,7 +25,7 @@ public interface CombinationCardGetter<X> {
      * @return {@link Set} of {@link Card} that form the
      *         {@link CombinationType#TWO_PAIRS} combination.
      */
-    Set<X> getTwoPairs();
+    Set<X> getTwoPairsCard();
 
     /**
      * Get the tris combination from card Set.
@@ -33,7 +33,7 @@ public interface CombinationCardGetter<X> {
      * @return {@link Set} of {@link Card} that form the
      *         {@link CombinationType#TRIS} combination.
      */
-    Set<X> getTris();
+    Set<X> getTrisCard();
 
     /**
      * Get the straight combination from card Set.
@@ -43,7 +43,7 @@ public interface CombinationCardGetter<X> {
      *         Can be use to get {@link CombinationType#STRAIGHT_FLUSH}
      *         {@link CombinationType#ROYAL_FLUSH} too.
      */
-    Set<X> getStraight();
+    Set<X> getStraightCard();
 
     /**
      * Get the full house combination from card Set.
@@ -51,7 +51,7 @@ public interface CombinationCardGetter<X> {
      * @return {@link Set} of {@link Card} that form the
      *         {@link CombinationType#FULL_HOUSE} combination.
      */
-    Set<X> getFullHouse();
+    Set<X> getFullHouseCard();
 
     /**
      * Get the flush combination from card Set.
@@ -59,7 +59,7 @@ public interface CombinationCardGetter<X> {
      * @return {@link Set} of {@link Card} that form the
      *         {@link CombinationType#FLUSH} combination.
      */
-    Set<X> getFlush();
+    Set<X> getFlushCard();
 
     /**
      * Get the poker combination from card Set.
@@ -67,7 +67,7 @@ public interface CombinationCardGetter<X> {
      * @return {@link Set} of {@link Card} that form the
      *         {@link CombinationType#POKER} combination.
      */
-    Set<X> getPoker();
+    Set<X> getPokerCard();
 
     /**
      * Get the hight card combination from card Set.
@@ -75,6 +75,6 @@ public interface CombinationCardGetter<X> {
      * @return {@link Set} of {@link Card} that form the
      *         Hight-Card combination.
      */
-    Set<X> getHightCard();
+    Set<X> getHightCardCard();
 
 }

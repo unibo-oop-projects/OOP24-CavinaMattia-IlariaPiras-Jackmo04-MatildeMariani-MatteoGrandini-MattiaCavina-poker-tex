@@ -79,7 +79,7 @@ public class CombinationComparator implements Comparator<Combination<Card>>, Ser
     private Set<Card> getTrisFromCombination(final Combination<Card> combination) throws IllegalAccessException {
         if (new CombinationRulesImpl(combination.getCombinationCard(), new CombinationUtilitiesImpl()).isTris()) {
             return new CombinationCardGetterImpl(combination.getCombinationCard(), new CombinationUtilitiesImpl())
-                    .getTris();
+                    .getTrisCard();
         } else {
             throw new IllegalAccessException();
         }

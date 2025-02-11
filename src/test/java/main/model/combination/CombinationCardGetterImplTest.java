@@ -30,7 +30,7 @@ class CombinationCardGetterImplTest {
     void testEmpty() {
         final Set<Card> totalCardList = Sets.newHashSet();
         assertThrows(IllegalArgumentException.class,
-                () -> new CombinationCardGetterImpl(totalCardList, utilies).getPair());
+                () -> new CombinationCardGetterImpl(totalCardList, utilies).getPairCard());
     }
 
     /**
@@ -50,7 +50,7 @@ class CombinationCardGetterImplTest {
                 Set.of(
                         new Card(SimpleCard.ACE, SeedCard.CLUBS),
                         new Card(SimpleCard.ACE, SeedCard.DIAMOND)),
-                new CombinationCardGetterImpl(totalCardList, utilies).getPair());
+                new CombinationCardGetterImpl(totalCardList, utilies).getPairCard());
     }
 
     /**
@@ -72,7 +72,7 @@ class CombinationCardGetterImplTest {
                         new Card(SimpleCard.TWO, SeedCard.CLUBS),
                         new Card(SimpleCard.ACE, SeedCard.DIAMOND),
                         new Card(SimpleCard.TWO, SeedCard.DIAMOND)),
-                new CombinationCardGetterImpl(totalCardList, utilies).getTwoPairs());
+                new CombinationCardGetterImpl(totalCardList, utilies).getTwoPairsCard());
     }
 
     /**
@@ -93,7 +93,7 @@ class CombinationCardGetterImplTest {
                         new Card(SimpleCard.ACE, SeedCard.CLUBS),
                         new Card(SimpleCard.ACE, SeedCard.DIAMOND),
                         new Card(SimpleCard.ACE, SeedCard.HEARTH)),
-                new CombinationCardGetterImpl(totalCardList, utilies).getTris());
+                new CombinationCardGetterImpl(totalCardList, utilies).getTrisCard());
     }
 
     /**
@@ -115,7 +115,7 @@ class CombinationCardGetterImplTest {
                         new Card(SimpleCard.ACE, SeedCard.DIAMOND),
                         new Card(SimpleCard.ACE, SeedCard.SPADES),
                         new Card(SimpleCard.ACE, SeedCard.HEARTH)),
-                new CombinationCardGetterImpl(totalCardList, utilies).getPoker());
+                new CombinationCardGetterImpl(totalCardList, utilies).getPokerCard());
     }
 
     /**
@@ -138,7 +138,7 @@ class CombinationCardGetterImplTest {
                         new Card(SimpleCard.FIVE, SeedCard.CLUBS),
                         new Card(SimpleCard.THREE, SeedCard.CLUBS),
                         new Card(SimpleCard.TWO, SeedCard.CLUBS)),
-                new CombinationCardGetterImpl(totalCardList, utilies).getFlush());
+                new CombinationCardGetterImpl(totalCardList, utilies).getFlushCard());
     }
 
     /**
@@ -161,7 +161,7 @@ class CombinationCardGetterImplTest {
                         new Card(SimpleCard.QUEEN, SeedCard.SPADES),
                         new Card(SimpleCard.ACE, SeedCard.HEARTH),
                         new Card(SimpleCard.QUEEN, SeedCard.DIAMOND)),
-                new CombinationCardGetterImpl(totalCardList, utilies).getFullHouse());
+                new CombinationCardGetterImpl(totalCardList, utilies).getFullHouseCard());
     }
 
     /**
@@ -184,7 +184,7 @@ class CombinationCardGetterImplTest {
                         new Card(SimpleCard.FOUR, SeedCard.CLUBS),
                         new Card(SimpleCard.FIVE, SeedCard.HEARTH),
                         new Card(SimpleCard.SIX, SeedCard.DIAMOND)),
-                new CombinationCardGetterImpl(totalCardList, utilies).getStraight());
+                new CombinationCardGetterImpl(totalCardList, utilies).getStraightCard());
 
     }
 
@@ -208,7 +208,7 @@ class CombinationCardGetterImplTest {
                         new Card(SimpleCard.JACK, SeedCard.DIAMOND),
                         new Card(SimpleCard.TEN, SeedCard.DIAMOND),
                         new Card(SimpleCard.ACE, SeedCard.DIAMOND)),
-                new CombinationCardGetterImpl(totalCardList, utilies).getStraight());
+                new CombinationCardGetterImpl(totalCardList, utilies).getStraightCard());
     }
 
 }
