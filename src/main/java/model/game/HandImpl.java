@@ -111,7 +111,6 @@ public final class HandImpl implements Hand {
      */
     @Override
     public void startPhase() {
-        this.halt();
         this.numPlayerWhoPlayedInPhase = 0;
         final var playersIterator = Iterables.cycle(this.remainingPlayers).iterator();
         while (!this.isPhaseOver() && playersIterator.hasNext() && !controller.isTerminated()) {
@@ -123,6 +122,7 @@ public final class HandImpl implements Hand {
             }
         }
         this.currentPhase = this.currentPhase.next();
+        this.halt();
     }
 
     /**
