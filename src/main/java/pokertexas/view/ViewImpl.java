@@ -125,6 +125,15 @@ public class ViewImpl implements View {
         this.frame.removeWindowListener(this.frame.getWindowListeners()[0]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public View hidden() {
+        this.frame.setVisible(false);
+        return this;
+    }
+
     private boolean isConfirmationOnCloseEnabled() {
         return this.frame.getWindowListeners().length > 0;
     }

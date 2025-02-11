@@ -50,7 +50,7 @@ final class TestHandImpl {
     @BeforeAll
     public static void setUp() {
         playerFactory = new AIPlayerFactoryImpl();
-        controller = new GameControllerImpl(new ViewImpl(), Difficulty.EASY, INITIAL_CHIPS);
+        controller = new GameControllerImpl(new ViewImpl().hidden(), Difficulty.EASY, INITIAL_CHIPS);
         controller.setGameScene(new GameScene(controller));
     }
 
