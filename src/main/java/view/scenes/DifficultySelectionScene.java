@@ -114,14 +114,17 @@ public class DifficultySelectionScene implements Scene {
         final JRadioButton easy = new JRadioButton("EASY");
         easy.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_BUTTON));
         easy.setHorizontalAlignment(SwingConstants.CENTER);
+        easy.setBackground(new Color(COLOR_BACKGROUND));
 
         final JRadioButton medium = new JRadioButton("MEDIUM");
         medium.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_BUTTON));
         medium.setHorizontalAlignment(SwingConstants.CENTER);
+        medium.setBackground(new Color(COLOR_BACKGROUND));
 
         final JRadioButton hard = new JRadioButton("HARD");
         hard.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_BUTTON));
         hard.setHorizontalAlignment(SwingConstants.CENTER);
+        hard.setBackground(new Color(COLOR_BACKGROUND));
 
         final ActionListener difficultyListener = e -> {
             final JRadioButton source = (JRadioButton) e.getSource();
@@ -255,7 +258,6 @@ public class DifficultySelectionScene implements Scene {
     @Override
     public JPanel getPanel() {
         final var wrapper = new JPanel(new BorderLayout());
-        wrapper.setBackground(new Color(COLOR_BACKGROUND));
         wrapper.add(this.diffSelPanel, BorderLayout.CENTER);
         return wrapper;
     }
