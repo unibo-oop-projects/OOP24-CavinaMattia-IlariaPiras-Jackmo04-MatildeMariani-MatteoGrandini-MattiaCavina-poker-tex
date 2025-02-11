@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.combination.Combination;
 import model.combination.CombinationHandlerImpl;
+import model.combination.api.CombinationHandler;
 import model.deck.api.Card;
 import model.game.api.State;
 import model.player.api.Action;
@@ -22,6 +23,8 @@ import model.player.api.Role;
  * @see Player
  */
 public abstract class AbstractPlayer implements Player {
+
+    private static final CombinationHandler<Card> COMBINATION_HANDLER = new CombinationHandlerImpl();
 
     private final int id;
     private Set<Card> cards;
@@ -66,7 +69,7 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public void setCards(final Set<Card> cards) {
         this.cards = Objects.requireNonNull(Set.copyOf(cards));
-        this.bestCombination = cards.isEmpty() ? null : new CombinationHandlerImpl().getBestCombination(cards);
+        this.bestCombination = cards.isEmpty() ? null : COMBINATION_HANDLER.getBestCombination(cards);
     }
 
     /**
@@ -198,7 +201,7 @@ public abstract class AbstractPlayer implements Player {
     protected Combination<Card> updateCombination() {
         final var usableCards = Stream.concat(this.gameState.getCommunityCards().stream(), this.getCards().stream())
             .collect(Collectors.toSet());
-        final var combination = new CombinationHandlerImpl().getBestCombination(usableCards);
+        final var combination = COMBINATION_HANDLER.getBestCombination(usableCards);
         this.setCombination(combination);
         return combination;
     }
