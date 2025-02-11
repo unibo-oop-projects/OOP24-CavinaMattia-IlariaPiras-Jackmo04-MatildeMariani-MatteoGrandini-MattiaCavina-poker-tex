@@ -30,7 +30,7 @@ final class TestGame {
     @BeforeAll
     public static void setUp() {
         gameFactory = new GameFactoryImpl();
-        controller = new GameControllerImpl(new ViewImpl().hidden(), Difficulty.EASY, INITIAL_CHIPS);
+        controller = new GameControllerImpl(new ViewImpl(false), Difficulty.EASY, INITIAL_CHIPS);
     }
 
     /**

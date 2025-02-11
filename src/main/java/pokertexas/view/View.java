@@ -35,10 +35,4 @@ public interface View {
      */
     void disableConfermationOnClose();
 
-    /**
-     * Set the view to be not visible.
-     * @return self reference
-     */
-    View hidden();
-
 }

@@ -32,8 +32,9 @@ public class ViewImpl implements View {
      * Constructor for the MainView.
      * It initializes the frame and size of the window.
      * It also sets the CardLayout for switching between scenes.
+     * @param visible if the window should be visible
      */
-    public ViewImpl() {
+    public ViewImpl(final boolean visible) {
         this.frame = new JFrame("Poker Texas Hold'em");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -53,7 +54,7 @@ public class ViewImpl implements View {
         this.changeScene(new StartScene(new StartControllerImpl(this)));
 
         this.frame.setLocationByPlatform(true);
-        this.frame.setVisible(true);
+        this.frame.setVisible(visible);
     }
 
     /**
@@ -123,15 +124,6 @@ public class ViewImpl implements View {
         }
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.removeWindowListener(this.frame.getWindowListeners()[0]);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public View hidden() {
-        this.frame.setVisible(false);
-        return this;
     }
 
     private boolean isConfirmationOnCloseEnabled() {
