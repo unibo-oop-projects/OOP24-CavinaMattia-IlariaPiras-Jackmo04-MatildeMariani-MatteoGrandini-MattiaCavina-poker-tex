@@ -1,5 +1,7 @@
 package model.combination.api;
 
+import java.util.Set;
+
 import model.combination.Combination;
 import model.deck.api.Card;
 
@@ -18,7 +20,7 @@ public interface CombinationFactory {
      * @return {@link Combination} of {@link Card} that form the
      *         {@link CombinationType#PAIR} combination.
      */
-    Combination<Card> getPair();
+    Combination<Card> getPair(Set<Card> totalCard);
 
     /**
      * Get the two pairs combination from card Combination.
@@ -26,7 +28,7 @@ public interface CombinationFactory {
      * @return {@link Combination} of {@link Card} that form the
      *         {@link CombinationType#TWO_PAIRS} combination.
      */
-    Combination<Card> getTwoPairs();
+    Combination<Card> getTwoPairs(Set<Card> totalCard);
 
     /**
      * Get the tris combination from card Combination.
@@ -34,7 +36,7 @@ public interface CombinationFactory {
      * @return {@link Combination} of {@link Card} that form the
      *         {@link CombinationType#TRIS} combination.
      */
-    Combination<Card> getTris();
+    Combination<Card> getTris(Set<Card> totalCard);
 
     /**
      * Get the straight combination from card Combination.
@@ -42,7 +44,7 @@ public interface CombinationFactory {
      * @return {@link Combination} of {@link Card} that form the
      *         {@link CombinationType#STRAIGHT} combination.
      */
-    Combination<Card> getStraight();
+    Combination<Card> getStraight(Set<Card> totalCard);
 
     /**
      * Get the full house combination from card Combination.
@@ -50,7 +52,7 @@ public interface CombinationFactory {
      * @return {@link Combination} of {@link Card} that form the
      *         {@link CombinationType#FULL_HOUSE} combination.
      */
-    Combination<Card> getFullHouse();
+    Combination<Card> getFullHouse(Set<Card> totalCard);
 
     /**
      * Get the flush combination from card Combination.
@@ -58,7 +60,7 @@ public interface CombinationFactory {
      * @return {@link Combination} of {@link Card} that form the
      *         {@link CombinationType#FLUSH} combination.
      */
-    Combination<Card> getFlush();
+    Combination<Card> getFlush(Set<Card> totalCard);
 
     /**
      * Get the poker combination from card Combination.
@@ -66,7 +68,7 @@ public interface CombinationFactory {
      * @return {@link Combination} of {@link Card} that form the
      *         {@link CombinationType#POKER} combination.
      */
-    Combination<Card> getPoker();
+    Combination<Card> getPoker(Set<Card> totalCard);
 
     /**
      * Get the straight combination from card Combination.
@@ -74,7 +76,7 @@ public interface CombinationFactory {
      * @return {@link Combination} of {@link Card} that form the
      *         {@link CombinationType#STRAIGHT_FLUSH} combination.
      */
-    Combination<Card> getStraightFlush();
+    Combination<Card> getStraightFlush(Set<Card> totalCard);
 
     /**
      * Get the straight combination from card Combination.
@@ -82,7 +84,7 @@ public interface CombinationFactory {
      * @return {@link Combination} of {@link Card} that form the
      *         {@link CombinationType#ROYAL_FLUSH} combination.
      */
-    Combination<Card> getRoyalStraight();
+    Combination<Card> getRoyalStraight(Set<Card> totalCard);
 
     /**
      * Get the hight card combination from card Combination.
@@ -90,6 +92,6 @@ public interface CombinationFactory {
      * @return {@link Combination} of {@link Card} that form the
      *         Hight-Card combination.
      */
-    Combination<Card> getHightCard();
+    Combination<Card> getHightCard(Set<Card> totalCard);
 
 }
