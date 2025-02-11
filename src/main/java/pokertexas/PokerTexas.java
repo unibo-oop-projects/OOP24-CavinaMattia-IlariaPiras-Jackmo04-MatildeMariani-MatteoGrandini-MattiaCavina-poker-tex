@@ -14,6 +14,6 @@ public final class PokerTexas {
      * @param args unused
      */
     public static void main(final String[] args) {
-        new ViewImpl();
+        new ViewImpl(true);
     }
 }

@@ -34,4 +34,5 @@ public interface View {
      * Disables the confirmation dialog when trying to close the view.
      */
     void disableConfermationOnClose();
+
 }

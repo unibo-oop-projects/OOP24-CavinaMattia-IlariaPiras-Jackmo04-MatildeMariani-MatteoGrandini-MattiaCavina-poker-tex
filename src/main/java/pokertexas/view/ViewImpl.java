@@ -20,8 +20,7 @@ import pokertexas.view.scenes.api.Scene;
  */
 public class ViewImpl implements View {
 
-    private static final double INIT_FRAME_SIZE_FACTOR = 0.75;
-    private static final double MIN_FRAME_SIZE_FACTOR = 0.6; 
+    private static final double FRAME_SIZE_FACTOR = 0.8; 
 
     private final JFrame frame;
     private final Dimension screenSize;
@@ -32,17 +31,16 @@ public class ViewImpl implements View {
      * Constructor for the MainView.
      * It initializes the frame and size of the window.
      * It also sets the CardLayout for switching between scenes.
+     * @param visible if the window should be visible
      */
-    public ViewImpl() {
+    public ViewImpl(final boolean visible) {
         this.frame = new JFrame("Poker Texas Hold'em");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        final var initWidth = (int) (screenSize.width * INIT_FRAME_SIZE_FACTOR);
-        final var initHeight = (int) (screenSize.height * INIT_FRAME_SIZE_FACTOR);
-        final var minWidth = (int) (screenSize.width * MIN_FRAME_SIZE_FACTOR);
-        final var minHeight = (int) (screenSize.height * MIN_FRAME_SIZE_FACTOR);
-        this.frame.setSize(new Dimension(initWidth, initHeight));
-        this.frame.setMinimumSize(new Dimension(minWidth, minHeight));
+        final var initWidth = (int) (screenSize.width * FRAME_SIZE_FACTOR);
+        final var initHeight = (int) (screenSize.height * FRAME_SIZE_FACTOR);
+        this.frame.setMinimumSize(new Dimension(initWidth, initHeight));
+        this.frame.setSize(this.frame.getMinimumSize());
 
         // CardLayout for switching between scenes
         this.cardLayout = new CardLayout();
@@ -53,7 +51,7 @@ public class ViewImpl implements View {
         this.changeScene(new StartScene(new StartControllerImpl(this)));
 
         this.frame.setLocationByPlatform(true);
-        this.frame.setVisible(true);
+        this.frame.setVisible(visible);
     }
 
     /**
