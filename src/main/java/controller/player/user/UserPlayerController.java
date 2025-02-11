@@ -22,6 +22,7 @@ public class UserPlayerController {
     private Action action;
     private boolean actionReceived;
     private final Object lock = new Object();
+    private int round;
 
     /**
      * Constructs a UserPlayerController with the specified user player.
@@ -118,7 +119,12 @@ public class UserPlayerController {
      * @return true if the current phase of the game is PREFLOP, false otherwise.
      */
     public boolean isPreFlop() {
-        return Phase.PREFLOP.equals(this.getState().getHandPhase());
+        if (!this.getState().getHandPhase().equals(Phase.PREFLOP)) {
+            this.round = 0;
+        } else {
+            this.round++;
+        }
+        return Phase.PREFLOP.equals(this.getState().getHandPhase()) && this.round == 1;
     }
 
     /**
