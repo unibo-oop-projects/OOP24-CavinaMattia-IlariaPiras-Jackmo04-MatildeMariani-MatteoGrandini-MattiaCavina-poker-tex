@@ -81,7 +81,7 @@ public interface CombinationFactory {
      * @return {@link Combination} of {@link Card} that form the
      *         {@link CombinationType#ROYAL_FLUSH} combination.
      */
-    Combination<Card> getRoyalStraight();
+    Combination<Card> getRoyalFlush();
 
     /**
      * Get the hight card combination from card Combination.

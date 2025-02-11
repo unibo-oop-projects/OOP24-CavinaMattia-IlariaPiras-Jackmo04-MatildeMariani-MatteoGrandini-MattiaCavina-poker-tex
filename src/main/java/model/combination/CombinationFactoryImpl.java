@@ -93,7 +93,7 @@ public final class CombinationFactoryImpl implements CombinationFactory {
      * {@inheritDoc}
      */
     @Override
-    public Combination<Card> getRoyalStraight() {
+    public Combination<Card> getRoyalFlush() {
         return new Combination<>(combGetter.getStraightCard(), CombinationType.ROYAL_FLUSH, totalCard);
     }
 
