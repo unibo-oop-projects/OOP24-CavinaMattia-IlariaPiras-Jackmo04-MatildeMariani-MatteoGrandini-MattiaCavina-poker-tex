@@ -47,7 +47,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("PokerTexas")
+    mainClass.set("pokertexas.PokerTexas")
 }
 
 tasks.test {
