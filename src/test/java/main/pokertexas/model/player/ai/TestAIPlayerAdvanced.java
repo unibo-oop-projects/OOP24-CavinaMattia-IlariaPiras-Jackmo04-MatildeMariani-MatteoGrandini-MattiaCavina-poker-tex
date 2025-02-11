@@ -28,7 +28,6 @@ class TestAIPlayerAdvanced {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestAIPlayerAdvanced.class);
     private static final int REPEAT_TESTS = 15;
     private static final int STD_ID = 1;
-    private static final int NUM_OF_PLAYERS = 4;
     private static final int CHIPS_800 = 800;
     private static final int CHIPS_10000 = 10_000;
     private static final int BET_1000 = 1000;
@@ -62,7 +61,7 @@ class TestAIPlayerAdvanced {
         LOGGER.info("Testing all in");
         final var player = factory.createHard(STD_ID, CHIPS_800);
         player.setCards(deck.getSomeCards(2).stream().collect(Collectors.toSet()));
-        player.setGameState(new StateImpl(BET_1000, NUM_OF_PLAYERS));
+        player.setGameState(new StateImpl(BET_1000));
         var action = Action.FOLD;
         while (action == Action.FOLD) {
             action = player.getAction();
@@ -99,7 +98,7 @@ class TestAIPlayerAdvanced {
         LOGGER.info("Testing changing bet");
         final var player = factory.createHard(STD_ID, CHIPS_10000);
         player.setCards(deck.getSomeCards(2).stream().collect(Collectors.toSet()));
-        final var state = new StateImpl(BET_1000, NUM_OF_PLAYERS);
+        final var state = new StateImpl(BET_1000);
         player.setGameState(state);
         var action = Action.FOLD;
         while (action == Action.FOLD) {
@@ -162,7 +161,7 @@ class TestAIPlayerAdvanced {
         LOGGER.info("Testing changing phase");
         final var player = factory.createHard(STD_ID, CHIPS_10000);
         player.setCards(deck.getSomeCards(2).stream().collect(Collectors.toSet()));
-        final var state = new StateImpl(BET_1000, NUM_OF_PLAYERS);
+        final var state = new StateImpl(BET_1000);
         player.setGameState(state);
         var action = Action.FOLD;
         while (action == Action.FOLD) {

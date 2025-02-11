@@ -67,7 +67,7 @@ final class TestHandImpl {
         player3.setRole(Role.BIG_BLIND);
 
         players = new ArrayList<>(List.of(player1, player2, player3, player4));
-        gameState = new StateImpl(INITIAL_CHIPS / INITIAL_BET_DIVISION_FACT, INITIAL_NUM_PLAYERS);
+        gameState = new StateImpl(INITIAL_CHIPS / INITIAL_BET_DIVISION_FACT);
         deck = new DeckFactoryImpl().simplePokerDeck();
         hand = new HandImpl(controller, players, gameState);
 
@@ -122,7 +122,6 @@ final class TestHandImpl {
         switch (currentPlayer.getAction()) {
             case FOLD:
                 assertEquals(INITIAL_NUM_PLAYERS - 1, players.size());
-                assertEquals(INITIAL_NUM_PLAYERS - 1, gameState.getRemainingPlayers());
                 break;
             case RAISE:
                 assertEquals(currentPlayer.getTotalPhaseBet(), gameState.getCurrentBet());

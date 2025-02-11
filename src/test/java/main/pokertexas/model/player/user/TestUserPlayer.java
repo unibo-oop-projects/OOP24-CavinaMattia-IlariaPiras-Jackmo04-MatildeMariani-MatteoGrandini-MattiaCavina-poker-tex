@@ -27,7 +27,6 @@ class TestUserPlayer {
     private static final int PLAYER_ID = 1;
     private static final int INITIAL_TOTAL_PHASE_BET = 0;
     private static final int INITIAL_CHIPS = 2000;
-    private static final int NUM_OF_PLAYERS = 4;
     private static final int INITIAL_BET = 1000;
     private static final int INITIAL_BET_500 = 500;
     private static final double MULTIPLIER_SMALL_BLIND = 0.5;
@@ -53,7 +52,7 @@ class TestUserPlayer {
         assertEquals(INITIAL_CHIPS, player.getChips());
         assertEquals(Set.of(), player.getCards());
         assertEquals(INITIAL_TOTAL_PHASE_BET, player.getTotalPhaseBet());
-        player.setGameState(new StateImpl(BET_3000, NUM_OF_PLAYERS));
+        player.setGameState(new StateImpl(BET_3000));
         assertThrows(IllegalStateException.class, 
             player::getAction);
         assertFalse(player.isAI());
@@ -61,7 +60,7 @@ class TestUserPlayer {
 
     @Test
     void testCheck() throws InterruptedException {
-        final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
+        final var state = new StateImpl(INITIAL_BET);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.setGameState(state);
         player.getController().receiveUserAction("CALL");
@@ -78,7 +77,7 @@ class TestUserPlayer {
     @Test
     void testPreFlopSmallBlind() {
         player.setRole(Role.SMALL_BLIND);
-        final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
+        final var state = new StateImpl(INITIAL_BET);
         player.setGameState(state);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         assertEquals(Action.CALL, player.getAction());
@@ -88,7 +87,7 @@ class TestUserPlayer {
 
     @Test
     void testTextField() throws InterruptedException {
-        final var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
+        final var state = new StateImpl(INITIAL_BET_500);
         player.setGameState(state);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().setRaiseAmount(INITIAL_BET_500 * MULTIPLIER_RAISE);
@@ -105,7 +104,7 @@ class TestUserPlayer {
 
     @Test
     void testAllIn() {
-        final var state = new StateImpl(INITIAL_BET, NUM_OF_PLAYERS);
+        final var state = new StateImpl(INITIAL_BET);
         player.setGameState(state);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().receiveUserAction("ALL_IN");
@@ -124,7 +123,7 @@ class TestUserPlayer {
 
     @Test
     void testLosing() {
-        final var state = new StateImpl(INITIAL_BET_500, NUM_OF_PLAYERS);
+        final var state = new StateImpl(INITIAL_BET_500);
         player.setGameState(state);
         player.setCards(new HashSet<>(deck.getSomeCards(2)));
         player.getController().setRaiseAmount(INITIAL_BET_500 * MULTIPLIER_RAISE);

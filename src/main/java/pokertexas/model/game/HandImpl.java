@@ -82,7 +82,6 @@ public final class HandImpl implements Hand {
             case FOLD:
                 playersIterator.remove();
                 this.playersWhoLost.add(player);
-                this.gameState.setRemainingPlayers(this.gameState.getRemainingPlayers() - 1);
                 break;
             case RAISE:
                 this.gameState.setCurrentBet(player.getTotalPhaseBet());

@@ -8,8 +8,8 @@ import pokertexas.model.player.api.Player;
 /**
  * Interface that models the State of a game.
  * A State keeps a certain amount of money given by the sum of the bets made by the players in each hand, 
- * the current minimun bet, a set of {@link Card}s common to all players, the number of players
- * still in the game, the number of the hand and the current {@link Phase}. It must be updated regulary.
+ * the current minimun bet, a set of {@link Card}s common to all players and the current {@link Phase}.
+ * It must be updated regulary.
  */
 public interface State {
 
@@ -28,9 +28,8 @@ public interface State {
     /**
      * Informs the State that a new {@link Hand} is starting. It sets all its component accordingly. 
      * @param initialBet the initial bet required to play in the hand.
-     * @param remainingPlayers the number of players still in the game at the start of the hand.
     */
-    void newHand(int initialBet, int remainingPlayers);
+    void newHand(int initialBet);
 
     /**
      * Informs the State a new {@link Phase} is starting. It sets the current phase and the 
@@ -51,18 +50,6 @@ public interface State {
     int getCurrentBet();
 
     /**
-     * Returns the number of {@link Player}s still in the game.
-     * @return the number of players still in the game. 
-    */
-    int getRemainingPlayers();
-
-    /**
-     * Returns the current {@link Hand} number.
-     * @return the hand's number. 
-    */
-    int getHandNumber();
-
-    /**
      * Returns the current {@link Phase}.
      * @return the current phase. 
     */
@@ -79,12 +66,6 @@ public interface State {
      * @param currentBet the new minimum bet.
     */
     void setCurrentBet(int currentBet);
-
-    /**
-     * Sets the number of {@link Player}s still in the game.
-     * @param remainingPlayers the number of players still in the game.
-    */
-    void setRemainingPlayers(int remainingPlayers);
 
     /**
      * Sets the {@link Hand} {@link Phase}.

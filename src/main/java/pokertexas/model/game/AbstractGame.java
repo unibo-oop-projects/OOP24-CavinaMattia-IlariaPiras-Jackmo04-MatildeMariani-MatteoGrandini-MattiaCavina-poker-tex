@@ -64,7 +64,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.startingBet = initialChips / INITIAL_BET_DIVISION_FACT;
         this.dealer = new DealerImpl();
         this.userPlayer = new UserPlayer(USER_PLAYER_ID, initialChips);
-        this.gameState = new StateImpl(startingBet, NUM_AI_PLAYERS + 1);
+        this.gameState = new StateImpl(startingBet);
     }
 
     /**
@@ -137,7 +137,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         final int indexNextSmallBlind;
         final int indexNextBigBlind;
 
-        if (this.gameState.getHandNumber() == 0) {
+        if (this.players.stream().allMatch(p -> p.getRole().isEmpty())) {
             indexNextSmallBlind = RAND.nextInt(players.size());
         } else {
             final var originalList = List.copyOf(players);
@@ -208,7 +208,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
                 statistics.incrementHandsPlayed(1);
 
                 players.stream().forEachOrdered(p -> p.setCards(dealer.giveCardsToPlayer()));
-                gameState.newHand(startingBet, players.size());
+                gameState.newHand(startingBet);
                 final var hand = new HandImpl(controller, players, gameState);
 
                 controller.waitIfPaused();
