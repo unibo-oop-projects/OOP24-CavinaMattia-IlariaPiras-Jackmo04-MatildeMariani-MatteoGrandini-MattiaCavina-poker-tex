@@ -41,6 +41,7 @@ public class CombinationComparator implements Comparator<Combination<Card>>, Ser
                 case TWO_PAIRS:
                     returnValue = twoPairCompair(firstCombination.getCombinationCard(),
                             secondCombination.getCombinationCard());
+                            break;
                 case FULL_HOUSE:
                     try {
                         returnValue = Integer.compare(sumValueCard(getTrisFromCombination(firstCombination)),
