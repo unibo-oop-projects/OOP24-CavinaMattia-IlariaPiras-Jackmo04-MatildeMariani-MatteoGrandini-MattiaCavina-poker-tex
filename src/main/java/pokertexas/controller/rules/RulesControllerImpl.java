@@ -11,7 +11,7 @@ import pokertexas.controller.scene.SceneControllerImpl;
 import pokertexas.view.View;
 
 /**
- * Implementation of the rules controller.
+ * Implementation of the {@link RulesController} interface.
  */
 public class RulesControllerImpl extends SceneControllerImpl implements RulesController {
 

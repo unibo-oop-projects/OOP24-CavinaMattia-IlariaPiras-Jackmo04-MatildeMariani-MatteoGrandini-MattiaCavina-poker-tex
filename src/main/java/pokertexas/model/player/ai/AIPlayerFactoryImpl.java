@@ -92,40 +92,6 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
         return standard(id, initialChips, HARD_RAISING_FACTOR, HARD_DIFFICULTY_MODIFIER);
     }
 
-    private AIPlayer standard(
-        final int id, 
-        final int initialChips,
-        final double raisingFactor, 
-        final double difficultyModifier
-    ) {
-        return createCustom(id, initialChips, raisingFactor, difficultyModifier,
-            type -> switch (type) {
-                case HIGH_CARD -> STD_CALL_HIGH_CARD;
-                case PAIR -> STD_CALL_PAIR;
-                case TWO_PAIRS -> STD_CALL_TWO_PAIR;
-                case TRIS -> STD_CALL_TRIS;
-                case STRAIGHT -> STD_CALL_STRAIGHT;
-                case FLUSH -> STD_CALL_FLUSH;
-                case FULL_HOUSE -> STD_CALL_FULL_HOUSE;
-                case POKER -> STD_CALL_POKER;
-                case STRAIGHT_FLUSH -> STD_CALL_STRAIGHT_FLUSH;
-                case ROYAL_FLUSH -> STD_CALL_ROYAL_FLUSH;
-            },
-            type -> switch (type) {
-                case HIGH_CARD -> STD_RAISE_HIGH_CARD;
-                case PAIR -> STD_RAISE_PAIR;
-                case TWO_PAIRS -> STD_RAISE_TWO_PAIR;
-                case TRIS -> STD_RAISE_TRIS;
-                case STRAIGHT -> STD_RAISE_STRAIGHT;
-                case FLUSH -> STD_RAISE_FLUSH;
-                case FULL_HOUSE -> STD_RAISE_FULL_HOUSE;
-                case POKER -> STD_RAISE_POKER;
-                case STRAIGHT_FLUSH -> STD_RAISE_STRAIGHT_FLUSH;
-                case ROYAL_FLUSH -> STD_RAISE_ROYAL_FLUSH;
-            }
-        );
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -171,6 +137,40 @@ public class AIPlayerFactoryImpl implements AIPlayerFactory {
             }
 
         };
+    }
+
+    private AIPlayer standard(
+        final int id, 
+        final int initialChips,
+        final double raisingFactor, 
+        final double difficultyModifier
+    ) {
+        return createCustom(id, initialChips, raisingFactor, difficultyModifier,
+            type -> switch (type) {
+                case HIGH_CARD -> STD_CALL_HIGH_CARD;
+                case PAIR -> STD_CALL_PAIR;
+                case TWO_PAIRS -> STD_CALL_TWO_PAIR;
+                case TRIS -> STD_CALL_TRIS;
+                case STRAIGHT -> STD_CALL_STRAIGHT;
+                case FLUSH -> STD_CALL_FLUSH;
+                case FULL_HOUSE -> STD_CALL_FULL_HOUSE;
+                case POKER -> STD_CALL_POKER;
+                case STRAIGHT_FLUSH -> STD_CALL_STRAIGHT_FLUSH;
+                case ROYAL_FLUSH -> STD_CALL_ROYAL_FLUSH;
+            },
+            type -> switch (type) {
+                case HIGH_CARD -> STD_RAISE_HIGH_CARD;
+                case PAIR -> STD_RAISE_PAIR;
+                case TWO_PAIRS -> STD_RAISE_TWO_PAIR;
+                case TRIS -> STD_RAISE_TRIS;
+                case STRAIGHT -> STD_RAISE_STRAIGHT;
+                case FLUSH -> STD_RAISE_FLUSH;
+                case FULL_HOUSE -> STD_RAISE_FULL_HOUSE;
+                case POKER -> STD_RAISE_POKER;
+                case STRAIGHT_FLUSH -> STD_RAISE_STRAIGHT_FLUSH;
+                case ROYAL_FLUSH -> STD_RAISE_ROYAL_FLUSH;
+            }
+        );
     }
 
 }

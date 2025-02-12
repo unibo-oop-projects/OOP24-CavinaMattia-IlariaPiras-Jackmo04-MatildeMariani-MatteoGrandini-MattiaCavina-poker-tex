@@ -21,7 +21,6 @@ import pokertexas.model.statistics.api.StatisticsManager;
 
 /**
  * Implementation of the {@link StatisticsManager} interface.
- * 
  * @param <S> the type of statistics to manage
  */
 public class StatisticsManagerImpl<S extends Statistics> implements StatisticsManager<S> {
