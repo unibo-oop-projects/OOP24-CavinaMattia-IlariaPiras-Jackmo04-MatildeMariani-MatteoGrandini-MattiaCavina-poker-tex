@@ -81,7 +81,7 @@ public final class GameOverScene implements Scene {
         textFinalResult.setHorizontalAlignment(JLabel.CENTER);
 
         final JButton goToMainMenu = getButtomFeuture("Menu", Color.LIGHT_GRAY, Color.BLACK, buttonFont,
-                e -> this.controller.goToMainScene());
+                e -> this.controller.goToMainMenuScene());
 
         // To change Pannel from win to lose from keyboard.
         final KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0);

@@ -198,9 +198,9 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
      * {@inheritDoc}
      */
     @Override
-    public void goToMainScene() {
+    public void goToMainMenuScene() {
         this.endGame();
-        super.goToMainScene();
+        super.goToMainMenuScene();
     }
 
     /**

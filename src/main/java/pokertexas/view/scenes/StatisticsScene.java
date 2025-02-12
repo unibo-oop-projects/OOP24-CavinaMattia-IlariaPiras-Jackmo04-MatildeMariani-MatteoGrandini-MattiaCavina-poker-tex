@@ -80,7 +80,7 @@ public class StatisticsScene implements Scene {
         this.panel.add(container, BorderLayout.CENTER);
 
         final JButton backButton = getCustomButton("Back to menu");
-        backButton.addActionListener(e -> this.controller.goToMainScene());
+        backButton.addActionListener(e -> this.controller.goToMainMenuScene());
         this.panel.add(backButton, BorderLayout.SOUTH);
     }
 

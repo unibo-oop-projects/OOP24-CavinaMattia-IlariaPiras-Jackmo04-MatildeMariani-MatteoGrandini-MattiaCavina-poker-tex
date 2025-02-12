@@ -1,28 +1,10 @@
 package pokertexas.controller.menu;
 
+import pokertexas.controller.scene.SceneController;
+
 /**
  * Interface for the main menu controller.
  */
-public interface MainMenuController {
-
-    /**
-     * Changes the scene to the statistics scene.
-     */
-    void goToStatsScene();
-
-    /**
-     * Changes the scene to the game rules scene.
-     */
-    void goToRulesScene();
-
-    /**
-     * Changes the scene to the difficulty selection scene.
-     */
-    void goToDifficultySelectionScene();
-
-    /**
-     * Exits the game.
-     */
-    void exitGame();
+public interface MainMenuController extends SceneController {
 
 }

@@ -246,7 +246,8 @@ public class DifficultySelectionScene implements Scene {
         playPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         play.getButton().setEnabled(false);
-        play.getButton().addActionListener(e -> this.controller.goToGameScene());
+        play.getButton().addActionListener(e -> this.controller.goToGameScene(this.controller.getInitialChips(), 
+            this.controller.getDifficulty()));
 
         playPanel.add(play.getButton());
 

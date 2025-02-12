@@ -105,7 +105,7 @@ public class PauseDialog {
                     controller.goToDifficultySelectionScene();
                     break;
                 case "MENU":
-                    controller.goToMainScene();
+                    controller.goToMainMenuScene();
                     break;
                 case "RESUME":
                     controller.resumeGame();

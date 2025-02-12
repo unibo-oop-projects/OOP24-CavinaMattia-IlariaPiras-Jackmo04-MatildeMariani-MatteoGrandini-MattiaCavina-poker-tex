@@ -1,19 +1,15 @@
 package pokertexas.controller.difficulty;
 
-import pokertexas.controller.game.GameControllerImpl;
 import pokertexas.controller.game.api.Difficulty;
-import pokertexas.controller.menu.MainMenuControllerImpl;
+import pokertexas.controller.scene.SceneControllerImpl;
 import pokertexas.view.View;
-import pokertexas.view.scenes.GameScene;
-import pokertexas.view.scenes.MainMenuScene;
 
 /**
  * Implementation of the difficulty selection controller.
  * Manages the selection of game difficulty and initial chips, and handles navigation to different scenes.
  */
-public class DifficultySelectionControllerImpl implements DifficultySelectionController {
+public class DifficultySelectionControllerImpl extends SceneControllerImpl implements DifficultySelectionController {
 
-    private final View mainView;
     private Difficulty difficulty;
     private int initialChips;
 
@@ -22,29 +18,7 @@ public class DifficultySelectionControllerImpl implements DifficultySelectionCon
      * @param mainView the main view of the application.
      */
     public DifficultySelectionControllerImpl(final View mainView) {
-        this.mainView = mainView;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void goToMainMenuScene() {
-        this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(this.mainView)));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void goToGameScene() {
-        if (this.difficulty == null) {
-            throw new IllegalStateException("Difficulty not set!");
-        }
-        if (this.initialChips <= 0) {
-            throw new IllegalStateException("Initial chips not set!");
-        }
-        this.mainView.changeScene(new GameScene(new GameControllerImpl(this.mainView, this.difficulty, this.initialChips)));
+        super(mainView);
     }
 
     /**
@@ -61,6 +35,22 @@ public class DifficultySelectionControllerImpl implements DifficultySelectionCon
     @Override
     public void setInitialChips(final int initialChips) {
         this.initialChips = initialChips;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Difficulty getDifficulty() {
+        return this.difficulty;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getInitialChips() {
+        return this.initialChips;
     }
 
 }

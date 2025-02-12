@@ -56,7 +56,7 @@ public class RulesScene implements Scene {
 
         // Back to menu button
         final JButton backButton = getCustomButton("Back to Menu");
-        backButton.addActionListener(e -> this.controller.goToMainScene());
+        backButton.addActionListener(e -> this.controller.goToMainMenuScene());
         this.panel.add(backButton, BorderLayout.SOUTH);
     }
 

@@ -1,6 +1,8 @@
 package pokertexas.controller.scene;
 
 import pokertexas.controller.difficulty.DifficultySelectionControllerImpl;
+import pokertexas.controller.game.GameControllerImpl;
+import pokertexas.controller.game.api.Difficulty;
 import pokertexas.controller.gameover.GameOverMenuImpl;
 import pokertexas.controller.menu.MainMenuControllerImpl;
 import pokertexas.controller.rules.RulesControllerImpl;
@@ -8,6 +10,7 @@ import pokertexas.controller.statistics.BasicStatisticsControllerImpl;
 import pokertexas.view.View;
 import pokertexas.view.scenes.DifficultySelectionScene;
 import pokertexas.view.scenes.GameOverScene;
+import pokertexas.view.scenes.GameScene;
 import pokertexas.view.scenes.MainMenuScene;
 import pokertexas.view.scenes.RulesScene;
 import pokertexas.view.scenes.StatisticsScene;
@@ -33,7 +36,7 @@ public class SceneControllerImpl implements SceneController {
      * {@inheritDoc}
      */
     @Override
-    public void goToMainScene() {
+    public void goToMainMenuScene() {
         this.mainView.changeScene(new MainMenuScene(new MainMenuControllerImpl(mainView)));
     }
 
@@ -59,6 +62,20 @@ public class SceneControllerImpl implements SceneController {
     @Override
     public void goToDifficultySelectionScene() {
         this.mainView.changeScene(new DifficultySelectionScene(new DifficultySelectionControllerImpl(mainView)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void goToGameScene(final int initialChips, final Difficulty difficulty) {
+        if (difficulty == null) {
+            throw new IllegalStateException("Difficulty not set!");
+        }
+        if (initialChips <= 0) {
+            throw new IllegalStateException("Initial chips not set!");
+        }
+        this.mainView.changeScene(new GameScene(new GameControllerImpl(this.mainView, difficulty, initialChips)));
     }
 
     /**
