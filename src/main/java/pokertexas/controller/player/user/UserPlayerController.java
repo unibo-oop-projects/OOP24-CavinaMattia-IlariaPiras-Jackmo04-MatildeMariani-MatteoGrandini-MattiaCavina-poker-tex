@@ -173,8 +173,17 @@ public class UserPlayerController {
      * This method returns the current state of the game.
      * @return the current state of the game.
      */
-    private State getState() {
+    public State getState() {
         return this.userPlayer.getGameState();
+    }
+
+    /**
+     * Gets the user player associated with this controller.
+     * @return the user player associated with this controller.
+     */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "The user player is intended to be exposed")
+    public UserPlayerImpl getUserPlayer() {
+        return this.userPlayer;
     }
 
 }

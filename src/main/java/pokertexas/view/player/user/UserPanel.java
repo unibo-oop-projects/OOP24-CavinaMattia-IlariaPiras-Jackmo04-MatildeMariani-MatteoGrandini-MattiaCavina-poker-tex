@@ -12,6 +12,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -27,7 +28,7 @@ import pokertexas.view.gamepanels.PlayerPanelImpl;
  */
 public class UserPanel extends PlayerPanelImpl {
 
-    private static final int FONT_SIZE = 15; 
+    private static final int FONT_SIZE = 15;
     private static final int THICKNESS = 2;
     private static final int R_BORDER = 0;
     private static final int G_BORDER = 0;
@@ -47,6 +48,7 @@ public class UserPanel extends PlayerPanelImpl {
     private GenericButton foldButton;
     private GenericButton allInButton;
     private JTextField raiseAmount;
+    private JLabel errorLabel;
     private final ActionListener listener = new InputActionListener();
     private final JPanel userPlayerPanel = new JPanel();
 
@@ -72,7 +74,7 @@ public class UserPanel extends PlayerPanelImpl {
 
         final JPanel inputPanel = new JPanel();
         inputPanel.setBackground(new Color(COLOR_BACKGROUND));
-        inputPanel.setLayout(new GridLayout(2, 1));
+        inputPanel.setLayout(new GridLayout(3, 1));
 
         final JPanel buttonsPanel = new JPanel();
         buttonsPanel.setBackground(new Color(COLOR_BACKGROUND));
@@ -110,6 +112,13 @@ public class UserPanel extends PlayerPanelImpl {
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
         chipsPanel.add(this.raiseAmount);
 
+        this.errorLabel = new JLabel();
+        this.errorLabel.setFont(new Font(FONT, Font.PLAIN, FONT_SIZE));
+        this.errorLabel.setOpaque(true);
+        this.errorLabel.setBackground(new Color(COLOR_INPUT_PANEL));
+        this.errorLabel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
+            BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
+
         this.getPlayerChips().setFont(new Font(FONT, Font.PLAIN, FONT_SIZE));
         this.getPlayerChips().setBackground(new Color(COLOR_INPUT_PANEL));
         this.getPlayerChips().setOpaque(true);
@@ -124,6 +133,7 @@ public class UserPanel extends PlayerPanelImpl {
 
         inputPanel.add(buttonsPanel);
         inputPanel.add(chipsPanel);
+        inputPanel.add(this.errorLabel);
 
         this.getCardsPanel().getPanel().setBackground(new Color(COLOR_BACKGROUND));
         this.getCardsPanel().getPanel().setLayout(new FlowLayout());
@@ -136,6 +146,7 @@ public class UserPanel extends PlayerPanelImpl {
      * Disables all the buttons and the text field in the GUI.
      */
     private void disableAllButtons() {
+        this.errorLabel.setText("");
         this.raiseAmount.setText(MESSAGE);
         this.raiseAmount.setEnabled(false);
         this.checkButton.setEnabled(false);
@@ -160,23 +171,6 @@ public class UserPanel extends PlayerPanelImpl {
     }
 
     /**
-     * Sets the player action in the player panel.
-     * @param action the action to set.
-     */
-    private void setPlayerAction(final String action) {
-        this.setAction(action);
-    }
-
-    /**
-     * Gets the JTextField for entering the raise amount.
-     * This method returns the JTextField component that allows the user to enter the amount they want to raise.
-     * @return the JTextField for entering the raise amount.
-     */
-    private JTextField getRaiseAmount() {
-        return this.raiseAmount;
-    }
-
-    /**
      * Inner class to handle button click events.
      * This class implements the ActionListener interface and handles the button click events
      * for the buttons in the user interface. It processes the action commands and interacts
@@ -193,6 +187,11 @@ public class UserPanel extends PlayerPanelImpl {
                         controller.setRaiseAmount(raiseAmount);
                         controller.receiveUserAction(raiseButton.getActionCommand());
                         disableAllButtons();
+                    } else {
+                        final String numericText = getPlayerChips().getText().replaceAll("[^0-9]", "");
+                        errorLabel.setText("Invalid amount! Please try again. Insert a number between " 
+                        + (controller.getState().getCurrentBet() - controller.getUserPlayer().getTotalPhaseBet() + 1) 
+                        + " and " + (Long.parseLong(numericText) - 1));
                     }
                 }
                 case "CHECK", "CALL", "FOLD", "ALL_IN" -> {
@@ -203,8 +202,8 @@ public class UserPanel extends PlayerPanelImpl {
                     LOGGER.error("Unexpected action command: " + e.getActionCommand());
                 }
             }
-            setPlayerAction(((GenericButton) e.getSource()).getActionCommand());
-            getRaiseAmount().setText(MESSAGE);
+            setAction(((GenericButton) e.getSource()).getActionCommand());
+            raiseAmount.setText(MESSAGE);
         }
     }
 
