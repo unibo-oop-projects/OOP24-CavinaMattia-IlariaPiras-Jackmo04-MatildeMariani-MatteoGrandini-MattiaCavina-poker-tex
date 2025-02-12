@@ -18,7 +18,7 @@ import pokertexas.model.game.api.Phase;
 import pokertexas.model.game.api.State;
 import pokertexas.model.player.api.Player;
 import pokertexas.model.player.api.Role;
-import pokertexas.model.player.user.UserPlayer;
+import pokertexas.model.player.user.UserPlayerImpl;
 import pokertexas.model.statistics.BasicStatisticsImpl;
 import pokertexas.model.statistics.StatisticsManagerImpl;
 import pokertexas.model.statistics.api.BasicStatistics;
@@ -63,7 +63,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         this.statsManager = new StatisticsManagerImpl<>(STATISTICS_FILE_NAME, new BasicStatisticsImpl());
         this.startingBet = initialChips / INITIAL_BET_DIVISION_FACT;
         this.dealer = new DealerImpl();
-        this.userPlayer = new UserPlayer(USER_PLAYER_ID, initialChips);
+        this.userPlayer = new UserPlayerImpl(USER_PLAYER_ID, initialChips);
         this.gameState = new StateImpl(startingBet);
     }
 
@@ -105,7 +105,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
      */
     @Override
     public UserPlayerController getUserPlayerController() {
-        return ((UserPlayer) this.userPlayer).getController();
+        return ((UserPlayerImpl) this.userPlayer).getController();
     }
 
     /**

@@ -6,7 +6,6 @@ import pokertexas.controller.game.api.GameController;
 import pokertexas.controller.player.user.UserPlayerController;
 import pokertexas.model.dealer.api.Dealer;
 import pokertexas.model.player.api.Player;
-import pokertexas.model.player.user.UserPlayer;
 
 /**
  * Interface that models a generic Game.
@@ -24,7 +23,7 @@ public interface Game {
     boolean isOver();
 
     /**
-     * Returns whether the {@link UserPlayer} won.
+     * Returns whether the {@link UserPlayerImpl} won.
      * @return whether the User Player won. 
     */
     boolean isWon();

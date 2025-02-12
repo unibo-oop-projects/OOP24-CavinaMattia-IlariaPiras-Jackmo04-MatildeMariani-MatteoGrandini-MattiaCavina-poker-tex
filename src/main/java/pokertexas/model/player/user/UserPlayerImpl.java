@@ -8,13 +8,14 @@ import pokertexas.model.game.api.Phase;
 import pokertexas.model.game.api.State;
 import pokertexas.model.player.AbstractPlayer;
 import pokertexas.model.player.api.Action;
+import pokertexas.model.player.user.api.UserPlayer;
 import pokertexas.model.statistics.BasicStatisticsImpl;
 import pokertexas.model.statistics.api.BasicStatistics;
 
 /**
  * Class representing a human player in the game.
  */
-public class UserPlayer extends AbstractPlayer {
+public class UserPlayerImpl extends AbstractPlayer implements UserPlayer {
 
     private final UserPlayerController controller;
     private final BasicStatistics statistics;
@@ -24,7 +25,7 @@ public class UserPlayer extends AbstractPlayer {
      * @param id the identifier for the player.
      * @param initialChips the initial amount of chips that the player has.
      */
-    public UserPlayer(final int id, final int initialChips) {
+    public UserPlayerImpl(final int id, final int initialChips) {
         super(id, initialChips);
         this.controller = new UserPlayerController(this);
         this.statistics = new BasicStatisticsImpl();
@@ -127,9 +128,9 @@ public class UserPlayer extends AbstractPlayer {
     }
 
     /**
-     * Gets the controller associated with this user player.
-     * @return the controller associated with this user player.
+     * {@inheritDoc}
      */
+    @Override
     @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "The controller is intended to be exposed")
     public UserPlayerController getController() {
         return this.controller;

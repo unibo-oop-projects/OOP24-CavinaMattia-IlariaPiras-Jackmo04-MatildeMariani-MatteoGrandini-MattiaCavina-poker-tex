@@ -7,7 +7,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import pokertexas.model.game.api.Phase;
 import pokertexas.model.game.api.State;
 import pokertexas.model.player.api.Action;
-import pokertexas.model.player.user.UserPlayer;
+import pokertexas.model.player.user.UserPlayerImpl;
 import pokertexas.view.player.user.UserPanel;
 
 /**
@@ -17,7 +17,7 @@ public class UserPlayerController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserPlayerController.class);
 
-    private final UserPlayer userPlayer;
+    private final UserPlayerImpl userPlayer;
     private int raiseAmount;
     private Action action;
     private boolean actionReceived;
@@ -30,7 +30,7 @@ public class UserPlayerController {
      * @param userPlayer the user player associated with this controller.
      */
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Storing UserPlayer mutable object is intentional")
-    public UserPlayerController(final UserPlayer userPlayer) {
+    public UserPlayerController(final UserPlayerImpl userPlayer) {
         this.userPlayer = userPlayer;
         new UserPanel(this);
     }

@@ -17,7 +17,7 @@ import pokertexas.model.deck.api.Deck;
 import pokertexas.model.game.StateImpl;
 import pokertexas.model.player.api.Action;
 import pokertexas.model.player.api.Role;
-import pokertexas.model.player.user.UserPlayer;
+import pokertexas.model.player.user.UserPlayerImpl;
 
 /**
  * Tests for the UserPlayer implementation.
@@ -33,12 +33,12 @@ class TestUserPlayer {
     private static final int MULTIPLIER_RAISE = 3;
     private static final int BET_3000 = 3000;
 
-    private UserPlayer player;
+    private UserPlayerImpl player;
     private static Deck<Card> deck;
 
     @BeforeEach
     public void initializeUserPlayer() {
-        player = new UserPlayer(PLAYER_ID, INITIAL_CHIPS);
+        player = new UserPlayerImpl(PLAYER_ID, INITIAL_CHIPS);
     }
 
     @BeforeAll
