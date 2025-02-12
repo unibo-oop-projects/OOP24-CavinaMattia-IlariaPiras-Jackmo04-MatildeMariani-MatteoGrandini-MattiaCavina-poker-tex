@@ -60,6 +60,10 @@ public class DifficultySelectionScene implements Scene {
     private static final String MESSAGE = "Enter chips and press enter";
     private static final int MIN = 1000;
     private static final int MAX = 1_000_000;
+    private static final int TOP = 5;
+    private static final int LEFT = 5;
+    private static final int BOTTOM = 5;
+    private static final int RIGHT = 5;
     private static final String SCENE_NAME = "difficulty selection";
     private static final Logger LOGGER = LoggerFactory.getLogger(DifficultySelectionScene.class);
 
@@ -108,7 +112,7 @@ public class DifficultySelectionScene implements Scene {
         final JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new GridBagLayout());
         inputPanel.setBackground(new Color(COLOR_BACKGROUND));
-        GridBagConstraints gbc = new GridBagConstraints();
+        final GridBagConstraints gbc = new GridBagConstraints();
 
         final JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(3, 1));
@@ -225,17 +229,16 @@ public class DifficultySelectionScene implements Scene {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridwidth = 1;
+        gbc.insets = new Insets(TOP, LEFT, BOTTOM, RIGHT);
         initialChipsPanel.add(errorLabel, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.insets = new Insets(5, 5, 5, 5);
         initialChipsPanel.add(initialChipsLabel, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.insets = new Insets(5, 5, 5, 5);
         initialChipsPanel.add(input, gbc);
 
         final JPanel playPanel = new JPanel();
@@ -249,20 +252,14 @@ public class DifficultySelectionScene implements Scene {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 1;
-        gbc.insets = new Insets(5, 5, 5, 5);
         inputPanel.add(buttonsPanel, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.insets = new Insets(5, 5, 5, 5);
         inputPanel.add(initialChipsPanel, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.gridwidth = 1;
-        gbc.insets = new Insets(5, 5, 5, 5);
         inputPanel.add(playPanel, gbc);
 
         centerPanel.add(titlePanel);
