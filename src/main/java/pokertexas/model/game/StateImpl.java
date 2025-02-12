@@ -18,6 +18,7 @@ public final class StateImpl implements State {
     private int pot;
     private int currentBet;
     private Phase handPhase;
+    private int handNumber;
     private final Set<Card> communityCards = new HashSet<>();
 
     /**
@@ -28,6 +29,7 @@ public final class StateImpl implements State {
         this.pot = INITIAL_POT;
         this.handPhase = FIRST_PHASE;
         this.currentBet = initialBet;
+        this.handNumber = 0;
     }
 
     /**
@@ -35,12 +37,15 @@ public final class StateImpl implements State {
      * @param pot the pot.
      * @param currentBet the current bet.
      * @param handPhase the current phase of the hand.
+     * @param handNumber the current hand number.
      * @param communityCards the set of community cards.
      */
-    public StateImpl(final int pot, final int currentBet, final Phase handPhase, final Set<Card> communityCards) {
+    public StateImpl(final int pot, final int currentBet, final int handNumber,
+                    final Phase handPhase, final Set<Card> communityCards) {
         this.pot = pot;
         this.currentBet = currentBet;
         this.handPhase = handPhase;
+        this.handNumber = handNumber;
         this.communityCards.addAll(communityCards);
 
     }
@@ -78,6 +83,7 @@ public final class StateImpl implements State {
         this.pot = INITIAL_POT;
         this.handPhase = FIRST_PHASE;
         this.currentBet = initialBet;
+        this.handNumber++;
         this.communityCards.clear();
     }
 
@@ -103,6 +109,14 @@ public final class StateImpl implements State {
     @Override
     public Phase getHandPhase() {
         return this.handPhase;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getHandNumber() {
+        return this.handNumber;
     }
 
     /**

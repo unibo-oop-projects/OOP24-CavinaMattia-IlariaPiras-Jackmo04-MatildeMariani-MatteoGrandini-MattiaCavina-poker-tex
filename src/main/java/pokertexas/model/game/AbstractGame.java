@@ -137,7 +137,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
         final int indexNextSmallBlind;
         final int indexNextBigBlind;
 
-        if (this.players.stream().allMatch(p -> p.getRole().isEmpty())) {
+        if (this.gameState.getHandNumber() == 0) {
             indexNextSmallBlind = RAND.nextInt(players.size());
         } else {
             final var originalList = List.copyOf(players);

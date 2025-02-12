@@ -56,6 +56,12 @@ public interface State {
     Phase getHandPhase();
 
     /**
+     * Returns the current {@link Hand} number.
+     * @return the hand's number. 
+    */
+    int getHandNumber();
+
+    /**
      * Returns the community cards for the current {@link Hand}.
      * @return the community cards for the current hand. 
     */
