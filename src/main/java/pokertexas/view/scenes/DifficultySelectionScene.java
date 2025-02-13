@@ -7,7 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -16,7 +15,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -60,10 +58,11 @@ public class DifficultySelectionScene implements Scene {
     private static final String MESSAGE = "Enter chips and press enter";
     private static final int MIN = 1000;
     private static final int MAX = 1_000_000;
-    private static final int TOP = 5;
-    private static final int LEFT = 5;
-    private static final int BOTTOM = 5;
-    private static final int RIGHT = 5;
+    private static final int FIVE = 5;
+    private static final int SIX = 6;
+    private static final int SEVEN = 7;
+    private static final int TEN = 10;
+    private static final int FIFTEEN = 15;
     private static final String SCENE_NAME = "difficulty selection";
     private static final Logger LOGGER = LoggerFactory.getLogger(DifficultySelectionScene.class);
 
@@ -91,32 +90,18 @@ public class DifficultySelectionScene implements Scene {
     private void initialize() {
         this.diffSelPanel.setBackground(new Color(COLOR_BACKGROUND));
 
-        final JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridBagLayout());
+        final JPanel mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(new Color(COLOR_BACKGROUND));
 
-        final JPanel titlePanel = new JPanel();
-        titlePanel.setLayout(new FlowLayout());
-        titlePanel.setBackground(new Color(COLOR_BACKGROUND));
+        final GridBagConstraints gbc = new GridBagConstraints();
 
         final JLabel title = new JLabel("DIFFICULTY");
         title.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_TITLE));
         title.setBackground(new Color(COLOR_BACKGROUND));
         title.setOpaque(true);
-        titlePanel.add(title);
-
-        final JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        centerPanel.setBackground(new Color(COLOR_BACKGROUND));
-
-        final JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridBagLayout());
-        inputPanel.setBackground(new Color(COLOR_BACKGROUND));
-        final GridBagConstraints gbc = new GridBagConstraints();
-
-        final JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new GridLayout(3, 1));
-        buttonsPanel.setBackground(new Color(COLOR_BACKGROUND));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        mainPanel.add(title, gbc);
 
         final JRadioButton easy = new JRadioButton("EASY");
         easy.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_BUTTON));
@@ -157,21 +142,25 @@ public class DifficultySelectionScene implements Scene {
         group.add(medium);
         group.add(hard);
 
-        buttonsPanel.add(easy);
-        buttonsPanel.add(medium);
-        buttonsPanel.add(hard);
+        gbc.gridy = 1;
+        gbc.insets = new Insets(TEN, 0, 0, 0); 
+        mainPanel.add(easy, gbc);
+
+        gbc.gridy = 2;
+        gbc.insets = new Insets(0, 0, 0, 0); 
+        mainPanel.add(medium, gbc);
+
+        gbc.gridy = 3;
+        gbc.insets = new Insets(0, 0, FIVE, 0); 
+        mainPanel.add(hard, gbc);
 
         final JLabel errorLabel = new JLabel("Enter a number between 1000 and 1000000!");
         errorLabel.setFont(new Font(FONT, Font.PLAIN, FONT_SIZE_LABEL));
         errorLabel.setBackground(new Color(COLOR_INPUT_PANEL));
         errorLabel.setOpaque(true);
-        errorLabel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
+        errorLabel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
         errorLabel.setVisible(false);
-
-        final JPanel initialChipsPanel = new JPanel();
-        initialChipsPanel.setLayout(new GridBagLayout());
-        initialChipsPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         final JLabel initialChipsLabel = new JLabel("How many chips do you want to start with?");
         initialChipsLabel.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_LABEL));
@@ -222,54 +211,38 @@ public class DifficultySelectionScene implements Scene {
                 errorLabel.setVisible(true);
                 this.chipsValid = false;
             }
-            updatePlayButtonState(play.getButton()); 
+            updatePlayButtonState(play.getButton());
         });
-        input.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
+        input.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 1;
-        gbc.insets = new Insets(TOP, LEFT, BOTTOM, RIGHT);
-        initialChipsPanel.add(errorLabel, gbc);
+        gbc.gridy = 4;
+        gbc.insets = new Insets(FIFTEEN, FIVE, FIVE, FIVE);
+        mainPanel.add(errorLabel, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        initialChipsPanel.add(initialChipsLabel, gbc);
+        gbc.gridy = FIVE;
+        gbc.insets = new Insets(FIVE, FIVE, FIVE, FIVE);
+        mainPanel.add(initialChipsLabel, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        initialChipsPanel.add(input, gbc);
+        gbc.gridy = SIX;
+        mainPanel.add(input, gbc);
 
-        final JPanel playPanel = new JPanel();
-        playPanel.setLayout(new FlowLayout());
+        final JPanel playPanel = new JPanel(new FlowLayout());
         playPanel.setBackground(new Color(COLOR_BACKGROUND));
 
         play.getButton().setEnabled(false);
-        play.getButton().addActionListener(e -> this.controller.goToGameScene(this.controller.getInitialChips(), 
-            this.controller.getDifficulty()));
+        play.getButton().addActionListener(e -> this.controller.goToGameScene(this.controller.getInitialChips(),
+                this.controller.getDifficulty()));
 
         playPanel.add(play.getButton());
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        inputPanel.add(buttonsPanel, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        inputPanel.add(initialChipsPanel, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        inputPanel.add(playPanel, gbc);
-
-        centerPanel.add(titlePanel);
-        centerPanel.add(inputPanel);
-        mainPanel.add(centerPanel);
-        this.diffSelPanel.add(mainPanel, BorderLayout.CENTER);
+        gbc.gridy = SEVEN;
+        mainPanel.add(playPanel, gbc);
 
         final DiffSelButton backButton = new DiffSelButton("Back to Menu");
         backButton.getButton().addActionListener(e -> this.controller.goToMainMenuScene());
+
+        this.diffSelPanel.add(mainPanel, BorderLayout.CENTER);
         this.diffSelPanel.add(backButton.getButton(), BorderLayout.SOUTH);
     }
 
@@ -324,7 +297,6 @@ public class DifficultySelectionScene implements Scene {
          */
         private void initializeButton() {
             this.button.setBackground(new Color(COLOR_BUTTONS_PANEL));
-            this.button.setForeground(Color.BLACK);
             this.button.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_BUTTON));
             this.button.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
                 BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));

@@ -41,7 +41,6 @@ public class GenericButton extends JButton {
      */
     public void initializeButton(final String command, final ActionListener listener, final JPanel panel) {
         this.setBackground(new Color(COLOR_BUTTONS_PANEL));
-        this.setForeground(Color.BLACK);
         this.setFont(new Font("Roboto", Font.BOLD, FONT_SIZE));
         this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));

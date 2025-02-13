@@ -3,13 +3,12 @@ package pokertexas.view.scenes;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,9 +31,12 @@ public class MainMenuScene implements Scene {
     private static final int FONT_SIZE_TITLE = 50;
     private static final int THICKNESS = 4;
     private static final int COLOR_BACKGROUND = 0xDCBA85;
-    private static final int V_GAP = 5;
     private static final int BUTTON_WIDTH = 250;
     private static final int BUTTON_HEIGHT = 60;
+    private static final int TOP = 2;
+    private static final int LEFT = 2;
+    private static final int BOTTOM = 2;
+    private static final int RIGHT = 2;
     private static final String FONT = "Roboto";
     private static final String SCENE_NAME = "menu";
 
@@ -58,39 +60,34 @@ public class MainMenuScene implements Scene {
     private void initialize() {
         this.mainMenuPanel.setBackground(new Color(COLOR_BACKGROUND));
 
-        final JPanel titlePanel = new JPanel();
-        titlePanel.setLayout(new FlowLayout());
-        titlePanel.setBackground(new Color(COLOR_BACKGROUND));
+        final JPanel mainPanel = new JPanel(new GridBagLayout());
+        mainPanel.setBackground(new Color(COLOR_BACKGROUND));
+
+        final GridBagConstraints gbc = new GridBagConstraints();
 
         final JLabel title = new JLabel("MENU", SwingConstants.CENTER);
         title.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_TITLE));
-
-        titlePanel.add(title);
-
-        final JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridBagLayout());
-        mainPanel.setBackground(new Color(COLOR_BACKGROUND));
-
-        final JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-
-        final JPanel menuPanel = new JPanel();
-        menuPanel.setLayout(new GridLayout(4, 1, 0, V_GAP));
-        menuPanel.setBackground(new Color(COLOR_BACKGROUND));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(TOP, LEFT, BOTTOM, RIGHT); 
+        mainPanel.add(title, gbc);
 
         final MenuButton goToStats = new MenuButton("Statistics");
         final MenuButton goToRules = new MenuButton("How to play");
         final MenuButton goToDifficultySelection = new MenuButton("New game");
         final MenuButton exit = new MenuButton("Exit");
 
-        menuPanel.add(goToDifficultySelection.getButton());
-        menuPanel.add(goToRules.getButton());
-        menuPanel.add(goToStats.getButton());
-        menuPanel.add(exit.getButton());
+        gbc.gridy = 1;
+        mainPanel.add(goToDifficultySelection.getButton(), gbc);
 
-        centerPanel.add(titlePanel);
-        centerPanel.add(menuPanel);
-        mainPanel.add(centerPanel);
+        gbc.gridy = 2;
+        mainPanel.add(goToRules.getButton(), gbc);
+
+        gbc.gridy = 3;
+        mainPanel.add(goToStats.getButton(), gbc);
+
+        gbc.gridy = 4;
+        mainPanel.add(exit.getButton(), gbc);
 
         this.mainMenuPanel.add(mainPanel, BorderLayout.CENTER);
 
@@ -139,7 +136,6 @@ public class MainMenuScene implements Scene {
          */
         private void initializeButton() {
             this.button.setBackground(new Color(COLOR_BUTTONS_PANEL));
-            this.button.setForeground(Color.BLACK);
             this.button.setFont(new Font(FONT, Font.BOLD, FONT_SIZE));
             this.button.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
                             BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));

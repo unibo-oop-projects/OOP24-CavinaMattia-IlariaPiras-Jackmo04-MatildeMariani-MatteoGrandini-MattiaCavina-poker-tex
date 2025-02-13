@@ -3,12 +3,12 @@ package pokertexas.view.scenes;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,6 +34,10 @@ public class StartScene implements Scene {
     private static final int COLOR_BACKGROUND = 0xDCBA85;
     private static final int BUTTON_WIDTH = 250;
     private static final int BUTTON_HEIGHT = 60;
+    private static final int TOP = 5;
+    private static final int LEFT = 5;
+    private static final int BOTTOM = 5;
+    private static final int RIGHT = 5;
     private static final String FONT = "Roboto";
     private static final String SCENE_NAME = "start";
 
@@ -57,43 +61,32 @@ public class StartScene implements Scene {
     private void initialize() {
         this.startPanel.setBackground(new Color(COLOR_BACKGROUND));
 
-        final JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridBagLayout());
+        final JPanel mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(new Color(COLOR_BACKGROUND));
 
-        final JPanel titlePanel = new JPanel();
-        titlePanel.setLayout(new FlowLayout());
-        titlePanel.setBackground(new Color(COLOR_BACKGROUND));
+        final GridBagConstraints gbc = new GridBagConstraints();
 
         final JLabel title = new JLabel("POKER TEXAS HOLD'EM", SwingConstants.CENTER);
         title.setFont(new Font(FONT, Font.BOLD, FONT_SIZE_TITLE));
-        titlePanel.add(title);
-
-        final JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-
-        final JPanel menuPanel = new JPanel();
-        menuPanel.setLayout(new FlowLayout());
-        menuPanel.setBackground(new Color(COLOR_BACKGROUND));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(TOP, LEFT, BOTTOM, RIGHT);
+        mainPanel.add(title, gbc);
 
         final JButton button = new JButton("Press to start");
         button.setBackground(new Color(COLOR_BUTTONS_PANEL));
-        button.setForeground(Color.BLACK);
         button.setFont(new Font(FONT, Font.BOLD, FONT_SIZE));
-        button.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), 
-            BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
+        button.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
+                BorderFactory.createLineBorder(new Color(R_BORDER, G_BORDER, B_BORDER, A_BORDER), THICKNESS, true)));
         button.setOpaque(true);
         button.setContentAreaFilled(true);
         button.setFocusable(false);
         button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         button.addActionListener(e -> this.controller.goToMainMenuScene());
 
-        menuPanel.add(button);
-
-        centerPanel.add(titlePanel);
-        centerPanel.add(menuPanel);
-
-        mainPanel.add(centerPanel);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        mainPanel.add(button, gbc);
 
         this.startPanel.add(mainPanel, BorderLayout.CENTER);
     }
