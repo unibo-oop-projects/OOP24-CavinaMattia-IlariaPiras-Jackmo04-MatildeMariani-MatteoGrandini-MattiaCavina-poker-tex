@@ -19,8 +19,8 @@ import pokertexas.view.gamepanels.api.CustomLabel;
  */
 public class TablePanel {
 
-    private static final int HEIGHT = 60;
-    private static final int WIDTH = 50;
+    private static final int HEIGHT = 45;
+    private static final int WIDTH = 40;
     private static final int NUM_CARDS = 5;
     private static final int THICKNESS = 30;
     private static final String PATH_FISCHES = "table/fisches.png";

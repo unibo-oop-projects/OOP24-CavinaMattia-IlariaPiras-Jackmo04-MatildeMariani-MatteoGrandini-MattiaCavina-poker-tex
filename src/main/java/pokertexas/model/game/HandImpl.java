@@ -28,7 +28,7 @@ public final class HandImpl implements Hand {
     private static final Role FIRST_ROLE = Role.SMALL_BLIND;
     private static final Phase FIRST_PHASE = Phase.PREFLOP;
     private static final int MIN_PLAYERS = 2;
-    private static final int WAIT_TIME = 5000;
+    private static final int WAIT_TIME = 4000;
     private static final Logger LOGGER = LoggerFactory.getLogger(HandImpl.class);
 
     private final CombinationComparator comparator;
