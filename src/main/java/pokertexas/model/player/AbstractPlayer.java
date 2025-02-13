@@ -93,6 +93,7 @@ public abstract class AbstractPlayer implements Player {
      */
     @Override
     public Combination<Card> getCombination() {
+        this.updateCombination();
         return this.bestCombination;
     }
 
