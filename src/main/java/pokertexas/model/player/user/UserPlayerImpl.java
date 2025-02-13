@@ -104,18 +104,9 @@ public class UserPlayerImpl extends AbstractPlayer implements UserPlayer {
      */
     @Override
     public void handWon(final int winnings) {
-        this.setChips(this.getChips() + winnings);
         this.statistics.incrementHandsWon(1);
         this.statistics.setBiggestWinIfSo(winnings);
-        this.endHand();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void handLost() {
-        this.endHand();
+        super.handWon(winnings);
     }
 
     /**

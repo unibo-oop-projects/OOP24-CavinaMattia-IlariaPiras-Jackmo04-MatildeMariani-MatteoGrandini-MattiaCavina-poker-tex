@@ -68,6 +68,7 @@ final class TestHandImpl {
 
         players = new ArrayList<>(List.of(player1, player2, player3, player4));
         gameState = new StateImpl(INITIAL_CHIPS / INITIAL_BET_DIVISION_FACT);
+        players.forEach(p -> p.setGameState(gameState));
         deck = new DeckFactoryImpl().simplePokerDeck();
         hand = new HandImpl(controller, players, gameState);
 
@@ -116,7 +117,6 @@ final class TestHandImpl {
         final var iterator = players.iterator();
         final var currentPlayer = iterator.next();
         final var currentBetBeforePlayerAction = gameState.getCurrentBet();
-        currentPlayer.setGameState(gameState);
 
         hand.manageAction(iterator, currentPlayer);
         switch (currentPlayer.getAction()) {

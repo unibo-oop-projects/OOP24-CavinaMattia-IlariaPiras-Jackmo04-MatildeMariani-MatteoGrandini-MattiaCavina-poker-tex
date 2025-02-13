@@ -93,6 +93,7 @@ public abstract class AbstractPlayer implements Player {
      */
     @Override
     public Combination<Card> getCombination() {
+        this.updateCombination();
         return this.bestCombination;
     }
 
@@ -144,13 +145,18 @@ public abstract class AbstractPlayer implements Player {
      * {@inheritDoc}
      */
     @Override
-    public abstract void handWon(int winnings);
+    public void handWon(final int winnings) {
+        this.setChips(this.getChips() + winnings);
+        this.endHand();
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract void handLost();
+    public void handLost() {
+        this.endHand();
+    }
 
     /**
      * {@inheritDoc}

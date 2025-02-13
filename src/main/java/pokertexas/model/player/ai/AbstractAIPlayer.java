@@ -70,23 +70,6 @@ abstract class AbstractAIPlayer extends AbstractPlayer implements AIPlayer {
 
     /**
      * {@inheritDoc}
-     */
-    @Override
-    public void handWon(final int winnings) {
-        this.setChips(this.getChips() + winnings);
-        this.endHand();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void handLost() {
-        this.endHand();
-    }
-
-    /**
-     * {@inheritDoc}
      * This implementation does nothing, 
      * because the AI player does not need to update statistics.
      */
