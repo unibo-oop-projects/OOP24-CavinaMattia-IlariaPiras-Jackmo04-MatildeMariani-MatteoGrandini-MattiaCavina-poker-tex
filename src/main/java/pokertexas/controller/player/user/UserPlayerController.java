@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import pokertexas.model.game.api.Phase;
-import pokertexas.model.game.api.State;
 import pokertexas.model.player.api.Action;
 import pokertexas.model.player.user.UserPlayerImpl;
 import pokertexas.view.player.user.UserPanel;
@@ -92,7 +91,7 @@ public class UserPlayerController {
         try {
             final int amount = Integer.parseInt(text);
             return this.userPlayer.getChips() > amount 
-                && amount > (this.getState().getCurrentBet() - this.userPlayer.getTotalPhaseBet());
+                && amount > (this.userPlayer.getGameState().getCurrentBet() - this.userPlayer.getTotalPhaseBet());
         } catch (IllegalArgumentException ex) {
             LOGGER.error("Invalid amount: ", ex);
             return false;
@@ -120,12 +119,12 @@ public class UserPlayerController {
      * @return true if the current phase of the game is PREFLOP, false otherwise.
      */
     public boolean isPreFlop() {
-        if (!this.getState().getHandPhase().equals(Phase.PREFLOP)) {
+        if (!this.userPlayer.getGameState().getHandPhase().equals(Phase.PREFLOP)) {
             this.round = 0;
         } else {
             this.round++;
         }
-        return Phase.PREFLOP.equals(this.getState().getHandPhase()) && this.round == 1;
+        return Phase.PREFLOP.equals(this.userPlayer.getGameState().getHandPhase()) && this.round == 1;
     }
 
     /**
@@ -133,7 +132,8 @@ public class UserPlayerController {
      * @return true if the user player can check, false otherwise.
      */
     public boolean canCheck() {
-        return this.getState().getCurrentBet() == this.userPlayer.getTotalPhaseBet() && this.userPlayer.getChips() > 0;
+        return this.userPlayer.getGameState().getCurrentBet() == this.userPlayer.getTotalPhaseBet() 
+            && this.userPlayer.getChips() > 0;
     }
 
     /**
@@ -149,7 +149,7 @@ public class UserPlayerController {
      * @return true if the user player can raise, false otherwise.
      */
     public boolean canRaise() {
-        return userPlayer.getChips() > (this.getState().getCurrentBet() - this.userPlayer.getTotalPhaseBet());
+        return this.userPlayer.getChips() > (this.userPlayer.getGameState().getCurrentBet() - this.userPlayer.getTotalPhaseBet());
     }
 
     /**
@@ -166,15 +166,6 @@ public class UserPlayerController {
      */
     public boolean canAllIn() {
         return this.userPlayer.getChips() > 0;
-    }
-
-    /**
-     * Gets the current state of the game.
-     * This method returns the current state of the game.
-     * @return the current state of the game.
-     */
-    public State getState() {
-        return this.userPlayer.getGameState();
     }
 
     /**

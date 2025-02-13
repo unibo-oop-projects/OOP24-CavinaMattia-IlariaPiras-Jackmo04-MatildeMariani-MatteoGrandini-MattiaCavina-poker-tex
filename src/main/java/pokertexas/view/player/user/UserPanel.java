@@ -69,8 +69,8 @@ public class UserPanel extends PlayerPanelImpl {
      * Sets up the buttons and their action listeners.
      */
     private void createUserPanel() {
-        userPlayerPanel.setBackground(new Color(COLOR_BACKGROUND));
-        userPlayerPanel.setLayout(new FlowLayout());
+        this.userPlayerPanel.setBackground(new Color(COLOR_BACKGROUND));
+        this.userPlayerPanel.setLayout(new FlowLayout());
 
         final JPanel inputPanel = new JPanel();
         inputPanel.setBackground(new Color(COLOR_BACKGROUND));
@@ -138,8 +138,8 @@ public class UserPanel extends PlayerPanelImpl {
         this.getCardsPanel().getPanel().setBackground(new Color(COLOR_BACKGROUND));
         this.getCardsPanel().getPanel().setLayout(new FlowLayout());
 
-        userPlayerPanel.add(inputPanel);
-        userPlayerPanel.add(this.getCardsPanel().getPanel());
+        this.userPlayerPanel.add(inputPanel);
+        this.userPlayerPanel.add(this.getCardsPanel().getPanel());
     }
 
     /**
@@ -160,7 +160,7 @@ public class UserPanel extends PlayerPanelImpl {
      * Updates the states of the buttons based on the current game state.
      */
     private void updateButtonStates() {
-        if (this.getPlayerRole().getText().isBlank() || !controller.isPreFlop()) {
+        if (this.getPlayerRole().getText().isBlank() || !this.controller.isPreFlop()) {
             this.checkButton.setEnabled(controller.canCheck());
             this.callButton.setEnabled(controller.canCall());
             this.raiseButton.setEnabled(controller.canRaise());
@@ -190,8 +190,9 @@ public class UserPanel extends PlayerPanelImpl {
                     } else {
                         final String numericText = getPlayerChips().getText().replaceAll("[^0-9]", "");
                         errorLabel.setText("Invalid amount! Please try again. Insert a number between " 
-                        + (controller.getState().getCurrentBet() - controller.getUserPlayer().getTotalPhaseBet() + 1) 
-                        + " and " + (Long.parseLong(numericText) - 1));
+                            + (controller.getUserPlayer().getGameState().getCurrentBet() 
+                            - controller.getUserPlayer().getTotalPhaseBet() + 1) 
+                            + " and " + (Long.parseLong(numericText) - 1));
                     }
                 }
                 case "CHECK", "CALL", "FOLD", "ALL_IN" -> {
