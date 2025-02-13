@@ -1,6 +1,7 @@
 package pokertexas.model.game.api;
 
-import java.util.Set;
+import java.util.Collection;
+import java.util.List;
 
 import pokertexas.model.deck.api.Card;
 import pokertexas.model.player.api.Player;
@@ -8,7 +9,7 @@ import pokertexas.model.player.api.Player;
 /**
  * Interface that models the State of a game.
  * A State keeps a certain amount of money given by the sum of the bets made by the players in each hand, 
- * the current minimun bet, a set of {@link Card}s common to all players and the current {@link Phase}.
+ * the current minimun bet, a list of {@link Card}s common to all players and the current {@link Phase}.
  * It must be updated regulary.
  */
 public interface State {
@@ -20,10 +21,10 @@ public interface State {
     void addToPot(int playerBet);
 
     /**
-     * Adds cards to the set of community {@link Card}s for the {@link Hand}. 
-     * @param cards the set of cards to add.
+     * Adds cards to the list of community {@link Card}s for the {@link Hand}. 
+     * @param cards the collection of cards to add.
     */
-    void addCommunityCards(Set<Card> cards);
+    void addCommunityCards(Collection<Card> cards);
 
     /**
      * Informs the State that a new {@link Hand} is starting. It sets all its component accordingly. 
@@ -65,7 +66,7 @@ public interface State {
      * Returns the community cards for the current {@link Hand}.
      * @return the community cards for the current hand. 
     */
-    Set<Card> getCommunityCards();
+    List<Card> getCommunityCards();
 
     /**
      * Sets the current minimum bet {@link Player}s must place if they want to continue playing.

@@ -16,10 +16,10 @@ public interface CardGetterImage {
      * This method is used to get the image of the card from its class
      * {@link Card}.
      * 
-     * @param card Set of {@link Card} to be showed.
+     * @param card List of {@link Card} to be showed.
      * @return List of {@link ImageIcon} of the card.
      */
-    List<ImageIcon> getCardImage(Set<Card> card);
+    List<ImageIcon> getCardImage(List<Card> card);
 
     /**
      * This method is used to get the {@link ImageIcon} of the card back.
@@ -34,11 +34,11 @@ public interface CardGetterImage {
      * This method is used to get the image of the showed card and the hiden
      * card on the table .
      * 
-     * @param card Set of card to be showed , its size must be under 5 card.
+     * @param card List of card to be showed , its size must be under 5 card.
      * @return List of {@link ImageIcon} of the card and the back card.
      * @throws IllegalArgumentException If the number of {@link Card}
      *                                  is over the limit.
      */
-    List<ImageIcon> getTableCardImage(Set<Card> card);
+    List<ImageIcon> getTableCardImage(List<Card> card);
 
 }

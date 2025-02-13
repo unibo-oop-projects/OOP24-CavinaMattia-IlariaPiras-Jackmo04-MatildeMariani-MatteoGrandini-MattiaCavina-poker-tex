@@ -1,6 +1,6 @@
 package pokertexas.controller.game.api;
 
-import java.util.Set;
+import java.util.List;
 
 import pokertexas.controller.card.CardGetterImage;
 import pokertexas.controller.player.user.UserPlayerController;
@@ -47,16 +47,16 @@ public interface GameController extends SceneController {
      * Converts the {@link Player}'s card set to a list of ImageIcons via its {@link CardGetterImage}
      * and calls the setPlayerCards method in its {@link GameScene}.
      * @param id the player's id.
-     * @param cards the set of cards of the player.
+     * @param cards the list of cards of the player.
      */
-    void setPlayerCards(int id, Set<Card> cards);
+    void setPlayerCards(int id, List<Card> cards);
 
     /**
      * Converts the set of community cards to a list of ImageIcons via its {@link CardGetterImage}
      * and calls the setCommunityCards method in its {@link GameScene}.
-     * @param cards the set of community cards.
+     * @param cards the list of community cards.
      */
-    void setCommunityCards(Set<Card> cards);
+    void setCommunityCards(List<Card> cards);
 
     /**
      * Calls the setPot method in its {@link GameScene}.

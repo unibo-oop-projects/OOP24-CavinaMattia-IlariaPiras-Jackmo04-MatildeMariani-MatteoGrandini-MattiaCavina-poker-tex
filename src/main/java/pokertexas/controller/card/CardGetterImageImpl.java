@@ -1,7 +1,6 @@
 package pokertexas.controller.card;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import javax.swing.ImageIcon;
@@ -24,7 +23,7 @@ public class CardGetterImageImpl implements CardGetterImage {
      * {@inheritDoc}
      */
     @Override
-    public List<ImageIcon> getCardImage(final Set<Card> card) {
+    public List<ImageIcon> getCardImage(final List<Card> card) {
         return card.stream()
                 .map(t -> new ImageIcon(
                         ClassLoader.getSystemResource(
@@ -46,7 +45,7 @@ public class CardGetterImageImpl implements CardGetterImage {
      * {@inheritDoc}
      */
     @Override
-    public List<ImageIcon> getTableCardImage(final Set<Card> card) {
+    public List<ImageIcon> getTableCardImage(final List<Card> card) {
         if (card.size() > TABLE_CARD) {
             throw new IllegalArgumentException("The number of card is over the limit");
         }

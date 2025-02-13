@@ -213,7 +213,7 @@ public abstract class AbstractGame implements Game, StatisticsContributor<BasicS
 
                 controller.waitIfPaused();
                 controller.updateForNewHand();
-                controller.setPlayerCards(userPlayer.getId(), userPlayer.getCards());
+                controller.setPlayerCards(userPlayer.getId(), userPlayer.getCards().stream().toList());
 
                 do {
                     controller.waitIfPaused();

@@ -2,7 +2,7 @@ package main.pokertexas.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Set;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +24,7 @@ class CardGetterImageTest {
     @Test
     void testGetCardImage() {
         final CardGetterImage cardGetterImmage = new CardGetterImageImpl();
-        final Set<Card> card = Set.of(
+        final List<Card> card = List.of(
             new Card(SimpleCard.ACE, SimpleCard.ACE.getValueOfCard(), SeedCard.CLUBS),
             new Card(SimpleCard.THREE, SimpleCard.THREE.getValueOfCard(), SeedCard.DIAMOND)
         );

@@ -148,7 +148,7 @@ public final class HandImpl implements Hand {
      */
     @Override
     public void determinesWinnerOfTheHand() {
-        this.remainingPlayers.forEach(p -> this.controller.setPlayerCards(p.getId(), p.getCards()));
+        this.remainingPlayers.forEach(p -> this.controller.setPlayerCards(p.getId(), p.getCards().stream().toList()));
         this.remainingPlayers.sort((p1, p2) -> this.comparator.compare(p1.getCombination(), p2.getCombination()));
         final var winner = this.remainingPlayers.removeLast();
         winner.handWon(this.gameState.getPot());

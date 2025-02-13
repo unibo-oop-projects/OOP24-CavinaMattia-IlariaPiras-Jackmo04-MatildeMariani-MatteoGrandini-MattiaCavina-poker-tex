@@ -1,6 +1,6 @@
 package pokertexas.controller.game;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -84,7 +84,7 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
             this.gameScene.getPlayerPanel(p.getId())
                 .resetForNewHand(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD));
         });
-        this.setCommunityCards(Set.of());
+        this.setCommunityCards(List.of());
         this.game.start();
     }
 
@@ -97,7 +97,7 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
             .filter(id -> this.gameScene.getPlayerPanel(id).shouldBeUpdated())
             .forEach(id -> this.gameScene.getPlayerPanel(id)
                 .resetForNewHand(this.cardGetterImage.getBackCardImage(NUM_PLAYER_CARD)));
-        this.setCommunityCards(Set.of());
+        this.setCommunityCards(List.of());
         Stream.iterate(0, i -> i < MAX_PLAYERS, i -> i + 1)
             .filter(id -> this.game.getPlayers().stream().noneMatch(p -> p.getId() == id) 
                 && this.gameScene.getPlayerPanel(id).shouldBeUpdated())
@@ -120,7 +120,7 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
      * {@inheritDoc}
      */
     @Override
-    public void setPlayerCards(final int id, final Set<Card> cards) {
+    public void setPlayerCards(final int id, final List<Card> cards) {
         this.gameScene.getPlayerPanel(id).setCards(this.cardGetterImage.getCardImage(cards));
     }
 
@@ -128,7 +128,7 @@ public class GameControllerImpl extends SceneControllerImpl implements GameContr
      * {@inheritDoc}
      */
     @Override
-    public void setCommunityCards(final Set<Card> cards) {
+    public void setCommunityCards(final List<Card> cards) {
         this.gameScene.setCommunityCards(this.cardGetterImage.getTableCardImage(cards));
     }
 

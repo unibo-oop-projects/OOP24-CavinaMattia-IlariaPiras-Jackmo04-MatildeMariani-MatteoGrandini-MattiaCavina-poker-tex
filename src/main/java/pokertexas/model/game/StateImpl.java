@@ -1,7 +1,8 @@
 package pokertexas.model.game;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import pokertexas.model.deck.api.Card;
 import pokertexas.model.game.api.Phase;
@@ -19,7 +20,7 @@ public final class StateImpl implements State {
     private int currentBet;
     private Phase handPhase;
     private int handNumber;
-    private final Set<Card> communityCards = new HashSet<>();
+    private final List<Card> communityCards = new ArrayList<>();
 
     /**
      * Basic constructor for the StateImpl class.
@@ -38,10 +39,10 @@ public final class StateImpl implements State {
      * @param currentBet the current bet.
      * @param handPhase the current phase of the hand.
      * @param handNumber the current hand number.
-     * @param communityCards the set of community cards.
+     * @param communityCards the collection of community cards.
      */
     public StateImpl(final int pot, final int currentBet, final int handNumber,
-                    final Phase handPhase, final Set<Card> communityCards) {
+                    final Phase handPhase, final Collection<Card> communityCards) {
         this.pot = pot;
         this.currentBet = currentBet;
         this.handPhase = handPhase;
@@ -62,7 +63,7 @@ public final class StateImpl implements State {
      * {@inheritDoc}
      */
     @Override
-    public void addCommunityCards(final Set<Card> cards) {
+    public void addCommunityCards(final Collection<Card> cards) {
         this.communityCards.addAll(cards);
     }
 
@@ -123,8 +124,8 @@ public final class StateImpl implements State {
      * {@inheritDoc}
      */
     @Override
-    public Set<Card> getCommunityCards() {
-        return Set.copyOf(this.communityCards);
+    public List<Card> getCommunityCards() {
+        return List.copyOf(this.communityCards);
     }
 
     /**
