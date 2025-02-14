@@ -1,7 +1,6 @@
 package pokertexas.model.game;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import pokertexas.model.deck.api.Card;
@@ -39,10 +38,10 @@ public final class StateImpl implements State {
      * @param currentBet the current bet.
      * @param handPhase the current phase of the hand.
      * @param handNumber the current hand number.
-     * @param communityCards the collection of community cards.
+     * @param communityCards the list of community cards.
      */
     public StateImpl(final int pot, final int currentBet, final int handNumber,
-                    final Phase handPhase, final Collection<Card> communityCards) {
+                    final Phase handPhase, final List<Card> communityCards) {
         this.pot = pot;
         this.currentBet = currentBet;
         this.handPhase = handPhase;
@@ -63,7 +62,7 @@ public final class StateImpl implements State {
      * {@inheritDoc}
      */
     @Override
-    public void addCommunityCards(final Collection<Card> cards) {
+    public void addCommunityCards(final List<Card> cards) {
         this.communityCards.addAll(cards);
     }
 

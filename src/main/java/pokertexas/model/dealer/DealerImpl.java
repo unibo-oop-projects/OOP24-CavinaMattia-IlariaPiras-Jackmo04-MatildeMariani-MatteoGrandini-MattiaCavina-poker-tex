@@ -1,5 +1,6 @@
 package pokertexas.model.dealer;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,10 +38,8 @@ public class DealerImpl implements Dealer {
      * {@inheritDoc}
      */
     @Override
-    public Set<Card> giveCardsToTheGame(final int numCardPhase) {
-        return this.deck.getSomeCards(numCardPhase)
-            .stream()
-            .collect(Collectors.toSet());
+    public List<Card> giveCardsToTheGame(final int numCardPhase) {
+        return this.deck.getSomeCards(numCardPhase);
     }
 
     /**

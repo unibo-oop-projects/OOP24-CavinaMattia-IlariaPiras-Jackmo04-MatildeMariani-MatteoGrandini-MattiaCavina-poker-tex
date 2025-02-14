@@ -1,5 +1,6 @@
 package pokertexas.model.dealer.api;
 
+import java.util.List;
 import java.util.Set;
 
 import pokertexas.model.deck.api.Card;
@@ -19,11 +20,11 @@ public interface Dealer {
     Set<Card> giveCardsToPlayer();
 
     /**
-     * Returns a set consisting of a different number of {@link Card}s depending on the phase.
+     * Returns a list consisting of a different number of {@link Card}s depending on the phase.
      * @param numCardPhase the number of cards to be dealt in a particular phase.
-     * @return a set of numCardPhase cards.
+     * @return a list of numCardPhase cards.
     */
-    Set<Card> giveCardsToTheGame(int numCardPhase);
+    List<Card> giveCardsToTheGame(int numCardPhase);
 
     /**
     * It shuffles the deck. 

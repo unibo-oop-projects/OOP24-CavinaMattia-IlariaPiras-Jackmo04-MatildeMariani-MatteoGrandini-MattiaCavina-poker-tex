@@ -1,6 +1,5 @@
 package pokertexas.model.game.api;
 
-import java.util.Collection;
 import java.util.List;
 
 import pokertexas.model.deck.api.Card;
@@ -22,9 +21,9 @@ public interface State {
 
     /**
      * Adds cards to the list of community {@link Card}s for the {@link Hand}. 
-     * @param cards the collection of cards to add.
+     * @param cards the list of cards to add.
     */
-    void addCommunityCards(Collection<Card> cards);
+    void addCommunityCards(List<Card> cards);
 
     /**
      * Informs the State that a new {@link Hand} is starting. It sets all its component accordingly. 

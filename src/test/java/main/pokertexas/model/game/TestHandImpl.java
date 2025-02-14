@@ -141,7 +141,7 @@ final class TestHandImpl {
     @Test
     void testDeterminateWinnerOfTheHand() {
         gameState.addToPot(INITIAL_CHIPS);
-        gameState.addCommunityCards(deck.getSomeCards(NUM_COMMUNITY_CARDS).stream().collect(Collectors.toSet()));
+        gameState.addCommunityCards(deck.getSomeCards(NUM_COMMUNITY_CARDS));
         hand.determinesWinnerOfTheHand();
 
         assertEquals(1, (int) players.stream().filter(p -> p.getChips() == (INITIAL_CHIPS + INITIAL_CHIPS)).count());
