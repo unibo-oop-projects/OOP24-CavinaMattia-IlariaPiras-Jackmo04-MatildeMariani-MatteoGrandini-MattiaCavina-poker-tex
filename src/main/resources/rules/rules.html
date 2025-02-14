@@ -53,7 +53,7 @@
     </p>
     <p>
         The game continues until a player runs out of chips, at which point they are <b>eliminated</b> from the game. 
-        The last player remaining wins the game.
+        The last player remaining wins the game.<br>
     </p>
 
     <h2>Hand Phases</h2>
@@ -61,13 +61,14 @@
     <p>
         Before each hand begins, two roles are assigned to two players: the <b>small bilnd</b> and the <b>big blind</b>.<br>
         The big blind is always the player to the left of the small blind, and these roles rotate clockwise after each hand.<br>
-        These players are <b>required to make a bet</b> before the hand begins, in particular:
+        The assigned players are <b>required to make a bet</b> before the hand begins, in particular:
         <ul>
-            <li>The <u>small blind</u> must bet half of the minimum bet</li>
-            <li>The <u>big blind</u> must bet the minimum bet</li>
+            <li>The <u>big blind</u> must bet the <i>minimum bet</i></li>
+            <li>The <u>small blind</u> must bet half of the <i>minimum bet</i></li>
         </ul>
+        The <i>minimum bet</i> is <b>1/10th</b> of the selected starting chips.
     </p>
-    After these mandatory bets are made, the hand begins and progresses through four phases:
+    <p>After these mandatory bets are made, the hand begins and progresses through four phases:</p>
     <ol>
         <li><b>Pre-flop</b></li>
         <li><b>Flop</b></li>
@@ -76,22 +77,22 @@
     </ol>
     <h3>1. Pre-flop</h3>
     <p>
-        Each player is dealt two cards face down and the first round of betting begins.<br>
+        Each player is dealt <b>two</b> cards face down and the first round of betting begins.<br>
         The player to the left of the big blind is the first to act.
     </p>
     <h3>2. Flop</h3>
     <p>
-        Three community cards are dealt face up and the second round of betting begins.<br>
+        <b>Three</b> community cards are dealt face up and the second round of betting begins.<br>
         The small blind is the first to act.
     </p>
     <h3>3. Turn</h3>
     <p>
-        A fourth community card is dealt face up and the third round of betting begins.<br>
+        A <b>fourth</b> community card is dealt face up and the third round of betting begins.<br>
         The small blind is the first to act.
     </p>
     <h3>4. River</h3>
     <p>
-        A fifth and final community card is dealt face up and the fourth round of betting begins.<br>
+        A <b>fifth</b> and final community card is dealt face up and the fourth round of betting begins.<br>
         The small blind is the first to act.
     </p>
 
@@ -100,13 +101,13 @@
     <p>
         During each phase, players are allowed to make <b>bets</b>. The following actions are allowed:
         <ul>
-            <li><b>Check</b>: If no one has bet yet, the player can check and pass the turn to the next player.</li>
+            <li><b>Check</b>: If no one has bet yet, the player passes their turn to the next player.</li>
             <li><b>Call</b>: The player bets enough chips to match the current highest bet.</li>
             <li><b>Raise</b>: The player bets more chips than the current highest bet.</li>
-            <li><b>Fold</b>: The player discards their cards and forfeits the hand.</li>
+            <li><b>Fold</b>: The player forfeits the hand, hence loosing the previously bet chips.</li>
             <li><b>All-In</b>: The player bets ALL of their remaining chips.</li>
         </ul>
-        For example, if the current bet is 1000 chips, a player can <u>call</u> by betting 1000 chips, <u>raise</u> by betting more than 1000 chips, or <u>fold</u> by discarding their cards.
+        For example, if the current highest bet is 1000 chips, a player can <u>call</u> by betting 1000 chips, <u>raise</u> by betting more than 1000 chips, or <u>fold</u> by forfeiting the hand.
     </p>
     <p>
         Each betting round proceeds in clockwise order and ends when all players have either <u>folded</u> or <u>called the highest bet</u>, 
@@ -118,7 +119,7 @@
     <h2>Combinations</h2>
     <hr>
     <p>
-        The goal of the game is to obtain the best <b>combination</b> of five cards from the seven cards at your disposal.<br>
+        The goal of the game is to obtain the best <b>combination</b> of cards from the seven at your disposal.<br>
         The possible combinations are, in <u>descending order of strength</u>:
         <ol>
             <li><b>Royal Flush</b>: A sequence (A, K, Q, J, 10) all of the same suit</li>
@@ -176,8 +177,8 @@
     <img src="images/showdown.png" alt="Showdown" width="600" border="2">
     <ul>
         <li>After the River phase, the players who haven't <i>folded</i> will <b>show</b> their cards.</li>
-        <li>In this exampe, the player on the <b>left</b> won because they had a <i>Flush</i>, while the <b>user</b> only had a <i>Pair</i></li>
-        <li>The chips in the <b>pot</b> are then given to the hand's winner</li>
+        <li>In this exampe, the player on the <b>left</b> won because they had a <i>Flush</i>, while the <b>user</b> only had a <i>Pair</i>.</li>
+        <li>The chips in the <b>pot</b> are then given to the hand's winner.</li>
     </ul>
 </body>
 </html>
